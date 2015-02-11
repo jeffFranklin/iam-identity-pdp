@@ -1,1 +1,8 @@
 *~
+__pycache__
+*.pyc
+.cache
+.coverage
+.tox
+*.egg-info
+test_output.xml
