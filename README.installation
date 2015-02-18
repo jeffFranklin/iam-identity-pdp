@@ -24,3 +24,6 @@ static link
 /www/pdp_static -> /data/local/django/pdp/static
 
 
+workstation setup (work in progress):
+
+from your virtualenv do a 'pip install -r requirements.txt'

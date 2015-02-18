@@ -65,11 +65,11 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '/data/local/django/pdp/db/db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db/db.sqlite3'),
     }
 }
 TEMPLATE_DIRS = (
-    '/data/local/django/pdp/templates',
+    os.path.join(BASE_DIR, 'templates'),
 )
 LOGGING = {
     'version': 1,
@@ -82,7 +82,7 @@ LOGGING = {
         'debuglog': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/logs/pdp/process.log',
+            'filename': os.path.join(BASE_DIR, 'process.log'),
         }
     },
     'loggers': {

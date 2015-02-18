@@ -1,0 +1,8 @@
+Django>=1.7.3
+-e git+https://github.com/UWIT-IAM/uw-django#egg=DjangoContrib
+django-mobility
+simplejson
+urllib3
+django_mobile
+Django_UserService
+-e git+https://github.com/uw-it-aca/uw-restclients#egg=RestClients
