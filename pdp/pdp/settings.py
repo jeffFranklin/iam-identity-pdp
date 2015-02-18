@@ -1,9 +1,9 @@
+import os
 # Django setting for django demo
 
 DEBUG = True
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -38,7 +38,6 @@ MIDDLEWARE_CLASSES = (
     'uw_django.auth.middleware.RemoteUserIfExistsMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
     'mobility.middleware.DetectMobileMiddleware',
     'mobility.middleware.XMobileMiddleware',
     'userservice.user.UserServiceMiddleware',
@@ -56,7 +55,7 @@ LOGIN_URL = '/pdp/login/'
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_COOKIE_NAME = 'pdpsession'
 SESSION_COOKIE_PATH = '/pdp/'
-SESSION_COOKIE_SECURE = True # set to False if you are using development environment
+SESSION_COOKIE_SECURE = True  # False if you are using development environment
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 
@@ -100,8 +99,6 @@ LOGGING = {
     }
 }
 
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -130,5 +127,4 @@ RESTCLIENTS_CA_BUNDLE = '/data/local/etc/cacerts.cert'
 RESTCLIENTS_PWS_MAX_POOL_SIZE = 10
 
 RESTCLIENTS_TIMEOUT = None
-## RESTCLIENTS_DAO_CACHE_CLASS = 'pdp.cache.UICache'
-
+# RESTCLIENTS_DAO_CACHE_CLASS = 'pdp.cache.UICache'

@@ -5,6 +5,7 @@ from django.http import HttpResponse
 import simplejson as json
 from views.rest_dispatch import RESTDispatch, data_not_found
 
+
 class Attr(RESTDispatch):
     """
     Performs actions on resource at /api/attr/.
@@ -12,12 +13,10 @@ class Attr(RESTDispatch):
 
     def GET(self, request):
 
-      logger = logging.getLogger(__name__)
+        logger = logging.getLogger(__name__)
 
-      logger.info('Attr')
-      context = {
-          'user': 'spud',
-      }
-      return render(request, 'attr.html', context)
-
-
+        logger.info('Attr')
+        context = {
+            'user': 'spud',
+            }
+        return render(request, 'attr.html', context)
