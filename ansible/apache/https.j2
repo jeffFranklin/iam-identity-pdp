@@ -1,0 +1,58 @@
+#####
+##
+
+{% set self = ansible_hostname %}
+{% set selfck = self.split(".")[0] %}
+
+# ----------------------------------------------------------------------
+# local pdp apache port 443 config for {{ self }}  -  {{ selfck }}
+# ----------------------------------------------------------------------
+#
+
+# browser authn
+<LocationMatch /pdp/login>
+  RequestHeader set Content-type application/xml
+  AuthType shibboleth
+  ShibRequireSession On
+  require valid-user
+  require user fox
+  order allow,deny
+  allow from all
+</LocationMatch>
+
+# browser authn secure
+<LocationMatch /pdp/securelogin>
+  RequestHeader set Content-type application/xml
+  AuthType shibboleth
+  ShibRequireSessionWith UWSECURE
+  require valid-user
+  order allow,deny
+  allow from all
+</LocationMatch>
+
+# browser authn via google
+<LocationMatch /pdp/googlelogin>
+  RequestHeader set Content-type application/xml
+  AuthType shibboleth
+  ShibRequireSession On
+  shibRequireSessionWith UWGOOGLE
+  require valid-user
+  order allow,deny
+  allow from all
+</LocationMatch>
+
+
+# cert client authn
+<Location /pdp/ws/>
+RequestHeader set Content-type application/xml
+SSLRequireSSL
+SSLVerifyClient require
+SSLVerifyDepth 5
+SSLOptions +StdEnvVars +ExportCertData
+Options -MultiViews
+order allow,deny
+allow from all
+</Location>
+
+
+

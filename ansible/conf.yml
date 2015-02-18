@@ -1,0 +1,9 @@
+# DONT EDIT.  This is a binary created by pyconf_to_yml
+
+ca_crt: /data/local/etc/cacerts.cert
+config_end: 
+pdp_root: /data/local/django/pdp
+syslog_facility: LOG_LOCAL7
+pdp_url: https://iam-tools-test.u.washington.edu/pdp/
+__comment__: EVAL personal-data-preferences (pdp) configuration
+app_base: /data/local/django

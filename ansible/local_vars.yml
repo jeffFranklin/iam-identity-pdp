@@ -1,0 +1,11 @@
+#
+# local x315 settings
+#
+
+have_local_certs: False
+
+local_ca_crt: /home/fox/certs/uw-incommon-ca.crt
+
+
+
+

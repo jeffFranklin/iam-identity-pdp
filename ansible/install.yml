@@ -1,0 +1,71 @@
+#
+# dj-demo install playbook
+#
+
+- hosts: "{{ target }}"
+  serial: 1
+  max_fail_percentage: 10
+
+  tasks:
+
+  - include_vars: "local_vars.yml"
+
+  - name: create yml conf file
+    local_action: pyconf_to_yml pdp {{ cluster_type }}
+
+  - include_vars: "conf.yml"
+
+  - name: check uw_django
+    pip: name='git+https://github.com/UWIT-IAM/uw-django#egg=DjangoContrib' virtualenv={{ app_base }}/pdp
+
+  - name: check django right version
+    pip: name='Django' version='1.7.3' virtualenv={{ app_base }}/pdp
+
+  - name: check libraries
+    environment:
+      PATH: /usr/local/pgsql/bin:{{ ansible_env.PATH }}
+    pip: name={{item}} virtualenv={{ app_base }}/pdp
+    with_items:
+      - django-mobility
+      - simplejson
+      - urllib3
+      - psycopg2
+      - django_mobile
+      - Django-UserService
+
+  - name: check restclients
+    pip: name='git+https://github.com/uw-it-aca/uw-restclients#egg=RestClients' virtualenv={{ app_base }}/pdp
+
+  # copy app
+  - name: copy app
+    copy: "src=../pdp dest={{ app_base }} group=iam-dev mode=664 directory_mode=775"
+ 
+  # configure app settings file
+  # requires restart app
+  - name: copy config file
+    copy: "src=../pdp.conf.{{ cluster_type }}  dest={{ app_base }}/pdp/pdp.conf group=iam-dev mode=664"
+
+  # update http and https config
+  # change restarts apache
+  - include: "tasks/apache_config.yml file=https prod=pdp"
+  - include: "tasks/apache_config.yml file=http prod=pdp"
+  - include: "tasks/apache_config.yml file=global prod=pdp"
+
+
+  # run any handlers 
+  - meta: flush_handlers
+
+
+  # idle loadr if test fails
+  - name: idle loadr on test fail
+    command: /usr/bin/nohup /data/local/bin/ansible_command loadr idle
+    when: "httest_result is defined and httest_result.rc != 0"
+      
+  # fail if test fails
+  - name: fail on test fail
+    fail: msg="API service test fails after install"
+    when: "httest_result is defined and httest_result.rc != 0"
+
+  handlers:
+     - include: "tasks/iam_handlers.yml"
+

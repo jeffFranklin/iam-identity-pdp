@@ -1,0 +1,26 @@
+
+This is the personal data preferences application.
+
+
+ 
+Requirements on the installation system
+
+Django home virtual environments
+
+/data/local/django/baseline
+/data/local/django/pdp
+
+support libraries
+
+/www/lib/...
+
+   bootstrap
+   jquery
+   ... 
+   (see iam-tools-test)
+
+static link
+
+/www/pdp_static -> /data/local/django/pdp/static
+
+
