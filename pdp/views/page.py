@@ -14,7 +14,7 @@ from django.template import Context, loader
 
 from django.conf import settings
 from userservice.user import UserService
-from rest_dispatch import invalid_session
+from pdp.views.rest_dispatch import invalid_session
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import auth

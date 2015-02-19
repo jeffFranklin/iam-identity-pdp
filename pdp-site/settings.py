@@ -26,6 +26,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'userservice',
+    'pdp'
     # 'demoapp',
     # 'restclients'
 )
@@ -44,9 +45,9 @@ MIDDLEWARE_CLASSES = (
 
 )
 
-ROOT_URLCONF = 'pdp.urls'
+ROOT_URLCONF = 'pdp-site.urls'
 
-WSGI_APPLICATION = 'pdp.wsgi.application'
+WSGI_APPLICATION = 'pdp-site.wsgi.application'
 
 AUTHENTICATION_BACKENDS = (
      'django.contrib.auth.backends.RemoteUserBackend',
@@ -116,10 +117,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
-STATIC_URL = '/pdp_static/'
+STATIC_URL = '/static/'
 
 # PWS settings
-RESTCLIENTS_PWS_DAO_CLASS = 'restclients.dao_implementation.pws.Live'
+RESTCLIENTS_PWS_DAO_CLASS = 'restclients.dao_implementation.pws.File'
 RESTCLIENTS_PWS_HOST = 'https://ws.admin.washington.edu:443'
 RESTCLIENTS_PWS_CERT_FILE = '/data/local/etc/x315.crt'
 RESTCLIENTS_PWS_KEY_FILE = '/data/local/etc/x315.key'

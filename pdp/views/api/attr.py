@@ -3,7 +3,7 @@ import time
 from django.shortcuts import render
 from django.http import HttpResponse
 import simplejson as json
-from views.rest_dispatch import RESTDispatch, data_not_found
+from pdp.views.rest_dispatch import RESTDispatch, data_not_found
 
 
 class Attr(RESTDispatch):
