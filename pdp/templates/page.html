@@ -3,6 +3,7 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    {% load staticfiles %}
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -10,10 +11,14 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="/lib/bootstrap-3.3.2/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/lib/bootstrap-3.3.2/css/bootstrap-theme.css">
-        <link rel="stylesheet" href="/pdp_static/css/pdp.css">
-        <script src="/lib/modernizr-2.83.js"></script>
+        <link rel="stylesheet"
+	      href="{% static 'vendor/css/bootstrap-3.3.2.min.css' %}">
+        <link rel="stylesheet"
+	      href="{% static 'vendor/css/bootstrap-theme-3.3.2.min.css' %}">
+        <link rel="stylesheet"
+	      href="{% static 'css/pdp.css' %}">
+        <script src="{% static 'vendor/js/modernizr-2.8.3.js' %}">
+	</script>
         <style>
             body {
                 padding-top: 50px;
@@ -78,12 +83,10 @@
         
       </footer>
     </div>
-    <!-- /container -->       
-    <script src="/lib/jquery-1.11.2/jquery-1.11.2-min.js"></script>
-
-    <script src="/lib/bootstrap-3.3.2/js/bootstrap.min.js"></script>
-
-    <script src="/pdp_static/js/pdp.js"></script>
+    <!-- /container -->
+    <script src="{% static 'vendor/js/jquery-1.11.2.min.js' %}"></script>
+    <script src="{% static 'vendor/js/bootstrap-3.3.2.min.js' %}"></script>
+    <script src="{% static 'js/pdp.js' %}"></script>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. 
         <script>
