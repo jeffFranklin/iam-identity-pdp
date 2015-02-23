@@ -7,4 +7,3 @@ __pycache__
 *.egg-info
 test_output.xml
 process.log
-db.sqlite3
