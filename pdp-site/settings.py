@@ -75,6 +75,13 @@ TEMPLATE_DIRS = (
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': ('%(asctime)s %(levelname)s '
+                       '%(module)s.%(funcName)s():%(lineno)d: '
+                       '%(message)s')
+            },
+        },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
@@ -83,6 +90,7 @@ LOGGING = {
         'debuglog': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
+            'formatter': 'verbose',
             'filename': os.path.join(BASE_DIR, 'process.log'),
         }
     },
