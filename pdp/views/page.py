@@ -7,6 +7,8 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.shortcuts import render_to_response
+
 
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
@@ -82,6 +84,8 @@ def login(request):
         user = auth.authenticate(remote_user='nobody')
         logger.error("Unauthenticated user")
         request.user = user
+        print 'at javerage: ' 
+        print request.user.is_authenticated()
         auth.login(request, user)
         request.user.save()
     return redirect(return_url)
@@ -105,14 +109,6 @@ def index(request, template=None):
     # get some info about this user from PWS
     pwsClient = PWS()
     pws = pwsClient.get_person_by_netid(remote_user)
-
-    # t = loader.get_template('index.html')
-    # c = Context({
-    #    'user': remote_user,
-    #    'user_name': pws.display_name,
-    # })
-    # c.update(csrf(request))
-    # return HttpResponse(t.render(c))
 
     context = {
        'remote_user': remote_user,
