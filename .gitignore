@@ -7,3 +7,4 @@ __pycache__
 *.egg-info
 test_output.xml
 process.log
+.idea
