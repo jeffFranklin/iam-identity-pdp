@@ -14,6 +14,14 @@ at startup such as the following:
 REMOTE_USER=javerage python manage.py runserver
 ```
 
+Setup with PyCharm
+------------------
+
+###Setting up py.test###
+
+See [here](https://wiki.cac.washington.edu/x/MqUnB)
+
+
 
 Running python tests
 --------------------

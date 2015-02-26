@@ -1,0 +1,7 @@
+-r requirements.txt
+pytest
+mock
+pytest-pep8
+pytest-cov
+pytest-django
+tox
