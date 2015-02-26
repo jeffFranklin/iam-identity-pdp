@@ -1,2 +1,0 @@
-The settings.py has one line of secret info, the cookie key.
-Will figure out later how to protect that.
