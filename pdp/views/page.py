@@ -40,7 +40,8 @@ def login(request):
         remote_user = request.user.username
         logger.info('User = ' + remote_user)
 
-        print(request.META['AJP_displayName'])
+        if 'AJP_displayName' in request.META:
+            print(request.META['AJP_displayName'])
         # request.user.first_name='Jim'
         # request.user.last_name='Fox'
         # request.user.save()
