@@ -2,9 +2,7 @@ import os
 # Django setting for personal prefs 
 # These can be reset in 'local_settings.py'
 
-DEBUG = False
-ALLOWED_HOSTS = ['*']
-
+DEBUG = True
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -12,7 +10,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 SECRET_KEY = 'set-in-local_settings'
 
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
