@@ -1,15 +1,18 @@
 import os
-# Django setting for django demo
+# Django setting for personal prefs 
+# These can be reset in 'local_settings.py'
 
-DEBUG = True
+DEBUG = False
+ALLOWED_HOSTS = ['*']
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
-SECRET_KEY = 'some_test_key_!&%@'
+SECRET_KEY = 'set-in-local_settings'
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -53,6 +56,7 @@ WSGI_APPLICATION = 'pdp-site.wsgi.application'
 AUTHENTICATION_BACKENDS = (
      'django.contrib.auth.backends.RemoteUserBackend',
 )
+
 LOGIN_URL = '/pdp/login/'
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_COOKIE_NAME = 'pdpsession'
@@ -149,3 +153,10 @@ RESTCLIENTS_PWS_MAX_POOL_SIZE = 10
 
 RESTCLIENTS_TIMEOUT = None
 # RESTCLIENTS_DAO_CACHE_CLASS = 'pdp.cache.UICache'
+
+# import local settings
+try:
+    from local_settings import *
+except ImportError:
+    pass
+

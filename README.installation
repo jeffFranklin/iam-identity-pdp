@@ -1,29 +1,37 @@
 
-This is the personal data preferences application.
+Installation on a workstation, for dev
+
+create a virtualenv 
+activate it
+
+configure local_settings.py
+
+create a db
+ $ python manage.py migrate
+
+run
+ $ python manage.py runserver
 
 
- 
-Requirements on the installation system
+
+
+-------------------------------------------------
+Installation on a remote host
+
+tbd
+
+On the remote host:
 
 Django home virtual environments
 
-/data/local/django/baseline
-/data/local/django/pdp
+  /data/local/django/baseline
+  /data/local/django/pdp
 
-support libraries
 
-/www/lib/...
-
-   bootstrap
-   jquery
-   ... 
-   (see iam-tools-test)
-
-static link
+Create a static link
 
 /www/pdp_static -> /data/local/django/pdp/static
 
 
-workstation setup (work in progress):
 
 from your virtualenv do a 'pip install -r requirements.txt'
