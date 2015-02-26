@@ -84,8 +84,8 @@ def login(request):
         user = auth.authenticate(remote_user='nobody')
         logger.error("Unauthenticated user")
         request.user = user
-        print 'at javerage: ' 
-        print request.user.is_authenticated()
+        print('at javerage: ')
+        print(request.user.is_authenticated())
         auth.login(request, user)
         request.user.save()
     return redirect(return_url)
