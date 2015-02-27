@@ -9,7 +9,8 @@ logger = logging.getLogger(__name__)
 
 PrefNameModel = namedtuple(
     'PrefNameModel',
-    ['firstName', 'middleName', 'lastName',])
+    ['firstName', 'middleName', 'lastName', ])
+
 
 class IRWS_DAO(MY_DAO):
     def getURL(self, url, headers):
@@ -23,8 +24,6 @@ class IRWS_DAO(MY_DAO):
 
 
 class IRWS(object):
-
-
     def get_preferred_name_by_netid(self, netid):
         dao = IRWS_DAO()
         url = '/irws/{netid}'.format(netid=netid)
