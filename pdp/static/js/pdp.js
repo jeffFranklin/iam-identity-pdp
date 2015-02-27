@@ -6,6 +6,27 @@ var v_xsrf = '';
 var v_etag = '';
 var iam_loadErrorMessage = "Operation failed. You may need to reload the page to reauthenticate";
 
+var app = angular.module('Pdp', []);
+var PrefNameCtrl = function($http, $log) {
+    var _this = this;
+    _this.$http = $http;
+    _this.$log = $log;
+    _this.firstName = null
+    _this.middleName = null;
+    _this.lastName = null;
+    _this.getPrefName = function() {
+	_this.$log.info('about to call /pdp/api/pref-name')
+	_this.$http.get('/pdp/api/pref-name').success(function(data){
+		_this.firstName = data.firstName;
+		_this.middleName = data.middleName;
+		_this.lastName = data.lastName;
+	    });
+    };
+    _this.getPrefName();
+};
+PrefNameCtrl.$inject = ['$http', '$log'];
+app.controller('PrefNameCtrl', PrefNameCtrl);
+
 // Trim leading and following spaces from a string
 String.prototype.trim = function () {
    return this.replace(/^\s*|\s*$/g,"");

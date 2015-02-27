@@ -8,26 +8,33 @@ Legal name
 {{ pws_info.full_name }}
 </div>
 
-
-<div class="container">
+{% verbatim %}
+<div ng-app="Pdp" class="container">
   <h2><div>Preferred Name</h2>
   <p>You can set a preferred name ...</p>
+  <div ng-controller="PrefNameCtrl as prefName">
   <form role="form">
     <div class="form-group">
       <label for="fname">Preferred first name</label>
-      <input type="text" class="form-control" id="fname">
+      <input type="text" ng-model="prefName.firstName" />
     </div>
     <div class="form-group">
       <label for="mname">Preferred middle name</label>
-      <input type="text" class="form-control" id="mname">
+      <input type="text" ng-model="prefName.middleName" />
     </div>
     <div class="form-group">
-      <label for="lname">Preferred llast name</label>
-      <input type="text" class="form-control" id="lname">
+      <label for="lname">Preferred last name</label>
+      <input type="text" ng-model="prefName.lastName" />
     </div>
   </form>
-</div>
+  <p>Your name will show up in the directory as 
+    {{prefName.firstName}} {{prefName.middleName}} {{prefName.lastName}}
+  </p>
 
+  </div>
+
+</div>
+{% endverbatim %}
 {% endblock %}
 
 

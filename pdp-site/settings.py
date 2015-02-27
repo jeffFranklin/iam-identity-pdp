@@ -95,16 +95,22 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'formatter': 'verbose',
             'filename': os.path.join(BASE_DIR, 'process.log'),
-        }
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+            'stream': 'ext://sys.stdout',
+        },
     },
     'loggers': {
         'django.request': {
-            'handlers': ['debuglog'],
+            'handlers': ['debuglog', 'console'],
             'level': 'DEBUG',
             'propagate': True,
         },
         'pdp': {
-            'handlers': ['debuglog'],
+            'handlers': ['debuglog', 'console'],
             'level': 'DEBUG',
             'propagate': True,
         },
@@ -151,6 +157,8 @@ RESTCLIENTS_PWS_MAX_POOL_SIZE = 10
 
 RESTCLIENTS_TIMEOUT = None
 # RESTCLIENTS_DAO_CACHE_CLASS = 'pdp.cache.UICache'
+
+RESTCLIENT_IRWS_DAO_CLASS = 'pdp.dao.IrwsString'
 
 # import local settings
 try:
