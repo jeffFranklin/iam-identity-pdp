@@ -1,11 +1,12 @@
 # global settings for Dajngo demo app
 
 
+WSGIPythonHome {{ app_base }}/baseline
 WSGIDaemonProcess pdp_group group=iam-dev python-path={{ app_base }}/pdp:{{ app_base }}/pdp/lib/python2.7/site-packages
-WSGIScriptAlias /pdp {{ app_base }}/pdp/pdp/wsgi.py
+WSGIScriptAlias /pdp {{ app_base }}/pdp/pdp-site/wsgi.py
 WSGIProcessGroup pdp_group
 
-<Directory {{ app_base }}/pdp/pdp>
+<Directory {{ app_base }}/pdp/pdp-site>
 <Files wsgi.py>
         Order deny,allow
         Allow from all

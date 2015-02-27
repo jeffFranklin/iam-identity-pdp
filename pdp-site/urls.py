@@ -6,4 +6,5 @@ urlpatterns = patterns(
     '',
     url(r'^$', 'pdp.views.page.index'),
     url(r'pdp/', include('pdp.urls')),
+    url(r'login/', include('pdp.urls')),
 )
