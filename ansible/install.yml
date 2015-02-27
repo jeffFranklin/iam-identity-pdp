@@ -1,5 +1,5 @@
 #
-# dj-demo install playbook
+# pdp install playbook
 #
 
 - hosts: "{{ target }}"
@@ -8,42 +8,26 @@
 
   tasks:
 
-  - include_vars: "local_vars.yml"
-
-  - name: create yml conf file
-    local_action: pyconf_to_yml pdp {{ cluster_type }}
-
   - include_vars: "conf.yml"
 
-  - name: check uw_django
-    pip: name='git+https://github.com/UWIT-IAM/uw-django#egg=DjangoContrib' virtualenv={{ app_base }}/pdp
-
-  - name: check django right version
-    pip: name='Django' version='1.7.3' virtualenv={{ app_base }}/pdp
-
-  - name: check libraries
-    environment:
-      PATH: /usr/local/pgsql/bin:{{ ansible_env.PATH }}
-    pip: name={{item}} virtualenv={{ app_base }}/pdp
-    with_items:
-      - django-mobility
-      - simplejson
-      - urllib3
-      - psycopg2
-      - django_mobile
-      - Django-UserService
-
-  - name: check restclients
-    pip: name='git+https://github.com/uw-it-aca/uw-restclients#egg=RestClients' virtualenv={{ app_base }}/pdp
-
-  # copy app
   - name: copy app
-    copy: "src=../pdp dest={{ app_base }} group=iam-dev mode=664 directory_mode=775"
- 
-  # configure app settings file
-  # requires restart app
-  - name: copy config file
-    copy: "src=../pdp.conf.{{ cluster_type }}  dest={{ app_base }}/pdp/pdp.conf group=iam-dev mode=664"
+    copy: "src=../{{item}} dest={{app_base}}/pdp group=iam-dev mode=664 directory_mode=2775"
+    with_items:
+      - manage.py
+      - pdp
+      - pdp-site
+      - requirements.txt
+      - setup.py
+
+  - name: copy local settings
+    copy: "src=../local_settings.py.{{ cluster_type }} dest={{app_base}}/pdp/pdp-site/local_settings.py group=iam-dev mode=664 "
+
+  - name: verify libraries
+    pip: requirements={{ app_base }}/pdp/requirements.txt virtualenv={{ app_base }}/pdp
+
+  # copy local settings
+  # - name: copy config file
+  #   copy: "src=../pdp.conf.{{ cluster_type }}  dest={{ app_base }}/pdp/pdp.conf group=iam-dev mode=664"
 
   # update http and https config
   # change restarts apache
@@ -51,20 +35,35 @@
   - include: "tasks/apache_config.yml file=http prod=pdp"
   - include: "tasks/apache_config.yml file=global prod=pdp"
 
+  - name: db dir
+    file: "path={{ app_base }}/pdp/db state=directory group=iam-dev mode=2775"
+
+  # setup db
+  - name: check db 1
+    stat: path={{app_base}}/pdp/db/db.sqlite3
+    register: db_stat
+
+  - name: check db 2
+    django_manage: command=migrate app_path={{app_base}}/pdp python_path={{app_base}}/pdp virtualenv={{app_base}}/pdp
+    when: db_stat.stat.exists == False
+
+  - name: check db 3
+    file: "path={{ app_base }}/pdp/db/db.sqlite3 state=file group=iam-dev mode=664"
+    when: db_stat.stat.exists == False
 
   # run any handlers 
-  - meta: flush_handlers
+  # - meta: flush_handlers
 
 
   # idle loadr if test fails
-  - name: idle loadr on test fail
-    command: /usr/bin/nohup /data/local/bin/ansible_command loadr idle
-    when: "httest_result is defined and httest_result.rc != 0"
+  # - name: idle loadr on test fail
+    # command: /usr/bin/nohup /data/local/bin/ansible_command loadr idle
+    # when: "httest_result is defined and httest_result.rc != 0"
       
   # fail if test fails
-  - name: fail on test fail
-    fail: msg="API service test fails after install"
-    when: "httest_result is defined and httest_result.rc != 0"
+  # - name: fail on test fail
+    # fail: msg="API service test fails after install"
+    # when: "httest_result is defined and httest_result.rc != 0"
 
   handlers:
      - include: "tasks/iam_handlers.yml"

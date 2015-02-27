@@ -1,5 +1,5 @@
 
-Installation on a workstation, for dev
+Installation on a workstation, for development
 
 create a virtualenv 
 activate it
@@ -18,20 +18,5 @@ run
 -------------------------------------------------
 Installation on a remote host
 
-tbd
+see the ansible directory
 
-On the remote host:
-
-Django home virtual environments
-
-  /data/local/django/baseline
-  /data/local/django/pdp
-
-
-Create a static link
-
-/www/pdp_static -> /data/local/django/pdp/static
-
-
-
-from your virtualenv do a 'pip install -r requirements.txt'
