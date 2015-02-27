@@ -7,19 +7,38 @@ var v_etag = '';
 var iam_loadErrorMessage = "Operation failed. You may need to reload the page to reauthenticate";
 
 var app = angular.module('Pdp', []);
+
+app.config(['$httpProvider', function($httpProvider) {
+	    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+	    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+	}]);
+
 var PrefNameCtrl = function($http, $log) {
     var _this = this;
     _this.$http = $http;
     _this.$log = $log;
-    _this.firstName = null
-    _this.middleName = null;
-    _this.lastName = null;
+    _this.pn = {
+	firstName: null,
+	middleName: null,
+	lastName: null,
+    };
+    _this.putStatus = null;
     _this.getPrefName = function() {
-	_this.$log.info('about to call /pdp/api/pref-name')
+	_this.$log.info('about to get /pdp/api/pref-name');
 	_this.$http.get('/pdp/api/pref-name').success(function(data){
-		_this.firstName = data.firstName;
-		_this.middleName = data.middleName;
-		_this.lastName = data.lastName;
+		_this.pn = data;
+	    });
+    };
+    _this.putPrefName = function() {
+	_this.$log.info('about to put /pdp/api/pref-name');
+	_this.$http.put('/pdp/api/pref-name', _this.pn)
+	.success(function(data){
+		_this.putStatus = 'Successful response from put';
+		_this.$log.info(_this.putStatus);		
+	    })
+	.error(function(data){
+		_this.putStatus = 'Successful response from put';
+		_this.$log.info(_this.putStatus);
 	    });
     };
     _this.getPrefName();
