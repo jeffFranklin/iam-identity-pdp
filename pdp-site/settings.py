@@ -148,12 +148,13 @@ STATICFILES_DIRS = (
 
 
 # PWS settings
-RESTCLIENTS_PWS_DAO_CLASS = 'restclients.dao_implementation.pws.File'
-RESTCLIENTS_PWS_HOST = 'https://ws.admin.washington.edu:443'
-RESTCLIENTS_PWS_CERT_FILE = '/data/local/etc/x315.crt'
-RESTCLIENTS_PWS_KEY_FILE = '/data/local/etc/x315.key'
+RESTCLIENTS_IRWS_DAO_CLASS = 'restclients.dao_implementation.irws.File'
+RESTCLIENTS_IRWS_HOST = 'https://mango-dev.u.washington.edu:443'
+RESTCLIENTS_IRWS_SERVICE_NAME = 'registry-dev'
+RESTCLIENTS_IRWS_CERT_FILE = '/data/local/etc/x315.crt'
+RESTCLIENTS_IRWS_KEY_FILE = '/data/local/etc/x315.key'
 RESTCLIENTS_CA_BUNDLE = '/data/local/etc/cacerts.cert'
-RESTCLIENTS_PWS_MAX_POOL_SIZE = 10
+RESTCLIENTS_IRWS_MAX_POOL_SIZE = 10
 
 RESTCLIENTS_TIMEOUT = None
 # RESTCLIENTS_DAO_CACHE_CLASS = 'pdp.cache.UICache'

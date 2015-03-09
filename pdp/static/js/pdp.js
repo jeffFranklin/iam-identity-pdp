@@ -18,20 +18,20 @@ var PrefNameCtrl = function($http, $log) {
     _this.$http = $http;
     _this.$log = $log;
     _this.pn = {
-	firstName: null,
-	middleName: null,
-	lastName: null,
+	display_fname: null,
+	display_cname: null,
+	display_sname: null,
     };
     _this.putStatus = null;
     _this.getPrefName = function() {
-	_this.$log.info('about to get /pdp/api/pref-name');
-	_this.$http.get('/pdp/api/pref-name').success(function(data){
+	_this.$log.info('about to get /pdp/api/name');
+	_this.$http.get('/pdp/api/name').success(function(data){
 		_this.pn = data;
 	    });
     };
     _this.putPrefName = function() {
-	_this.$log.info('about to put /pdp/api/pref-name');
-	_this.$http.put('/pdp/api/pref-name', _this.pn)
+	_this.$log.info('about to put /pdp/api/name');
+	_this.$http.put('/pdp/api/name', _this.pn)
 	.success(function(data){
 		_this.putStatus = 'Successful response from put';
 		_this.$log.info(_this.putStatus);		

@@ -3,6 +3,8 @@ Ansible config to install pdp on IAM remote sites
 Target site needs some setup
 ----------------------------
 
+(note: on rhel6 use virtualenv-2.7 for virtualenv)
+
   # mkdir /data/local/django
   # chown <someuser>.iam-dev /data/local/django
   # chmod 2775 /data/local/django

@@ -25,17 +25,13 @@
   - name: verify libraries
     pip: requirements={{ app_base }}/pdp/requirements.txt virtualenv={{ app_base }}/pdp
 
-  # copy local settings
-  # - name: copy config file
-  #   copy: "src=../pdp.conf.{{ cluster_type }}  dest={{ app_base }}/pdp/pdp.conf group=iam-dev mode=664"
-
   # update http and https config
   # change restarts apache
   - include: "tasks/apache_config.yml file=https prod=pdp"
   - include: "tasks/apache_config.yml file=http prod=pdp"
   - include: "tasks/apache_config.yml file=global prod=pdp"
 
-  - name: db dir
+  - name: verify db 
     file: "path={{ app_base }}/pdp/db state=directory group=iam-dev mode=2775"
 
   # setup db
@@ -52,18 +48,18 @@
     when: db_stat.stat.exists == False
 
   # run any handlers 
-  # - meta: flush_handlers
+  - meta: flush_handlers
 
 
   # idle loadr if test fails
-  # - name: idle loadr on test fail
-    # command: /usr/bin/nohup /data/local/bin/ansible_command loadr idle
-    # when: "httest_result is defined and httest_result.rc != 0"
+  - name: idle loadr on test fail
+    command: /usr/bin/nohup /data/local/bin/ansible_command loadr idle
+    when: "httest_result is defined and httest_result.rc != 0"
       
   # fail if test fails
-  # - name: fail on test fail
-    # fail: msg="API service test fails after install"
-    # when: "httest_result is defined and httest_result.rc != 0"
+  - name: fail on test fail
+    fail: msg="API service test fails after install"
+    when: "httest_result is defined and httest_result.rc != 0"
 
   handlers:
      - include: "tasks/iam_handlers.yml"

@@ -22,6 +22,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib import auth
 import simplejson as json
 from restclients.pws import PWS
+from restclients.irws import IRWS
 
 
 logger = logging.getLogger('pdp')
@@ -107,13 +108,21 @@ def index(request, template=None):
     userid = UserService().get_user()
     logger.info('userservice user=' + userid)
 
-    # get some info about this user from PWS
-    pwsClient = PWS()
-    pws = pwsClient.get_person_by_netid(remote_user)
+    # get some info about this user from IRWS
+    irwsClient = IRWS()
+    name = irwsClient.get_name_by_netid(remote_user)
+    ident = irwsClient.get_identity_by_netid(remote_user)
+    print ident
+    if 'hepps' in ident.identifiers:
+        uri = ident.identifiers['hepps']
+        hepps = irwsClient.get_hepps_person_by_uri(uri)
+        showname = hepps.wp_publish
+        print showname
 
     context = {
        'remote_user': remote_user,
-       'pws_info': pws,
+       'irws_name': name,
+       'wp_publish': showname,
     }
 
     return render(request, 'page.html', context)

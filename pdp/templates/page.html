@@ -5,12 +5,12 @@
 <div class="container">
 Your legal name
 <br>
-{{ pws_info.full_name }}
+{{ irws_name.formal_cname }}
 </div>
 <div class="container">
 Your name in the directory 
 <br>
-{{pws_info.display_name}}
+{{irws_name.display_cname}}
 </div>
 
 {% verbatim %}
@@ -21,19 +21,19 @@ Your name in the directory
   <form role="form">
     <div class="form-group">
       <label for="fname">Preferred first name</label>
-      <input type="text" class="form-control" ng-model="prefName.pn.firstName" />
+      <input type="text" class="form-control" ng-model="prefName.pn.display_fname" value="" />
     </div>
     <div class="form-group">
       <label for="mname">Preferred middle name</label>
-      <input type="text" class="form-control" ng-model="prefName.pn.middleName" />
+      <input type="text" class="form-control" ng-model="prefName.pn.display_mname" />
     </div>
     <div class="form-group">
       <label for="lname">Preferred last name</label>
-      <input type="text" class="form-control" ng-model="prefName.pn.lastName" />
+      <input type="text" class="form-control" ng-model="prefName.pn.display_lname" />
     </div>
   </form>
   <p>Your name will show up in the directory as 
-    {{prefName.pn.firstName}} {{prefName.pn.middleName}} {{prefName.pn.lastName}}
+    {{prefName.pn.firstName}} {{prefName.pn.middleName}} {{prefName.pn.display_cname}}
   </p>
   <a class="btn btn-primary" ng-click="prefName.putPrefName()">
     Submit
