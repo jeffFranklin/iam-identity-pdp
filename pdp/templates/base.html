@@ -42,6 +42,8 @@
         <!-- regular css -->
         {% compress css %}
         
+            <link rel="stylesheet" href="{% static 'css/pdp.css' %}" rel="stylesheet" type="text/css">           
+
             {% if not low_fidelity %}
             <!-- bootstrap & font awesome -->
             <link rel="stylesheet" href="{% static "vendor/css/bootstrap-3.3.2.min.css" %}">

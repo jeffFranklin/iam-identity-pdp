@@ -1,20 +1,23 @@
 # local additions to settings
 
 DEBUG = True
-SECRET_KEY = 'some_test_key_!&%@'
+SECRET_KEY = 'some_dev._key_!&%@'
 TEMPLATE_DEBUG = True
 USER_SERVICE_NO_DEFAULT_USER = True
-LOGIN_URL = '/pdp/login/'
-STATIC_URL = '/static-pdp/'
+LOGIN_URL = '/id/login/'
+STATIC_URL = '/static-id/'
 
 
-RESTCLIENTS_PWS_CERT_FILE = '/data/local/etc/x315.crt'
-RESTCLIENTS_PWS_KEY_FILE = '/data/local/etc/x315.key'
-RESTCLIENTS_CA_BUNDLE = '/data/local/etc/cacerts.cert'
-RESTCLIENTS_PWS_MAX_POOL_SIZE = 10
+# IRWS settings (dev host)
 
+RESTCLIENTS_IRWS_DAO_CLASS = 'restclients.dao_implementation.irws.Live'
+RESTCLIENTS_IRWS_HOST = 'https://mango-dev.u.washington.edu:646'
+RESTCLIENTS_IRWS_SERVICE_NAME = 'registry-dev'
+RESTCLIENTS_IRWS_CERT_FILE = '/data/local/etc/myuw.crt'
+RESTCLIENTS_IRWS_KEY_FILE = '/data/local/etc/myuw.key'
+RESTCLIENTS_CA_BUNDLE = '/usr/local/ssl/certs/ca-bundle.crt'
+RESTCLIENTS_IRWS_MAX_POOL_SIZE = 10
 
-RESTCLIENTS_PWS_DAO_CLASS = 'restclients.dao_implementation.pws.Live'
 
 LOGGING = {
     'version': 1,

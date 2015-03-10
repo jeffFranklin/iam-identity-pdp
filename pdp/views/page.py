@@ -35,6 +35,7 @@ logger = logging.getLogger('pdp')
 # ----------------------------------------
 def login(request):
     return_url = request.REQUEST.get('postlogin', '/')
+    print 'login: return = ' + return_url
 
     if request.user.is_authenticated():
         logger.info('User = ' + request.user.username)
@@ -113,11 +114,11 @@ def index(request, template=None):
     name = irwsClient.get_name_by_netid(remote_user)
     ident = irwsClient.get_identity_by_netid(remote_user)
     print ident
+    showname = 'F'
     if 'hepps' in ident.identifiers:
         uri = ident.identifiers['hepps']
         hepps = irwsClient.get_hepps_person_by_uri(uri)
         showname = hepps.wp_publish
-        print showname
 
     context = {
        'remote_user': remote_user,

@@ -55,10 +55,10 @@ AUTHENTICATION_BACKENDS = (
      'django.contrib.auth.backends.RemoteUserBackend',
 )
 
-LOGIN_URL = '/pdp/login/'
+LOGIN_URL = '/id/login/'
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_COOKIE_NAME = 'pdpsession'
-SESSION_COOKIE_PATH = '/pdp/'
+SESSION_COOKIE_PATH = '/'
 SESSION_COOKIE_SECURE = True  # False if you are using development environment
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 

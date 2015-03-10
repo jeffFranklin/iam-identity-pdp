@@ -10,7 +10,7 @@
 #
 
 # browser authn
-<LocationMatch /pdp/login>
+<LocationMatch /{{app_url_base}}/login>
   RequestHeader set Content-type application/xml
   AuthType shibboleth
   ShibRequireSession On
@@ -21,7 +21,7 @@
 </LocationMatch>
 
 # browser authn secure
-<LocationMatch /pdp/securelogin>
+<LocationMatch /{{app_url_base}}/securelogin>
   RequestHeader set Content-type application/xml
   AuthType shibboleth
   ShibRequireSessionWith UWSECURE
@@ -31,7 +31,7 @@
 </LocationMatch>
 
 # browser authn via google
-<LocationMatch /pdp/googlelogin>
+<LocationMatch /{{app_url_base}}/googlelogin>
   RequestHeader set Content-type application/xml
   AuthType shibboleth
   ShibRequireSession On
@@ -43,7 +43,7 @@
 
 
 # cert client authn
-<Location /pdp/ws/>
+<Location /{{app_url_base}}/ws/>
 RequestHeader set Content-type application/xml
 SSLRequireSSL
 SSLVerifyClient require

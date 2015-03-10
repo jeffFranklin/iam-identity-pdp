@@ -5,10 +5,13 @@
 - hosts: "{{ target }}"
   serial: 1
   max_fail_percentage: 10
+  vars:
+    app_name: pdp
+    app_base: /data/local/django
+    app_url_base: id
+    syslog_facility: LOG_LOCAL7
 
   tasks:
-
-  - include_vars: "conf.yml"
 
   - name: copy app
     copy: "src=../{{item}} dest={{app_base}}/pdp group=iam-dev mode=664 directory_mode=2775"
