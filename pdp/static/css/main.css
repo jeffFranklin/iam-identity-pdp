@@ -1,0 +1,33 @@
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+.jumbotron {
+
+  background-color: #4b2e83;
+  border-color: #402770;
+}
+
+
+.jumbotron h1, .jumbotron .h1 {
+  color: white;
+}
+
+
+.jumbotron p {
+  color:#ccc;
+}
+
+input {
+	width:100%;
+}
+
+#savetext {
+	display:none;
+}
+
+
+
+
