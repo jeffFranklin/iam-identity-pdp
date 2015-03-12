@@ -2,6 +2,22 @@
 
 {% block content %}
 
+{% verbatim %}
+<div ng-app="pdpApp" class="container">
+
+ <!-- tabs for pref name and pub pref -->
+ <div role="tabpanel">
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#prefname" aria-controls="prefname" role="tab" data-toggle="tab">Preferred name</a></li>
+    <li role="presentation"><a href="#pubpref" aria-controls="pubpref" role="tab" data-toggle="tab">Publish pref</a></li>
+  </ul>
+
+ <div class="tab-content">
+
+ <div role="tabpanel" class="tab-pane active" id="prefname">
+ 
+  <h2>Preferred Name</h2>
+
 <div class="container">
 Your legal name
 <br>
@@ -12,34 +28,56 @@ Your name in the directory
 <br>
 {{irws_name.display_cname}}
 </div>
-
-{% verbatim %}
-<div ng-app="Pdp" class="container">
-  <h2><div>Preferred Name</h2>
   <p>You can set a preferred name ...</p>
-  <div ng-controller="PrefNameCtrl as prefName">
+  <div ng-controller="NameCtrl">
   <form role="form">
     <div class="form-group">
       <label for="fname">Preferred first name</label>
-      <input type="text" class="form-control" ng-model="prefName.pn.display_fname" value="" />
+      <input type="text" class="form-control" ng-model="pn.display_fname" value="" />
     </div>
     <div class="form-group">
       <label for="mname">Preferred middle name</label>
-      <input type="text" class="form-control" ng-model="prefName.pn.display_mname" />
+      <input type="text" class="form-control" ng-model="pn.display_mname" />
     </div>
     <div class="form-group">
       <label for="lname">Preferred last name</label>
-      <input type="text" class="form-control" ng-model="prefName.pn.display_lname" />
+      <input type="text" class="form-control" ng-model="pn.display_lname" />
     </div>
   </form>
   <p>Your name will show up in the directory as 
-    {{prefName.pn.firstName}} {{prefName.pn.middleName}} {{prefName.pn.display_cname}}
+    {{pn.display_fname}} {{pn.display_mname}} {{pn.display_lname}}
   </p>
-  <a class="btn btn-primary" ng-click="prefName.putPrefName()">
-    Submit
+  <a class="btn btn-primary" ng-click="putPrefName()">
+    Save
   </a>
-  <span ng-hide="prefName.putStatus == null">{{prefName.putStatus}}</span>
+  <span ng-hide="putStatus == null">{{putStatus}}</span>
   </div>
+
+ </div>
+
+ <div role="tabpanel" class="tab-pane" id="pubpref">
+ <tab heading="Pub pref" active="false" disabled="">
+  <h2><div>Publish preference</h2>
+  <p>You can set publishing...</p>
+  <div ng-controller="PubCtrl">
+  <form role="form">
+    <div class="form-group">
+      <label for="wppublish">Publish in UW Directory?</label>
+      <br/>
+      <input type="radio" id="wppubyes" name="wppub" value="yes" ng-model="wp_publish"> <label for="wppubyes">Yes</label>
+      <br/>
+      <input type="radio" id="wppubno" name="wppub" value="no" ng-model="wp_publish"> <label for="wppubno">No</label>
+    </div>
+  </form>
+  <a class="btn btn-primary" ng-click="putPubPref()">
+    Save
+  </a>
+  <span ng-hide="putPubStatus == null">{{putPubStatus}}</span>
+  </div>
+
+</div>
+</div>
+</div>
 
 </div>
 {% endverbatim %}

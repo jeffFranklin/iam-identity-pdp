@@ -25,6 +25,7 @@ var PrefNameCtrl = function($http, $log) {
 	display_cname: null,
 	display_sname: null,
     };
+    _this.wp_publish = 'yes';
     _this.putStatus = null;
     _this.getPrefName = function() {
 	_this.$log.info('about to get '+ v_name_url);
@@ -33,6 +34,7 @@ var PrefNameCtrl = function($http, $log) {
 	    });
     };
     _this.putPrefName = function() {
+        console.log('pub = ' + _this.wp_publish);
 	_this.$log.info('about to put '+ v_name_url);
 	_this.$http.put(v_name_url, _this.pn)
 	.success(function(data){
