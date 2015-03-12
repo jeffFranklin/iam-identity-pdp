@@ -4,6 +4,8 @@
 var v_remoteUser = '';
 var v_xsrf = '';
 var v_etag = '';
+var v_name_url = '/id/api/name';
+
 var iam_loadErrorMessage = "Operation failed. You may need to reload the page to reauthenticate";
 
 var app = angular.module('Pdp', []);
@@ -14,6 +16,7 @@ app.config(['$httpProvider', function($httpProvider) {
 	}]);
 
 var PrefNameCtrl = function($http, $log) {
+    console.log('name url = ' + v_name_url);
     var _this = this;
     _this.$http = $http;
     _this.$log = $log;
@@ -24,14 +27,14 @@ var PrefNameCtrl = function($http, $log) {
     };
     _this.putStatus = null;
     _this.getPrefName = function() {
-	_this.$log.info('about to get /pdp/api/name');
-	_this.$http.get('/pdp/api/name').success(function(data){
+	_this.$log.info('about to get '+ v_name_url);
+	_this.$http.get(v_name_url).success(function(data){
 		_this.pn = data;
 	    });
     };
     _this.putPrefName = function() {
-	_this.$log.info('about to put /pdp/api/name');
-	_this.$http.put('/pdp/api/name', _this.pn)
+	_this.$log.info('about to put '+ v_name_url);
+	_this.$http.put(v_name_url, _this.pn)
 	.success(function(data){
 		_this.putStatus = 'Successful response from put';
 		_this.$log.info(_this.putStatus);		
