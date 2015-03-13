@@ -20,11 +20,11 @@ class Publish(RESTDispatch):
         logger.info("identity/publish api")
         remote_user = re.sub(r'@.*', '', request.user.username)
         irws = IRWS()
-        ident = irwsClient.get_identity_by_netid(remote_user)
+        ident = irws.get_identity_by_netid(remote_user)
         wp_publish = 'true'
         if 'hepps' in ident.identifiers:
             uri = ident.identifiers['hepps']
-            hepps = irwsClient.get_hepps_person_by_uri(uri)
+            hepps = irws.get_hepps_person_by_uri(uri)
             if hepps.wp_publish != 'Y':
                 wp_publish = 'false'
         resp = {}
@@ -41,8 +41,7 @@ class Publish(RESTDispatch):
         irws = IRWS()
 
         # pn = irws.put_publish_by_netid(remote_user, request.body)
-        errtxt = '{"message":
-                   "Saving publish preference is not yet implemented."}'
+        errtxt = '{"message": "Save is not yet implemented."}'
         return HttpResponse(json.dumps(errtxt),
                             content_type='application/json',
                             status=501)
