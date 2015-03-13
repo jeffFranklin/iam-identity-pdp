@@ -16,16 +16,27 @@ app.config(['$httpProvider', function($httpProvider) {
 /* controller for the preferred name */
 
 app.controller('NameCtrl', ['$scope', '$http', '$log', function($scope, $http, $log) {
+    // diaplay names as they look in the directory
+    $scope.wp = {
+        fname: null,
+        mname: null,
+        lname: null,
+    };
+    // display names as they are edited
     $scope.pn = {
 	display_fname: null,
 	display_mname: null,
 	display_lname: null,
     };
+
     $scope.putStatus = null;
     $scope.getPrefName = function() {
 	$log.info('about to get '+ pdp_name_url);
 	$http.get(pdp_name_url).success(function(data){
 		$scope.pn = data;
+                $scope.wp.fname = $scope.pn.display_fname;
+                $scope.wp.mname = $scope.pn.display_mname;
+                $scope.wp.lname = $scope.pn.display_lname;
 	    });
     };
     $scope.putPrefName = function() {
@@ -34,6 +45,7 @@ app.controller('NameCtrl', ['$scope', '$http', '$log', function($scope, $http, $
 	$http.put(pdp_name_url, $scope.pn)
 	.success(function(data){
 		$scope.putStatus = 'Updated';
+                $scope.getPrefName();
 		$log.info($scope.putStatus);		
 	    })
 	.error(function(data){

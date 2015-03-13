@@ -2,7 +2,6 @@
 
 {% block content %}
 
-{% verbatim %}
 <div ng-app="pdpApp" class="container">
 
  <!-- tabs for pref name and pub pref -->
@@ -21,19 +20,23 @@
 <div class="container">
 Your legal name
 <br>
-{{ irws_name.formal_cname }}
+{{ irws_name.formal_fname }} {{ irws_name.formal_lname }}
 </div>
+{% verbatim %}
+<div ng-controller="NameCtrl">
 <div class="container">
 Your name in the directory 
 <br>
-{{irws_name.display_cname}}
+{{wp.fname}} {{wp.mname}} {{wp.lname}}
 </div>
   <p>You can set a preferred name ...</p>
-  <div ng-controller="NameCtrl">
-  <form role="form">
+  <form role="form" name="pnform" >
     <div class="form-group">
       <label for="fname">Preferred first name</label>
-      <input type="text" class="form-control" ng-model="pn.display_fname" value="" />
+      <input type="text" name="pnfname" class="form-control" ng-model="pn.display_fname" value="" required="required" />
+      <span style="color:red" ng-show="pnform.pnfname.$dirty && pnform.pnfname.$invalid">
+        <span ng-show="pnform.pnfname.$error.required">First name is required.</span>
+      </span>
     </div>
     <div class="form-group">
       <label for="mname">Preferred middle name</label>
@@ -41,13 +44,16 @@ Your name in the directory
     </div>
     <div class="form-group">
       <label for="lname">Preferred last name</label>
-      <input type="text" class="form-control" ng-model="pn.display_lname" />
+      <input type="text" name="pnlname" class="form-control" ng-model="pn.display_lname" value="" required="required" />
+      <span style="color:red" ng-show="pnform.pnlname.$dirty && pnform.pnlname.$invalid">
+        <span ng-show="pnform.pnlname.$error.required">Last name is required.</span>
+      </span>
     </div>
   </form>
   <p>Your name will show up in the directory as 
     {{pn.display_fname}} {{pn.display_mname}} {{pn.display_lname}}
   </p>
-  <a class="btn btn-primary" ng-click="putPrefName()">
+  <a class="btn btn-primary" ng-click="putPrefName()" ng-disabled="pnform.$invalid">
     Save
   </a>
   <span ng-hide="putStatus == null">{{putStatus}}</span>

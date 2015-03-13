@@ -117,7 +117,6 @@ def index(request, template=None):
     if 'hepps' in ident.identifiers:
         uri = ident.identifiers['hepps']
         hepps = irwsClient.get_hepps_person_by_uri(uri)
-        print hepps.wp_publish
         if hepps.wp_publish != 'Y':
             wp_publish = 'false'
 
