@@ -1,12 +1,6 @@
-#####
-##
-
-{% set self = ansible_hostname %}
-{% set selfck = self.split(".")[0] %}
-
-# ----------------------------------------------------------------------
-# local pdp apache port 443 config for {{ self }}  -  {{ selfck }}
-# ----------------------------------------------------------------------
+# ---------------------------------------------------
+# local pdp apache port 443 config
+# ---------------------------------------------------
 #
 
 # browser authn
@@ -14,8 +8,12 @@
   RequestHeader set Content-type application/xml
   AuthType shibboleth
   ShibRequireSession On
-  require valid-user
-  require user fox
+  {% if cluster_type == "dev" or cluster_type == "eval" %}
+  require affiliation member@washington.edu
+  {% endif %}
+  {% if cluster_type == "prod" %}
+  require isMemberOf urn:mace:washington.edu:groups:{{prod_tester_group}}
+  {% endif %}
   order allow,deny
   allow from all
 </LocationMatch>
@@ -25,18 +23,29 @@
   RequestHeader set Content-type application/xml
   AuthType shibboleth
   ShibRequireSessionWith UWSECURE
-  require valid-user
+  {% if cluster_type == "dev" or cluster_type == "eval" %}
+  require affiliation member@washington.edu
+  {% endif %}
+  {% if cluster_type == "prod" %}
+  require isMemberOf urn:mace:washington.edu:groups:{{prod_tester_group}}
+  {% endif %}
   order allow,deny
   allow from all
 </LocationMatch>
 
+{% if false %}
 # browser authn via google
 <LocationMatch /{{app_url_base}}/googlelogin>
   RequestHeader set Content-type application/xml
   AuthType shibboleth
   ShibRequireSession On
   shibRequireSessionWith UWGOOGLE
-  require valid-user
+  {% if cluster_type == "dev" or cluster_type == "eval" %}
+  require affiliation member@washington.edu
+  {% endif %}
+  {% if cluster_type == "prod" %}
+  require isMemberOf urn:mace:washington.edu:groups:{{prod_tester_group}}
+  {% endif %}
   order allow,deny
   allow from all
 </LocationMatch>
@@ -56,3 +65,4 @@ allow from all
 
 
 
+{% endif %}
