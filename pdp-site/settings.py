@@ -114,6 +114,11 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
+        'restclients': {
+            'handlers': ['debuglog', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
     }
 }
 
@@ -158,9 +163,6 @@ RESTCLIENTS_IRWS_MAX_POOL_SIZE = 10
 
 RESTCLIENTS_TIMEOUT = None
 # RESTCLIENTS_DAO_CACHE_CLASS = 'pdp.cache.UICache'
-
-RESTCLIENT_IRWS_DAO_CLASS = 'pdp.dao.IrwsString'
-
 # import local settings
 try:
     from local_settings import *
