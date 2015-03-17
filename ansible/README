@@ -5,23 +5,32 @@ Target site needs some setup
 
 (note: on rhel6 use virtualenv-2.7 for virtualenv)
 
-  # mkdir /data/local/django
-  # chown <someuser>.iam-dev /data/local/django
-  # chmod 2775 /data/local/django
+  (root)
+  mkdir -p /data/local/django
+  chown <someuser>.iam-dev /data/local/django
+  chown fox.iam-dev /data/local/django
+  chmod 2775 /data/local/django
 
-  $ cd /data/local/django
-  $ virtualenv --python=/usr/local/bin/python2.7 baseline
-  $ virtualenv --python=/usr/local/bin/python2.7 pdp
+  (user)
+  cd /data/local/django
+  virtualenv --python=/usr/local/bin/python2.7 baseline
+  virtualenv --python=/usr/local/bin/python2.7 pdp
 
 
 /data/conf
 
-  needs the apache.conf.d setup
+  (root)
+  mkdir /data/conf/apache.conf.d
+  chown fox.iam-dev /data/conf/apache.conf.d
+  chmod 2775 /data/conf/apache.conf.d
 
-/www
 
-  # ln -s /data/local/django/pdp/pdp/static static-pdp 
+/logs
 
+  (root)
+  mkdir /logs/pdp
+  chown nobody.iam-dev /logs/pdp
+  chmod 2775 /logs/pdp
 
 
 

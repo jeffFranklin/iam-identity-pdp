@@ -82,11 +82,10 @@ app.controller('PubCtrl', ['$scope', '$http', '$log', function($scope, $http, $l
 		$log.info($scope.putStatus);		
 	    })
 	.error(function(data){
-                msg = JSON.parse(data)
-                err_message = msg.message;
-                console.log(err_message);
-		$scope.putPubStatus = err_message;
-		$log.info($scope.putPubStatus);
+                err_msg = data.error_message;
+                console.log(err_msg);
+                $scope.putPubStatus = err_msg;
+                $log.info($scope.putPubStatus);
 	    });
     };
 
