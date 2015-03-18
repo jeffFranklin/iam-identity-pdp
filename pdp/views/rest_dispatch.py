@@ -46,20 +46,23 @@ class RESTDispatch:
 
 def invalid_session():
     return HttpResponse('{"error_message": "session timeout"}',
-                                status = 401,
-                                content_type='application/json')
+                        status=401,
+                        content_type='application/json')
+
 
 def __response_400(msg):
-    response = HttpResponse('{"error_message": "%s"}' % (msg));
+    response = HttpResponse('{"error_message": "%s"}' % (msg))
     response.status_code = 400
     return response
+
 
 def invalid_arg():
     return __response_400('No valid argument')
 
+
 def data_not_found():
     return __response_400('Data not found')
 
+
 def invalid_method():
     return __response_400("Method not allowed")
-
