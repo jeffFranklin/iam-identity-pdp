@@ -1,8 +1,8 @@
 // possible js tools for the project
 
 // these are set by page load
-var pdp_name_url = '/id/api/name';
-var pdp_pub_url = '/id/api/identity/publish';
+var pdp_name_url = 'api/name';
+var pdp_pub_url = 'api/identity/publish';
 var pdp_user_has_publish = false;
 
 

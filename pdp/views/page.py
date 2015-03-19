@@ -127,3 +127,7 @@ def index(request, template=None):
     }
 
     return render(request, 'page.html', context)
+
+def ui(request, template=None):
+
+    return render(request, 'index.html', [])
