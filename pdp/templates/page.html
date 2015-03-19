@@ -29,8 +29,21 @@ Your name in the directory
 <br>
 {{wp.fname}} {{wp.mname}} {{wp.lname}}
 </div>
-  <p>You can set a preferred name ...</p>
   <form role="form" name="pnform" >
+      <div class="row">
+        <div class="col-md-4">
+          <h2>First Name</h2>
+         <input type="text" ng-model="pn.display_fname" />
+        </div>
+        <div class="col-md-4">
+          <h2>Middle Name</h2>
+         <input type="text" ng-model="pn.display_mname" />
+       </div>
+        <div class="col-md-4">
+          <h2>Last Name</h2>
+         <input type="text" ng-model="pn.display_lname" />
+        </div>
+	<!--
     <div class="form-group">
       <label for="fname">Preferred first name</label>
       <input type="text" name="pnfname" class="form-control" ng-model="pn.display_fname"
@@ -56,7 +69,7 @@ Your name in the directory
         <span ng-show="pnform.pnlname.$error.required">Last name is required.</span>
         <span ng-show="pnform.pnlname.$error.pattern">Name must consist of letters, numbers, symbols or space.</span>
       </span>
-    </div>
+    </div>-->
   </form>
   <p>Your name will show up in the directory as 
     {{pn.display_fname}} {{pn.display_mname}} {{pn.display_lname}}
