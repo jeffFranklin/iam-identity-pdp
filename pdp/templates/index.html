@@ -15,14 +15,14 @@
         <link rel="stylesheet" href="../static/vendor/css/bootstrap-theme-3.3.2.min.css">
         <link rel="stylesheet" href="../static/css/main.css">
         <link rel="stylesheet" href="../static/css/mini.css"/>
-<link rel="stylesheet" href="../static/css/body.css"/>
+        <link rel="stylesheet" href="../static/css/body.css"/>
 
         <script src="../static/vendor/js/modernizr-2.6.2.min.js"></script>
         <script>
-function myFunction() {
-    $( "p#savetext" ).fadeIn( "slow" );
-}
-</script>
+          function myFunction() {
+            $( "p#savetext" ).fadeIn( "slow" );
+          }
+        </script>
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -70,11 +70,7 @@ function myFunction() {
       <!-- End preferred name -->
       
       <p></p>
-      <p id="savetext">Your name has been saved.</p>
-      <p id="errormessage">If there is an error, the message shall show up here.</p>
-
-      <!-- Hitting the reset button, the system will reset the preferred name to the legal name automatically -->
-      <button type="submit" id="reset">Reset to Legal Name</button>
+      <p id="errormessage">If there is an error in the input, the message shows up here.</p>
 
       <hr>
 
@@ -89,9 +85,11 @@ function myFunction() {
       </div>
       <!-- End policy -->
 
+      <!-- Inline message goes here -->
+      <p id="savetext">Your name has been saved --> This message shows up here after the "save" button is hit.</p>
       <!-- Two actionable buttons -->
       <button type="submit" id="save">Save</button>
-      <button type="submit" id="cancel">Cancel</button>
+      <button type="submit" id="reset">Reset</button>
 
       <footer>
         <p></p>

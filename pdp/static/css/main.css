@@ -26,6 +26,7 @@
 
 #savetext {
 	display:none;
+	color: green;
 }
 
 /* Styling the error message */
@@ -38,6 +39,10 @@
 	display:inline-block;
 }
 
+/* Styling the two inline messages */
+#consentpolicy, #success {
+	color: gray;
+}
 
 /* Styling the save button */
 #save {
@@ -47,7 +52,7 @@
 }
 
 /* Styling the cancel button */
-#cancel {
+#reset {
 	float: right;
 	width: 125px;
 	margin: 20px 0px;
