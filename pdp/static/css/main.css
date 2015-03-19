@@ -20,14 +20,53 @@
   color:#ccc;
 }
 
-input {
+.row input {
 	width:100%;
 }
 
 #savetext {
 	display:none;
+	color: green;
 }
 
+/* Styling the error message */
+#errormessage {
+	color:red;
+}
 
+/* Aligning the checkbox with the text */
+.policy label {
+	display:inline-block;
+}
 
+/* Styling the two inline messages */
+#consentpolicy, #success {
+	color: gray;
+}
 
+/* Styling the save button */
+#save {
+	float: left;
+	width: 125px;
+	margin: 20px 0px;
+}
+
+/* Styling the cancel button */
+#reset {
+	float: right;
+	width: 125px;
+	margin: 20px 0px;
+}
+
+/* 
+	Setting reponsive views for the three buttons 
+	When less than 768px, set the button to the full width of the screen
+*/
+@media (max-width: 768px) {
+  #reset, #save, #cancel {
+  	width: 100%;
+  }
+  #save, #cancel {
+  	display: block;
+  }
+}
