@@ -6,6 +6,7 @@ TEMPLATE_DEBUG = True
 USER_SERVICE_NO_DEFAULT_USER = True
 LOGIN_URL = '/pdp/login/'
 STATIC_URL = '/static-pdp/'
+ALLOWED_HOSTS = ['*']
 
 
 RESTCLIENTS_IRWS_CERT_FILE = '/data/local/etc/x315.crt'

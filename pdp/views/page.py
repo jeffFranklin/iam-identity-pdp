@@ -113,17 +113,17 @@ def index(request, template=None):
     irwsClient = IRWS()
     name = irwsClient.get_name_by_netid(remote_user)
     ident = irwsClient.get_identity_by_netid(remote_user)
-    print ident
-    showname = 'F'
+    wp_publish = 'true'
     if 'hepps' in ident.identifiers:
         uri = ident.identifiers['hepps']
         hepps = irwsClient.get_hepps_person_by_uri(uri)
-        showname = hepps.wp_publish
+        if hepps.wp_publish != 'Y':
+            wp_publish = 'false'
 
     context = {
        'remote_user': remote_user,
        'irws_name': name,
-       'wp_publish': showname,
+       'wp_publish': wp_publish,
     }
 
     return render(request, 'page.html', context)

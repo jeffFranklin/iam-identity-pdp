@@ -10,6 +10,7 @@
     app_base: /data/local/django
     app_url_base: id
     syslog_facility: LOG_LOCAL7
+    prod_tester_group: u_groups_pdp-prod-testers
 
   tasks:
 
@@ -21,18 +22,48 @@
       - pdp-site
       - requirements.txt
       - setup.py
+    notify:
+       - touch wsgi
+
+  - local_action: stat path=../local_settings.py.{{ cluster_type }}
+    register: local_stat
 
   - name: copy local settings
     copy: "src=../local_settings.py.{{ cluster_type }} dest={{app_base}}/pdp/pdp-site/local_settings.py group=iam-dev mode=664 "
+    when: local_stat.stat.exists
+    notify:
+       - touch wsgi
 
+  - debug: "Note.. local_settings.py for cluster {{cluster_type}} not copied"
+    when: not local_stat.stat.exists
+    
   - name: verify libraries
     pip: requirements={{ app_base }}/pdp/requirements.txt virtualenv={{ app_base }}/pdp
+    notify:
+       - touch wsgi
 
   # update http and https config
   # change restarts apache
   - include: "tasks/apache_config.yml file=https prod=pdp"
   - include: "tasks/apache_config.yml file=http prod=pdp"
   - include: "tasks/apache_config.yml file=global prod=pdp"
+
+  - local_action: "stat path=certs.{{cluster_type}}.yml"
+    register: certs_stat
+
+  - include_vars: certs.{{cluster_type}}.yml
+    when: certs_stat.stat.exists
+
+  - name: create certs dir 
+    file: "path={{ app_base }}/pdp/certs state=directory group=iam-dev mode=2775"
+
+
+  - name: copy certs if present
+    copy: "src={{ item.src }} dest={{ item.dest }} group=iam-dev mode=664 "
+    with_items:
+       - { src: '{{local_pdp_certFile}}', dest: '{{pdp_certFile}}' }
+       - { src: '{{local_pdp_keyFile}}', dest: '{{pdp_keyFile}}' }
+    when: have_local_certs is defined and item.src != ""
 
   - name: verify db 
     file: "path={{ app_base }}/pdp/db state=directory group=iam-dev mode=2775"
@@ -66,4 +97,8 @@
 
   handlers:
      - include: "tasks/iam_handlers.yml"
+
+     - name: "touch wsgi"
+       file: "path={{ app_base }}/pdp/pdp-site/wsgi.py state=touch"
+
 

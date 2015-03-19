@@ -41,25 +41,28 @@ class RESTDispatch:
             return invalid_method()
 
 
+# these are called by ajax, so need to be parsable
+# login by shib not possible with ajax
+
 def invalid_session():
-    response = HttpResponse('No valid userid in session')
+    return HttpResponse('{"error_message": "session timeout"}',
+                        status=401,
+                        content_type='application/json')
+
+
+def __response_400(msg):
+    response = HttpResponse('{"error_message": "%s"}' % (msg))
     response.status_code = 400
     return response
 
 
 def invalid_arg():
-    response = HttpResponse('No valid argument')
-    response.status_code = 400
-    return response
+    return __response_400('No valid argument')
 
 
 def data_not_found():
-    response = HttpResponse('Data not found')
-    response.status_code = 404
-    return response
+    return __response_400('Data not found')
 
 
 def invalid_method():
-    response = HttpResponse("Method not allowed")
-    response.status_code = 405
-    return response
+    return __response_400("Method not allowed")
