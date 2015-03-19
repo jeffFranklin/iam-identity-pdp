@@ -15,49 +15,51 @@ app.config(['$httpProvider', function($httpProvider) {
 
 /* controller for the preferred name */
 
-app.controller('NameCtrl', ['$scope', '$http', '$log', function($scope, $http, $log) {
+app.controller('NameCtrl', ['$http', '$log', function($http, $log) {
 
+    var _this = this;
     // sample valid name characters
-    $scope.valid_chars = /^[\w !\"#$%&\'()*+,.-:;<>?@\/`=]+$/
+    //this.valid_chars = /^[\w !\"#$%&\'()*+,.-:;<>?@\/`=]+$/
 
     // diaplay names as they look in the directory
-    $scope.wp = {
+    this.wp = {
         fname: null,
         mname: null,
         lname: null,
     };
     // display names as they are edited
-    $scope.pn = {
+    this.pn = {
 	display_fname: null,
 	display_mname: null,
 	display_lname: null,
     };
 
-    $scope.putStatus = null;
-    $scope.getPrefName = function() {
+    this.putStatus = null;
+    this.getPrefName = function() {
 	$log.info('about to get '+ pdp_name_url);
-	$http.get(pdp_name_url).success(function(data){
-		$scope.pn = data;
-                $scope.wp.fname = $scope.pn.display_fname;
-                $scope.wp.mname = $scope.pn.display_mname;
-                $scope.wp.lname = $scope.pn.display_lname;
+	$http.get(pdp_name_url)
+	.success(function(data){
+		_this.pn = data;
+                _this.wp.fname = _this.pn.display_fname;
+                _this.wp.mname = _this.pn.display_mname;
+                _this.wp.lname = _this.pn.display_lname;
 	    });
     };
-    $scope.putPrefName = function() {
-        console.log('pub = ' + $scope.wp_publish);
+    this.putPrefName = function() {
+        console.log('pub = ' + _this.wp_publish);
 	$log.info('about to put '+ pdp_name_url);
-	$http.put(pdp_name_url, $scope.pn)
+	$http.put(pdp_name_url, _this.pn)
 	.success(function(data){
-		$scope.putStatus = 'Updated';
-                $scope.getPrefName();
-		$log.info($scope.putStatus);		
+		_this.putStatus = 'Updated';
+                _this.getPrefName();
+		$log.info(_this.putStatus);		
 	    })
 	.error(function(data){
-		$scope.putStatus = 'Update failed';
-		$log.info($scope.putStatus);
+		_this.putStatus = 'Update failed';
+		$log.info(_this.putStatus);
 	    });
     };
-    $scope.getPrefName();
+    _this.getPrefName();
 }]);
 
 
