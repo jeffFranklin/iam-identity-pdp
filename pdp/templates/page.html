@@ -16,69 +16,61 @@
  <div role="tabpanel" class="tab-pane active" id="prefname">
 
    <div class="container">
-     Your legal name
-     <br>
-     {{ irws_name.formal_fname }} {{ irws_name.formal_lname }}
-   </div>
-   {% verbatim %}
-   <div ng-controller="NameCtrl as name">
-     <div class="container">
-       Your name in the directory 
-       <br>
-       {{name.wp.fname}} {{name.wp.mname}} {{name.wp.lname}}
+     <!-- Begin legal name -->
+     <div class="legalname">
+       <h1>Legal Name</h1>
+       <!-- The system should grab the legal name data from the db, and in the UI it is not editable to the user -->
+       <h4>{{ irws_name.formal_fname }} {{ irws_name.formal_lname }}</h4>
      </div>
-     <form role="form" name="pnform" >
-       <div class="row">
-         <div class="col-md-4">
-           <h2>First Name</h2>
-           <input type="text" ng-model="name.pn.display_fname" />
-         </div>
-         <div class="col-md-4">
-           <h2>Middle Name</h2>
-           <input type="text" ng-model="name.pn.display_mname" />
-	 </div>
-         <div class="col-md-4">
-           <h2>Last Name</h2>
-           <input type="text" ng-model="name.pn.display_lname" />
-         </div>
+     <!-- End legal name -->
+     {% verbatim %}
+     <div ng-controller="NameCtrl as name">
+       <div class="container">
+	 Your name in the directory 
+	 <br>
+	 {{name.wp.fname}} {{name.wp.mname}} {{name.wp.lname}}
        </div>
-       <!--
-	   <div class="form-group">
-	     <label for="fname">Preferred first name</label>
-	     <input type="text" name="pnfname" class="form-control" ng-model="pn.display_fname"
-		    ng-pattern="valid_chars" ng-maxlength="255" value="" required="required" />
-	     <span style="color:red" ng-show="pnform.pnfname.$invalid">
-               <span ng-show="pnform.pnfname.$error.required">First name is required.</span>
-               <span ng-show="pnform.pnfname.$error.pattern">Name must consist of letters, numbers, symbols or space.</span>
-	     </span>
-	   </div>
-	   <div class="form-group">
-	     <label for="mname">Preferred middle name</label>
-	     <input type="text" name="pnmname" class="form-control" ng-model="pn.display_mname"
-		    ng-pattern="valid_chars" ng-maxlength="255" value="" />
-	     <span style="color:red" ng-show="pnform.pnmname.$invalid">
-               <span ng-show="pnform.pnmname.$error.pattern">Name must consist of letters, numbers, symbols or space.</span>
-	     </span>
-	   </div>
-	   <div class="form-group">
-	     <label for="lname">Preferred last name</label>
-	     <input type="text" name="pnlname" class="form-control" ng-model="pn.display_lname"
-		    ng-pattern="valid_chars" ng-maxlength="255" value="" required="required" />
-	     <span style="color:red" ng-show="pnform.pnlname.$invalid">
-               <span ng-show="pnform.pnlname.$error.required">Last name is required.</span>
-               <span ng-show="pnform.pnlname.$error.pattern">Name must consist of letters, numbers, symbols or space.</span>
-	     </span>
-	   </div>-->
-     </form>
-     <p>Your name will show up in the directory as 
-       {{name.pn.display_fname}} {{name.pn.display_mname}} {{name.pn.display_lname}}
-     </p>
-     <a class="btn btn-primary" ng-click="name.putPrefName()" ng-disabled="pnform.$invalid">
-       Save
-     </a>
-     <span ng-hide="name.putStatus == null">{{putStatus}}</span>
-   </div>
+       <form role="form" name="pnform" >
+	 <!-- Begin preferred name -->
+	 <div class="preferred name">
+           <h1>Preferred Name</h1>
+           <p><i>TBD.</i> You can set a preferred name to be used in the UW Directory. Something explanation here. Read more.</p>
+	   <!-- Example row of columns; Begin preferred name -->
+           <div class="row">
+             <div class="col-md-4">
+               <h3>First Name</h3>
+               <input type="text" ng-model="name.pn.display_fname" onblur="myFunction()" />
+             </div>
+             <div class="col-md-4">
+               <h3>Middle Name</h3>
+               <input type="text" ng-model="name.pn.display_mname" onblur="myFunction()" />
+             </div>
+             <div class="col-md-4">
+               <h3>Last Name</h3>
+               <input type="text" ng-model="name.pn.display_lname" onblur="myFunction()" />
+             </div>
+           </div>
+	 </div>
+	 <!-- End preferred name -->
+       </form>
 
+       <p></p>
+       <span ng-show="name.invalidName() != null">
+	 <p id="errormessage">{{name.invalidName().reason}}</p>
+       </span>
+
+       <hr>
+
+       <p>Your name will show up in the directory as 
+	 {{name.pn.display_fname}} {{name.pn.display_mname}} {{name.pn.display_lname}}
+       </p>
+       <a class="btn btn-primary" ng-click="name.putPrefName()" ng-disabled="pnform.$invalid">
+	 Save
+       </a>
+       <span ng-hide="name.putStatus == null">{{putStatus}}</span>
+     </div>
+
+   </div>
  </div>
 
  <div role="tabpanel" class="tab-pane" id="pubpref">

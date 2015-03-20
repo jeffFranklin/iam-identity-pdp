@@ -60,6 +60,13 @@ app.controller('NameCtrl', ['$http', '$log', function($http, $log) {
 	    });
     };
     _this.getPrefName();
+    this.invalidName = function() {
+	$log.info('how often does this get called?');
+	if(_this.pn.display_fname == '') {
+	    return {reason: 'First name cannot be empty'};
+	}
+	return null;
+    }
 }]);
 
 
