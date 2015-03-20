@@ -19,7 +19,7 @@ app.controller('NameCtrl', ['$http', '$log', function($http, $log) {
 
     var _this = this;
     // sample valid name characters
-    //this.valid_chars = /^[\w !\"#$%&\'()*+,.-:;<>?@\/`=]+$/
+    this.validChars = /^[\w !\"#$%&\'()*+,.-:;<>?@\/`=]*$/
 
     // diaplay names as they look in the directory
     this.wp = {
@@ -33,6 +33,8 @@ app.controller('NameCtrl', ['$http', '$log', function($http, $log) {
 	display_mname: null,
 	display_lname: null,
     };
+
+    this.doesPolicyAgree = false;
 
     this.putStatus = null;
     this.getPrefName = function() {
@@ -50,7 +52,7 @@ app.controller('NameCtrl', ['$http', '$log', function($http, $log) {
 	$log.info('about to put '+ pdp_name_url);
 	$http.put(pdp_name_url, _this.pn)
 	.success(function(data){
-		_this.putStatus = 'Updated';
+		_this.putStatus = 'Your name has been saved';
                 _this.getPrefName();
 		$log.info(_this.putStatus);		
 	    })
@@ -60,12 +62,34 @@ app.controller('NameCtrl', ['$http', '$log', function($http, $log) {
 	    });
     };
     _this.getPrefName();
+    this.invalidNameField = function(field){
+	$log.info('name:'+field.name+';value:'+field.value+';required:'+field.required);
+	if(field.required && field.value == '')
+	    return {reason: field.name + ' cannot be empty'};
+	if(!_this.validChars.test(field.value))
+	    return {reason: field.name + ' has invalid characters'};
+    }
     this.invalidName = function() {
+	// this could stand to be reworked but it'll do for now.
+	// already it calls invalidNameField twice per field.
 	$log.info('how often does this get called?');
-	if(_this.pn.display_fname == '') {
-	    return {reason: 'First name cannot be empty'};
+	var fields = [
+    {name: 'First name', value: _this.pn.display_fname, required: true},
+    {name: 'Middle name', value: _this.pn.display_mname, required: false},
+    {name: 'Last name', value: _this.pn.display_lname, required: true}
+		      ];
+	for (var i in fields){
+	    if(_this.invalidNameField(fields[i]) != null){
+		return _this.invalidNameField(fields[i]);
+	    }
 	}
 	return null;
+    }
+    this.isValidForm = function(){
+	return _this.invalidName() == null && _this.doesPolicyAgree;
+    }
+    this.resetForm = function() {
+	// TODO
     }
 }]);
 

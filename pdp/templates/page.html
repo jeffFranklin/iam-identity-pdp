@@ -13,65 +13,82 @@
 
  <div class="tab-content">
 
- <div role="tabpanel" class="tab-pane active" id="prefname">
+   <div role="tabpanel" class="tab-pane active" id="prefname">
 
-   <div class="container">
-     <!-- Begin legal name -->
-     <div class="legalname">
-       <h1>Legal Name</h1>
-       <!-- The system should grab the legal name data from the db, and in the UI it is not editable to the user -->
-       <h4>{{ irws_name.formal_fname }} {{ irws_name.formal_lname }}</h4>
-     </div>
-     <!-- End legal name -->
-     {% verbatim %}
-     <div ng-controller="NameCtrl as name">
-       <div class="container">
-	 Your name in the directory 
-	 <br>
-	 {{name.wp.fname}} {{name.wp.mname}} {{name.wp.lname}}
+     <div class="container">
+       <!-- Begin legal name -->
+       <div class="legalname">
+	 <h1>Legal Name</h1>
+	 <!-- The system should grab the legal name data from the db, and in the UI it is not editable to the user -->
+	 <h4>{{ irws_name.formal_fname }} {{ irws_name.formal_lname }}</h4>
        </div>
-       <form role="form" name="pnform" >
-	 <!-- Begin preferred name -->
-	 <div class="preferred name">
-           <h1>Preferred Name</h1>
-           <p><i>TBD.</i> You can set a preferred name to be used in the UW Directory. Something explanation here. Read more.</p>
-	   <!-- Example row of columns; Begin preferred name -->
-           <div class="row">
-             <div class="col-md-4">
-               <h3>First Name</h3>
-               <input type="text" ng-model="name.pn.display_fname" onblur="myFunction()" />
+       <!-- End legal name -->
+       {% verbatim %}
+       <div ng-controller="NameCtrl as name">
+	 <form role="form" name="pnform" >
+	   <!-- Begin preferred name -->
+	   <div class="preferred name">
+             <h1>Preferred Name</h1>
+             <p><i>TBD.</i> You can set a preferred name to be used in
+               the UW Directory. Something explanation here. Read
+               more.</p>
+	     <!-- Example row of columns; Begin preferred name -->
+             <div class="row">
+               <div class="col-md-4">
+		 <h3>First Name</h3>
+		 <input type="text" ng-model="name.pn.display_fname" />
+               </div>
+               <div class="col-md-4">
+		 <h3>Middle Name</h3>
+		 <input type="text" ng-model="name.pn.display_mname" />
+               </div>
+               <div class="col-md-4">
+		 <h3>Last Name</h3>
+		 <input type="text" ng-model="name.pn.display_lname" />
+               </div>
              </div>
-             <div class="col-md-4">
-               <h3>Middle Name</h3>
-               <input type="text" ng-model="name.pn.display_mname" onblur="myFunction()" />
+	   </div>
+	   <!-- End preferred name -->
+
+	   <p></p>
+	   <span ng-show="name.invalidName() != null">
+	     <p id="errormessage">{{name.invalidName().reason}}</p>
+	   </span>
+
+	   <hr>
+
+	   <!-- Begin policy -->
+	   <div class="policy">
+             <h2>UW Preferred Name Policy</h2>
+             <p><i>TBD.</i> Lorem ipsum dolor sit amet, consectetur
+               adipiscing elit. Integer commodo quis lorem quis
+               sollicitudin. Curabitur mattis eget lectus auctor
+               auctor. Aenean consectetur quam quis dolor iaculis
+               imperdiet. Suspendisse quis tortor id purus faucibus
+               efficitur sed quis eros.</p>
+             <div>
+               <input type="checkbox" ng-model="name.doesPolicyAgree">
+               <label>&nbsp;I have read the policy and I agree</label>
              </div>
-             <div class="col-md-4">
-               <h3>Last Name</h3>
-               <input type="text" ng-model="name.pn.display_lname" onblur="myFunction()" />
-             </div>
-           </div>
-	 </div>
-	 <!-- End preferred name -->
-       </form>
+	   </div>
+	   <!-- End policy -->
+	   
+	   <!-- Inline message goes here -->
+	   <p id="savetext" ng-hide="name.putStatus == null">{{name.putStatus}}</p>
+	   <!-- Two actionable buttons -->
+	   <button type="submit" id="save" ng-click="name.putPrefName()" 
+		   ng-disabled="!name.isValidForm()">Save</button>
+	   <button type="submit" id="reset" ng-click="name.resetForm()">Reset</button>
+	 </form>
 
-       <p></p>
-       <span ng-show="name.invalidName() != null">
-	 <p id="errormessage">{{name.invalidName().reason}}</p>
-       </span>
 
-       <hr>
+	 <footer>
+           <p></p>
+	 </footer>
+       </div>
 
-       <p>Your name will show up in the directory as 
-	 {{name.pn.display_fname}} {{name.pn.display_mname}} {{name.pn.display_lname}}
-       </p>
-       <a class="btn btn-primary" ng-click="name.putPrefName()" ng-disabled="pnform.$invalid">
-	 Save
-       </a>
-       <span ng-hide="name.putStatus == null">{{putStatus}}</span>
      </div>
-
    </div>
- </div>
 
  <div role="tabpanel" class="tab-pane" id="pubpref">
    <tab heading="Pub pref" active="false" disabled="">
