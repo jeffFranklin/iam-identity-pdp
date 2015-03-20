@@ -1,8 +1,8 @@
 // possible js tools for the project
 
 // these are set by page load
-var pdp_name_url = 'api/name';
-var pdp_pub_url = 'api/identity/publish';
+var pdp_name_url = '/id/api/name';
+var pdp_pub_url = '/id/api/identity/publish';
 var pdp_user_has_publish = false;
 
 
@@ -13,84 +13,81 @@ app.config(['$httpProvider', function($httpProvider) {
 	    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 	}]);
 
+// directve to limit total length of three name fields
+app.directive('maxtotal', function(){
+    console.log('maxtotal');
+    return {
+      require: 'ngModel',
+      link: function(scope, elem, attr, ngModel) {
+          var limit = attr.maxtotal;
+          // console.log('ret: ' + limit);
+
+          //For DOM -> model validation
+          ngModel.$parsers.unshift(function(value) {
+             // console.log('got:' + value);
+             ldn = scope.pn.display_fname.length + scope.pn.display_lname.length + 1;
+             if (scope.pn.display_mname != '') ldn += scope.pn.display_mname.length + 1;
+             v = true;
+             if (ldn > 80) v = false;
+             ngModel.$setValidity('maxtotal', v);
+             return value
+          });
+
+          //For model -> DOM validation
+          ngModel.$formatters.unshift(function(value) {
+             console.log('fmt: ' + value);
+             ngModel.$setValidity('maxtotal', true);
+             return value;
+          });
+      }
+   };
+});
+     
 /* controller for the preferred name */
 
-app.controller('NameCtrl', ['$http', '$log', function($http, $log) {
+app.controller('NameCtrl', ['$scope', '$http', '$log', function($scope, $http, $log) {
 
-    var _this = this;
     // sample valid name characters
-    this.validChars = /^[\w !\"#$%&\'()*+,.-:;<>?@\/`=]*$/
+    $scope.valid_chars = /^[\w !"#$%&'()*+,.-:;<>?@\/`=]+$/
 
     // diaplay names as they look in the directory
-    this.wp = {
+    $scope.wp = {
         fname: null,
         mname: null,
         lname: null,
     };
     // display names as they are edited
-    this.pn = {
+    $scope.pn = {
 	display_fname: null,
 	display_mname: null,
 	display_lname: null,
     };
 
-    this.doesPolicyAgree = false;
-
-    this.putStatus = null;
-    this.getPrefName = function() {
+    $scope.putStatus = null;
+    $scope.getPrefName = function() {
 	$log.info('about to get '+ pdp_name_url);
-	$http.get(pdp_name_url)
-	.success(function(data){
-		_this.pn = data;
-                _this.wp.fname = _this.pn.display_fname;
-                _this.wp.mname = _this.pn.display_mname;
-                _this.wp.lname = _this.pn.display_lname;
+	$http.get(pdp_name_url).success(function(data){
+		$scope.pn = data;
+                $scope.wp.fname = $scope.pn.display_fname;
+                $scope.wp.mname = $scope.pn.display_mname;
+                $scope.wp.lname = $scope.pn.display_lname;
 	    });
     };
-    this.putPrefName = function() {
-        console.log('pub = ' + _this.wp_publish);
+    $scope.putPrefName = function() {
+        console.log('pub = ' + $scope.wp_publish);
 	$log.info('about to put '+ pdp_name_url);
-	$http.put(pdp_name_url, _this.pn)
+	$http.put(pdp_name_url, $scope.pn)
 	.success(function(data){
-		_this.putStatus = 'Your name has been saved';
-                _this.getPrefName();
-		$log.info(_this.putStatus);		
+		$scope.putStatus = 'Updated';
+                $scope.getPrefName();
+		$log.info($scope.putStatus);		
 	    })
 	.error(function(data){
-		_this.putStatus = 'Update failed';
-		$log.info(_this.putStatus);
+		$scope.putStatus = 'Update failed';
+		$log.info($scope.putStatus);
 	    });
     };
-    _this.getPrefName();
-    this.invalidNameField = function(field){
-	$log.info('name:'+field.name+';value:'+field.value+';required:'+field.required);
-	if(field.required && field.value == '')
-	    return {reason: field.name + ' cannot be empty'};
-	if(!_this.validChars.test(field.value))
-	    return {reason: field.name + ' has invalid characters'};
-    }
-    this.invalidName = function() {
-	// this could stand to be reworked but it'll do for now.
-	// already it calls invalidNameField twice per field.
-	$log.info('how often does this get called?');
-	var fields = [
-    {name: 'First name', value: _this.pn.display_fname, required: true},
-    {name: 'Middle name', value: _this.pn.display_mname, required: false},
-    {name: 'Last name', value: _this.pn.display_lname, required: true}
-		      ];
-	for (var i in fields){
-	    if(_this.invalidNameField(fields[i]) != null){
-		return _this.invalidNameField(fields[i]);
-	    }
-	}
-	return null;
-    }
-    this.isValidForm = function(){
-	return _this.invalidName() == null && _this.doesPolicyAgree;
-    }
-    this.resetForm = function() {
-	// TODO
-    }
+    $scope.getPrefName();
 }]);
 
 
