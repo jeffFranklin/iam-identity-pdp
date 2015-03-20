@@ -128,6 +128,8 @@ def index(request, template=None):
 
     return render(request, 'page.html', context)
 
+
+# this can go away when index.html is gone
 def ui(request, template=None):
 
     return render(request, 'index.html', [])
