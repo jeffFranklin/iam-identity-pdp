@@ -79,19 +79,16 @@
                auctor. Aenean consectetur quam quis dolor iaculis
                imperdiet. Suspendisse quis tortor id purus faucibus
                efficitur sed quis eros.</p>
-             <div>
-               <input id="pnpolicyid" type="checkbox" ng-model="pnpchecked" >
-               <label for="pnpolicyid">&nbsp;I have read the policy and I agree</label>
-             </div>
+             
 	   </div>
 	   <!-- End policy -->
 	   
 	   <!-- Two actionable buttons -->
 	   <button type="submit" id="save" ng-click="putPrefName()" 
 		   ng-disabled="pnform.$invalid || !pnpchecked"
-                 >Save</button>
+                 >Save and Agree</button>
            <span ng-hide="putStatus == null">{{putStatus}}</span>
-	   <button type="submit" id="reset" ng-click="resetForm()">Reset</button>
+	   
 	 </form>
 
 
