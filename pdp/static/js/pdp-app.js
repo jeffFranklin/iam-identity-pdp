@@ -55,13 +55,13 @@ app.controller('NameCtrl', ['$scope', '$http', '$log', function($scope, $http, $
     $scope.wp = {
         fname: null,
         mname: null,
-        lname: null,
+        lname: null
     };
     // display names as they are edited
     $scope.pn = {
 	display_fname: null,
 	display_mname: null,
-	display_lname: null,
+	display_lname: null
     };
 
     $scope.putStatus = null;
@@ -79,12 +79,12 @@ app.controller('NameCtrl', ['$scope', '$http', '$log', function($scope, $http, $
 	$log.info('about to put '+ pdp_name_url);
 	$http.put(pdp_name_url, $scope.pn)
 	.success(function(data){
-		$scope.putStatus = 'Updated';
+		$scope.putStatus = 'success';
                 $scope.getPrefName();
 		$log.info($scope.putStatus);		
 	    })
 	.error(function(data){
-		$scope.putStatus = 'Update failed';
+		$scope.putStatus = 'error';
 		$log.info($scope.putStatus);
 	    });
     };
