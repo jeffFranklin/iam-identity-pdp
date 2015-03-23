@@ -25,8 +25,9 @@ app.directive('maxtotal', function(){
           //For DOM -> model validation
           ngModel.$parsers.unshift(function(value) {
              // console.log('got:' + value);
-             ldn = scope.pn.display_fname.length + scope.pn.display_lname.length + 1;
-             if (scope.pn.display_mname != '') ldn += scope.pn.display_mname.length + 1;
+             ldn = (scope.pn.display_fname ? scope.pn.display_fname.length : 0)
+                + (scope.pn.display_lname ? scope.pn.display_lname : 0).length + 1;
+             if (scope.pn.display_mname) ldn += scope.pn.display_mname.length + 1;
              v = true;
              if (ldn > 80) v = false;
              ngModel.$setValidity('maxtotal', v);

@@ -36,29 +36,29 @@
              <div class="row">
                <div class="col-md-4">
 		 <h3>First Name</h3>
-		 <input type="text" name="pnfname" class="form-control" ng-model="pn.display_fname"
+		 <input type="text" name="pnfname" ng-model="pn.display_fname"
                       ng-pattern="valid_chars" maxtotal="80" value="{{wp.fname}}" required="required" />
-                   <span style="color:red" ng-show="pnform.pnfname.$invalid">
-                     <span ng-show="pnform.pnfname.$error.maxtotal">Your full diaplay name is limited to 80 characters.</span>
+                   <span id="errormessage" ng-show="pnform.pnfname.$invalid">
+                     <span ng-show="pnform.pnfname.$error.maxtotal">Your full display name is limited to 80 characters.</span>
                      <span ng-show="pnform.pnfname.$error.required">First name is required.</span>
                      <span ng-show="pnform.pnfname.$error.pattern">Names must consist of letters, numbers, symbols or space.</span>
                    </span>
                </div>
                <div class="col-md-4">
 		 <h3>Middle Name</h3>
-		 <input type="text" name="pnmname" class="form-control" ng-model="pn.display_mname"
+		 <input type="text" name="pnmname" ng-model="pn.display_mname"
                       ng-pattern="valid_chars" maxtotal="80" value="{{wp.mname}}"/>
-                   <span style="color:red" ng-show="pnform.pnmname.$invalid">
-                     <span ng-show="pnform.pnmname.$error.maxtotal">Your full diaplay name is limited to 80 characters.</span>
+                   <span id="errormessage"  ng-show="pnform.pnmname.$invalid">
+                     <span ng-show="pnform.pnmname.$error.maxtotal">Your full display name is limited to 80 characters.</span>
                      <span ng-show="pnform.pnmname.$error.pattern">Names must consist of letters, numbers, symbols or space.</span>
                    </span>
                </div>
                <div class="col-md-4">
 		 <h3>Last Name</h3>
-		 <input type="text" name="pnlname" class="form-control" ng-model="pn.display_lname"
+		 <input type="text" name="pnlname" ng-model="pn.display_lname"
                       ng-pattern="valid_chars" maxtotal="80" value="{{wp.lname}}" required="required" />
-                   <span style="color:red" ng-show="pnform.pnlname.$invalid">
-                     <span ng-show="pnform.pnlname.$error.maxtotal">Your full diaplay name is limited to 80 characters.</span>
+                   <span id="errormessage"  ng-show="pnform.pnlname.$invalid">
+                     <span ng-show="pnform.pnlname.$error.maxtotal">Your full display name is limited to 80 characters.</span>
                      <span ng-show="pnform.pnlname.$error.required">Last name is required.</span>
                      <span ng-show="pnform.pnlname.$error.pattern">Names must consist of letters, numbers, symbols or space.</span>
                    </span>
