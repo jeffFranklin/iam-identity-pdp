@@ -1,17 +1,33 @@
 
 Installation on a workstation, for development
 
-create a virtualenv 
+----------------------------------------------
+create a virtualenv, doesn't have to be in the projhect directory 
+
+ $ virtualenv pdp-env
+
 activate it
 
-configure local_settings.py
+ $ . pdp-env/bin/activate
 
-create a db
- $ python manage.py migrate
+----------------------------------------------
+cd to the project root directory
+
+install dependencies  ( one time operation )
+
+(pip-env)$ pip install -r requirements.txt
+
+create a db  ( one time operation )
+
+ (pip-env)$ python manage.py migrate
 
 run
- $ python manage.py runserver
 
+ (pip-env)$ python manage.py runserver
+
+this will start a server on local http port 8000
+
+connect with: http://localhost:8000/
 
 
 
