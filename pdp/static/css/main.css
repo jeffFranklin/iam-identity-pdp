@@ -4,26 +4,41 @@
    Author's custom styles
    ========================================================================== */
 
-.jumbotron {
 
+/* headers */ 
+/* customize font-size */
+h2 { 
+  font-size: 20px; 
+}
+
+h3 {
+  font-size: 16px;
+}
+
+p {
+  font-size: 16px;
+  line-height: 150%;
+}
+
+.jumbotron {
   background-color: #4b2e83;
   border-color: #402770;
-  height: 200px; 
+  height: 150px;
+  padding: 0px 10px;
 }
 
 
-.jumbotron h1 {
-  color: white;
-  margin-right: auto;
-  margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px;
+/* customize header & tagline */
+.jumbotron h1, .jumbotron p {
+  color: #fff;
+  font-size: 30px;
 
 }
 
-
+/* tagline */
 .jumbotron p {
   color:#ccc;
+  font-size: 20px;
 }
 
 .row input {
@@ -38,16 +53,12 @@
 /* Styling the error message */
 #errormessage {
 	color:red;
+  font-size: 14px;
 }
 
 /* Aligning the checkbox with the text */
 .policy label {
 	display:inline-block;
-}
-
-/* Styling the two inline messages */
-#consentpolicy, #success {
-	color: gray;
 }
 
 /* Styling the save button */
@@ -57,22 +68,11 @@
 	margin: 20px 0px;
 }
 
-/* Styling the cancel button */
-#reset {
-	float: right;
-	width: 125px;
-	margin: 20px 0px;
-}
-
 /* 
-	Setting reponsive views for the three buttons 
 	When less than 768px, set the button to the full width of the screen
 */
 @media (max-width: 768px) {
-  #reset, #save, #cancel {
+  #save {
   	width: 100%;
-  }
-  #save, #cancel {
-  	display: block;
   }
 }

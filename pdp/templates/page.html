@@ -42,7 +42,9 @@
                                             <input type="text" name="pnfname" ng-model="pn.display_fname"
                                                    ng-pattern="valid_chars" maxtotal="80" value="{{wp.fname}}"
                                                    required="required"/>
-                                        <p id="errormessage" ng-show="pnform.$dirty && pnform.pnfname.$error.required">First Name is required.</p>
+                                            <div class="alert alert-danger" role="alert">
+                                                <p id="errormessage" ng-show="pnform.$dirty && pnform.pnfname.$error.required">First Name is required.</p>
+                                            </div>
                                         </div>
                                         <div class="col-md-4">
                                             <h3>Middle Name</h3>
@@ -83,7 +85,7 @@
                                 <!-- Two actionable buttons -->
                                 <button type="submit" id="save" ng-click="putPrefName()"
                                         ng-disabled="pnform.$invalid"
-                                        >Save and Agree
+                                        >Agree and Save
                                 </button>
                                 <p ng-show="putStatus == 'success'" class="save-success">
                                     Your name has been saved.
