@@ -1,0 +1,25 @@
+.crowd_control {
+    border: 1px solid purple;
+    height: 300px;
+    width: 500px;
+    overflow-y: scroll;
+}
+
+.cc_loading {
+    background-color: yellow;
+}
+
+
+.cc_existing_groups_panel { display: none; }
+.cc_add_more_groups_panel { display: block; }
+
+.groups_pre_selected .cc_existing_groups_panel { display: block; }
+.groups_pre_selected .cc_add_more_groups_panel { display: none; }
+
+.cc_remove_link { display: block }
+.cc_readd_crowd { display: none }
+
+
+.cc_removed_crowd .cc_remove_link { display: none }
+.cc_removed_crowd .cc_readd_crowd { display: block }
+

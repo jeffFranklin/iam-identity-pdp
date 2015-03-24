@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>User Service</title>
+
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+
+    <!-- Custom styles for this template -->
+    <style type="text/css">
+    
+        body {
+          padding-top: 40px;
+          padding-bottom: 40px;
+          background-color: #eee;
+        }
+        
+        .user-service {
+          max-width: 330px;
+          padding: 15px;
+          margin: 0 auto;
+        }
+        .user-service .user-service-heading {
+          margin-bottom: 10px;
+        }
+        .user-service .user-service-sub-heading {
+            color: #666;
+        }
+        
+        .user-service .checkbox {
+          font-weight: normal;
+        }
+        
+        .user-service .form-control {
+          position: relative;
+          font-size: 16px;
+          height: auto;
+          padding: 10px;
+          -webkit-box-sizing: border-box;
+             -moz-box-sizing: border-box;
+                  box-sizing: border-box;
+        }
+        .user-service .form-control:focus {
+          z-index: 2;
+        }
+        .user-service input[type="text"] {
+          margin-bottom: -1px;
+
+        }
+        .user-service input[type="password"] {
+          margin-bottom: 10px;
+        }
+        
+    </style>
+
+  </head>
+
+  <body>
+    
+    {% block content %}{% endblock %}
+    {% if has_extra_template %}
+        {% include extra_template %}
+    {% endif %}
+
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

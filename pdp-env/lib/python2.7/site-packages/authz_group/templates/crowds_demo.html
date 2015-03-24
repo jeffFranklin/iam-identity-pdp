@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Crowd Control</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script src="{{STATIC_URL}}js/handlebars.js"></script>
+    </head>
+    <body>
+        <div class="crowds_demo demo_panel1"></div>
+        <div class="crowds_demo demo_panel2"></div>
+
+        {% load templatetag_crowd_control %}
+        {% crowd_control %}
+        <script src="{{STATIC_URL}}js/crowd_demo.js"></script>
+    </body>
+</html>
+
