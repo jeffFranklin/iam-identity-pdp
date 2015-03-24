@@ -20,9 +20,9 @@
                     <div class="container">
                         <!-- Begin legal name -->
                         <div class="legalname">
-                            <h1>Legal Name</h1>
+                            <h2>Legal Name</h2>
                             <!-- The system should grab the legal name data from the db, and in the UI it is not editable to the user -->
-                            <h4>{{ irws_name.formal_fname }} {{ irws_name.formal_lname }}</h4>
+                            <p>{{ irws_name.formal_fname }} {{ irws_name.formal_lname }}</p>
                         </div>
                         <!-- End legal name -->
                         {% verbatim %}
@@ -30,7 +30,7 @@
                             <form role="form" name="pnform">
                                 <!-- Begin preferred name -->
                                 <div class="preferred-name">
-                                    <h1>Preferred Name</h1>
+                                    <h2>Preferred Name</h2>
 
                                     <p><i>TBD.</i> You can set a preferred name to be used in
                                         the UW Directory. Something explanation here. Read

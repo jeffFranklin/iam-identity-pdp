@@ -8,11 +8,17 @@
 
   background-color: #4b2e83;
   border-color: #402770;
+  height: 200px; 
 }
 
 
-.jumbotron h1, .jumbotron .h1 {
+.jumbotron h1 {
   color: white;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+
 }
 
 
