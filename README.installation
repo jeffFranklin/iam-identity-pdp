@@ -23,7 +23,7 @@ create a db  ( one time operation )
 
 run
 
- (pip-env)$ python manage.py runserver
+ (pip-env)$ REMOTE_USER=javerage python manage.py runserver
 
 this will start a server on local http port 8000
 
