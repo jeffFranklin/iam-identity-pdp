@@ -107,7 +107,8 @@ def index(request, template=None):
     logger.info('remote user=' + remote_user)
 
     show_publish = False
-    if request.GET.get('show_publish', 'off').lower() not in ('0', 'off', 'false'):
+    if (request.GET.get('show_publish', 'off').lower()
+            not in ('0', 'off', 'false')):
         show_publish = True
 
     userid = UserService().get_user()
