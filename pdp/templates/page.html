@@ -4,6 +4,7 @@
 
     <div ng-app="pdpApp" class="container">
 
+      {% if show_publish %}
         <!-- tabs for pref name and pub pref -->
         <div role="tabpanel">
             <ul class="nav nav-tabs" role="tablist">
@@ -16,6 +17,7 @@
             <div class="tab-content">
 
                 <div role="tabpanel" class="tab-pane active" id="prefname">
+      {% endif %}
 
                     <div class="container">
                         <!-- Begin legal name -->
@@ -102,7 +104,8 @@
                                 <p></p>
                             </footer>
                         </div>
-
+			{% endverbatim %}
+	{% if show_publish %}
                     </div>
                 </div>
 
@@ -110,7 +113,7 @@
                     <tab heading="Pub pref" active="false" disabled="">
                         <!-- <h2><div>Publish preference</h2> -->
                         <p>You can set publishing...</p>
-
+			{% verbatim %}
                         <div ng-controller="PubCtrl">
                             <form role="form">
                                 <div class="form-group">
@@ -128,13 +131,13 @@
                             </a>
                             <span ng-hide="putPubStatus == null">{{putPubStatus}}</span>
                         </div>
+			{% endverbatim %}
                     </tab>
                 </div>
             </div>
         </div>
-
+        {% endif %}
     </div>
-    {% endverbatim %}
 {% endblock %}
 
 
