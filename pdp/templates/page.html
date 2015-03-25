@@ -40,28 +40,30 @@
                                         <div class="col-md-4">
                                             <h3>First Name</h3>
                                             <input type="text" name="pnfname" ng-model="pn.display_fname"
-                                                   ng-pattern="valid_chars" maxtotal="80" value="{{wp.fname}}"
+                                                   ng-pattern="valid_chars" value="{{wp.fname}}"
                                                    required="required"/>
                                         <p id="errormessage" ng-show="pnform.$dirty && pnform.pnfname.$error.required">First Name is required.</p>
                                         </div>
                                         <div class="col-md-4">
                                             <h3>Middle Name</h3>
                                             <input type="text" name="pnmname" ng-model="pn.display_mname"
-                                                   ng-pattern="valid_chars" maxtotal="80" value="{{wp.mname}}"/>
+                                                   ng-pattern="valid_chars" value="{{wp.mname}}"/>
                                         </div>
                                         <div class="col-md-4">
                                             <h3>Last Name</h3>
                                             <input type="text" name="pnlname" ng-model="pn.display_lname"
-                                                   ng-pattern="valid_chars" maxtotal="80" value="{{wp.lname}}"
+                                                   ng-pattern="valid_chars" value="{{wp.lname}}"
                                                    required="required"/>
                                             <p id="errormessage" ng-show="pnform.$dirty && pnform.pnlname.$error.required">Last Name is required.</p>
                                         </div>
+                                        <input type="hidden" name="pndn" ng-model="displayName" maxlength="{{ displayNameMax }}"/>
                                     </div>
                                 </div>
                                 <!-- End preferred name -->
 
                                 <p></p>
-                                <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.maxtotal">Your full display name is limited to 80 characters.</p>
+                                <p class="remaining-chars" ng-show="displayName.length <= displayNameMax && displayName.length > displayNameMax-10">Characters remaining: {{ displayNameMax - displayName.length }}</p>
+                                <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.maxlength">Your full display name is limited to {{ displayNameMax }} characters.</p>
                                 <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.pattern">Names must consist of letters, numbers, symbols or space.</p>
                                 <hr>
 
