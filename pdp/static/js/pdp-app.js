@@ -13,13 +13,27 @@ app.config(['$httpProvider', function($httpProvider) {
 	    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 	}]);
 
+app.filter('invalid_chars', function() {
+	return function(input, valid) {
+	    console.log('filt');
+	    var ichars = [];
+	    for(var i = 0; i < input.length; i++){
+		if(!valid.test(input.charAt(i))){
+		    if(ichars.indexOf(input.charAt(i)) == -1){
+			ichars.push(input.charAt(i));
+		    }
+		}
+	    }
+	    return ichars.join(', ');
+	};
+    });
 
 /* controller for the preferred name */
 
 app.controller('NameCtrl', ['$scope', '$http', '$log', function($scope, $http, $log) {
 
     // sample valid name characters
-    $scope.valid_chars = /^[\w !"#$%&'()*+,.-:;<>?@\/`=]+$/;
+    $scope.valid_chars = /^[\w !\"#$%&\'()*+,.-:;<>?@\/`=]+$/;
     $scope.displayNameMax = 80;
 
     // diaplay names as they look in the directory

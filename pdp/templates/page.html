@@ -26,7 +26,8 @@
                         </div>
                         <!-- End legal name -->
                         {% verbatim %}
-                        <div ng-cloak ng-controller="NameCtrl">
+                        <div ng-cloak ng-controller="NameCtrl"
+			     ng-model-options="{ allowInvalid: true }">
                             <form role="form" name="pnform">
                                 <!-- Begin preferred name -->
                                 <div class="preferred-name">
@@ -41,7 +42,7 @@
                                             <h3>First Name</h3>
                                             <input type="text" name="pnfname" ng-model="pn.display_fname"
                                                    ng-pattern="valid_chars" value="{{wp.fname}}"
-                                                   required="required"/>
+						   required="required"/>
                                         <p id="errormessage" ng-show="pnform.$dirty && pnform.pnfname.$error.required">First Name is required.</p>
                                         </div>
                                         <div class="col-md-4">
@@ -64,7 +65,7 @@
                                 <p></p>
                                 <p class="remaining-chars" ng-show="displayName.length <= displayNameMax && displayName.length > displayNameMax-10">Characters remaining: {{ displayNameMax - displayName.length }}</p>
                                 <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.maxlength">Your full display name is limited to {{ displayNameMax }} characters.</p>
-                                <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.pattern">Names must consist of letters, numbers, symbols or space.</p>
+                                <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.pattern">The following are invalid: {{ displayName | invalid_chars : valid_chars }}</p>
                                 <hr>
 
                                 <!-- Begin policy -->
