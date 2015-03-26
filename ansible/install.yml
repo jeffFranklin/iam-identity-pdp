@@ -50,10 +50,15 @@
        - touch wsgi
 
   # update http and https config
-  # change restarts apache
+  - name: copy apache config files
+    template: "src=apache/pdp-access.xml dest=/data/conf/apache.conf.d/pdp-access.xml group=iam-dev mode=664"
+    notify:
+       - restart apache
+
   - include: "tasks/apache_config.yml file=https prod=pdp"
   - include: "tasks/apache_config.yml file=http prod=pdp"
   - include: "tasks/apache_config.yml file=global prod=pdp"
+
 
   - local_action: "stat path=certs.{{cluster_type}}.yml"
     register: certs_stat
