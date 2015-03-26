@@ -13,55 +13,42 @@ app.config(['$httpProvider', function($httpProvider) {
 	    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 	}]);
 
-// directve to limit total length of three name fields
-app.directive('maxtotal', function(){
-    console.log('maxtotal');
-    return {
-      require: 'ngModel',
-      link: function(scope, elem, attr, ngModel) {
-          var limit = attr.maxtotal;
-          // console.log('ret: ' + limit);
+app.filter('invalid_chars', function() {
+	return function(input, valid) {
+	    console.log('filt');
+	    var ichars = [];
+	    for(var i = 0; i < input.length; i++){
+		if(!valid.test(input.charAt(i))){
+		    if(ichars.indexOf(input.charAt(i)) == -1){
+			ichars.push(input.charAt(i));
+		    }
+		}
+	    }
+	    return ichars.join(', ');
+	};
+    });
 
-          //For DOM -> model validation
-          ngModel.$parsers.unshift(function(value) {
-             // console.log('got:' + value);
-             ldn = scope.pn.display_fname.length + scope.pn.display_lname.length + 1;
-             if (scope.pn.display_mname != '') ldn += scope.pn.display_mname.length + 1;
-             v = true;
-             if (ldn > 80) v = false;
-             ngModel.$setValidity('maxtotal', v);
-             return value
-          });
-
-          //For model -> DOM validation
-          ngModel.$formatters.unshift(function(value) {
-             console.log('fmt: ' + value);
-             ngModel.$setValidity('maxtotal', true);
-             return value;
-          });
-      }
-   };
-});
-     
 /* controller for the preferred name */
 
 app.controller('NameCtrl', ['$scope', '$http', '$log', function($scope, $http, $log) {
 
     // sample valid name characters
-    $scope.valid_chars = /^[\w !"#$%&'()*+,.-:;<>?@\/`=]+$/
+    $scope.valid_chars = /^[\w !\"#$%&\'()*+,.-:;<>?@\/`=]*$/;
+    $scope.displayNameMax = 80;
 
     // diaplay names as they look in the directory
     $scope.wp = {
         fname: null,
         mname: null,
-        lname: null,
+        lname: null
     };
     // display names as they are edited
     $scope.pn = {
 	display_fname: null,
 	display_mname: null,
-	display_lname: null,
+	display_lname: null
     };
+    $scope.displayName = '';
 
     $scope.putStatus = null;
     $scope.getPrefName = function() {
@@ -78,16 +65,28 @@ app.controller('NameCtrl', ['$scope', '$http', '$log', function($scope, $http, $
 	$log.info('about to put '+ pdp_name_url);
 	$http.put(pdp_name_url, $scope.pn)
 	.success(function(data){
-		$scope.putStatus = 'Updated';
+		$scope.putStatus = 'success';
                 $scope.getPrefName();
 		$log.info($scope.putStatus);		
 	    })
 	.error(function(data){
-		$scope.putStatus = 'Update failed';
+		$scope.putStatus = 'error';
 		$log.info($scope.putStatus);
 	    });
     };
+    $scope.getDisplayNameFromObject = function(value){
+        dname = "";
+        if(value.display_fname) dname += value.display_fname;
+        if(value.display_mname) dname += (dname.length ? ' ' : '') + value.display_mname;
+        if(value.display_lname) dname += (dname.length ? ' ' : '') + value.display_lname;
+        return dname;
+    };
     $scope.getPrefName();
+    $scope.displayName = $scope.getDisplayNameFromObject($scope.pn);
+    $scope.$watch('pn', function(newval, oldval){
+        console.log('changed');
+        $scope.displayName = $scope.getDisplayNameFromObject(newval);
+    }, true);
 }]);
 
 

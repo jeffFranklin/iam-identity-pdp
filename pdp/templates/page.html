@@ -2,133 +2,157 @@
 
 {% block content %}
 
-<div ng-app="pdpApp" class="container">
+    <div ng-app="pdpApp" class="container">
 
- <!-- tabs for pref name and pub pref -->
- <div role="tabpanel">
-  <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#prefname" aria-controls="prefname" role="tab" data-toggle="tab">Preferred name</a></li>
-    <li role="presentation"><a href="#pubpref" aria-controls="pubpref" role="tab" data-toggle="tab">Publish pref</a></li>
-  </ul>
+        {% if show_publish %}
+            <!-- tabs for pref name and pub pref -->
+            <div role="tabpanel">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#prefname" aria-controls="prefname" role="tab"
+                                                          data-toggle="tab">Preferred name</a></li>
+                <li role="presentation"><a href="#pubpref" aria-controls="pubpref" role="tab" data-toggle="tab">Publish
+                    pref</a></li>
+            </ul>
 
- <div class="tab-content">
+            <div class="tab-content">
 
-   <div role="tabpanel" class="tab-pane active" id="prefname">
+            <div role="tabpanel" class="tab-pane active" id="prefname">
+        {% endif %}
 
-     <div class="container">
-       <!-- Begin legal name -->
-       <div class="legalname">
-	 <h1>Legal Name</h1>
-	 <!-- The system should grab the legal name data from the db, and in the UI it is not editable to the user -->
-	 <h4>{{ irws_name.formal_fname }} {{ irws_name.formal_lname }}</h4>
-       </div>
-       <!-- End legal name -->
-       {% verbatim %}
-       <div ng-controller="NameCtrl">
-	 <form role="form" name="pnform" >
-	   <!-- Begin preferred name -->
-	   <div class="preferred name">
-             <h1>Preferred Name</h1>
-             <p><i>TBD.</i> You can set a preferred name to be used in
-               the UW Directory. Something explanation here. Read
-               more.</p>
-	     <!-- Example row of columns; Begin preferred name -->
-             <div class="row">
-               <div class="col-md-4">
-		 <h3>First Name</h3>
-		 <input type="text" name="pnfname" class="form-control" ng-model="pn.display_fname"
-                      ng-pattern="valid_chars" maxtotal="80" value="{{wp.fname}}" required="required" />
-                   <span style="color:red" ng-show="pnform.pnfname.$invalid">
-                     <span ng-show="pnform.pnfname.$error.maxtotal">Your full diaplay name is limited to 80 characters.</span>
-                     <span ng-show="pnform.pnfname.$error.required">First name is required.</span>
-                     <span ng-show="pnform.pnfname.$error.pattern">Names must consist of letters, numbers, symbols or space.</span>
-                   </span>
-               </div>
-               <div class="col-md-4">
-		 <h3>Middle Name</h3>
-		 <input type="text" name="pnmname" class="form-control" ng-model="pn.display_mname"
-                      ng-pattern="valid_chars" maxtotal="80" value="{{wp.mname}}"/>
-                   <span style="color:red" ng-show="pnform.pnmname.$invalid">
-                     <span ng-show="pnform.pnmname.$error.maxtotal">Your full diaplay name is limited to 80 characters.</span>
-                     <span ng-show="pnform.pnmname.$error.pattern">Names must consist of letters, numbers, symbols or space.</span>
-                   </span>
-               </div>
-               <div class="col-md-4">
-		 <h3>Last Name</h3>
-		 <input type="text" name="pnlname" class="form-control" ng-model="pn.display_lname"
-                      ng-pattern="valid_chars" maxtotal="80" value="{{wp.lname}}" required="required" />
-                   <span style="color:red" ng-show="pnform.pnlname.$invalid">
-                     <span ng-show="pnform.pnlname.$error.maxtotal">Your full diaplay name is limited to 80 characters.</span>
-                     <span ng-show="pnform.pnlname.$error.required">Last name is required.</span>
-                     <span ng-show="pnform.pnlname.$error.pattern">Names must consist of letters, numbers, symbols or space.</span>
-                   </span>
-               </div>
-             </div>
-	   </div>
-	   <!-- End preferred name -->
+        <div class="container">
+            <!-- Begin legal name -->
+            <div class="legalname">
+                <h1>Legal Name</h1>
+                <!-- The system should grab the legal name data from the db, and in the UI it is not editable to the user -->
+                <h4>{{ irws_name.formal_fname }} {{ irws_name.formal_lname }}</h4>
+            </div>
+            <!-- End legal name -->
+            {% verbatim %}
+            <div ng-cloak ng-controller="NameCtrl"
+                 ng-model-options="{ allowInvalid: true }">
+                <form role="form" name="pnform">
+                    <!-- Begin preferred name -->
+                    <div class="preferred-name">
+                        <h1>Preferred Name</h1>
 
-	   <p></p>
-	   <hr>
+                        <p><i>TBD.</i> You can set a preferred name to be used in
+                            the UW Directory. Something explanation here. Read
+                            more.</p>
+                        <!-- Example row of columns; Begin preferred name -->
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h3>First Name</h3>
+                                <input type="text" name="pnfname" ng-model="pn.display_fname"
+                                       ng-pattern="valid_chars" value="{{wp.fname}}"
+                                       required="required"/>
 
-	   <!-- Begin policy -->
-	   <div class="policy">
-             <h2>UW Preferred Name Policy</h2>
-             <p><i>TBD.</i> Lorem ipsum dolor sit amet, consectetur
-               adipiscing elit. Integer commodo quis lorem quis
-               sollicitudin. Curabitur mattis eget lectus auctor
-               auctor. Aenean consectetur quam quis dolor iaculis
-               imperdiet. Suspendisse quis tortor id purus faucibus
-               efficitur sed quis eros.</p>
-             <div>
-               <input id="pnpolicyid" type="checkbox" ng-model="pnpchecked" >
-               <label for="pnpolicyid">&nbsp;I have read the policy and I agree</label>
-             </div>
-	   </div>
-	   <!-- End policy -->
-	   
-	   <!-- Two actionable buttons -->
-	   <button type="submit" id="save" ng-click="putPrefName()" 
-		   ng-disabled="pnform.$invalid || !pnpchecked"
-                 >Save</button>
-           <span ng-hide="putStatus == null">{{putStatus}}</span>
-	   <button type="submit" id="reset" ng-click="resetForm()">Reset</button>
-	 </form>
+                                <p id="errormessage" ng-show="pnform.$dirty && pnform.pnfname.$error.required">First
+                                    Name is required.</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h3>Middle Name</h3>
+                                <input type="text" name="pnmname" ng-model="pn.display_mname"
+                                       ng-pattern="valid_chars" value="{{wp.mname}}"/>
+                            </div>
+                            <div class="col-md-4">
+                                <h3>Last Name</h3>
+                                <input type="text" name="pnlname" ng-model="pn.display_lname"
+                                       ng-pattern="valid_chars" value="{{wp.lname}}"
+                                       required="required"/>
+
+                                <p id="errormessage" ng-show="pnform.$dirty && pnform.pnlname.$error.required">Last Name
+                                    is required.</p>
+                            </div>
+                            <input type="hidden" name="pndn" ng-model="displayName" maxlength="{{ displayNameMax }}"/>
+                        </div>
+                    </div>
+                    <!-- End preferred name -->
+
+                    <p></p>
+
+                    <p class="remaining-chars"
+                       ng-show="displayName.length <= displayNameMax && displayName.length > displayNameMax-10">
+                        Characters remaining: {{ displayNameMax - displayName.length }}</p>
+
+                    <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.maxlength">Your full display name is
+                        limited to {{ displayNameMax }} characters.</p>
+
+                    <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.pattern">The following are invalid: {{
+                        displayName | invalid_chars : valid_chars }}</p>
+                    <hr>
+
+                    <!-- Begin policy -->
+                    <div class="policy">
+                        <h2>UW Preferred Name Policy</h2>
+
+                        <p><i>TBD.</i> Lorem ipsum dolor sit amet, consectetur
+                            adipiscing elit. Integer commodo quis lorem quis
+                            sollicitudin. Curabitur mattis eget lectus auctor
+                            auctor. Aenean consectetur quam quis dolor iaculis
+                            imperdiet. Suspendisse quis tortor id purus faucibus
+                            efficitur sed quis eros.</p>
+
+                        <p>This service is subject to UW
+                            <a href="http://www.washington.edu/online/terms/" target="_blank">Terms of Use</a> and
+                            <a href="http://www.washington.edu/online/privacy/" target="_blank">Privacy Policy</a>.</p>
+
+                    </div>
+                    <!-- End policy -->
+
+                    <!-- Two actionable buttons -->
+                    <button type="submit" id="save" ng-click="putPrefName()"
+                            ng-disabled="pnform.$invalid"
+                            >Save and Agree
+                    </button>
+                    <p ng-show="putStatus == 'success'" class="save-success">
+                        Your name has been saved.
+                    </p>
+
+                    <p ng-show="putStatus == 'failure'" class="save-failure">
+                        Error trying to save name.
+                    </p>
+
+                </form>
 
 
-	 <footer>
-           <p></p>
-	 </footer>
-       </div>
+                <footer>
+                    <p></p>
+                </footer>
+            </div>
+            {% endverbatim %}
+            {% if show_publish %}
+                </div>
+                </div>
 
-     </div>
-   </div>
-
- <div role="tabpanel" class="tab-pane" id="pubpref">
-   <tab heading="Pub pref" active="false" disabled="">
-     <!-- <h2><div>Publish preference</h2> -->
-     <p>You can set publishing...</p>
-     <div ng-controller="PubCtrl">
-       <form role="form">
-	 <div class="form-group">
-	   <label for="wppublish">Publish in UW Directory?</label>
-	   <br/>
-	   <input type="radio" id="wppubyes" name="wppub" value="yes" ng-model="wp_publish"> <label for="wppubyes">Yes</label>
-	   <br/>
-	   <input type="radio" id="wppubno" name="wppub" value="no" ng-model="wp_publish"> <label for="wppubno">No</label>
-	 </div>
-       </form>
-       <a class="btn btn-primary" ng-click="putPubPref()">
-	 Save
-       </a>
-       <span ng-hide="putPubStatus == null">{{putPubStatus}}</span>
-     </div>
-
- </div>
- </div>
- </div>
-
-</div>
-{% endverbatim %}
+                <div role="tabpanel" class="tab-pane" id="pubpref">
+                    <tab heading="Pub pref" active="false" disabled="">
+                        <!-- <h2><div>Publish preference</h2> -->
+                        <p>You can set publishing...</p>
+                        {% verbatim %}
+                        <div ng-controller="PubCtrl">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label for="wppublish">Publish in UW Directory?</label>
+                                    <br/>
+                                    <input type="radio" id="wppubyes" name="wppub" value="yes" ng-model="wp_publish">
+                                    <label for="wppubyes">Yes</label>
+                                    <br/>
+                                    <input type="radio" id="wppubno" name="wppub" value="no" ng-model="wp_publish">
+                                    <label for="wppubno">No</label>
+                                </div>
+                            </form>
+                            <a class="btn btn-primary" ng-click="putPubPref()">
+                                Save
+                            </a>
+                            <span ng-hide="putPubStatus == null">{{putPubStatus}}</span>
+                        </div>
+                        {% endverbatim %}
+                    </tab>
+                </div>
+                </div>
+                </div>
+            {% endif %}
+    </div>
 {% endblock %}
 
 
