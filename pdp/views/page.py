@@ -106,6 +106,11 @@ def index(request, template=None):
     remote_user = re.sub(r'@.*', '', request.user.username)
     logger.info('remote user=' + remote_user)
 
+    show_publish = False
+    if (request.GET.get('show_publish', 'off').lower()
+            not in ('0', 'off', 'false')):
+        show_publish = True
+
     userid = UserService().get_user()
     logger.info('userservice user=' + userid)
 
@@ -124,6 +129,7 @@ def index(request, template=None):
        'remote_user': remote_user,
        'irws_name': name,
        'wp_publish': wp_publish,
+       'show_publish': show_publish,
     }
 
     return render(request, 'page.html', context)
