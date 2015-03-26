@@ -5,35 +5,38 @@
 
 # browser authn
 <LocationMatch /{{app_url_base}}/login>
-  RequestHeader set Content-type application/xml
   AuthType shibboleth
   ShibRequireSession On
-  {% if cluster_type == "dev" or cluster_type == "eval" %}
-  require affiliation member@washington.edu
-  {% endif %}
-  {% if cluster_type == "prod" %}
-  require isMemberOf urn:mace:washington.edu:groups:{{prod_tester_group}}
-  {% endif %}
+  ShibRequireAll On
+  AuthzShibAuthoritative On
+
+  require shibboleth
+  ShibAccessControl /data/conf/apache.conf.d/pdp-access.xml
+
   order allow,deny
   allow from all
 </LocationMatch>
+
+{% if false %}
+# later
 
 # browser authn secure
 <LocationMatch /{{app_url_base}}/securelogin>
   RequestHeader set Content-type application/xml
   AuthType shibboleth
   ShibRequireSessionWith UWSECURE
-  {% if cluster_type == "dev" or cluster_type == "eval" %}
-  require affiliation member@washington.edu
-  {% endif %}
+  ShibRequireAll On
+  AuthzShibAuthoritative On
+  require affiliation member@washington.edu alum@washington.edu
+
   {% if cluster_type == "prod" %}
   require isMemberOf urn:mace:washington.edu:groups:{{prod_tester_group}}
   {% endif %}
+
   order allow,deny
   allow from all
 </LocationMatch>
 
-{% if false %}
 # browser authn via google
 <LocationMatch /{{app_url_base}}/googlelogin>
   RequestHeader set Content-type application/xml
