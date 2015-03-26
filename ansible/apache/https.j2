@@ -5,18 +5,13 @@
 
 # browser authn
 <LocationMatch /{{app_url_base}}/login>
-  RequestHeader set Content-type application/xml
   AuthType shibboleth
   ShibRequireSession On
   ShibRequireAll On
   AuthzShibAuthoritative On
-  require affiliation member@washington.edu alum@washington.edu
-  # require ! isMemberOf urn:mace:washington.edu:groups:u_groups_pdp-disusered
 
-  # temporary
-  {% if cluster_type == "prod" %}
-  require isMemberOf urn:mace:washington.edu:groups:{{prod_tester_group}}
-  {% endif %}
+  require shibboleth
+  ShibAccessControl /data/conf/apache.conf.d/pdp-access.xml
 
   order allow,deny
   allow from all
