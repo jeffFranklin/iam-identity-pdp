@@ -41,8 +41,9 @@
                                     <div id="form-wrapper">
 
                                         <!-- Counter placeholder to fieldset -->
-                                        <div id="char-counter" class="alert alert-info" role="alert">
-                                            <p> the char counter might live here </p>
+                                        <div id="char-counter" class="alert alert-info" role="alert"
+                                             ng-show="displayName.length <= displayNameMax && displayName.length > displayNameMax-10">
+                                            <p> Characters remaining: {{ displayNameMax - displayName.length }} </p>
                                         </div>
 
                                         <!-- Begin forms -->
@@ -52,7 +53,7 @@
                                                 <input type="text" name="pnfname" ng-model="pn.display_fname"
                                                        ng-pattern="valid_chars" value="{{wp.fname}}"
                                                        required="required"/>
-                                                <p id="errormessage" ng-show="pnform.$dirty && pnform.pnfname.$error.required">First name is required.</p>
+                                                <p id="errormessage" ng-show="pnform.pnfname.$dirty && pnform.pnfname.$error.required">First name is required.</p>
                                             </div>
                                             <div class="col-md-4">
                                                 <h3>Middle Name</h3>
@@ -64,16 +65,14 @@
                                                 <input type="text" name="pnlname" ng-model="pn.display_lname"
                                                        ng-pattern="valid_chars" value="{{wp.lname}}"
                                                        required="required"/>
-                                                <p id="errormessage" ng-show="pnform.$dirty && pnform.pnlname.$error.required">Last name is required.</p>
+                                                <p id="errormessage" ng-show="pnform.pnlname.$dirty && pnform.pnlname.$error.required">Last name is required.</p>
                                             </div>
                                         </div>
                                         <input type="hidden" name="pndn" ng-model="displayName" maxlength="{{ displayNameMax }}"/>
-                                        
-                                        <p class="remaining-chars"
-											ng-show="displayName.length <= displayNameMax && displayName.length > displayNameMax-10">
-											Characters remaining: {{ displayNameMax - displayName.length }}</p>
 
-											<p id="errormessage" ng-show="pnform.$dirty && pnform.$error.maxlength">Your full display name is limited to {{ displayNameMax }} characters.</p>
+
+										<p id="errormessage" ng-show="pnform.$dirty && pnform.$error.maxlength">Your full display name is limited to {{ displayNameMax }} characters.</p>
+                                        <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.pattern">The following are invalid: {{ displayName | invalid_chars : valid_chars }}</p>
                                         <!-- End forms -->                                   
                                     </div>
                                     <!-- End wrapper -->
@@ -82,7 +81,7 @@
 
 
                     
-                                <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.pattern">The following are invalid: {{ displayName | invalid_chars : valid_chars }}</p>
+
                     <hr>
 
                     <!-- Begin policy -->
