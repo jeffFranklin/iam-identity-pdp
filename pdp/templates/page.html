@@ -73,14 +73,14 @@
 
 										<p id="errormessage" ng-show="pnform.$dirty && pnform.$error.maxlength">Your full display name is limited to {{ displayNameMax }} characters.</p>
                                         <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.pattern">The following are invalid: {{ displayName | invalid_chars : valid_chars }}</p>
-                                        <!-- End forms -->                                   
+                                        <!-- End forms -->
                                     </div>
                                     <!-- End wrapper -->
                                 </div>
                                 <!-- End preferred name -->
 
 
-                    
+
 
                     <hr>
 
@@ -114,21 +114,6 @@
                                         ng-disabled="pnform.$invalid"
                                         >Agree and Save
                                 </button>
-                                
-                                <!-- conflict --> 
-			                    <!-- Two actionable buttons -->
-			                    <button type="submit" id="save" ng-click="putPrefName()"
-			                            ng-disabled="pnform.$invalid"
-			                            >Save and Agree
-			                    </button>
-			                    <p ng-show="putStatus == 'success'" class="save-success">
-			                        Your name has been saved.
-			                    </p>
-			
-			                    <p ng-show="putStatus == 'failure'" class="save-failure">
-			                        Error trying to save name.
-			                    </p>
-			                    <!-- end conflict --> 
 
                             </form>
 
