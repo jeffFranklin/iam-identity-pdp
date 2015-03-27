@@ -42,41 +42,44 @@
 
                         <!-- Wrapper for the form; add fieldset to form fields -->
                         <div id="form-wrapper">
-
-                            <!-- Counter placeholder to fieldset -->
-                            <div id="char-counter" class="alert alert-info" role="alert"
-                                 ng-show="displayName.length <= displayNameMax && displayName.length > displayNameMax-10">
-                                <p> Characters remaining: {{ displayNameMax - displayName.length }} </p>
-                            </div>
-
-                            <!-- Begin forms -->
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h3>First Name</h3>
-                                    <input type="text" name="pnfname" ng-model="pn.display_fname"
-                                           ng-pattern="valid_chars" value="{{wp.fname}}"
-                                           required="required"/>
-
-                                    <p id="errormessage"
-                                       ng-show="pnform.pnfname.$dirty && pnform.pnfname.$error.required">First name is
-                                        required.</p>
+                            <fieldset>
+                                <legend>Preferred Name</legend>
+                                <!-- Counter placeholder to fieldset -->
+                                <div id="char-counter" class="alert alert-info" role="alert"
+                                     ng-show="displayName.length <= displayNameMax && displayName.length > displayNameMax-10">
+                                    <p>{{ displayNameMax - displayName.length }} characters remaining</p>
                                 </div>
-                                <div class="col-md-4">
-                                    <h3>Middle Name</h3>
-                                    <input type="text" name="pnmname" ng-model="pn.display_mname"
-                                           ng-pattern="valid_chars" value="{{wp.mname}}"/>
-                                </div>
-                                <div class="col-md-4">
-                                    <h3>Last Name</h3>
-                                    <input type="text" name="pnlname" ng-model="pn.display_lname"
-                                           ng-pattern="valid_chars" value="{{wp.lname}}"
-                                           required="required"/>
+    
+                                <!-- Begin forms -->
 
-                                    <p id="errormessage"
-                                       ng-show="pnform.pnlname.$dirty && pnform.pnlname.$error.required">Last name is
-                                        required.</p>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="pnfname">First Name</label>
+                                        <input type="text" name="pnfname" ng-model="pn.display_fname"
+                                               ng-pattern="valid_chars" value="{{wp.fname}}"
+                                               required="required"/>
+    
+                                        <p id="errormessage"
+                                           ng-show="pnform.pnfname.$dirty && pnform.pnfname.$error.required">First name is
+                                            required.</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="pnmname">Middle Name</label>
+                                        <input type="text" name="pnmname" ng-model="pn.display_mname"
+                                               ng-pattern="valid_chars" value="{{wp.mname}}"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="pnlname">Last Name</label>
+                                        <input type="text" name="pnlname" ng-model="pn.display_lname"
+                                               ng-pattern="valid_chars" value="{{wp.lname}}"
+                                               required="required"/>
+    
+                                        <p id="errormessage"
+                                           ng-show="pnform.pnlname.$dirty && pnform.pnlname.$error.required">Last name is
+                                            required.</p>
+                                    </div>
                                 </div>
-                            </div>
+                            </fieldset>
                             <input type="hidden" name="pndn" ng-model="displayName" maxlength="{{ displayNameMax }}"/>
 
 

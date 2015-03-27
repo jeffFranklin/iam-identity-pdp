@@ -20,6 +20,8 @@ p {
   line-height: 150%;
 }
 
+fieldset legend { font-size: 16px; }
+
 .jumbotron {
   background-color: #4b2e83;
   border-color: #402770;
