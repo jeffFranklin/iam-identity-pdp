@@ -65,9 +65,10 @@ app.controller('NameCtrl', ['$scope', '$http', '$log', function($scope, $http, $
 	$log.info('about to put '+ pdp_name_url);
 	$http.put(pdp_name_url, $scope.pn)
 	.success(function(data){
-		$scope.putStatus = 'success';
-                $scope.getPrefName();
-		$log.info($scope.putStatus);		
+            $scope.putStatus = 'success';
+            $scope.getPrefName();
+            $log.info($scope.putStatus);
+            $scope.pnform.$setPristine(); // only set pristine on success
 	    })
 	.error(function(data){
 		$scope.putStatus = 'error';

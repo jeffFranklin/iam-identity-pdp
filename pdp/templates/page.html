@@ -113,7 +113,7 @@
 
                     <!-- Two actionable buttons -->
                     <div class="save-message">
-                        <p ng-show="putStatus == 'success'" class="save-success alert alert-success" role="alert">
+                        <p ng-show="putStatus == 'success' && pnform.$pristine" class="save-success alert alert-success" role="alert">
                             Your name has been saved.
                         </p>
 
@@ -122,7 +122,7 @@
                         </p>
                     </div>
                     <button type="submit" id="save" class="btn btn-primary" ng-click="putPrefName()"
-                            ng-disabled="pnform.$invalid"
+                            ng-disabled="pnform.$invalid || pnform.$pristine"
                             >Agree & Save Name
                     </button>
 
