@@ -35,9 +35,8 @@
                     <div class="preferred-name">
                         <h2>Preferred Name</h2>
 
-                        <p><i>TBD.</i> This section is for all individual UW NetID accounts to set a preferred name (PN)
-                            that is distinct from their legal name (LN. PN does not override their legal name, but it is
-                            preferentially displayed in downstream systems whenever possible. </p>
+                        <p>You can set a preferred name (PN) to be used in place of your legal name wherever possible. Your PN will be visible in the <a href=
+                        "http://www.washington.edu/home/peopledir/" target="_blank">UW directory</a>. Limit of 80 characters for all three names.</p>
                         <!-- Example row of columns; Begin preferred name -->
 
                         <!-- Wrapper for the form; add fieldset to form fields -->
@@ -86,8 +85,8 @@
                             <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.maxlength">Your full display
                                 name is limited to {{ displayNameMax }} characters.</p>
 
-                            <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.pattern">The following are
-                                invalid: {{ displayName | invalid_chars : valid_chars }}</p>
+                            <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.pattern">The following characters are
+                                not allowed: {{ displayName | invalid_chars : valid_chars }}</p>
                             <!-- End forms -->
                         </div>
                         <!-- End wrapper -->
@@ -99,14 +98,13 @@
 
                     <!-- Begin policy -->
                     <div class="policy">
-                        <h2>UW Preferred Name Policy</h2>
+                        <h2>UW Policy for Preferred Names</h2>
 
-                        <p><i>TBD.</i> Lorem ipsum dolor sit amet, consectetur
-                            adipiscing elit. Integer commodo quis lorem quis
-                            sollicitudin. Curabitur mattis eget lectus auctor
-                            auctor. Aenean consectetur quam quis dolor iaculis
-                            imperdiet. Suspendisse quis tortor id purus faucibus
-                            efficitur sed quis eros.</p>
+                        <p>When you save your preferred name, you agree that:</p>
+                        <ul>
+                            <li>You have not set a preferred name with an intent to impersonate someone else, to deceive, or to defraud;</li>
+                            <li>You understand that hate speech, inappropriate language, or repeated frequent use of this feature may bar you from using this feature, at the University's discretion.</li>
+                        </ul>
 
                         <p>This service is subject to UW
                             <a href="http://www.washington.edu/online/terms/" target="_blank">Terms of Use</a> and
@@ -118,7 +116,7 @@
                     <!-- Two actionable buttons -->
                     <div class="save-message">
                         <p ng-show="putStatus == 'success'" class="save-success alert alert-success" role="alert">
-                            Your name has been saved successfully!
+                            Your name has been saved.
                         </p>
 
                         <p ng-show="putStatus == 'failure'" class="save-failure">
@@ -127,7 +125,7 @@
                     </div>
                     <button type="submit" id="save" class="btn btn-primary" ng-click="putPrefName()"
                             ng-disabled="pnform.$invalid"
-                            >Agree and Save
+                            >Agree & Save Name
                     </button>
 
                 </form>
