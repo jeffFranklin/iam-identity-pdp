@@ -58,6 +58,7 @@
                                         <label for="pnfname">First Name</label>
                                         <input type="text" name="pnfname" ng-model="pn.display_fname"
                                                ng-pattern="valid_chars" value="{{wp.fname}}"
+					       maxlength="{{ displayNameMax - (displayName.length - pn.display_fname.length)  }}"
                                                required="required"/>
     
                                         <p id="errormessage"
@@ -68,12 +69,14 @@
                                         <label for="pnmname">Middle Name</label>
                                         <input type="text" name="pnmname" ng-model="pn.display_mname"
                                                ng-pattern="valid_chars"
+					       maxlength="{{ displayNameMax - (displayName.length - pn.display_mname.length)  }}"
                                                value="{{wp.mname}}"/>
                                     </div>
                                     <div class="col-md-4 namefield">
                                         <label for="pnlname">Last Name</label>
                                         <input type="text" name="pnlname" ng-model="pn.display_lname"
                                                ng-pattern="valid_chars" value="{{wp.lname}}"
+					       maxlength="{{ displayNameMax - (displayName.length - pn.display_lname.length)  }}"
                                                required="required"/>
     
                                         <p id="errormessage"
