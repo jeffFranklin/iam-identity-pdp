@@ -44,9 +44,11 @@
                             <fieldset>
                                 <legend>Set Your Preferred Name</legend>
                                 <!-- Counter placeholder to fieldset -->
-                                <div id="char-counter" class="alert alert-info" role="alert"
-                                     ng-show="displayName.length <= displayNameMax && displayName.length > displayNameMax-10">
-                                    <p>{{ displayNameMax - displayName.length }} characters remaining</p>
+                                <div id="char-counter" class="alert alert-{{
+                                    displayName.length < displayNameMax - 10 ? 'info'
+                                    : displayName.length <= displayNameMax ? 'warning'
+                                    : 'danger'}}">
+                                    <p>{{ displayNameMax >= displayName.length ? displayNameMax - displayName.length : 0 }} characters remaining</p>
                                 </div>
     
                                 <!-- Begin forms -->
@@ -65,7 +67,8 @@
                                     <div class="col-md-4 namefield">
                                         <label for="pnmname">Middle Name</label>
                                         <input type="text" name="pnmname" ng-model="pn.display_mname"
-                                               ng-pattern="valid_chars" value="{{wp.mname}}"/>
+                                               ng-pattern="valid_chars"
+                                               value="{{wp.mname}}"/>
                                     </div>
                                     <div class="col-md-4 namefield">
                                         <label for="pnlname">Last Name</label>
@@ -82,11 +85,6 @@
                                 not allowed: {{ displayName | invalid_chars : valid_chars }}</p>
                             </fieldset>
                             <input type="hidden" name="pndn" ng-model="displayName" maxlength="{{ displayNameMax }}"/>
-
-
-                            <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.maxlength">Your full display
-                                name is limited to {{ displayNameMax }} characters.</p>
-
                             <!-- End forms -->
                         </div>
                         <!-- End wrapper -->
