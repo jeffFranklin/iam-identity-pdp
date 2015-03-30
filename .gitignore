@@ -9,4 +9,5 @@ test_output.xml
 process.log
 .idea
 *.sqlite3
-ansible/tasks
+ansible/ansible-tools
+ansible/install.status

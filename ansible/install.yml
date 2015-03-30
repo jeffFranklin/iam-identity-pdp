@@ -5,6 +5,7 @@
 - hosts: "{{ target }}"
   serial: 1
   max_fail_percentage: 10
+  gather_facts: false
   vars:
     app_name: pdp
     app_base: /data/local/django
@@ -20,6 +21,9 @@
 
   - pause: "seconds={{ idle_wait_sec |default(10) }}"
     when: "cluster_hosts|length>1 "
+
+  - name: update install status
+    copy: "src=install.status dest={{app_base}}/pdp group=iam-dev mode=664"
 
   - name: copy app
     copy: "src=../{{item}} dest={{app_base}}/pdp group=iam-dev mode=664 directory_mode=2775"
@@ -55,9 +59,9 @@
     notify:
        - restart apache
 
-  - include: "tasks/apache_config.yml file=https prod=pdp"
-  - include: "tasks/apache_config.yml file=http prod=pdp"
-  - include: "tasks/apache_config.yml file=global prod=pdp"
+  - include: "ansible-tools/tasks/apache_config.yml file=https prod=pdp"
+  - include: "ansible-tools/tasks/apache_config.yml file=http prod=pdp"
+  - include: "ansible-tools/tasks/apache_config.yml file=global prod=pdp"
 
 
   - local_action: "stat path=certs.{{cluster_type}}.yml"
@@ -101,7 +105,7 @@
     when: "cluster_hosts|length>1 "
 
   handlers:
-     - include: "tasks/iam_handlers.yml"
+     - include: "ansible-tools/tasks/iam_handlers.yml"
 
      - name: "touch wsgi"
        file: "path={{ app_base }}/pdp/pdp-site/wsgi.py state=touch"
