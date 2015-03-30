@@ -36,10 +36,9 @@
                         <h2>Preferred Name</h2>
 
                         <p>You can set a preferred name (PN) to be used in place of your legal name wherever possible.
-                            Your PN will be visible in the <a href=
-                                                                      "http://www.washington.edu/home/peopledir/"
-                                                              target="_blank">UW directory</a>. Limit of 80 characters
-                            for all three names.</p>
+                            Your PN will be visible in the <a href="http://www.washington.edu/home/peopledir/"
+                                                              target="_blank">UW directory</a>.
+                            Limit of 80 characters for all three names.</p>
                         <!-- Example row of columns; Begin preferred name -->
 
                         <!-- Wrapper for the form; add fieldset to form fields -->
@@ -66,9 +65,8 @@
                                                required="required"/>
 
                                         <p id="errormessage"
-                                           ng-show="pnform.pnfname.$dirty && pnform.pnfname.$error.required">First name
-                                            is
-                                            required.</p>
+                                           ng-show="pnform.pnfname.$dirty && pnform.pnfname.$error.required">
+                                            First name is required.</p>
                                     </div>
                                     <div class="col-md-4 namefield">
                                         <label for="pnmname">Middle Name</label>
@@ -85,14 +83,13 @@
                                                required="required"/>
 
                                         <p id="errormessage"
-                                           ng-show="pnform.pnlname.$dirty && pnform.pnlname.$error.required">Last name
-                                            is
-                                            required.</p>
+                                           ng-show="pnform.pnlname.$dirty && pnform.pnlname.$error.required">
+                                            Last name is required.</p>
                                     </div>
                                 </div>
-                                <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.pattern">The following
-                                    characters are
-                                    not allowed: {{ displayName | invalid_chars : valid_chars }}</p>
+                                <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.pattern">
+                                    The following characters are not allowed:
+                                    {{ displayName | invalid_chars : valid_chars }}</p>
                             </fieldset>
                             <input type="hidden" name="pndn" ng-model="displayName" maxlength="{{ displayNameMax }}"/>
                             <!-- End forms -->
