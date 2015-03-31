@@ -1542,12 +1542,14 @@ pre code {
     margin-left: 0%;
   }
 }
+
 fieldset {
   padding: 0;
   margin: 0;
   border: 0;
   min-width: 0;
 }
+
 legend {
   display: block;
   width: 100%;
@@ -1557,8 +1559,9 @@ legend {
   line-height: inherit;
   color: inherit;
   border: 0;
-  border-bottom: 1px solid #e5e5e5;
+/*  border-bottom: 1px solid #e5e5e5;*/
 }
+
 label {
   display: inline-block;
   max-width: 100%;
@@ -1660,11 +1663,13 @@ output {
 }
 .form-control[disabled],
 .form-control[readonly],
+
 fieldset[disabled] .form-control {
   cursor: not-allowed;
   background-color: #fafafa;
   opacity: 1;
 }
+
 textarea.form-control {
   height: auto;
 }
