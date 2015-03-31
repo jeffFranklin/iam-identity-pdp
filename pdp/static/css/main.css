@@ -59,18 +59,6 @@ p, ul li {
   margin-bottom: 20px;
 }
 
-/*fieldset { 
-  border: 1px solid #c0c0c0; 
-  padding: 10px; 
-  margin: 0px 15px 20px 0px;     
-}
-
-fieldset legend { 
-  border-bottom: 1px solid #c0c0c0; 
-  margin-left: -10px; 
-  font-size: 16px; 
-}*/
-
 /* styling the character counter */
 #char-counter {
   background-color: #d9d9d9;
