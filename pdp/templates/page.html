@@ -32,58 +32,59 @@
                  ng-model-options="{ allowInvalid: true }">
                 <div class="preferred-name">
                     <h2>Preferred Name</h2>
-                     <p>You can set a preferred name (PN) to be used in place of your legal name wherever possible. Your PN will be visible in the <a href=
-                        "http://www.washington.edu/home/peopledir/" target="_blank">UW directory</a>. Limit of 80 characters for all three names.</p>
+
+                    <p>You can set a preferred name (PN) to be used in place of your legal name wherever possible. Your PN will be visible in the
+                        <a href="http://www.washington.edu/home/peopledir/" target="_blank">UW directory</a>. Limit of 80 characters for all
+                        three names.</p>
                 </div>
                 <form role="form" name="pnform">
                     <div id="fieldset_wrapper">
                         <fieldset>
                             <legend><b>Set Your Preferred Name</b></legend>
-                                <!-- Counter placeholder to fieldset -->
-                                <div id="char-counter" class="alert alert-{{
+                            <!-- Counter placeholder to fieldset -->
+                            <div id="char-counter" class="alert alert-{{
                                         displayName.length < displayNameMax - 10 ? 'info'
                                         : displayName.length <= displayNameMax ? 'warning'
                                         : 'danger'}}">
-                                    <p>{{ displayNameMax >= displayName.length ? displayNameMax - displayName.length : 0 }} characters remaining</p>
-                                </div>
+                                <p>{{ displayNameMax >= displayName.length ? displayNameMax - displayName.length : 0 }} characters remaining</p>
+                            </div>
 
-                                <div class="row">
-                                    <div class="col-md-4 namefield">
-                                        <label for="pnfname">First Name</label>
-                                        <input type="text" name="pnfname" ng-model="pn.display_fname"
-                                                   ng-pattern="valid_chars" value="{{wp.fname}}"
-    					                           maxlength="{{ displayNameMax - (displayName.length - pn.display_fname.length)  }}"
-                                                   required="required"/>
-        
-                                        <p id="errormessage"
-                                               ng-show="pnform.pnfname.$dirty && pnform.pnfname.$error.required">First name is
-                                                required.</p>
-                                    </div>
-                                    <div class="col-md-4 namefield">
-                                        <label for="pnmname">Middle Name</label>
-                                        <input type="text" name="pnmname" ng-model="pn.display_mname"
-                                                   ng-pattern="valid_chars"
-    					       maxlength="{{ displayNameMax - (displayName.length - pn.display_mname.length)  }}"
-                                                   value="{{wp.mname}}"/>
-                                    </div>
-                                    <div class="col-md-4 namefield">
-                                        <label for="pnlname">Last Name</label>
-                                        <input type="text" name="pnlname" ng-model="pn.display_lname"
-                                                   ng-pattern="valid_chars" value="{{wp.lname}}"
-    					       maxlength="{{ displayNameMax - (displayName.length - pn.display_lname.length)  }}"
-                                                   required="required"/>
-                                        <p id="errormessage"
-                                               ng-show="pnform.pnlname.$dirty && pnform.pnlname.$error.required">Last name is
-                                                required.</p>
-                                    </div>
+                            <div class="row">
+                                <div class="col-md-4 namefield">
+                                    <label for="pnfname">First Name</label>
+                                    <input type="text" name="pnfname" ng-model="pn.display_fname"
+                                           ng-pattern="valid_chars" value="{{wp.fname}}"
+                                           maxlength="{{ displayNameMax - (displayName.length - pn.display_fname.length)  }}"
+                                           required="required"/>
+
+                                    <p id="errormessage"
+                                       ng-show="pnform.pnfname.$dirty && pnform.pnfname.$error.required">First name is
+                                        required.</p>
                                 </div>
-                                <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.pattern">The following characters are
-                                    not allowed: {{ displayName | invalid_chars : valid_chars }}</p>
+                                <div class="col-md-4 namefield">
+                                    <label for="pnmname">Middle Name</label>
+                                    <input type="text" name="pnmname" ng-model="pn.display_mname"
+                                           ng-pattern="valid_chars"
+                                           maxlength="{{ displayNameMax - (displayName.length - pn.display_mname.length)  }}"
+                                           value="{{wp.mname}}"/>
+                                </div>
+                                <div class="col-md-4 namefield">
+                                    <label for="pnlname">Last Name</label>
+                                    <input type="text" name="pnlname" ng-model="pn.display_lname"
+                                           ng-pattern="valid_chars" value="{{wp.lname}}"
+                                           maxlength="{{ displayNameMax - (displayName.length - pn.display_lname.length)  }}"
+                                           required="required"/>
+
+                                    <p id="errormessage"
+                                       ng-show="pnform.pnlname.$dirty && pnform.pnlname.$error.required">Last name is
+                                        required.</p>
+                                </div>
+                            </div>
+                            <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.pattern">The following characters are
+                                not allowed: {{ displayName | invalid_chars : valid_chars }}</p>
                         </fieldset>
                         <input type="hidden" name="pndn" ng-model="displayName" maxlength="{{ displayNameMax }}"/>
-                    </div>   
-                </form>
-            </div>
+                    </div>
                     <!-- Begin policy -->
                     <div class="policy">
                         <h2>UW Policy for Preferred Names</h2>
