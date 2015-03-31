@@ -1,9 +1,9 @@
 Ansible config to install pdp on IAM remote sites
 
-Target site needs some setup
-----------------------------
+Target site needs some setup before first install
+-------------------------------------------------
 
-(note: on rhel6 use virtualenv-2.7 for virtualenv)
+(note: on rhel6 use 'virtualenv-2.7' for virtualenv)
 
   (root)
   mkdir -p /data/local/django
@@ -31,6 +31,26 @@ Target site needs some setup
   mkdir /logs/pdp
   chown nobody.iam-dev /logs/pdp
   chmod 2775 /logs/pdp
+
+
+
+--------------------------------------------------
+
+To install or upgrade
+
+0) You need ansible:  http://www.ansible.com/
+
+1) Make sure you are on the branch you want to install
+
+2) ./install.sh [ rivera_dev | rivera_prod ]
+
+rivera_dev = rivera-dev1
+rivera_prod = rivera[1-3]
+
+The installation will clone or pull a copy of the iam ansible tools into "ansible-tools"
+
+use " ./install.sh -q ... " to avoid the 'pull' of ansible-tools
+
 
 
 

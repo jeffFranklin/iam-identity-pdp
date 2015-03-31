@@ -2,7 +2,7 @@
 Installation on a workstation, for development
 
 ----------------------------------------------
-create a virtualenv, doesn't have to be in the projhect directory 
+create a virtualenv, doesn't have to be in the project directory 
 
  $ virtualenv pdp-env
 
@@ -19,6 +19,7 @@ install dependencies  ( one time operation )
 
 create a db  ( one time operation )
 
+ (pip-env)$ mkdir db
  (pip-env)$ python manage.py migrate
 
 run
