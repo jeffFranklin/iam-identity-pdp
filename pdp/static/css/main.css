@@ -9,22 +9,26 @@
 /* customize font-size */
 h2 { 
   font-size: 20px; 
+  margin-top: 15px;
+  margin-bottom: 5px; 
 }
 
 h3 {
   font-size: 16px;
 }
 
-p {
-  font-size: 16px;
+p, ul li {
+  font-size: 14px;
   line-height: 150%;
 }
 
+
 .jumbotron {
   background-color: #4b2e83;
-  border-color: #402770;
   height: 150px;
   padding: 0px 10px;
+  margin-bottom: 0px; 
+  
 }
 
 
@@ -41,24 +45,55 @@ p {
   font-size: 20px;
 }
 
+
+/* style text input fields */
+
+#fieldset_wrapper {
+  padding: 20px;
+  border: 1px solid #efefef;
+  border-radius: 3px;
+}
+
+#fieldset_wrapper legend {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/*fieldset { 
+  border: 1px solid #c0c0c0; 
+  padding: 10px; 
+  margin: 0px 15px 20px 0px;     
+}
+
+fieldset legend { 
+  border-bottom: 1px solid #c0c0c0; 
+  margin-left: -10px; 
+  font-size: 16px; 
+}*/
+
 /* styling the character counter */
 #char-counter {
   background-color: #d9d9d9;
   border-color: #ccc;
   opacity: 0.65;
   border-radius: 2px;
+  height: 44px;
 }
 
 .row input {
-	width:100%;
+  width:100%;
 }
 
-/* style text input fields */
+div.namefield { margin-bottom: 15px; }
+div.namefield label { margin-bottom: 0px; }
+
+/* resize input text */
 input[type="text"] {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 
+/* styling the save message */
 #savetext {
 	display:none;
 	color: green;

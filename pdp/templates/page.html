@@ -30,46 +30,49 @@
             {% verbatim %}
             <div ng-cloak ng-controller="NameCtrl"
                  ng-model-options="{ allowInvalid: true }">
+                <div class="preferred-name">
+                    <h2>Preferred Name</h2>
+
+                    <p>You can set a preferred name (PN) to be used in place of your legal name wherever possible. Your PN will be visible in the
+                        <a href="http://www.washington.edu/home/peopledir/" target="_blank">UW directory</a>. Limit of 80 characters for all
+                        three names.</p>
+                </div>
                 <form role="form" name="pnform">
-                    <!-- Begin preferred name -->
-                    <div class="preferred-name">
-                        <h2>Preferred Name</h2>
-
-                        <p><i>TBD.</i> This section is for all individual UW NetID accounts to set a preferred name (PN)
-                            that is distinct from their legal name (LN. PN does not override their legal name, but it is
-                            preferentially displayed in downstream systems whenever possible. </p>
-                        <!-- Example row of columns; Begin preferred name -->
-
-                        <!-- Wrapper for the form; add fieldset to form fields -->
-                        <div id="form-wrapper">
-
+                    <div id="fieldset_wrapper">
+                        <fieldset>
+                            <legend><b>Set Your Preferred Name</b></legend>
                             <!-- Counter placeholder to fieldset -->
-                            <div id="char-counter" class="alert alert-info" role="alert"
-                                 ng-show="displayName.length <= displayNameMax && displayName.length > displayNameMax-10">
-                                <p> Characters remaining: {{ displayNameMax - displayName.length }} </p>
+                            <div id="char-counter" class="alert alert-{{
+                                        displayName.length < displayNameMax - 10 ? 'info'
+                                        : displayName.length <= displayNameMax ? 'warning'
+                                        : 'danger'}}">
+                                <p>{{ displayNameMax >= displayName.length ? displayNameMax - displayName.length : 0 }} characters remaining</p>
                             </div>
 
-                            <!-- Begin forms -->
                             <div class="row">
-                                <div class="col-md-4">
-                                    <h3>First Name</h3>
+                                <div class="col-md-4 namefield">
+                                    <label for="pnfname">First Name</label>
                                     <input type="text" name="pnfname" ng-model="pn.display_fname"
                                            ng-pattern="valid_chars" value="{{wp.fname}}"
+                                           maxlength="{{ displayNameMax - (displayName.length - pn.display_fname.length)  }}"
                                            required="required"/>
 
                                     <p id="errormessage"
                                        ng-show="pnform.pnfname.$dirty && pnform.pnfname.$error.required">First name is
                                         required.</p>
                                 </div>
-                                <div class="col-md-4">
-                                    <h3>Middle Name</h3>
+                                <div class="col-md-4 namefield">
+                                    <label for="pnmname">Middle Name</label>
                                     <input type="text" name="pnmname" ng-model="pn.display_mname"
-                                           ng-pattern="valid_chars" value="{{wp.mname}}"/>
+                                           ng-pattern="valid_chars"
+                                           maxlength="{{ displayNameMax - (displayName.length - pn.display_mname.length)  }}"
+                                           value="{{wp.mname}}"/>
                                 </div>
-                                <div class="col-md-4">
-                                    <h3>Last Name</h3>
+                                <div class="col-md-4 namefield">
+                                    <label for="pnlname">Last Name</label>
                                     <input type="text" name="pnlname" ng-model="pn.display_lname"
                                            ng-pattern="valid_chars" value="{{wp.lname}}"
+                                           maxlength="{{ displayNameMax - (displayName.length - pn.display_lname.length)  }}"
                                            required="required"/>
 
                                     <p id="errormessage"
@@ -77,33 +80,20 @@
                                         required.</p>
                                 </div>
                             </div>
-                            <input type="hidden" name="pndn" ng-model="displayName" maxlength="{{ displayNameMax }}"/>
-
-
-                            <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.maxlength">Your full display
-                                name is limited to {{ displayNameMax }} characters.</p>
-
-                            <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.pattern">The following are
-                                invalid: {{ displayName | invalid_chars : valid_chars }}</p>
-                            <!-- End forms -->
-                        </div>
-                        <!-- End wrapper -->
+                            <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.pattern">The following characters are
+                                not allowed: {{ displayName | invalid_chars : valid_chars }}</p>
+                        </fieldset>
+                        <input type="hidden" name="pndn" ng-model="displayName" maxlength="{{ displayNameMax }}"/>
                     </div>
-                    <!-- End preferred name -->
-
-
-                    <hr>
-
                     <!-- Begin policy -->
                     <div class="policy">
-                        <h2>UW Preferred Name Policy</h2>
+                        <h2>UW Policy for Preferred Names</h2>
 
-                        <p><i>TBD.</i> Lorem ipsum dolor sit amet, consectetur
-                            adipiscing elit. Integer commodo quis lorem quis
-                            sollicitudin. Curabitur mattis eget lectus auctor
-                            auctor. Aenean consectetur quam quis dolor iaculis
-                            imperdiet. Suspendisse quis tortor id purus faucibus
-                            efficitur sed quis eros.</p>
+                        <p>When you save your preferred name, you agree that:</p>
+                        <ul>
+                            <li>You have not set a preferred name with an intent to impersonate someone else, to deceive, or to defraud;</li>
+                            <li>You understand that hate speech, inappropriate language, or repeated frequent use of this feature may bar you from using this feature, at the University's discretion.</li>
+                        </ul>
 
                         <p>This service is subject to UW
                             <a href="http://www.washington.edu/online/terms/" target="_blank">Terms of Use</a> and
@@ -114,8 +104,8 @@
 
                     <!-- Two actionable buttons -->
                     <div class="save-message">
-                        <p ng-show="putStatus == 'success'" class="save-success alert alert-success" role="alert">
-                            Your name has been saved successfully!
+                        <p ng-show="putStatus == 'success' && pnform.$pristine" class="save-success alert alert-success" role="alert">
+                            Your name has been saved.
                         </p>
 
                         <p ng-show="putStatus == 'failure'" class="save-failure">
@@ -123,8 +113,8 @@
                         </p>
                     </div>
                     <button type="submit" id="save" class="btn btn-primary" ng-click="putPrefName()"
-                            ng-disabled="pnform.$invalid"
-                            >Agree and Save
+                            ng-disabled="pnform.$invalid || pnform.$pristine"
+                            >Agree & Save Name
                     </button>
 
                 </form>

@@ -1,5 +1,5 @@
 import os
-# Django setting for personal prefs 
+# Django setting for personal prefs
 # These can be reset in 'local_settings.py'
 
 DEBUG = True
@@ -168,4 +168,3 @@ try:
     from local_settings import *
 except ImportError:
     pass
-

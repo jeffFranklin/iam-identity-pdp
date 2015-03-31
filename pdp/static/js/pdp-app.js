@@ -15,7 +15,6 @@ app.config(['$httpProvider', function($httpProvider) {
 
 app.filter('invalid_chars', function() {
 	return function(input, valid) {
-	    console.log('filt');
 	    var ichars = [];
 	    for(var i = 0; i < input.length; i++){
 		if(!valid.test(input.charAt(i))){
@@ -33,10 +32,10 @@ app.filter('invalid_chars', function() {
 app.controller('NameCtrl', ['$scope', '$http', '$log', function($scope, $http, $log) {
 
     // sample valid name characters
-    $scope.valid_chars = /^[\w !\"#$%&\'()*+,.-:;<>?@\/`=]*$/;
+    $scope.valid_chars = /^[\w !#$%&\'*+\-,.?^_`{}~]*$/;
     $scope.displayNameMax = 80;
 
-    // diaplay names as they look in the directory
+    // display names as they look in the directory
     $scope.wp = {
         fname: null,
         mname: null,
@@ -65,9 +64,10 @@ app.controller('NameCtrl', ['$scope', '$http', '$log', function($scope, $http, $
 	$log.info('about to put '+ pdp_name_url);
 	$http.put(pdp_name_url, $scope.pn)
 	.success(function(data){
-		$scope.putStatus = 'success';
-                $scope.getPrefName();
-		$log.info($scope.putStatus);		
+            $scope.putStatus = 'success';
+            $scope.getPrefName();
+            $log.info($scope.putStatus);
+            $scope.pnform.$setPristine(); // only set pristine on success
 	    })
 	.error(function(data){
 		$scope.putStatus = 'error';
@@ -84,7 +84,6 @@ app.controller('NameCtrl', ['$scope', '$http', '$log', function($scope, $http, $
     $scope.getPrefName();
     $scope.displayName = $scope.getDisplayNameFromObject($scope.pn);
     $scope.$watch('pn', function(newval, oldval){
-        console.log('changed');
         $scope.displayName = $scope.getDisplayNameFromObject(newval);
     }, true);
 }]);
