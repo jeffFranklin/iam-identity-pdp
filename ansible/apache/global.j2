@@ -21,3 +21,9 @@ WSGIProcessGroup pdp_group
 </Directory>
 
 
+# error documents are in pdp/static/html/
+
+ErrorDocument 403 /static-pdp/html/error_403.html
+ErrorDocument 404 /static-pdp/html/error_404.html
+ErrorDocument 500 /static-pdp/html/error_500.html
+
