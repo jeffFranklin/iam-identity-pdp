@@ -46,7 +46,8 @@
                                         displayName.length < displayNameMax - 10 ? 'info'
                                         : displayName.length <= displayNameMax ? 'warning'
                                         : 'danger'}}">
-                                <p>{{ displayNameMax >= displayName.length ? displayNameMax - displayName.length : 0 }} characters remaining</p>
+                                <p>{{ displayNameMax >= displayName.length ? displayNameMax - displayName.length : 0 }}
+                                    {{ displayNameMax - displayName.length == 1 ? 'character' : 'characters' }} remaining</p>
                             </div>
 
                             <div class="row">
