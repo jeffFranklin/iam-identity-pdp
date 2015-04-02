@@ -41,14 +41,6 @@
                     <div id="fieldset_wrapper">
                         <fieldset>
                             <legend><b>Set Your Preferred Name</b></legend>
-                                <!-- Counter for character -->
-                                <div id="char-counter" class="alert alert-{{
-                                        displayName.length < displayNameMax - 10 ? 'info'
-                                        : displayName.length <= displayNameMax ? 'warning'
-                                        : 'danger'}}">
-                                <div class="alert alert-warning" role="alert">{{ displayNameMax >= displayName.length ? displayNameMax - displayName.length : 0 }} characters remaining</div>
-                            </div>
-
                             <div class="row">
                                 <div class="col-md-4 namefield">
                                     <label for="pnfname">First Name</label>
@@ -84,6 +76,13 @@
                                 not allowed: {{ displayName | invalid_chars : valid_chars }}</p>
                         </fieldset>
                         <input type="hidden" name="pndn" ng-model="displayName" maxlength="{{ displayNameMax }}"/>
+                                                   <!-- Counter for character -->
+                        <div id="char-counter" class="alert alert-{{
+                                displayName.length < displayNameMax - 10 ? 'info'
+                                : displayName.length <= displayNameMax ? 'warning'
+                                : 'danger'}}">
+                            <p><b>{{ displayNameMax >= displayName.length ? displayNameMax - displayName.length : 0 }} characters remaining</b> for preferred name</p>
+                        </div>
                     </div>
                     <!-- Begin policy -->
                     <div class="policy">
@@ -111,24 +110,24 @@
                             Your name has been saved.
                         </p>
 
-                        <p ng-show="putStatus == 'error'" class="save-failure">
+                        <p ng-show="putStatus == 'error'" class="save-failure alert alert-error" role="alert">
                             Error trying to save name.
                         </p>
                     </div>
-                    
+
                     <button type="submit" id="save" class="btn btn-primary" ng-click="putPrefName()"
                             ng-disabled="pnform.$invalid || pnform.$pristine"
                             >Agree & Save Name
                     </button>
 
                 </form>
-
                 <footer>
                     <p>This service is subject to UW
                             <a href="http://www.washington.edu/online/terms/" target="_blank">Terms of Use</a> and
                             <a href="http://www.washington.edu/online/privacy/" target="_blank">Privacy Policy</a>.</p>
                 </footer>
             </div>
+
             {% endverbatim %}
             {% if show_publish %}
                 </div>
