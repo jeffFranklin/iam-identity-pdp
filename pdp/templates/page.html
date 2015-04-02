@@ -5,8 +5,6 @@
     <div ng-app="pdpApp" class="container">
 
         {% if show_publish %}
-        <!--logout button -->
-        <a href="https://weblogin.washington.edu/?logout_action=0&two=idp&one=idp.u.washington.edu" class="btn btn-default" role="button" id="logout">Log out</a>
             <!-- tabs for pref name and pub pref -->
             <div role="tabpanel">
             <ul class="nav nav-tabs" role="tablist">
@@ -81,7 +79,7 @@
                                 displayName.length < displayNameMax - 10 ? 'info'
                                 : displayName.length <= displayNameMax ? 'warning'
                                 : 'danger'}}">
-                            <p><b>{{ displayNameMax >= displayName.length ? displayNameMax - displayName.length : 0 }} characters remaining</b> for preferred name</p>
+                            <p><b>Characters remaining</b> for preferred name: <b>{{ displayNameMax >= displayName.length ? displayNameMax - displayName.length : 0 }}</b> </p>
                         </div>
                     </div>
                     <!-- Begin policy -->
