@@ -39,14 +39,6 @@
                     <div id="fieldset_wrapper">
                         <fieldset>
                             <legend><b>Set Your Preferred Name</b></legend>
-                                <!-- Counter for character -->
-                                <div id="char-counter" class="alert alert-{{
-                                        displayName.length < displayNameMax - 10 ? 'info'
-                                        : displayName.length <= displayNameMax ? 'warning'
-                                        : 'danger'}}">
-                                <p>{{ displayNameMax >= displayName.length ? displayNameMax - displayName.length : 0 }} characters remaining</p>
-                            </div>
-
                             <div class="row">
                                 <div class="col-md-4 namefield">
                                     <label for="pnfname">First Name</label>
@@ -82,6 +74,13 @@
                                 not allowed: {{ displayName | invalid_chars : valid_chars }}</p>
                         </fieldset>
                         <input type="hidden" name="pndn" ng-model="displayName" maxlength="{{ displayNameMax }}"/>
+                                                   <!-- Counter for character -->
+                        <div id="char-counter" class="alert alert-{{
+                                displayName.length < displayNameMax - 10 ? 'info'
+                                : displayName.length <= displayNameMax ? 'warning'
+                                : 'danger'}}">
+                            <p><b>{{ displayNameMax >= displayName.length ? displayNameMax - displayName.length : 0 }} characters remaining</b> for preferred name</p>
+                        </div>
                     </div>
                     <!-- Begin policy -->
                     <div class="policy">
@@ -114,7 +113,7 @@
                             Error trying to save name.
                         </p>
                     </div>
-                    
+
                     <button type="submit" id="save" class="btn btn-primary" ng-click="putPrefName()"
                             ng-disabled="pnform.$invalid || pnform.$pristine"
                             >Agree & Save Name
