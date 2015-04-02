@@ -129,7 +129,6 @@ input[type="text"] {
 }
 
 .save-message .save-success {
-  height: 44px;
   text-align: center;
   padding: 5px 0px;
 }
@@ -143,23 +142,7 @@ input[type="text"] {
 
 }
 
-/* footer */
-footer {
-  
-}
-
-
 /* IAM Credit */
 #footer p{
   margin-left: 30px;
-}
-
-
-/* 
-	When less than 768px, set the button to the full width of the screen
-*/
-@media (max-width: 768px) {
-  #save {
-  	width: 100%;
-  }
 }
