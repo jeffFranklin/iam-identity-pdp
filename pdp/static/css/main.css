@@ -20,6 +20,8 @@ h3 {
 p, ul li {
   font-size: 14px;
   line-height: 150%;
+  color: #3d3d3d;
+  font-weight: normal;
 }
 
 
@@ -132,7 +134,22 @@ input[type="text"] {
   padding: 5px 0px;
 }
 
+/* styling disabled button */
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn
+{
+  background-color: #d9d9d9;
+  border-color: #ccc;
+  color: #3d3d3d;
+
+}
+
 /* footer */
+footer {
+  
+}
+
+
+/* IAM Credit */
 #footer p{
   margin-left: 30px;
 }
