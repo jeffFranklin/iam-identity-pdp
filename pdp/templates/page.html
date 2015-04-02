@@ -32,10 +32,8 @@
                  ng-model-options="{ allowInvalid: true }">
                 <div class="preferred-name">
                     <h2>Preferred Name</h2>
-
-                    <p>You can set a preferred name (PN) to be used in place of your legal name wherever possible. Your PN will be visible in the
-                        <a href="http://www.washington.edu/home/peopledir/" target="_blank">UW directory</a>. Limit of 80 characters for all
-                        three names.</p>
+                     <p>You can set a preferred name (PN) to be used in place of your legal name wherever possible. Your PN will be visible in the <a href=
+                        "http://www.washington.edu/home/peopledir/" target="_blank">UW directory</a>. Limit of 80 characters for all three names.</p>
                 </div>
                 <form role="form" name="pnform">
                     <div id="fieldset_wrapper">
@@ -101,24 +99,26 @@
                         <p>This service is subject to UW
                             <a href="http://www.washington.edu/online/terms/" target="_blank">Terms of Use</a> and
                             <a href="http://www.washington.edu/online/privacy/" target="_blank">Privacy Policy</a>.</p>
-                </div>
-                <!-- End policy -->
 
-                <!-- Two actionable buttons -->
-                <div class="save-message">
-                    <p ng-show="putStatus == 'success' && pnform.$pristine" class="save-success alert alert-success"
-                       role="alert">
-                        Your name has been saved.
-                    </p>
 
-                    <p ng-show="putStatus == 'failure'" class="save-failure">
-                        Error trying to save name.
-                    </p>
-                </div>
-                <button type="submit" id="save" class="btn btn-primary" ng-click="putPrefName()"
-                        ng-disabled="pnform.$invalid || pnform.$pristine"
-                        >Agree & Save Name
-                </button>
+                    </div>
+                    <!-- End policy -->
+
+                    <!-- Two actionable buttons -->
+                    <div class="save-message">
+                        <p ng-show="putStatus == 'success' && pnform.$pristine" class="save-success alert alert-success" role="alert">
+                            Your name has been saved.
+                        </p>
+
+                        <p ng-show="putStatus == 'error'" class="save-failure">
+                            Error trying to save name.
+                        </p>
+                    </div>
+                    
+                    <button type="submit" id="save" class="btn btn-primary" ng-click="putPrefName()"
+                            ng-disabled="pnform.$invalid || pnform.$pristine"
+                            >Agree & Save Name
+                    </button>
 
                 </form>
 
