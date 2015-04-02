@@ -87,8 +87,6 @@
             
             <!-- all pjax content will render inside of this id -->
             <div id="pjax-container">
-                <!--logout button -->
-                <a href="https://weblogin.washington.edu/?logout_action=0&two=idp&one=idp.u.washington.edu" class="btn btn-default" role="button" id="logout">Log out</a>
                 {% block content %}{% endblock %}
             </div>            
         
@@ -97,9 +95,13 @@
         <div id="footer">
             <!-- example of request.is_mobile and request.is_tablet usage in templates -->    
             {% if request.is_mobile %}
-            <p class="text-muted credit">UW-IT IAM</p>
+            <p class="text-muted credit">Brought to you by UW-IT. <a href="http://www.washington.edu/online/terms/" target="_blank">Terms of Use</a>&nbsp;<a href="http://www.washington.edu/online/privacy/" target="_blank">Privacy Policy</a>.
+                    </p>
             {% else %}
-            <p class="text-muted credit">UW-IT IAM</p>
+            <p class="text-muted credit">Brought to you by UW-IT. This service is subject to UW
+                            <a href="http://www.washington.edu/online/terms/" target="_blank">Terms of Use</a> and
+                            <a href="http://www.washington.edu/online/privacy/" target="_blank">Privacy Policy</a>. <a href="https://weblogin.washington.edu/?logout_action=0&two=idp&one=idp.u.washington.edu">Log out</a>.
+                    </p>
             {% endif %}
         </div>
         
