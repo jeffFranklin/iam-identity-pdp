@@ -45,6 +45,12 @@ p, ul li {
   font-size: 16px;
 }
 
+/* logout */
+#logout {
+  float:right;
+  margin:20px;
+}
+
 
 /* style text input fields */
 
