@@ -79,7 +79,7 @@
                                 displayName.length < displayNameMax - 10 ? 'info'
                                 : displayName.length <= displayNameMax ? 'warning'
                                 : 'danger'}}">
-                            <p><b>Characters remaining</b> for preferred name: <b>{{ displayNameMax >= displayName.length ? displayNameMax - displayName.length : 0 }}</b> </p>
+                            <p><b>{{ displayNameMax >= displayName.length ? displayNameMax - displayName.length : 0 }} {{ displayNameMax - displayName.length == 1 ? 'character' : 'characters' }} remaining</b> for preferred name</p>
                         </div>
                     </div>
                     <!-- Begin policy -->
