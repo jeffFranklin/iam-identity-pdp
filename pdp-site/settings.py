@@ -60,7 +60,8 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_COOKIE_NAME = 'pdpsession'
 SESSION_COOKIE_PATH = '/'
 SESSION_COOKIE_SECURE = True  # False if you are using development environment
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # This can't be true if we want to set AGE
+SESSION_COOKIE_AGE = 60*60  # seconds
 
 
 # Database
