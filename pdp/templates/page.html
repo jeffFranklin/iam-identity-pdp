@@ -33,7 +33,7 @@
                 <div class="preferred-name">
                     <h2>Preferred Name</h2>
                      <p>You can set a preferred name to be used in place of your legal name wherever possible. If you are listed in the <a href=
-                        "http://www.washington.edu/home/peopledir/" target="_blank">UW directory</a>, your preferred name will be visible there immediately. In the future, your preferred name will appear in more places including Outlook and Sharepoint. There is a limit of 80 characters for all three names.</p>
+                        "http://www.washington.edu/home/peopledir/" target="_blank">UW directory</a>, your preferred name will be visible there immediately. There is a limit of 80 characters for all three names.</p>
                 </div>
                 <form role="form" name="pnform">
                     <div id="fieldset_wrapper">
@@ -79,7 +79,7 @@
                                 displayName.length < displayNameMax - 10 ? 'info'
                                 : displayName.length <= displayNameMax ? 'warning'
                                 : 'danger'}}">
-                            <p><b>Characters remaining</b> for preferred name: <b>{{ displayNameMax >= displayName.length ? displayNameMax - displayName.length : 0 }}</b> </p>
+                            <p><b>{{ displayNameMax >= displayName.length ? displayNameMax - displayName.length : 0 }} {{ displayNameMax - displayName.length == 1 ? 'character' : 'characters' }} remaining</b> for preferred name</p>
                         </div>
                     </div>
                     <!-- Begin policy -->
