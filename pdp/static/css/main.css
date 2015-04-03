@@ -3,7 +3,49 @@
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-
+/*boundless fonts*/
+@font-face {
+  font-family: 'Encode Sans Compressed';
+  src: url('../static/assets/fonts/encodesanscondensed-400-regular-webfont.eot');
+  src: url('../static/assets/fonts/encodesanscondensed-400-regular-webfont.eot?#iefix') format('embedded-opentype'), url('../static/assets/fonts/encodesanscondensed-400-regular-webfont.woff') format('woff'), url('../static/assets/fonts/encodesanscondensed-400-regular-webfont.ttf') format('truetype'), url('../static/assets/fonts/encodesanscondensed-400-regular-webfont.svg#encodesanscondensed-400-regular-webfont') format('svg');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Encode Sans Compressed';
+  src: url('../static/assets/fonts/encodesanscondensed-500-medium-webfont.eot');
+  src: url('../static/assets/fonts/encodesanscondensed-500-medium-webfont.eot?#iefix') format('embedded-opentype'), url('../static/assets/fonts/encodesanscondensed-500-medium-webfont.woff') format('woff'), url('../static/assets/fonts/encodesanscondensed-500-medium-webfont.ttf') format('truetype'), url('../static/assets/fonts/encodesanscondensed-500-medium-webfont.svg#encodesanscondensed-500-medium-webfont') format('svg');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Encode Sans Compressed';
+  src: url('../static/assets/fonts/encodesanscompressed-600-semibold-webfont.eot');
+  src: url('../static/assets/fonts/encodesanscompressed-600-semibold-webfont.eot?#iefix') format('embedded-opentype'), url('../static/assets/fonts/encodesanscompressed-600-semibold-webfont.woff') format('woff'), url('../static/assets/fonts/encodesanscompressed-600-semibold-webfont.ttf') format('truetype'), url('../static/assets/fonts/encodesanscompressed-600-semibold-webfont.svg#encodesanscompressed-600-semibold-webfont') format('svg');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Encode Sans Compressed';
+  src: url('../static/assets/fonts/encodesanscompressed-700-bold-webfont.eot');
+  src: url('../static/assets/fonts/encodesanscompressed-700-bold-webfont.eot?#iefix') format('embedded-opentype'), url('../static/assets/fonts/encodesanscompressed-700-bold-webfont.woff') format('woff'), url('../static/assets/fonts/encodesanscompressed-700-bold-webfont.ttf') format('truetype'), url('../static/assets/fonts/encodesanscompressed-700-bold-webfont.svg#encodesanscompressed-700-bold-webfont') format('svg');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Encode Sans Compressed';
+  src: url('../static/assets/fonts/encodesanscompressed-800-extrabold-webfont.eot');
+  src: url('../static/assets/fonts/encodesanscompressed-800-extrabold-webfont.eot?#iefix') format('embedded-opentype'), url('../static/assets/fonts/encodesanscompressed-800-extrabold-webfont.woff') format('woff'), url('../static/assets/fonts/encodesanscompressed-800-extrabold-webfont.ttf') format('truetype'), url('../static/assets/fonts/encodesanscompressed-800-extrabold-webfont.svg#encodesanscompressed-800-extrabold-webfont') format('svg');
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Encode Sans Compressed';
+  src: url('../static/assets/fonts/encodesanscompressed-900-black-webfont.eot');
+  src: url('../static/assets/fonts/encodesanscompressed-900-black-webfont.eot?#iefix') format('embedded-opentype'), url('../static/assets/fonts/encodesanscompressed-900-black-webfont.woff') format('woff'), url('../static/assets/fonts/encodesanscompressed-900-black-webfont.ttf') format('truetype'), url('../static/assets/fonts/encodesanscompressed-900-black-webfont.svg#encodesanscompressed-900-black-webfont') format('svg');
+  font-weight: 900;
+  font-style: normal;
+}
 
 /* headers */ 
 /* customize font-size */
