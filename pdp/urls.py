@@ -9,7 +9,6 @@ from pdp.views.api.identity import Publish
 urlpatterns = patterns(
     'pdp.views',
     url(r'^$', 'page.index', name='home'),
-    url(r'^ui$', 'page.ui', name='just the ui'),
     url(r'^login/', 'page.login', name='login'),
     url(r'^api/name$', login_required(Name().run), name='name'),
     url(r'api/identity/publish$', Publish().run),
