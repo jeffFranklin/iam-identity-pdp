@@ -46,7 +46,7 @@ class NameTests(LiveServerTestCase):
             # one less should do it
             good_name = tuple([i[:-1] if len(i) == 65 else i for i in bad_name])
             self._put_success(good_name)
-            self._put_failure(bad_name)
+            self._put_fail(bad_name)
 
     def test_name_put_bad_characters(self):
         bad_chars = '"():;<>[\]|@%+#'
