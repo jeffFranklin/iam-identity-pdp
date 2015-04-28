@@ -3,12 +3,15 @@ import urllib3
 import simplejson as json
 import pytest
 
+
 class NameTests(LiveServerTestCase):
 
     def test_name_get(self):
         name = self._get_name()
-        assert ({'display_lname', 'display_fname', 'display_mname'}
-                <= set(name.keys()))
+        assert ({'display_lname',
+                 'display_fname',
+                 'display_mname'} <=
+                set(name.keys()))
 
     def test_name_put_basic(self):
         self._put_success(('Dwight', 'David', 'Adams'))
@@ -54,7 +57,8 @@ class NameTests(LiveServerTestCase):
             ]
         for bad_name in bad_names:
             # one less should do it
-            good_name = tuple([i[:-1] if len(i) == 65 else i for i in bad_name])
+            good_name = tuple(
+                [i[:-1] if len(i) == 65 else i for i in bad_name])
             self._put_success(good_name)
             self._put_fail(bad_name)
 
@@ -84,16 +88,18 @@ class NameTests(LiveServerTestCase):
                     'display_mname': name[1],
                     'display_lname': name[2]}
 
-        return self.http.request('PUT',
-                                 '{}/id/api/name'.format(self.live_server_url),
-                                 headers={'Content-Type': 'application/json'},
-                                 body=json.dumps(put_name))
-        
+        return self.http.request(
+            'PUT',
+            '{}/id/api/name'.format(self.live_server_url),
+            headers={'Content-Type': 'application/json'},
+            body=json.dumps(put_name))
+
     def _get_name(self):
-        r = self.http.request('GET', '{}/id/api/name'.format(self.live_server_url))
+        r = self.http.request(
+            'GET',
+            '{}/id/api/name'.format(self.live_server_url))
         assert r.status == 200
         return json.loads(r.data)
-        
 
     @property
     def http(self):
