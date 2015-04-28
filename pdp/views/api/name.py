@@ -35,6 +35,7 @@ class Name(RESTDispatch):
             logger.info(str(dfe))
             raise dfe
         except Exception as e:
-            logger.info('exception {} occurred'.format(type(e).__name__))
+            logger.info('exception {} occurred: {}'.format(
+                type(e).__name__, str(e)))
             response = HttpResponseBadRequest()
         return response

@@ -14,7 +14,17 @@ class NameTests(LiveServerTestCase):
         self._put_success(('Dwight', 'David', 'Adams'))
 
     def test_name_put_good_characters(self):
-        self._put_success(('!$&\' *-,.?^_`{}~', '', 'Adams'))
+        self._put_success(('!$&\' *-,.?^_`{}~#+%', '', 'Adams'))
+
+    def test_name_put_bad_characters(self):
+        bad_chars = '"():;<>[\]|@'
+        for bad_char in bad_chars:
+            self._put_fail(('f' + bad_char + 'f', 'm', 'l'))
+
+    def test_name_put_no_injection(self):
+        self._put_success(('D+wight', 'D+avid', 'A+dams'))
+        self._put_success(('D%3C%20wight', 'D%3C%20avid', 'A%3C%20dams'))
+        self._put_success(('D#wight', 'D#avid', 'A#dams'))
 
     def test_name_put_no_first_name(self):
         self._put_fail(('', 'David', 'Adams'))
@@ -48,15 +58,16 @@ class NameTests(LiveServerTestCase):
             self._put_success(good_name)
             self._put_fail(bad_name)
 
-    def test_name_put_bad_characters(self):
-        bad_chars = '"():;<>[\]|@%+#'
-        for bad_char in bad_chars:
-            self._put_fail(('f' + bad_char + 'f', 'm', 'l'))
-
     def test_name_put_no_utf8(self):
         self._put_fail((u'Jos\xe9', 'Average', 'User'))
 
     def _put_success(self, name):
+        """
+        Put a name and make sure we get back what we put
+
+        Args:
+          name: a three-part tuple of first, middle, last
+        """
         response = self._put_name_response(name)
         assert response.status == 200
         get_name = self._get_name()

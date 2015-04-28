@@ -63,6 +63,8 @@ SESSION_COOKIE_SECURE = True  # False if you are using development environment
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # This can't be true if we want to set AGE
 SESSION_COOKIE_AGE = 60*60  # seconds
+LOG_DIR = BASE_DIR
+LOG_HANDLERS = ['debuglog', 'console']
 
 
 # Database
@@ -96,7 +98,7 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'formatter': 'verbose',
-            'filename': os.path.join(BASE_DIR, 'process.log'),
+            'filename': os.path.join(LOG_DIR, 'process.log'),
         },
         'console': {
             'level': 'DEBUG',
@@ -107,17 +109,17 @@ LOGGING = {
     },
     'loggers': {
         'django.request': {
-            'handlers': ['debuglog', 'console'],
+            'handlers': LOG_HANDLERS,
             'level': 'DEBUG',
             'propagate': True,
         },
         'pdp': {
-            'handlers': ['debuglog', 'console'],
+            'handlers': LOG_HANDLERS,
             'level': 'DEBUG',
             'propagate': True,
         },
         'restclients': {
-            'handlers': ['debuglog', 'console'],
+            'handlers': LOG_HANDLERS,
             'level': 'DEBUG',
             'propagate': True,
         },
