@@ -32,7 +32,7 @@ app.filter('invalid_chars', function() {
 app.controller('NameCtrl', ['$scope', '$http', '$log', function($scope, $http, $log) {
 
     // sample valid name characters
-    $scope.valid_chars = /^[\w !#$&\'*+\-,.?^_`{}~]*$/;
+    $scope.valid_chars = /^[\w !#$%&\'*+\-,.?^_`{}~]*$/;
     $scope.displayNameMax = 80;
 
     // display names as they look in the directory
