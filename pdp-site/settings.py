@@ -63,9 +63,6 @@ SESSION_COOKIE_SECURE = True  # False if you are using development environment
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # This can't be true if we want to set AGE
 SESSION_COOKIE_AGE = 60*60  # seconds
-LOG_DIR = BASE_DIR
-LOG_HANDLERS = ['debuglog', 'console']
-
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -79,6 +76,67 @@ DATABASES = {
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
+
+# Internationalization
+# https://docs.djangoproject.com/en/1.7/topics/i18n/
+
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'UTC'
+
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = True
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.7/howto/static-files/
+
+STATIC_URL = '/static/'
+STATIC_ROOT = '/tmp/'
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+
+# PWS settings
+RESTCLIENTS_IRWS_DAO_CLASS = 'restclients.dao_implementation.irws.File'
+RESTCLIENTS_IRWS_HOST = 'https://mango-dev.u.washington.edu:443'
+RESTCLIENTS_IRWS_SERVICE_NAME = 'registry-dev'
+RESTCLIENTS_IRWS_CERT_FILE = '/data/local/etc/x315.crt'
+RESTCLIENTS_IRWS_KEY_FILE = '/data/local/etc/x315.key'
+RESTCLIENTS_CA_BUNDLE = '/data/local/etc/cacerts.cert'
+RESTCLIENTS_IRWS_MAX_POOL_SIZE = 10
+
+RESTCLIENTS_TIMEOUT = None
+# RESTCLIENTS_DAO_CACHE_CLASS = 'pdp.cache.UICache'
+# import local settings
+
+LOG_DIR = BASE_DIR
+LOG_HANDLERS = ['debuglog', 'console']
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
+
+"""
+Put this after local_settings import for now since it should be
+common across all environments with the environment specific
+parts overridden by LOG_DIR, LOG_HANDLERS, etc.
+
+This can probably be reworked, my aim was to not have to duplicate
+this across all environments
+"""
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -125,50 +183,3 @@ LOGGING = {
         },
     }
 }
-
-# Internationalization
-# https://docs.djangoproject.com/en/1.7/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.7/howto/static-files/
-
-STATIC_URL = '/static/'
-STATIC_ROOT = '/tmp/'
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
-)
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-
-
-# PWS settings
-RESTCLIENTS_IRWS_DAO_CLASS = 'restclients.dao_implementation.irws.File'
-RESTCLIENTS_IRWS_HOST = 'https://mango-dev.u.washington.edu:443'
-RESTCLIENTS_IRWS_SERVICE_NAME = 'registry-dev'
-RESTCLIENTS_IRWS_CERT_FILE = '/data/local/etc/x315.crt'
-RESTCLIENTS_IRWS_KEY_FILE = '/data/local/etc/x315.key'
-RESTCLIENTS_CA_BUNDLE = '/data/local/etc/cacerts.cert'
-RESTCLIENTS_IRWS_MAX_POOL_SIZE = 10
-
-RESTCLIENTS_TIMEOUT = None
-# RESTCLIENTS_DAO_CACHE_CLASS = 'pdp.cache.UICache'
-# import local settings
-try:
-    from local_settings import *
-except ImportError:
-    pass
