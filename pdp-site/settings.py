@@ -64,6 +64,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # This can't be true if we want to set AGE
 SESSION_COOKIE_AGE = 60*60  # seconds
 
+
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
@@ -76,6 +77,52 @@ DATABASES = {
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': ('%(asctime)s %(levelname)s '
+                       '%(module)s.%(funcName)s():%(lineno)d: '
+                       '%(message)s')
+            },
+        },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'debuglog': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'formatter': 'verbose',
+            'filename': os.path.join(BASE_DIR, 'process.log'),
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+            'stream': 'ext://sys.stdout',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['debuglog', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'pdp': {
+            'handlers': ['debuglog', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'restclients': {
+            'handlers': ['debuglog', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -119,67 +166,7 @@ RESTCLIENTS_IRWS_MAX_POOL_SIZE = 10
 RESTCLIENTS_TIMEOUT = None
 # RESTCLIENTS_DAO_CACHE_CLASS = 'pdp.cache.UICache'
 # import local settings
-
-LOG_DIR = BASE_DIR
-LOG_HANDLERS = ['debuglog', 'console']
-
 try:
     from local_settings import *
 except ImportError:
     pass
-
-"""
-Put this after local_settings import for now since it should be
-common across all environments with the environment specific
-parts overridden by LOG_DIR, LOG_HANDLERS, etc.
-
-This can probably be reworked, my aim was to not have to duplicate
-this across all environments
-"""
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': ('%(asctime)s %(levelname)s '
-                       '%(module)s.%(funcName)s():%(lineno)d: '
-                       '%(message)s')
-            },
-        },
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler'
-        },
-        'debuglog': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'formatter': 'verbose',
-            'filename': os.path.join(LOG_DIR, 'process.log'),
-        },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
-            'stream': 'ext://sys.stdout',
-        },
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': LOG_HANDLERS,
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'pdp': {
-            'handlers': LOG_HANDLERS,
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'restclients': {
-            'handlers': LOG_HANDLERS,
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    }
-}

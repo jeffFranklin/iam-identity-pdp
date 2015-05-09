@@ -1,7 +1,8 @@
 # local additions to settings
+import os
 
 DEBUG = True
-SECRET_KEY = 'some_test_key_!&%@'
+SECRET_KEY = open(os.path.join('/data/local/etc', 'pdp-secret')).read().strip()
 TEMPLATE_DEBUG = True
 USER_SERVICE_NO_DEFAULT_USER = True
 LOGIN_URL = '/pdp/login/'

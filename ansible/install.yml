@@ -25,6 +25,14 @@
   - name: update install status
     copy: "src=install.status dest={{app_base}}/pdp group=iam-dev mode=664"
 
+  - name: stat the secret file
+    stat: path=/data/local/etc/pdp-secret
+    register: secrets_stat
+
+  - name: fail if no secret
+    fail: msg="No secret file"
+    when: not secrets_stat.stat.isreg or secrets_stat.stat.size < 8
+
   - name: copy app
     copy: "src=../{{item}} dest={{app_base}}/pdp group=iam-dev mode=664 directory_mode=2775"
     with_items:
@@ -74,12 +82,12 @@
     file: "path={{ app_base }}/pdp/certs state=directory group=iam-dev mode=2775"
 
 
-  - name: copy certs if present
+  - name: copy certs if present should never happen for something AE now manages
     copy: "src={{ item.src }} dest={{ item.dest }} group=iam-dev mode=664 "
     with_items:
        - { src: '{{local_pdp_certFile}}', dest: '{{pdp_certFile}}' }
        - { src: '{{local_pdp_keyFile}}', dest: '{{pdp_keyFile}}' }
-    when: have_local_certs is defined and item.src != ""
+    when: False and have_local_certs is defined and item.src != ""
 
   - name: verify db 
     file: "path={{ app_base }}/pdp/db state=directory group=iam-dev mode=2775"
@@ -96,6 +104,28 @@
   - name: check db 3
     file: "path={{ app_base }}/pdp/db/db.sqlite3 state=file group=iam-dev mode=664"
     when: db_stat.stat.exists == False
+
+  # testing non-prod environments, should probably get done another way if the tests
+  # start getting longer
+  - name: copy extra dev stuff
+    copy: "src=../{{item}} dest={{app_base}}/pdp group=iam-dev mode=664 directory_mode=2775"
+    with_items:
+      - requirements-dev.txt
+      - it
+    when: cluster_type != "prod"
+
+  - name: pip install dev
+    pip: requirements={{ app_base }}/pdp/requirements-dev.txt virtualenv={{ app_base }}/pdp
+    when: cluster_type != "prod"
+
+  - name: run integration tests
+    command: bin/py.test it
+    environment:
+      DJANGO_SETTINGS_MODULE: pdp-site.it_settings
+      REMOTE_USER: idtest55
+    args:
+      chdir: "{{ app_base }}/pdp"
+    when: cluster_type != "prod"
 
   # run any handlers 
   - meta: flush_handlers
