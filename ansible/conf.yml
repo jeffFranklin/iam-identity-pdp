@@ -1,6 +1,0 @@
-# personal-preferences config
-
-app_name: pdp
-app_base: /data/local/django
-app_url_base: /id
-syslog_facility: LOG_LOCAL7
