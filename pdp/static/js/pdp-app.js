@@ -2,8 +2,7 @@
 
 // these are set by page load
 var pdp_name_url = 'api/name';
-var pdp_pub_url = 'api/identity/publish';
-var pdp_user_has_publish = false;
+var pdp_pub_url = 'api/publish';
 
 
 var app = angular.module('pdpApp', []);
@@ -91,35 +90,35 @@ app.controller('NameCtrl', ['$scope', '$http', '$log', function($scope, $http, $
 
 /* controller for the publish preference */
 
-app.controller('PubCtrl', ['$scope', '$http', '$log', function($scope, $http, $log) {
-    console.log('pubctrl, publish = ' + pdp_user_has_publish);
-
-    // initial publish flag comes from the page load
-    $scope.wp_publish = 'no';
-    if (pdp_user_has_publish) $scope.wp_publish = 'yes';
-
-    $scope.putPubStatus = null;
-    $scope.getPubPref = function() {
-	$log.info('about to get '+ pdp_pub_url);
-	$http.get(pdp_pub_url).success(function(data){
-		$scope.pn = data;
+app.controller('PubCtrl', ['$http', '$log', function($http, $log) {
+    var _this = this;
+    this.publish = {
+        publish: 'no'
+    };
+    this.putStatus = null;
+    this.getPubPref = function() {
+	    $log.info('about to get '+ pdp_pub_url);
+	    $http.get(pdp_pub_url).success(function(data){
+		    _this.publish = data;
 	    });
     };
-    $scope.putPubPref = function() {
-        console.log('pub = ' + $scope.wp_publish);
-	$log.info('about to put '+ pdp_pub_url);
-	$http.put(pdp_pub_url, $scope.pn)
-	.success(function(data){
-		$scope.putStatus = 'Successful response from put';
-		$log.info($scope.putStatus);		
-	    })
-	.error(function(data){
+    this.putPubPref = function() {
+        console.log('pub = ' + JSON.stringify(_this.publish));
+	    $log.info('about to put to '+ pdp_pub_url);
+	    $http.put(pdp_pub_url, _this.publish)
+	        .success(function(data){
+		        _this.putStatus = 'success';
+		        $log.info(_this.putStatus);
+                _this.form.$setPristine();
+            })
+	        .error(function(data){
                 err_msg = data.error_message;
                 console.log(err_msg);
-                $scope.putPubStatus = err_msg;
-                $log.info($scope.putPubStatus);
-	    });
+                _this.putStatus = 'error';
+                $log.info(err_msg);
+	        });
     };
+    this.getPubPref();
 
 }]);
 

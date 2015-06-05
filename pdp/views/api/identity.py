@@ -16,6 +16,9 @@ logger = logging.getLogger(__name__)
 
 class Publish(RESTDispatch):
 
+    publish_options = {'Y': 'yes', 'N': 'no', 'E': 'email'}
+    publish_options_reverse = {value: key for key, value in publish_options.items()}
+
     def GET(self, request):
         logger.info("identity/publish api for " + request.user.username)
         netid = Util.netid_from_remote_user(request.user.username)
@@ -58,12 +61,13 @@ class Publish(RESTDispatch):
         return response
 
     def _person_object_to_json(self, person):
-        return json.dumps({'publish': person.wp_publish})
+        return json.dumps({'publish': Publish.publish_options[person.wp_publish]})
 
     def _json_to_irws_json(self, data):
         try:
             person = json.loads(data)
-            irws_json = json.dumps({'wp_publish': person['publish']})
+            irws_json = json.dumps(
+                {'wp_publish': Publish.publish_options_reverse[person['publish']]})
         except:
             raise ValueError('bad json from browser')
         return irws_json

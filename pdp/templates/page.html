@@ -129,25 +129,35 @@
 
                 <div role="tabpanel" class="tab-pane" id="pubpref">
                     <tab heading="Pub pref" active="false" disabled="">
-                        <!-- <h2><div>Publish preference</h2> -->
-                        <p>You can set publishing...</p>
                         {% verbatim %}
-                        <div ng-controller="PubCtrl">
-                            <form role="form">
+                        <div ng-controller="PubCtrl as pub">
+                            <form role="form" name="pub.form">
                                 <div class="form-group">
-                                    <label for="wppublish">Publish in UW Directory?</label>
+                                    <label>Publish in UW Directory?</label>
                                     <br/>
-                                    <input type="radio" id="wppubyes" name="wppub" value="yes" ng-model="wp_publish">
-                                    <label for="wppubyes">Yes</label>
-                                    <br/>
-                                    <input type="radio" id="wppubno" name="wppub" value="no" ng-model="wp_publish">
-                                    <label for="wppubno">No</label>
+                                    <label>
+                                        <input type="radio" value="yes" ng-model="pub.publish.publish">
+                                        Yes
+                                    </label><br/>
+                                    <label>
+                                        <input type="radio" value="no" ng-model="pub.publish.publish">
+                                        No
+                                    </label><br/>
+                                    <label>
+                                        <input type="radio" value="email" ng-model="pub.publish.publish">
+                                        Email only
+                                    </label><br/>
                                 </div>
                             </form>
-                            <a class="btn btn-primary" ng-click="putPubPref()">
-                                Save
-                            </a>
-                            <span ng-hide="putPubStatus == null">{{putPubStatus}}</span>
+                            <div class="save-message">
+                                <p ng-show="pub.putStatus == 'success' && pub.form.$pristine" class="save-success alert alert-success" role="alert">
+                                    Your publishing preferences have been saved.</p>
+                                <p ng-show="putStatus == 'error'" class="save-failure alert alert-danger" role="alert">
+                                    Error trying to publishing preferences.</p>
+                            </div>
+                            <button type="submit" id="save" class="btn btn-primary" ng-click="pub.putPubPref()"
+                                ng-disabled="pub.form.$invalid || pub.form.$pristine">
+                                Save Preferences</button>
                         </div>
                         {% endverbatim %}
                     </tab>
