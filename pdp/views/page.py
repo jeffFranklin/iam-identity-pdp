@@ -1,28 +1,12 @@
 import re
-import os
 import logging
-import time
 
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render_to_response
-from django.shortcuts import render
-from django.shortcuts import redirect
-from django.shortcuts import render_to_response
-
-
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.template import RequestContext
-from django.template import Context, loader
-
-from django.conf import settings
 from userservice.user import UserService
-from pdp.views.rest_dispatch import invalid_session
-from django.core.context_processors import csrf
-from django.views.decorators.csrf import csrf_protect
 from django.contrib import auth
-import simplejson as json
-from restclients.pws import PWS
 from restclients.irws import IRWS
+from pdp.util import Util
 
 
 logger = logging.getLogger('pdp')
@@ -102,8 +86,7 @@ def logout(request):
 
 @login_required(redirect_field_name='postlogin')
 def index(request, template=None):
-    # remove the @washington.edu
-    remote_user = re.sub(r'@.*', '', request.user.username)
+    remote_user = Util.netid_from_remote_user(request.user.username)
     logger.info('remote user=' + remote_user)
 
     show_publish = False
@@ -117,18 +100,10 @@ def index(request, template=None):
     # get some info about this user from IRWS
     irwsClient = IRWS()
     name = irwsClient.get_name_by_netid(remote_user)
-    ident = irwsClient.get_identity_by_netid(remote_user)
-    wp_publish = 'true'
-    if 'hepps' in ident.identifiers:
-        uri = ident.identifiers['hepps']
-        hepps = irwsClient.get_hepps_person_by_uri(uri)
-        if hepps.wp_publish != 'Y':
-            wp_publish = 'false'
 
     context = {
        'remote_user': remote_user,
        'irws_name': name,
-       'wp_publish': wp_publish,
        'show_publish': show_publish,
     }
 
