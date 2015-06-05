@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 class Publish(RESTDispatch):
 
-    publish_options = {'Y': 'yes', 'N': 'no', 'E': 'email'}
+    publish_options = {'N': 'no', 'Y': 'yes', 'E': 'no email'}
     publish_options_reverse = {value: key for key, value in publish_options.items()}
 
     def GET(self, request):

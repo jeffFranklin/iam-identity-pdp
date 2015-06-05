@@ -10,8 +10,8 @@
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#prefname" aria-controls="prefname" role="tab"
                                                           data-toggle="tab">Preferred name</a></li>
-                <li role="presentation"><a href="#pubpref" aria-controls="pubpref" role="tab" data-toggle="tab">Publish
-                    pref</a></li>
+                <li role="presentation"><a href="#pubpref" aria-controls="pubpref" role="tab" data-toggle="tab">Employee publish
+                    preference</a></li>
             </ul>
 
             <div class="tab-content">
@@ -136,16 +136,16 @@
                                     <label>Publish in UW Directory?</label>
                                     <br/>
                                     <label>
-                                        <input type="radio" value="yes" ng-model="pub.publish.publish">
-                                        Yes
-                                    </label><br/>
-                                    <label>
                                         <input type="radio" value="no" ng-model="pub.publish.publish">
-                                        No
+                                        Do not publish
                                     </label><br/>
                                     <label>
-                                        <input type="radio" value="email" ng-model="pub.publish.publish">
-                                        Email only
+                                        <input type="radio" value="yes" ng-model="pub.publish.publish">
+                                        Publish
+                                    </label><br/>
+                                    <label>
+                                        <input type="radio" value="no email" ng-model="pub.publish.publish">
+                                        Publish, without email
                                     </label><br/>
                                 </div>
                             </form>
