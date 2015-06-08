@@ -1,32 +1,23 @@
 from pdp.views.api.name import Name
-import mock
 import logging
 import json
 from restclients.exceptions import InvalidIRWSName, DataFailureException
+from pdp.test.util import TestWithMocks, mock_request
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
-class TestName(object):
+class TestName(TestWithMocks):
 
-    def setup_method(self, method):
-        logger.debug('setting up method {}'.format(method.__name__))
-        self.patchers = {'irws': mock.patch('pdp.views.api.name.IRWS')}
-
-        for attr, patcher in self.patchers.iteritems():
-            setattr(self, attr, patcher.start())
-
-    def teardown_method(self, method):
-        for patcher in self.patchers.values():
-            patcher.stop()
+    def setup_class(self):
+        self.mock_items = {'irws': 'pdp.views.api.name.IRWS'}
 
     def test_name_get(self):
         name = Name()
-        request = self._mock_request()
+        request = mock_request()
         get_name = self.irws.return_value.get_name_by_netid
-        get_name.return_value.json_data.return_value = {
-            'foo': 'bar'}
+        get_name.return_value.json_data.return_value = {'foo': 'bar'}
 
         response = name.GET(request)
 
@@ -37,7 +28,7 @@ class TestName(object):
 
     def test_name_put(self):
         name = Name()
-        request = self._mock_request({'foo': 'bar'})
+        request = mock_request({'foo': 'bar'})
 
         self.irws.return_value.put_name_by_netid.return_value = {
             'baz': 'bar'}
@@ -51,7 +42,7 @@ class TestName(object):
 
     def test_name_put_bad_name(self):
         name = Name()
-        request = self._mock_request({})
+        request = mock_request({})
         put_name = self.irws.return_value.put_name_by_netid
         put_name.side_effect = InvalidIRWSName('bad name')
 
@@ -63,14 +54,7 @@ class TestName(object):
         self.irws.return_value.put_name_by_netid.side_effect = dfe
         exception_caught = False
         try:
-            Name().PUT(self._mock_request({}))
+            Name().PUT(mock_request({}))
         except:
             exception_caught = True
         assert exception_caught
-
-    def _mock_request(self, body=None):
-        request = mock.MagicMock()
-        request.user.username = 'jjj@washington.edu'
-        if body is not None:
-            request.body = json.dumps(body)
-        return request
