@@ -2,21 +2,21 @@
 
 {% block content %}
 
-    <div ng-app="pdpApp" class="container">
+    <div ng-app="pdpApp" ng-cloak class="container">
 
         {% if show_publish %}
             <!-- tabs for pref name and pub pref -->
             <div role="tabpanel">
             <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#prefname" aria-controls="prefname" role="tab"
+                <li role="presentation"><a href="#prefname" aria-controls="prefname" role="tab"
                                                           data-toggle="tab">Preferred name</a></li>
-                <li role="presentation"><a href="#pubpref" aria-controls="pubpref" role="tab" data-toggle="tab">Employee publish
+                <li role="presentation" class="active"><a href="#pubpref" aria-controls="pubpref" role="tab" data-toggle="tab">Employee publish
                     preference</a></li>
             </ul>
 
             <div class="tab-content">
 
-            <div role="tabpanel" class="tab-pane active" id="prefname">
+            <div role="tabpanel" class="tab-pane" id="prefname">
         {% endif %}
 
         <div class="container">
@@ -127,7 +127,7 @@
                 </div>
                 </div>
 
-                <div role="tabpanel" class="tab-pane" id="pubpref">
+                <div role="tabpanel" class="tab-pane active" id="pubpref">
                     <tab heading="Pub pref" active="false" disabled="">
                         {% verbatim %}
                         <div ng-controller="PubCtrl as pub">
