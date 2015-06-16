@@ -28,58 +28,59 @@
             </div>
             <!-- End legal name -->
             {% verbatim %}
-            <div ng-cloak ng-controller="NameCtrl"
+            <div ng-cloak ng-controller="NameCtrl as name"
                  ng-model-options="{ allowInvalid: true }">
                 <div class="preferred-name">
                     <h2>Preferred Name</h2>
                      <p>You can set a preferred name to be used in place of your legal name wherever possible. If you are listed in the <a href=
                         "http://www.washington.edu/home/peopledir/" target="_blank">UW directory</a>, your preferred name will be visible there immediately. There is a limit of 80 characters for all three names.</p>
                 </div>
-                <form role="form" name="pnform">
+                <form role="form" name="name.form">
                     <div id="fieldset_wrapper">
                         <fieldset>
                             <legend><b>Set Your Preferred Name</b></legend>
                             <div class="row">
                                 <div class="col-md-4 namefield">
                                     <label for="pnfname">First Name</label>
-                                    <input type="text" name="pnfname" ng-model="pn.display_fname"
-                                           ng-pattern="valid_chars" value="{{wp.fname}}"
-                                           maxlength="{{ displayNameMax - (displayName.length - pn.display_fname.length)  }}"
+                                    <input type="text" name="pnfname" ng-model="name.pn.display_fname"
+                                           ng-pattern="name.valid_chars"
+                                           ng-change="name.updateDisplayName()"
+                                           maxlength="{{ name.displayNameMax - (name.displayName.length - name.pn.display_fname.length)  }}"
                                            required="required"/>
 
                                     <p id="errormessage"
-                                       ng-show="pnform.pnfname.$dirty && pnform.pnfname.$error.required">First name is
+                                       ng-show="name.form.pnfname.$dirty && name.form.pnfname.$error.required">First name is
                                         required.</p>
                                 </div>
                                 <div class="col-md-4 namefield">
                                     <label for="pnmname">Middle Name</label>
-                                    <input type="text" name="pnmname" ng-model="pn.display_mname"
-                                           ng-pattern="valid_chars"
-                                           maxlength="{{ displayNameMax - (displayName.length - pn.display_mname.length)  }}"
-                                           value="{{wp.mname}}"/>
+                                    <input type="text" name="pnmname" ng-model="name.pn.display_mname"
+                                           ng-pattern="name.valid_chars"
+                                           ng-change="name.updateDisplayName()"
+                                           maxlength="{{ name.displayNameMax - (name.displayName.length - name.pn.display_mname.length)  }}"/>
                                 </div>
                                 <div class="col-md-4 namefield">
                                     <label for="pnlname">Last Name</label>
-                                    <input type="text" name="pnlname" ng-model="pn.display_lname"
-                                           ng-pattern="valid_chars" value="{{wp.lname}}"
-                                           maxlength="{{ displayNameMax - (displayName.length - pn.display_lname.length)  }}"
+                                    <input type="text" name="pnlname" ng-model="name.pn.display_lname"
+                                           ng-change="name.updateDisplayName()"
+                                           ng-pattern="name.valid_chars"
+                                           maxlength="{{ name.displayNameMax - (name.displayName.length - name.pn.display_lname.length)  }}"
                                            required="required"/>
 
                                     <p id="errormessage"
-                                       ng-show="pnform.pnlname.$dirty && pnform.pnlname.$error.required">Last name is
+                                       ng-show="name.form.pnlname.$dirty && name.form.pnlname.$error.required">Last name is
                                         required.</p>
                                 </div>
                             </div>
-                            <p id="errormessage" ng-show="pnform.$dirty && pnform.$error.pattern">The following characters are
-                                not allowed: {{ displayName | invalid_chars : valid_chars }}</p>
+                            <p id="errormessage" ng-show="name.form.$dirty && name.form.$error.pattern">The following characters are
+                                not allowed: {{ name.displayName | invalid_chars : name.valid_chars }}</p>
                         </fieldset>
-                        <input type="hidden" name="pndn" ng-model="displayName" maxlength="{{ displayNameMax }}"/>
+                        <input type="hidden" name="pndn" ng-model="name.displayName" maxlength="{{ name.displayNameMax }}"/>
                                                    <!-- Counter for character -->
-                        <div id="char-counter" class="alert alert-{{
-                                displayName.length < displayNameMax - 10 ? 'info'
-                                : displayName.length <= displayNameMax ? 'warning'
-                                : 'danger'}}">
-                            <p><b>{{ displayNameMax >= displayName.length ? displayNameMax - displayName.length : 0 }} {{ displayNameMax - displayName.length == 1 ? 'character' : 'characters' }} remaining</b> for preferred name</p>
+                        <div id="char-counter" class="alert alert-{{ name.displayCharsRemaining > 10 ? 'info'
+                                : name.displayCharsRemaining >= 0 ? 'warning' : 'danger'}}">
+                            <p><b>{{ name.displayCharsRemaining >= 0 ? name.displayCharsRemaining : 0 }} character{{ name.displayCharsRemaining  == 1 ? '' : 's'}}
+                                remaining</b> for preferred name</p>
                         </div>
                     </div>
                     <!-- Begin policy -->
@@ -105,17 +106,17 @@
 
                     <!-- Two actionable buttons -->
                     <div class="save-message">
-                        <p ng-show="putStatus == 'success' && pnform.$pristine" class="save-success alert alert-success" role="alert">
+                        <p ng-show="name.putStatus == 'success' && name.form.$pristine" class="save-success alert alert-success" role="alert">
                             Your name has been saved.
                         </p>
 
-                        <p ng-show="putStatus == 'error'" class="save-failure alert alert-danger" role="alert">
+                        <p ng-show="name.putStatus == 'error'" class="save-failure alert alert-danger" role="alert">
                             Error trying to save name.
                         </p>
                     </div>
 
-                    <button type="submit" id="save" class="btn btn-primary" ng-click="putPrefName()"
-                            ng-disabled="pnform.$invalid || pnform.$pristine"
+                    <button type="submit" id="save" class="btn btn-primary" ng-click="name.putPrefName()"
+                            ng-disabled="name.form.$invalid || name.form.$pristine"
                             >Agree & Save Name
                     </button>
 

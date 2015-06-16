@@ -13,78 +13,70 @@ app.config(['$httpProvider', function($httpProvider) {
 	}]);
 
 app.filter('invalid_chars', function() {
-	return function(input, valid) {
-	    var ichars = [];
-	    for(var i = 0; i < input.length; i++){
-		if(!valid.test(input.charAt(i))){
-		    if(ichars.indexOf(input.charAt(i)) == -1){
-			ichars.push(input.charAt(i));
-		    }
+    return function(input, valid) {
+	var ichars = [];
+	for(var i = 0; i < input.length; i++){
+	    if(!valid.test(input.charAt(i))){
+		if(ichars.indexOf(input.charAt(i)) == -1){
+		    ichars.push(input.charAt(i));
 		}
 	    }
-	    return ichars.join(', ');
-	};
-    });
+	}
+	return ichars.join(', ');
+    };
+});
 
 /* controller for the preferred name */
 
-app.controller('NameCtrl', ['$scope', '$http', '$log', function($scope, $http, $log) {
-
+app.controller('NameCtrl', ['$http', '$log', function($http, $log) {
+    var _this = this;
     // sample valid name characters
-    $scope.valid_chars = /^[\w !#$%&\'*+\-,.?^_`{}~]*$/;
-    $scope.displayNameMax = 80;
+    this.valid_chars = /^[\w !#$%&\'*+\-,.?^_`{}~]*$/;
+    this.displayNameMax = 80;
+    this.displayName = '';
+    this.displayCharsRemaining = this.displayNameMax;
 
-    // display names as they look in the directory
-    $scope.wp = {
-        fname: null,
-        mname: null,
-        lname: null
-    };
     // display names as they are edited
-    $scope.pn = {
+    this.pn = {
 	display_fname: null,
 	display_mname: null,
 	display_lname: null
     };
-    $scope.displayName = '';
 
-    $scope.putStatus = null;
-    $scope.getPrefName = function() {
+    this.putStatus = null;
+    this.getPrefName = function() {
 	$log.info('about to get '+ pdp_name_url);
 	$http.get(pdp_name_url).success(function(data){
-		$scope.pn = data;
-                $scope.wp.fname = $scope.pn.display_fname;
-                $scope.wp.mname = $scope.pn.display_mname;
-                $scope.wp.lname = $scope.pn.display_lname;
-	    });
+	    _this.pn = data;
+	    _this.updateDisplayName();
+	});
     };
-    $scope.putPrefName = function() {
-        console.log('pub = ' + $scope.wp_publish);
+    this.putPrefName = function() {
 	$log.info('about to put '+ pdp_name_url);
-	$http.put(pdp_name_url, $scope.pn)
-	.success(function(data){
-            $scope.putStatus = 'success';
-            $scope.getPrefName();
-            $log.info($scope.putStatus);
-            $scope.pnform.$setPristine(); // only set pristine on success
+	$http.put(pdp_name_url, _this.pn)
+	    .success(function(data){
+		_this.putStatus = 'success';
+		_this.getPrefName();
+		$log.info(_this.putStatus);
+		_this.form.$setPristine(); // only set pristine on success
 	    })
-	.error(function(data){
-		$scope.putStatus = 'error';
-		$log.info($scope.putStatus);
+	    .error(function(data){
+		_this.putStatus = 'error';
+		$log.info(_this.putStatus);
 	    });
     };
-    $scope.getDisplayNameFromObject = function(value){
+    this.getDisplayNameFromObject = function(value){
         dname = "";
         if(value.display_fname) dname += value.display_fname;
         if(value.display_mname) dname += (dname.length ? ' ' : '') + value.display_mname;
         if(value.display_lname) dname += (dname.length ? ' ' : '') + value.display_lname;
         return dname;
     };
-    $scope.getPrefName();
-    $scope.displayName = $scope.getDisplayNameFromObject($scope.pn);
-    $scope.$watch('pn', function(newval, oldval){
-        $scope.displayName = $scope.getDisplayNameFromObject(newval);
-    }, true);
+    this.updateDisplayName = function() {
+        _this.displayName = _this.getDisplayNameFromObject(_this.pn);
+        _this.displayCharsRemaining = _this.displayNameMax - _this.displayName.length;
+    };
+    this.getPrefName();
 }]);
 
 
@@ -97,26 +89,26 @@ app.controller('PubCtrl', ['$http', '$log', function($http, $log) {
     };
     this.putStatus = null;
     this.getPubPref = function() {
-	    $log.info('about to get '+ pdp_pub_url);
-	    $http.get(pdp_pub_url).success(function(data){
-		    _this.publish = data;
-	    });
+	$log.info('about to get '+ pdp_pub_url);
+	$http.get(pdp_pub_url).success(function(data){
+	    _this.publish = data;
+	});
     };
     this.putPubPref = function() {
         console.log('pub = ' + JSON.stringify(_this.publish));
-	    $log.info('about to put to '+ pdp_pub_url);
-	    $http.put(pdp_pub_url, _this.publish)
-	        .success(function(data){
-		        _this.putStatus = 'success';
-		        $log.info(_this.putStatus);
+	$log.info('about to put to '+ pdp_pub_url);
+	$http.put(pdp_pub_url, _this.publish)
+	    .success(function(data){
+		_this.putStatus = 'success';
+		$log.info(_this.putStatus);
                 _this.form.$setPristine();
             })
-	        .error(function(data){
-                err_msg = data.error_message;
+	    .error(function(data){
+		err_msg = data.error_message;
                 console.log(err_msg);
                 _this.putStatus = 'error';
                 $log.info(err_msg);
-	        });
+	    });
     };
     this.getPubPref();
 
