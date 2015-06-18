@@ -30,6 +30,8 @@ class Publish(RESTDispatch):
                 self._person_object_to_json(person),
                 content_type='application/json')
         except IRWSPersonNotFound:
+            logger.debug('failed publish get for non-employee {}'.format(
+                request.user.username))
             response = HttpResponseNotFound()
         except DataFailureException as dfe:
             logger.info(str(dfe))
@@ -54,7 +56,8 @@ class Publish(RESTDispatch):
             logger.info(str(dfe))
             raise dfe
         except IRWSPersonNotFound:
-            logger.info('attempted to post for non-hepps person ' + netid)
+            logger.info('failed attempt to post for non-employee {}'.format(
+                request.user.username))
             response = HttpResponseNotFound()
         except Exception as e:
             logger.info('exception {} occurred: {}'.format(
