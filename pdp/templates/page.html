@@ -145,18 +145,14 @@
                             </div>
                             <form role="form" name="pub.form">
                                 <fieldset ng-disabled="pub.getStatus > 400">
-                                    <label>
-                                        <input type="radio" value="no" ng-model="pub.publish.publish">
-                                        Do not list me:
-                                    </label> Your Directory name, email, and campus address will not be searchable.<br/>
-                                    <label>
-                                        <input type="radio" value="yes" ng-model="pub.publish.publish">
-                                        List me with all information:
-                                    </label> Your name, email, and campus address will be listed in the Directory<br/>
-                                    <label>
-                                        <input type="radio" value="no email" ng-model="pub.publish.publish">
-                                        List me without email:
-                                    </label> Your information will be listed in the Directory with the exception of your email address.<br/>
+                                    <p>
+                                        <label><input type="radio" value="no" ng-model="pub.publish.publish"> Do not list me:</label>
+                                            Your Directory name, email, and campus address will not be searchable.<br/>
+                                        <label><input type="radio" value="yes" ng-model="pub.publish.publish"> List me with all information:</label>
+                                            Your name, email, and campus address will be listed in the Directory<br/>
+                                        <label><input type="radio" value="no email" ng-model="pub.publish.publish"> List me without email:</label>
+                                            Your information will be listed in the Directory with the exception of your email address.<br/>
+                                    </p>
                                     <div class="save-message">
                                         <p ng-show="pub.putStatus == 'success' && pub.form.$pristine" class="save-success alert alert-success" role="alert">
                                             Your publishing preferences have been saved.</p>
