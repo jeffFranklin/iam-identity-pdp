@@ -44,17 +44,17 @@
     notify:
        - touch wsgi
 
-  - local_action: stat path=../local_settings.py.{{ cluster_type }}
-    register: local_stat
+  - local_action: stat path=../pdp-site/{{cluster_type}}_settings.py
+    register: settings_stat
 
   - name: copy local settings
-    copy: "src=../local_settings.py.{{ cluster_type }} dest={{app_base}}/pdp/pdp-site/local_settings.py group=iam-dev mode=664 "
-    when: local_stat.stat.exists
+    copy: "src=../pdp-site/{{ cluster_type }}_settings.py dest={{app_base}}/pdp/pdp-site/local_settings.py group=iam-dev mode=664 "
+    when: settings_stat.stat.exists
     notify:
        - touch wsgi
 
   - debug: "Note.. local_settings.py for cluster {{cluster_type}} not copied"
-    when: not local_stat.stat.exists
+    when: not settings_stat.stat.exists
     
   - name: verify libraries
     pip: requirements={{ app_base }}/pdp/requirements.txt virtualenv={{ app_base }}/pdp
