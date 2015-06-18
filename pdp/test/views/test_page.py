@@ -15,7 +15,8 @@ def test_index(irws, user_service, render):
     of index()
     """
     user_service.return_value.get_user.return_value = 'jjj'
-    irws.return_value.get_person_by_netid.return_value = 'foo'
+    # exceptions shouldn't cause our index to fail
+    irws.return_value.get_person_by_netid.side_effect = Exception()
     request = mock.MagicMock()
     request.user.username = 'javerage@washington.edu'
 
@@ -29,10 +30,6 @@ def test_index(irws, user_service, render):
     our mock request, page.html, and the dictionary we built up in
     index()
     """
-    # logging.debug('pws mock calls: {}'.format(pws.mock_calls))
-    # pws.return_value.get_person_by_netid.assert_called_once_with('javerage')
-    # logging.debug('render mock calls: {}'.format(render.mock_calls))
-    # render.assert_called_once_with(request, 'page.html',
-    #                                {'remote_user': 'javerage',
-    #                                 'pws_info': 'foo'})
-    return True
+
+    # assert our irws client not called from index
+    assert len(irws.mock_calls) == 0

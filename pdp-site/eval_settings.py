@@ -1,29 +1,22 @@
 # local additions to settings
+import os
 
 DEBUG = True
-SECRET_KEY = 'some_dev_key_!&%@'
-TEMPLATE_DEBUG = False
+SECRET_KEY = open(os.path.join('/data/local/etc', 'pdp-secret')).read().strip()
+TEMPLATE_DEBUG = True
 USER_SERVICE_NO_DEFAULT_USER = True
-LOGIN_URL = '/id/login/'
-STATIC_URL = '/static-id/'
-
+LOGIN_URL = '/pdp/login/'
+STATIC_URL = '/static-pdp/'
 ALLOWED_HOSTS = ['*']
-COMPRESS_ENABLED = False
 
-# IRWS settings (dev host)
 
-RESTCLIENTS_IRWS_DAO_CLASS = 'restclients.dao_implementation.irws.Live'
-
-# RESTCLIENTS_IRWS_HOST = 'https://mango-dev.u.washington.edu:646'
-# RESTCLIENTS_IRWS_SERVICE_NAME = 'registry-dev'
-RESTCLIENTS_IRWS_HOST = 'https://mango-eval.u.washington.edu:646'
-RESTCLIENTS_IRWS_SERVICE_NAME = 'registry-eval'
-
-RESTCLIENTS_IRWS_CERT_FILE = '/data/local/django/pdp/certs/myuw.cert'
-RESTCLIENTS_IRWS_KEY_FILE = '/data/local/django/pdp/certs/myuw.key'
-RESTCLIENTS_CA_BUNDLE = '/usr/local/ssl/certs/ca-bundle.crt'
+RESTCLIENTS_IRWS_CERT_FILE = '/data/local/etc/x315.crt'
+RESTCLIENTS_IRWS_KEY_FILE = '/data/local/etc/x315.key'
+RESTCLIENTS_CA_BUNDLE = '/data/local/etc/cacerts.cert'
 RESTCLIENTS_IRWS_MAX_POOL_SIZE = 10
 
+
+RESTCLIENTS_IRWS_DAO_CLASS = 'restclients.dao_implementation.irws.Live'
 
 LOGGING = {
     'version': 1,

@@ -11,5 +11,5 @@ urlpatterns = patterns(
     url(r'^$', 'page.index', name='home'),
     url(r'^login/', 'page.login', name='login'),
     url(r'^api/name$', login_required(Name().run), name='name'),
-    url(r'api/identity/publish$', Publish().run),
+    url(r'^api/publish$', Publish().run),
 )

@@ -8,7 +8,7 @@ Alias /static-{{app_url_base}}/ {{app_base}}/pdp/pdp/static/
 </DirectoryMatch>
 
 
-WSGIPythonHome {{ app_base }}/baseline
+# WSGIPythonHome {{ app_base }}/baseline
 WSGIDaemonProcess pdp_group group=iam-dev python-path={{ app_base }}/pdp:{{ app_base }}/pdp/lib/python2.7/site-packages
 WSGIScriptAlias /{{app_url_base}} {{app_base}}/pdp/pdp-site/wsgi.py
 WSGIProcessGroup pdp_group
