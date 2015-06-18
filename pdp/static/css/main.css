@@ -193,6 +193,8 @@ input[type="text"] {
   height: 100%;
   border-radius: 4px; }
 
+.nav-tabs { padding-top: 10px; }
+
 /* styling disabled button */
 .btn.disabled, .btn[disabled], fieldset[disabled] .btn
 {
