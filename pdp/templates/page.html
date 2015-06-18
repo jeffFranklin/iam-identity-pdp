@@ -20,16 +20,16 @@
         {% endif %}
 
         <div class="container">
-            <!-- Begin legal name -->
-            <div class="legalname">
-                <h2>Legal Name</h2>
-                <!-- The system should grab the legal name data from the db, and in the UI it is not editable to the user -->
-                <p>{{ irws_name.formal_fname }} {{ irws_name.formal_lname }}</p>
-            </div>
-            <!-- End legal name -->
             {% verbatim %}
             <div ng-cloak ng-controller="NameCtrl as name"
                  ng-model-options="{ allowInvalid: true }">
+                <div ng-show="name.getStatus >= 400">
+                    <p class="general-error alert alert-danger" role="alert">Error trying to get name information</p>
+                </div>
+                <div class="legalname">
+                    <h2>Legal Name</h2>
+                    <p>{{ name.pn.formal_fname }} {{ name.pn.formal_lname }}</p>
+                </div>
                 <div class="preferred-name">
                     <h2>Preferred Name</h2>
                      <p>You can set a preferred name to be used in place of your legal name wherever possible. If you are listed in the <a href=
@@ -37,7 +37,7 @@
                 </div>
                 <form role="form" name="name.form">
                     <div id="fieldset_wrapper">
-                        <fieldset>
+                        <fieldset ng-disabled="name.getStatus >= 400">
                             <legend><b>Set Your Preferred Name</b></legend>
                             <div class="row">
                                 <div class="col-md-4 namefield">
@@ -136,7 +136,12 @@
                     <tab heading="Pub pref" active="false" disabled="">
                         {% verbatim %}
                         <div ng-controller="PubCtrl as pub">
+                            <div ng-show="pub.getStatus >= 400">
+                                <p ng-show="pub.getStatus == 404" class="general-error alert alert-danger" role="alert">This feature is only available to employees.</p>
+                                <p ng-show="pub.getStatus != 404" class="general-error alert alert-danger" role="alert">Error looking up employee publishing preferences.</p>
+                            </div>
                             <form role="form" name="pub.form">
+                                <fieldset ng-disabled="pub.getStatus > 400">
                                 <div class="form-group">
                                     <label>Publish in UW Directory?</label>
                                     <br/>
@@ -153,12 +158,13 @@
                                         Publish, without email
                                     </label><br/>
                                 </div>
+                                </fieldset>
                             </form>
                             <div class="save-message">
                                 <p ng-show="pub.putStatus == 'success' && pub.form.$pristine" class="save-success alert alert-success" role="alert">
                                     Your publishing preferences have been saved.</p>
-                                <p ng-show="putStatus == 'error'" class="save-failure alert alert-danger" role="alert">
-                                    Error trying to publishing preferences.</p>
+                                <p ng-show="pub.putStatus == 'error'" class="save-failure alert alert-danger" role="alert">
+                                    Error trying to save publishing preferences.</p>
                             </div>
                             <button type="submit" id="save" class="btn btn-primary" ng-click="pub.putPubPref()"
                                 ng-disabled="pub.form.$invalid || pub.form.$pristine">

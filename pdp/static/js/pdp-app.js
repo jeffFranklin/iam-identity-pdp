@@ -44,13 +44,20 @@ app.controller('NameCtrl', ['$http', '$log', function ($http, $log) {
         display_lname: ''
     };
 
+    this.getStatus = null;
     this.putStatus = null;
     this.getPrefName = function () {
         $log.info('about to get ' + pdp_name_url);
-        $http.get(pdp_name_url).success(function (data) {
-            _this.pn = data;
-            _this.updateDisplayName();
-        });
+        $http.get(pdp_name_url)
+            .success(function (data, status) {
+                _this.pn = data;
+                _this.updateDisplayName();
+                _this.getStatus = status;
+            })
+            .error(function (data, status) {
+                $log.info('name get status returned error, status ' + status);
+                _this.getStatus = status;
+            });
     };
     this.putPrefName = function () {
         $log.info('about to put ' + pdp_name_url);
@@ -92,12 +99,19 @@ app.controller('PubCtrl', ['$http', '$log', function ($http, $log) {
     this.publish = {
         publish: 'no'
     };
+    this.getStatus = null;
     this.putStatus = null;
     this.getPubPref = function () {
         $log.info('about to get ' + pdp_pub_url);
-        $http.get(pdp_pub_url).success(function (data) {
-            _this.publish = data;
-        });
+        $http.get(pdp_pub_url)
+            .success(function (data, status) {
+                _this.publish = data;
+                _this.getStatus = status;
+            })
+            .error(function(data, status) {
+                $log.info('get status returned ' + status);
+                _this.getStatus = status;
+            });
     };
     this.putPubPref = function () {
         console.log('pub = ' + JSON.stringify(_this.publish));
@@ -108,11 +122,9 @@ app.controller('PubCtrl', ['$http', '$log', function ($http, $log) {
                 $log.info(_this.putStatus);
                 _this.form.$setPristine();
             })
-            .error(function (data) {
-                err_msg = data.error_message;
-                console.log(err_msg);
+            .error(function (data, status) {
+                $log.info('error trying to put, status returned is ' + status);
                 _this.putStatus = 'error';
-                $log.info(err_msg);
             });
     };
     this.getPubPref();

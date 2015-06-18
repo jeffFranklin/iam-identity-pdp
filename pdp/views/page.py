@@ -97,13 +97,7 @@ def index(request, template=None):
     userid = UserService().get_user()
     logger.info('userservice user=' + userid)
 
-    # get some info about this user from IRWS
-    irwsClient = IRWS()
-    name = irwsClient.get_name_by_netid(remote_user)
-
     context = {
-       'remote_user': remote_user,
-       'irws_name': name,
        'show_publish': show_publish,
     }
 
