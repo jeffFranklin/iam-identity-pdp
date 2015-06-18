@@ -21,7 +21,8 @@ class Publish(RESTDispatch):
                                for key, value in publish_options.items()}
 
     def GET(self, request):
-        logger.info("identity/publish api for " + request.user.username)
+        logger.debug("publish api get for user {}".format(
+            request.user.username))
         netid = Util.netid_from_remote_user(request.user.username)
         try:
             person = IRWS().get_hepps_person_by_netid(netid)
@@ -36,7 +37,8 @@ class Publish(RESTDispatch):
         return response
 
     def PUT(self, request):
-        logger.info('identity/publish api put for' + request.user.username)
+        logger.info('publish api put for user {}'.format(
+            request.user.username))
         netid = Util.netid_from_remote_user(request.user.username)
 
         irws = IRWS()

@@ -14,8 +14,7 @@ logger = logging.getLogger(__name__)
 class Name(RESTDispatch):
 
     def GET(self, request):
-
-        logger.info("name api")
+        logger.debug("name api get for user {}".format(request.user.username))
         netid = Util.netid_from_remote_user(request.user.username)
         irws = IRWS()
         name = irws.get_name_by_netid(netid)
@@ -23,8 +22,8 @@ class Name(RESTDispatch):
                             content_type='application/json')
 
     def PUT(self, request):
-
-        logger.debug('name api put')
+        logger.info('name api put for user {}'.format(
+            request.user.username))
         netid = Util.netid_from_remote_user(request.user.username)
 
         try:
