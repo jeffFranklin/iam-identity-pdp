@@ -9,9 +9,8 @@
             <div role="tabpanel">
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation"><a href="#prefname" aria-controls="prefname" role="tab"
-                                                          data-toggle="tab">Preferred name</a></li>
-                <li role="presentation" class="active"><a href="#pubpref" aria-controls="pubpref" role="tab" data-toggle="tab">Employee publish
-                    preference</a></li>
+                                                          data-toggle="tab">Preferred Name</a></li>
+                <li role="presentation" class="active"><a href="#pubpref" aria-controls="pubpref" role="tab" data-toggle="tab">Employee Directory Listing</a></li>
             </ul>
 
             <div class="tab-content">
@@ -133,45 +132,46 @@
                 </div>
 
                 <div role="tabpanel" class="tab-pane active" id="pubpref">
-                    <tab heading="Pub pref" active="false" disabled="">
                         {% verbatim %}
                         <div ng-controller="PubCtrl as pub">
                             <div ng-show="pub.getStatus >= 400">
                                 <p ng-show="pub.getStatus == 404" class="general-error alert alert-danger" role="alert">This feature is only available to employees.</p>
                                 <p ng-show="pub.getStatus != 404" class="general-error alert alert-danger" role="alert">Error looking up employee publishing preferences.</p>
                             </div>
+                            <div class="directory-listing">
+                                <h2>UW Directory Listing Setting</h2>
+                                <p>Set your campus address listing preference for the <a href=
+                        "http://www.washington.edu/home/peopledir/" target="_blank">UW Directory</a></p>
+                            </div>
                             <form role="form" name="pub.form">
                                 <fieldset ng-disabled="pub.getStatus > 400">
-                                <div class="form-group">
-                                    <label>Publish in UW Directory?</label>
-                                    <br/>
                                     <label>
                                         <input type="radio" value="no" ng-model="pub.publish.publish">
-                                        Do not publish
-                                    </label><br/>
+                                        Do not list me
+                                    </label> Your Directory name, email, and campus address will not be searchable.<br/>
                                     <label>
                                         <input type="radio" value="yes" ng-model="pub.publish.publish">
-                                        Publish
-                                    </label><br/>
+                                        List me with all information
+                                    </label> Your name, email, and campus address will be listed in the Directory<br/>
                                     <label>
                                         <input type="radio" value="no email" ng-model="pub.publish.publish">
-                                        Publish, without email
-                                    </label><br/>
-                                </div>
+                                        List me without email
+                                    </label> Your information will be listed in the Directory with the exception of your email address.<br/>
+                                    <div class="save-message">
+                                        <p ng-show="pub.putStatus == 'success' && pub.form.$pristine" class="save-success alert alert-success" role="alert">
+                                            Your publishing preferences have been saved.</p>
+                                        <p ng-show="pub.putStatus == 'error'" class="save-failure alert alert-danger" role="alert">
+                                            Error trying to save publishing preferences.</p>
+                                    </div>
+                                    <button type="submit" id="save" class="btn btn-primary" ng-click="pub.putPubPref()"
+                                        ng-disabled="pub.form.$invalid || pub.form.$pristine">
+                                        Save Preference</button>
                                 </fieldset>
                             </form>
-                            <div class="save-message">
-                                <p ng-show="pub.putStatus == 'success' && pub.form.$pristine" class="save-success alert alert-success" role="alert">
-                                    Your publishing preferences have been saved.</p>
-                                <p ng-show="pub.putStatus == 'error'" class="save-failure alert alert-danger" role="alert">
-                                    Error trying to save publishing preferences.</p>
-                            </div>
-                            <button type="submit" id="save" class="btn btn-primary" ng-click="pub.putPubPref()"
-                                ng-disabled="pub.form.$invalid || pub.form.$pristine">
-                                Save Preferences</button>
+
+
                         </div>
                         {% endverbatim %}
-                    </tab>
                 </div>
                 </div>
                 </div>
