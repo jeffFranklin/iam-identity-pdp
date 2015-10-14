@@ -25,7 +25,7 @@ class Publish(RESTDispatch):
             request.user.username))
         netid = Util.netid_from_remote_user(request.user.username)
         try:
-            person = IRWS().get_hepps_person_by_netid(netid)
+            person = IRWS().get_hr_person_by_netid(netid)
             response = HttpResponse(
                 self._person_object_to_json(person),
                 content_type='application/json')
@@ -46,7 +46,7 @@ class Publish(RESTDispatch):
         irws = IRWS()
         try:
             # success or exception
-            irws.post_hepps_person_by_netid(
+            irws.post_hr_person_by_netid(
                 netid,
                 self._json_to_irws_json(request.body))
             response = HttpResponse(json.dumps({'message': 'successful put'}),

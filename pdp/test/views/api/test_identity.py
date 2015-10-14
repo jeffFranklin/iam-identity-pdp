@@ -20,20 +20,20 @@ class TestIdentity(TestWithMocks):
 
     def test_publish_get_no(self):
         publish = Publish()
-        get_hepps = self.irws.return_value.get_hepps_person_by_netid
-        get_hepps.return_value.wp_publish = 'N'
+        get_hr = self.irws.return_value.get_hr_person_by_netid
+        get_hr.return_value.wp_publish = 'N'
 
         response = publish.GET(mock_request())
 
         assert response.status_code == 200
         body = json.loads(response.content)
         assert body['publish'] == 'no'
-        get_hepps.assert_called_once_with('jjj')
+        get_hr.assert_called_once_with('jjj')
 
     def test_publish_get_no_email(self):
         publish = Publish()
-        get_hepps = self.irws.return_value.get_hepps_person_by_netid
-        get_hepps.return_value.wp_publish = 'E'
+        get_hr = self.irws.return_value.get_hr_person_by_netid
+        get_hr.return_value.wp_publish = 'E'
 
         response = publish.GET(mock_request())
 
@@ -43,8 +43,8 @@ class TestIdentity(TestWithMocks):
 
     def test_publish_get_unexpected_publish_value(self):
         publish = Publish()
-        get_hepps = self.irws.return_value.get_hepps_person_by_netid
-        get_hepps.return_value.wp_publish = 'Q'
+        get_hr = self.irws.return_value.get_hr_person_by_netid
+        get_hr.return_value.wp_publish = 'Q'
 
         response = publish.GET(mock_request())
 
@@ -52,10 +52,10 @@ class TestIdentity(TestWithMocks):
         body = json.loads(response.content)
         assert body['publish'] == 'Q'
 
-    def test_publish_get_not_hepps_person(self):
+    def test_publish_get_not_hr_person(self):
         publish = Publish()
-        self.irws.return_value.get_hepps_person_by_netid.side_effect = (
-            IRWSPersonNotFound('not a hepps person'))
+        self.irws.return_value.get_hr_person_by_netid.side_effect = (
+            IRWSPersonNotFound('not an hr person'))
 
         response = publish.GET(mock_request())
 
@@ -63,7 +63,7 @@ class TestIdentity(TestWithMocks):
 
     def test_publish_get_df_exception(self):
         publish = Publish()
-        self.irws.return_value.get_hepps_person_by_netid.side_effect = (
+        self.irws.return_value.get_hr_person_by_netid.side_effect = (
             DataFailureException('foo', '200', 'service error'))
         exception_caught = False
 
@@ -76,27 +76,27 @@ class TestIdentity(TestWithMocks):
 
     def test_publish_put_basic(self):
         publish = Publish()
-        self.irws.return_value.post_hepps_person_by_netid.return_value = {}
+        self.irws.return_value.post_hr_person_by_netid.return_value = {}
 
         response = publish.PUT(mock_request(body={'publish': 'no email'}))
 
         assert response.status_code == 200
-        (self.irws.return_value.post_hepps_person_by_netid
+        (self.irws.return_value.post_hr_person_by_netid
          .assert_called_once_with('jjj', json.dumps({'wp_publish': 'E'})))
 
-    def test_publish_put_not_hepps_person(self):
+    def test_publish_put_not_hr_person(self):
         publish = Publish()
-        self.irws.return_value.post_hepps_person_by_netid.side_effect = (
-            IRWSPersonNotFound('not hepps'))
+        self.irws.return_value.post_hr_person_by_netid.side_effect = (
+            IRWSPersonNotFound('not uwhr'))
 
         response = publish.PUT(mock_request(body={'publish': 'no email'}))
 
         assert response.status_code == 404
 
-    def test_publish_put_not_hepps_person(self):
+    def test_publish_put_not_hr_person(self):
         publish = Publish()
-        self.irws.return_value.post_hepps_person_by_netid.side_effect = (
-            IRWSPersonNotFound('not hepps'))
+        self.irws.return_value.post_hr_person_by_netid.side_effect = (
+            IRWSPersonNotFound('not hr'))
 
         response = publish.PUT(mock_request(body={'publish': 'no email'}))
 
@@ -104,8 +104,8 @@ class TestIdentity(TestWithMocks):
 
     def test_publish_put_bad_request(self):
         publish = Publish()
-        self.irws.return_value.post_hepps_person_by_netid.side_effect = (
-            IRWSPersonNotFound('not hepps'))
+        self.irws.return_value.post_hr_person_by_netid.side_effect = (
+            IRWSPersonNotFound('not hr'))
 
         response = publish.PUT(mock_request(body={'publish': 'Q'}))
 
@@ -113,7 +113,7 @@ class TestIdentity(TestWithMocks):
 
     def test_publish_put_df_exception(self):
         publish = Publish()
-        self.irws.return_value.post_hepps_person_by_netid.side_effect = (
+        self.irws.return_value.post_hr_person_by_netid.side_effect = (
             DataFailureException('foo', '200', 'service error'))
         exception_caught = False
 
