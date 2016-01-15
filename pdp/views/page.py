@@ -98,7 +98,8 @@ def index(request, template=None):
     logger.info('userservice user=' + userid)
 
     context = {
-       'show_publish': show_publish,
+        'show_publish': show_publish,
+        'app': {'base_url': '/', 'javascript_loads': ['pdp-app.js']}
     }
 
     return render(request, 'page.html', context)

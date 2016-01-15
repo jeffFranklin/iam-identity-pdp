@@ -25,11 +25,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'compressor',
     'templatetag_handlebars',
     'userservice',
     # 'demoapp',
     'restclients',
+    'idbase',
     'pdp'
 )
 

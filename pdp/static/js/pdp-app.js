@@ -4,13 +4,7 @@
 var pdp_name_url = 'api/name';
 var pdp_pub_url = 'api/publish';
 
-
-var app = angular.module('pdpApp', []);
-
-app.config(['$httpProvider', function ($httpProvider) {
-    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-}]);
+var app = angular.module('identityApp');
 
 app.filter('invalid_chars', function () {
     return function (input, valid) {
