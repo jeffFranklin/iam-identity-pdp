@@ -7,7 +7,7 @@ import json
 from restclients.exceptions import DataFailureException, IRWSPersonNotFound
 from restclients.irws import IRWS
 from pdp.views.rest_dispatch import RESTDispatch
-from pdp.util import Util
+from pdp.util import netid_from_remote_user
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +23,7 @@ class Publish(RESTDispatch):
     def GET(self, request):
         logger.debug("publish api get for user {}".format(
             request.user.username))
-        netid = Util.netid_from_remote_user(request.user.username)
+        netid = netid_from_remote_user(request.user.username)
         try:
             person = IRWS().get_hr_person_by_netid(netid)
             response = HttpResponse(
@@ -41,7 +41,7 @@ class Publish(RESTDispatch):
     def PUT(self, request):
         logger.info('publish api put for user {}'.format(
             request.user.username))
-        netid = Util.netid_from_remote_user(request.user.username)
+        netid = netid_from_remote_user(request.user.username)
 
         irws = IRWS()
         try:

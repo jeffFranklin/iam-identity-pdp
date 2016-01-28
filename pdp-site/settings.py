@@ -25,9 +25,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'templatetag_handlebars',
     'userservice',
-    # 'demoapp',
     'restclients',
     'idbase',
     'pdp'
@@ -41,8 +39,6 @@ MIDDLEWARE_CLASSES = (
     'uw_django.auth.middleware.RemoteUserIfExistsMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'mobility.middleware.DetectMobileMiddleware',
-    'mobility.middleware.XMobileMiddleware',
     'userservice.user.UserServiceMiddleware',
 
 )
@@ -146,13 +142,16 @@ STATIC_ROOT = '/tmp/'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
 )
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+
+APP_CONTEXTS = {
+    'default': {'base_url': '/', 'css_loads': ['pdp.css'], 'javascript_loads': ['pdp-app.js']}
+}
 
 # PWS settings
 RESTCLIENTS_IRWS_DAO_CLASS = 'restclients.dao_implementation.irws.File'
