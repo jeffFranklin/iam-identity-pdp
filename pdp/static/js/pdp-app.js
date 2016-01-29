@@ -22,7 +22,7 @@ app.filter('invalid_chars', function () {
 
 /* controller for the preferred name */
 
-app.controller('NameCtrl', ['$http', '$log', function ($http, $log) {
+app.controller('NameCtrl', ['$http', '$log', 'LoginSvc', function ($http, $log, LoginSvc) {
     var _this = this;
     // sample valid name characters
     this.valid_chars = /^[\w !#$%&\'*+\-,.?^_`{}~]*$/;
@@ -30,6 +30,7 @@ app.controller('NameCtrl', ['$http', '$log', function ($http, $log) {
     this.fieldMax = 64;
     this.displayName = '';
     this.displayCharsRemaining = this.displayNameMax;
+    LoginSvc.doLogin();
 
     // display names as they are edited
     this.pn = {
@@ -61,6 +62,7 @@ app.controller('NameCtrl', ['$http', '$log', function ($http, $log) {
                 _this.getPrefName();
                 $log.info(_this.putStatus);
                 _this.form.$setPristine(); // only set pristine on success
+                LoginSvc.info.name = _this.getDisplayNameFromObject(_this.pn);
             })
             .error(function (data) {
                 _this.putStatus = 'error';
@@ -108,7 +110,6 @@ app.controller('PubCtrl', ['$http', '$log', function ($http, $log) {
             });
     };
     this.putPubPref = function () {
-        console.log('pub = ' + JSON.stringify(_this.publish));
         $log.info('about to put to ' + pdp_pub_url);
         $http.put(pdp_pub_url, _this.publish)
             .success(function (data) {

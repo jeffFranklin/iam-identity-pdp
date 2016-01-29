@@ -1,4 +1,4 @@
-Django<1.8
+Django<1.9
 -e git+https://github.com/UWIT-IAM/uw-django#egg=DjangoContrib
 simplejson
 urllib3
