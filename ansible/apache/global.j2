@@ -1,22 +1,29 @@
-# global settings for Dajngo demo app
+# global settings for Django demo app
 
 # static content
-Alias /static-{{app_url_base}}/ {{app_base}}/pdp/pdp/static/
-<DirectoryMatch {{app_base}}/pdp/pdp/static/.*>
-        Order deny,allow
-        Allow from all
+Alias /static-{{app_url_base}}/ {{app_base}}/{{app_name}}/static-{{app_url_base}}/
+<DirectoryMatch {{app_base}}/{{app_name}}/static-{{app_url_base}}/.*>
+    {% if is_apache24 %}
+    Require all granted
+    {% else %}
+    order allow,deny
+    allow from all
+    {% endif %}
 </DirectoryMatch>
 
 
-# WSGIPythonHome {{ app_base }}/baseline
-WSGIDaemonProcess pdp_group group=iam-dev python-path={{ app_base }}/pdp:{{ app_base }}/pdp/lib/python2.7/site-packages
-WSGIScriptAlias /{{app_url_base}} {{app_base}}/pdp/pdp-site/wsgi.py
-WSGIProcessGroup pdp_group
+WSGIDaemonProcess {{app_name}}_group group=iam-dev python-path={{ app_base }}/{{app_name}}:{{ app_base }}/{{app_name}}/lib/python2.7/site-packages
+WSGIScriptAlias /{{app_url_base}} {{app_base}}/{{app_name}}/{{app_name}}-site/wsgi.py
+WSGIProcessGroup {{app_name}}_group
 
-<Directory {{app_base}}/pdp/pdp-site>
+<Directory {{app_base}}/{{app_name}}/{{app_name}}-site>
 <Files wsgi.py>
-        Order deny,allow
-        Allow from all
+    {% if is_apache24 %}
+    Require all granted
+    {% else %}
+    order allow,deny
+    allow from all
+    {% endif %}
 </Files>
 </Directory>
 

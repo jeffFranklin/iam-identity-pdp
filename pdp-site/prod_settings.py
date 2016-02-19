@@ -8,6 +8,7 @@ TEMPLATE_DEBUG = False
 USER_SERVICE_NO_DEFAULT_USER = True
 LOGIN_URL = '/id/login/'
 STATIC_URL = '/static-id/'
+STATIC_ROOT = 'static-id'
 
 ALLOWED_HOSTS = ['*']
 COMPRESS_ENABLED = False
