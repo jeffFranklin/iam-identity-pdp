@@ -6,7 +6,7 @@ from django.http import HttpResponseBadRequest
 import json
 from restclients.exceptions import DataFailureException, IRWSPersonNotFound
 from restclients.irws import IRWS
-from pdp.views.rest_dispatch import RESTDispatch
+from idbase.api import RESTDispatch
 from pdp.util import netid_from_remote_user
 
 logger = logging.getLogger(__name__)

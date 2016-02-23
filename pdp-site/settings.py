@@ -31,17 +31,14 @@ INSTALLED_APPS = (
     'pdp'
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'idbase.middleware.SessionTimeoutMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'uw_django.auth.middleware.RemoteUserIfExistsMiddleware',
+    'idbase.middleware.LoginUrlMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'userservice.user.UserServiceMiddleware',
-
-)
+    'django.middleware.clickjacking.XFrameOptionsMiddleware']
 
 ROOT_URLCONF = 'pdp-site.urls'
 
@@ -51,14 +48,14 @@ AUTHENTICATION_BACKENDS = (
      'django.contrib.auth.backends.RemoteUserBackend',
 )
 
+PDP_BASE = '/id/'
 LOGIN_URL = '/id/login/'
+GET_FULL_NAME_FUNCTION = 'pdp.util.get_full_name'
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_COOKIE_NAME = 'pdpsession'
 SESSION_COOKIE_PATH = '/'
-SESSION_COOKIE_SECURE = True  # False if you are using development environment
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-# This can't be true if we want to set AGE
-SESSION_COOKIE_AGE = 60*60  # seconds
+SESSION_COOKIE_SECURE = False  # False if you are using development environment
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 
 # Database
@@ -73,6 +70,17 @@ DATABASES = {
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
+
+# To be removed in Django > 1.8
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
+    "idbase.context_processors.app_context")
 
 TEMPLATES = [
     {
@@ -108,30 +116,29 @@ LOGGING = {
         },
         'debuglog': {
             'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'formatter': 'verbose',
-            'filename': os.path.join(BASE_DIR, 'process.log'),
-        },
-        'console': {
-            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
             'stream': 'ext://sys.stdout',
-        },
+        }
     },
     'loggers': {
         'django.request': {
-            'handlers': ['debuglog', 'console'],
+            'handlers': ['debuglog'],
             'level': 'DEBUG',
             'propagate': True,
         },
         'pdp': {
-            'handlers': ['debuglog', 'console'],
+            'handlers': ['debuglog'],
             'level': 'DEBUG',
             'propagate': True,
         },
         'restclients': {
-            'handlers': ['debuglog', 'console'],
+            'handlers': ['debuglog'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'idbase':{
+            'handlers': ['debuglog'],
             'level': 'DEBUG',
             'propagate': True,
         },
@@ -142,13 +149,9 @@ LOGGING = {
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+TIME_ZONE = 'America/Los_Angeles'
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -167,10 +170,6 @@ STATICFILES_DIRS = (
 )
 
 
-APP_CONTEXTS = {
-    'default': {'base_url': '/', 'css_loads': ['pdp.css'], 'javascript_loads': ['pdp-app.js']}
-}
-
 # PWS settings
 RESTCLIENTS_IRWS_DAO_CLASS = 'restclients.dao_implementation.irws.File'
 RESTCLIENTS_IRWS_HOST = 'https://mango-dev.u.washington.edu:443'
@@ -187,3 +186,8 @@ try:
     from local_settings import *
 except ImportError:
     pass
+
+
+APP_CONTEXTS = {
+    'default': {'base_url': PDP_BASE, 'css_loads': ['pdp.css'], 'javascript_loads': ['pdp-app.js']}
+}

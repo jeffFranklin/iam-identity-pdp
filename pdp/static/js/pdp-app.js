@@ -22,7 +22,7 @@ app.filter('invalid_chars', function () {
 
 /* controller for the preferred name */
 
-app.controller('NameCtrl', ['$http', '$log', 'LoginSvc', function ($http, $log, LoginSvc) {
+app.controller('NameCtrl', ['$http', '$log', 'ErrorSvc', 'LoginStatusSvc', function ($http, $log, ErrorSvc, LoginStatusSvc) {
     var _this = this;
     // sample valid name characters
     this.valid_chars = /^[\w !#$%&\'*+\-,.?^_`{}~]*$/;
@@ -30,7 +30,6 @@ app.controller('NameCtrl', ['$http', '$log', 'LoginSvc', function ($http, $log, 
     this.fieldMax = 64;
     this.displayName = '';
     this.displayCharsRemaining = this.displayNameMax;
-    LoginSvc.doLogin();
 
     // display names as they are edited
     this.pn = {
@@ -52,22 +51,28 @@ app.controller('NameCtrl', ['$http', '$log', 'LoginSvc', function ($http, $log, 
             .error(function (data, status) {
                 $log.info('name get status returned error, status ' + status);
                 _this.getStatus = status;
+                ErrorSvc.handleError(data, status);
             });
     };
     this.putPrefName = function () {
+        if (_this.puttingPrefName == true) return;
+        _this.puttingPrefName = true;
         $log.info('about to put ' + pdp_name_url);
         $http.put(pdp_name_url, _this.pn)
-            .success(function (data) {
+            .then(function (response) {
                 _this.putStatus = 'success';
-                _this.getPrefName();
                 $log.info(_this.putStatus);
+                $log.info(response);
                 _this.form.$setPristine(); // only set pristine on success
-                LoginSvc.info.name = _this.getDisplayNameFromObject(_this.pn);
+                LoginStatusSvc.info.name = _this.getDisplayNameFromObject(response.data);
             })
-            .error(function (data) {
+            .catch(function (response) {
                 _this.putStatus = 'error';
+                ErrorSvc.handleError(response.data, response.status);
                 $log.info(_this.putStatus);
-            });
+                $log.info(response);
+            })
+            .finally(function(){_this.puttingPrefName = false;});
     };
     this.getDisplayNameFromObject = function (value) {
         dname = "";
