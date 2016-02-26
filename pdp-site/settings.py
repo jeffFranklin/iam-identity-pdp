@@ -25,7 +25,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'userservice',
     'restclients',
     'idbase',
     'pdp'
@@ -44,17 +43,13 @@ ROOT_URLCONF = 'pdp-site.urls'
 
 WSGI_APPLICATION = 'pdp-site.wsgi.application'
 
-AUTHENTICATION_BACKENDS = (
-     'django.contrib.auth.backends.RemoteUserBackend',
-)
-
 PDP_BASE = '/id/'
 LOGIN_URL = '/id/login/'
 GET_FULL_NAME_FUNCTION = 'pdp.util.get_full_name'
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_COOKIE_NAME = 'pdpsession'
 SESSION_COOKIE_PATH = '/'
-SESSION_COOKIE_SECURE = False  # False if you are using development environment
+  # False if you are using development environment
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 
@@ -80,7 +75,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
-    "idbase.context_processors.app_context")
+    "idbase.context_processors.app_context"
+)
 
 TEMPLATES = [
     {
@@ -189,5 +185,11 @@ except ImportError:
 
 
 APP_CONTEXTS = {
-    'default': {'base_url': PDP_BASE, 'css_loads': ['pdp.css'], 'javascript_loads': ['pdp-app.js']}
+    'default': {
+        'base_url': PDP_BASE,
+        'css_loads': ['pdp.css'],
+        'javascript_loads': ['pdp-app.js']
+    }
 }
+
+SESSION_COOKIE_SECURE = DEBUG

@@ -1,7 +1,0 @@
-
-  - name: remove from cluster
-    copy: "src=apache/host_status.txt.disable dest=/www/host_status.txt group=iam-dev mode=664 "
-    when: "cluster_hosts|length>1 "
-
-  - pause: "seconds={{ idle_wait_sec |default(10) }}"
-    when: "cluster_hosts|length>1 "

@@ -5,64 +5,51 @@
 - hosts: "{{ target }}"
   serial: 1
   max_fail_percentage: 10
-  gather_facts: false
+  gather_facts: true
   remote_user: iamnsspr
   vars:
     app_name: pdp
     app_base: /data/local/django
     app_url_base: id
-    syslog_facility: LOG_LOCAL7
-    prod_tester_group: u_groups_pdp-prod-testers
+    local_base: ..
+
+  roles:
+    - apache_cluster
+    - django
 
   tasks:
-  - include: cluster_in.yml
+    - name: stat the secret file
+      stat: path=/data/local/etc/pdp-secret
+      register: secrets_stat
 
-  - include: django.yml
+    - name: fail if no secret
+      fail: msg="No secret file"
+      when: not secrets_stat.stat.isreg or secrets_stat.stat.size < 8
 
-  - name: stat the secret file
-    stat: path=/data/local/etc/pdp-secret
-    register: secrets_stat
+    - name: copy pdp-access files
+      template: "src=apache/pdp-access.xml dest=/data/conf/apache.conf.d/pdp-access.xml group=iam-dev mode=664"
+      notify:
+         - restart apache
 
-  - name: fail if no secret
-    fail: msg="No secret file"
-    when: not secrets_stat.stat.isreg or secrets_stat.stat.size < 8
+    # testing non-prod environments, should probably get done another way if the tests
+    # start getting longer
+    - name: copy extra dev stuff
+      copy: "src=../{{item}} dest={{app_base}}/pdp group=iam-dev mode=664 directory_mode=2775"
+      with_items:
+        - requirements-dev.txt
+        - it
+      when: cluster_type != "prod"
 
-  # update http and https config
-  - name: copy apache config files
-    template: "src=apache/pdp-access.xml dest=/data/conf/apache.conf.d/pdp-access.xml group=iam-dev mode=664"
-    notify:
-       - restart apache
+    - name: pip install dev
+      pip: requirements={{ app_base }}/pdp/requirements-dev.txt virtualenv={{ app_base }}/pdp
+      when: cluster_type != "prod"
 
-  # testing non-prod environments, should probably get done another way if the tests
-  # start getting longer
-  - name: copy extra dev stuff
-    copy: "src=../{{item}} dest={{app_base}}/pdp group=iam-dev mode=664 directory_mode=2775"
-    with_items:
-      - requirements-dev.txt
-      - it
-    when: cluster_type != "prod"
-
-  - name: pip install dev
-    pip: requirements={{ app_base }}/pdp/requirements-dev.txt virtualenv={{ app_base }}/pdp
-    when: cluster_type != "prod"
-
-  - name: run integration tests
-    command: bin/py.test it
-    environment:
-      DJANGO_SETTINGS_MODULE: pdp-site.it_settings
-      REMOTE_USER: idtest55
-    args:
-      chdir: "{{ app_base }}/pdp"
-    when: cluster_type != "prod"
-    ignore_errors: yes
-
-  # run any handlers 
-  - meta: flush_handlers
-
-  - include: cluster_out.yml
-
-  handlers:
-     - include: "ansible-tools/tasks/iam_handlers.yml"
-
-
-
+    - name: run integration tests
+      command: bin/py.test it
+      environment:
+        DJANGO_SETTINGS_MODULE: pdp-site.it_settings
+        REMOTE_USER: idtest55
+      args:
+        chdir: "{{ app_base }}/pdp"
+      when: cluster_type != "prod"
+      ignore_errors: yes

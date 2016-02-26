@@ -1,4 +1,0 @@
-
-  - name: return to cluster
-    copy: "src=apache/host_status.txt.enable dest=/www/host_status.txt group=iam-dev mode=664 "
-    when: "cluster_hosts|length>1 "

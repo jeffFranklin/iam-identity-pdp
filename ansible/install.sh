@@ -71,25 +71,7 @@ done
 
 export ANSIBLE_LIBRARY=ansible-tools/modules:/usr/share/ansible
 
-# store current status
-cat > "install.status" << END
-Personal preferences project (pdp) install
-
-by: `whoami`
-on: `date`
-
-target: $target
-
-branch:
-`git branch -v| grep '^\*'`
-
-status:
-`git status -uno --porcelain`
-END
-
 # run the installer 
 
 vars="target=${target} "
 ansible-playbook ${playbook} $verbose  -i ansible-tools/hosts  --extra-vars "${vars}" $list_opt
-
-
