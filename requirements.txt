@@ -1,7 +1,5 @@
 Django<1.9
--e git+https://github.com/UWIT-IAM/uw-django#egg=DjangoContrib
 simplejson
 urllib3
-Django_UserService
 -e git+https://github.com/UWIT-IAM/uw-restclients#egg=UW-RestClients
 -e git+https://github.com/jeffFranklin/idbase.git#egg=idbase
