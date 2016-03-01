@@ -3,7 +3,7 @@
 # static content
 Alias /static-{{app_url_base}}/ {{app_base}}/{{app_name}}/static-{{app_url_base}}/
 <DirectoryMatch {{app_base}}/{{app_name}}/static-{{app_url_base}}/.*>
-    {% if is_apache24 %}
+    {% if is_apache24|default(False) %}
     Require all granted
     {% else %}
     order allow,deny
@@ -18,7 +18,7 @@ WSGIProcessGroup {{app_name}}_group
 
 <Directory {{app_base}}/{{app_name}}/{{app_name}}-site>
 <Files wsgi.py>
-    {% if is_apache24 %}
+    {% if is_apache24|default(False) %}
     Require all granted
     {% else %}
     order allow,deny

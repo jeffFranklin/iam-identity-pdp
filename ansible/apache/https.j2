@@ -7,7 +7,7 @@
 <LocationMatch /{{app_url_base}}/login>
   AuthType shibboleth
   ShibRequireSession On
-  {% if is_apache24 %}
+  {% if is_apache24|default(False) %}
   require shibboleth
   Require shib-plugin /data/conf/apache.conf.d/pdp-access.xml
   {% else %}
