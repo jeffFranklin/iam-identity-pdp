@@ -24,14 +24,6 @@ class Name(RESTDispatch):
     def PUT(self, request):
         logger.info('name api put for user {}'.format(
             request.user.username))
-        try:
-            IRWS().put_name_by_netid(request.user.netid, request.body)
-            return self.GET(request)
-        except DataFailureException as dfe:
-            logger.info(str(dfe))
-            raise dfe
-        except Exception as e:
-            logger.info('exception {} occurred: {}'.format(
-                type(e).__name__, str(e)))
-            response = HttpResponseBadRequest()
-        return response
+        # success or exception
+        IRWS().put_name_by_netid(request.user.netid, request.body)
+        return self.GET(request)

@@ -19,6 +19,6 @@ def full_name_from_object(name):
                         for part in parts
                         if getattr(name, 'display_' + part, False)])
     formal = ' '.join([getattr(name, 'formal_' + part)
-                        for part in parts
-                        if getattr(name, 'formal_' + part, False)])
+                       for part in parts
+                       if getattr(name, 'formal_' + part, False)])
     return display if display else formal

@@ -18,5 +18,6 @@ urlpatterns = [
 
 
 if (settings.DEBUG and
-        'idbase.middleware.MockLoginMiddleware' in settings.MIDDLEWARE_CLASSES):
+        'idbase.middleware.MockLoginMiddleware' in
+        settings.MIDDLEWARE_CLASSES):
     urlpatterns.append(url(r'^mocklogin', login))
