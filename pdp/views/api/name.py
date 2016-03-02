@@ -3,10 +3,11 @@ from django.http import HttpResponse, HttpResponseBadRequest
 import json
 
 from restclients.irws import IRWS
-from restclients.exceptions import DataFailureException
+from restclients.exceptions import InvalidIRWSName
 from pdp.util import full_name_from_object
 
 from idbase.api import RESTDispatch
+from idbase.exceptions import BadRequestError
 
 logger = logging.getLogger(__name__)
 
@@ -24,6 +25,9 @@ class Name(RESTDispatch):
     def PUT(self, request):
         logger.info('name api put for user {}'.format(
             request.user.username))
-        # success or exception
-        IRWS().put_name_by_netid(request.user.netid, request.body)
+        try:
+            IRWS().put_name_by_netid(request.user.netid, request.body)
+        except InvalidIRWSName as e:
+            logger.info(e)
+            raise BadRequestError('invalid name')
         return self.GET(request)

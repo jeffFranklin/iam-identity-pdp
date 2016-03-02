@@ -48,8 +48,12 @@
       command: bin/py.test it
       environment:
         DJANGO_SETTINGS_MODULE: pdp-site.it_settings
-        REMOTE_USER: idtest55
       args:
         chdir: "{{ app_base }}/pdp"
       when: cluster_type != "prod"
-      ignore_errors: yes
+
+    # always notify if we get all the way through in case we bombed out on a
+    # prior run that would have notified.
+    - name: notify restart apache
+      command: /bin/true
+      notify: restart apache

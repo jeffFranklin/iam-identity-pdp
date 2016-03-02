@@ -1,7 +1,6 @@
 import os
 # Django setting for personal prefs
 # These can be reset in 'local_settings.py'
-
 DEBUG = True
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -192,4 +191,4 @@ APP_CONTEXTS = {
     }
 }
 
-SESSION_COOKIE_SECURE = DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
