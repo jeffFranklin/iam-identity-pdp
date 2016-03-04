@@ -2,4 +2,4 @@ Django<1.9
 simplejson
 urllib3
 -e git+https://github.com/UWIT-IAM/uw-restclients#egg=UW-RestClients
--e git+https://github.com/jeffFranklin/idbase.git#egg=idbase
+-e git+https://github.com/UWIT-IAM/iam-idbase.git#egg=idbase
