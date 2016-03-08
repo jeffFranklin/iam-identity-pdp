@@ -1,14 +1,13 @@
 from pdp.views.api.name import Name
 import logging
 import json
-from mock import MagicMock
 from pytest import fixture
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
-def test_name_get(rf, file_cache):
+def test_name_get(rf):
     request = rf.get('/api/name', netid='joe')
     response = Name().GET(request)
     assert response.status_code == 200
@@ -20,7 +19,7 @@ def test_name_get(rf, file_cache):
     assert (displays == {k: v for k, v in name.items() if k in displays})
 
 
-def test_name_get_with_display_name(rf, file_cache):
+def test_name_get_with_display_name(rf):
     request = rf.get('/api/name', netid='javerage')
     response = Name().GET(request)
     assert response.status_code == 200
@@ -31,7 +30,7 @@ def test_name_get_with_display_name(rf, file_cache):
     assert (displays == {k: v for k, v in name.items() if k in displays})
 
 
-def test_name_put(rf, file_cache):
+def test_name_put(rf):
     name = json.dumps({
         'display_fname': 'Jane', 'display_mname': 'X', 'display_lname': 'Doe'})
     request = rf.put('/api/name', netid='joe', data=name)
@@ -40,7 +39,7 @@ def test_name_put(rf, file_cache):
     request.user.set_full_name.assert_called_once_with('Jane X Doe')
 
 
-@fixture
+@fixture(autouse=True)
 def file_cache(irws_file_cache):
     irws_file_cache.update({
         '/registry-dev/v1/name/uwnetid=joe': json.dumps({
