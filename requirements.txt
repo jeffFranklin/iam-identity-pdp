@@ -1,5 +1,12 @@
 Django
 simplejson
 urllib3
+mock
+pytest
+pytest-pep8
+pytest-cov
+pytest-django
+tox
+requests
 -e git+https://github.com/UWIT-IAM/uw-restclients@develop#egg=UW-RestClients
 -e git+https://github.com/UWIT-IAM/iam-idbase.git#egg=idbase

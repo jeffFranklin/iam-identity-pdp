@@ -2,7 +2,6 @@ from setuptools import setup
 import pdp
 
 install_requires = []
-# eg install_requires = ['urllib3', 'lxml', 'pytest', 'mock', 'tox', 'pyyaml']
 
 
 setup(name='pdp',
