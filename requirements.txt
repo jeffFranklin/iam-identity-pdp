@@ -1,11 +1,12 @@
-Django>=1.7.3
--e git+https://github.com/UWIT-IAM/uw-django#egg=DjangoContrib
-django-mobility
-django-compressor
-django-templatetag-handlebars
-django-easy-pjax
+Django
 simplejson
 urllib3
-django_mobile
-Django_UserService
--e git+https://github.com/UWIT-IAM/uw-restclients#egg=RestClients
+mock
+pytest
+pytest-pep8
+pytest-cov
+pytest-django
+tox
+requests
+-e git+https://github.com/UWIT-IAM/uw-restclients@develop#egg=UW-RestClients
+-e git+https://github.com/UWIT-IAM/iam-idbase.git#egg=idbase

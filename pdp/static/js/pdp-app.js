@@ -4,13 +4,7 @@
 var pdp_name_url = 'api/name';
 var pdp_pub_url = 'api/publish';
 
-
-var app = angular.module('pdpApp', []);
-
-app.config(['$httpProvider', function ($httpProvider) {
-    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-}]);
+var app = angular.module('identityApp');
 
 app.filter('invalid_chars', function () {
     return function (input, valid) {
@@ -28,7 +22,7 @@ app.filter('invalid_chars', function () {
 
 /* controller for the preferred name */
 
-app.controller('NameCtrl', ['$http', '$log', function ($http, $log) {
+app.controller('NameCtrl', ['$http', '$log', 'ErrorSvc', 'LoginStatusSvc', function ($http, $log, ErrorSvc, LoginStatusSvc) {
     var _this = this;
     // sample valid name characters
     this.valid_chars = /^[\w !#$%&\'*+\-,.?^_`{}~]*$/;
@@ -57,21 +51,28 @@ app.controller('NameCtrl', ['$http', '$log', function ($http, $log) {
             .error(function (data, status) {
                 $log.info('name get status returned error, status ' + status);
                 _this.getStatus = status;
+                ErrorSvc.handleError(data, status);
             });
     };
     this.putPrefName = function () {
+        if (_this.puttingPrefName == true) return;
+        _this.puttingPrefName = true;
         $log.info('about to put ' + pdp_name_url);
         $http.put(pdp_name_url, _this.pn)
-            .success(function (data) {
+            .then(function (response) {
                 _this.putStatus = 'success';
-                _this.getPrefName();
                 $log.info(_this.putStatus);
+                $log.info(response);
                 _this.form.$setPristine(); // only set pristine on success
+                LoginStatusSvc.info.name = _this.getDisplayNameFromObject(response.data);
             })
-            .error(function (data) {
+            .catch(function (response) {
                 _this.putStatus = 'error';
+                ErrorSvc.handleError(response.data, response.status);
                 $log.info(_this.putStatus);
-            });
+                $log.info(response);
+            })
+            .finally(function(){_this.puttingPrefName = false;});
     };
     this.getDisplayNameFromObject = function (value) {
         dname = "";
@@ -114,7 +115,6 @@ app.controller('PubCtrl', ['$http', '$log', function ($http, $log) {
             });
     };
     this.putPubPref = function () {
-        console.log('pub = ' + JSON.stringify(_this.publish));
         $log.info('about to put to ' + pdp_pub_url);
         $http.put(pdp_pub_url, _this.publish)
             .success(function (data) {

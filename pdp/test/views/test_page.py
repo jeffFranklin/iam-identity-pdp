@@ -1,35 +1,32 @@
 from pdp.views.page import index
-import mock
+from mock import patch
+from django.shortcuts import render
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
 
-@mock.patch('pdp.views.page.render')
-@mock.patch('pdp.views.page.UserService')
-@mock.patch('pdp.views.page.IRWS')
-def test_index(irws, user_service, render):
-    """
-    mock irws, user_service, and render, and mock a
-    a request. Basically anything coming in or going out
-    of index()
-    """
-    user_service.return_value.get_user.return_value = 'jjj'
-    # exceptions shouldn't cause our index to fail
-    irws.return_value.get_person_by_netid.side_effect = Exception()
-    request = mock.MagicMock()
-    request.user.username = 'javerage@washington.edu'
+@patch('pdp.views.page.render', side_effect=render)
+def test_index(mock_render, rf):
+    request = rf.get('/', netid='foo')
+    response = index(request)
+    assert response.status_code == 200
+    mock_render.assert_called_once_with(
+        request, 'page.html', {'show_publish': False})
 
-    """Run the thing we're testing"""
-    index(request)
 
-    """
-    Do our assertions. Here we check that javerage@washington.edu
-    got turned into javerage and that we call pws with that.
-    Lastly we check that render was called with the right arguments:
-    our mock request, page.html, and the dictionary we built up in
-    index()
-    """
+def test_index_no_login(rf):
+    request = rf.get('/', netid=None)
+    request.user.is_authenticated = lambda: False
+    response = index(request)
+    assert response.status_code == 302
+    assert response.url == '/id/login/?next=/'
 
-    # assert our irws client not called from index
-    assert len(irws.mock_calls) == 0
+
+@patch('pdp.views.page.render', side_effect=render)
+def test_index_show_publish(mock_render, rf):
+    request = rf.get('/?show_publish', netid='foo')
+    response = index(request)
+    assert response.status_code == 200
+    mock_render.assert_called_once_with(
+        request, 'page.html', {'show_publish': True})
