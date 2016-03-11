@@ -186,8 +186,8 @@ except ImportError:
 APP_CONTEXTS = {
     'default': {
         'base_url': PDP_BASE,
-        'css_loads': ['pdp.css'],
-        'javascript_loads': ['pdp-app.js']
+        'css_loads': ['css/pdp.css'],
+        'javascript_loads': ['js/pdp-app.js']
     }
 }
 

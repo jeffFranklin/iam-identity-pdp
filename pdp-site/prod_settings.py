@@ -26,9 +26,10 @@ RESTCLIENTS_IRWS_MAX_POOL_SIZE = 10
 
 LOGGING['handlers'].update({
     'debuglog': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'formatter': 'verbose',
-            'filename': '/logs/pdp/process.log',
-        }
+        'level': 'DEBUG',
+        'class': 'logging.handlers.TimedRotatingFileHandler',
+        'formatter': 'verbose',
+        'filename': '/logs/pdp/process.log',
+        'when': 'midnight'
+    }
 })
