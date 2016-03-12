@@ -22,7 +22,7 @@ app.filter('invalid_chars', function () {
 
 /* controller for the preferred name */
 
-app.controller('NameCtrl', ['$http', '$log', 'ErrorSvc', 'LoginStatusSvc', function ($http, $log, ErrorSvc, LoginStatusSvc) {
+app.controller('NameCtrl', ['$http', '$log', 'ErrorSvc', 'loginStatus', function ($http, $log, ErrorSvc, loginStatus) {
     var _this = this;
     // sample valid name characters
     this.valid_chars = /^[\w !#$%&\'*+\-,.?^_`{}~]*$/;
@@ -64,7 +64,7 @@ app.controller('NameCtrl', ['$http', '$log', 'ErrorSvc', 'LoginStatusSvc', funct
                 $log.info(_this.putStatus);
                 $log.info(response);
                 _this.form.$setPristine(); // only set pristine on success
-                LoginStatusSvc.info.name = _this.getDisplayNameFromObject(response.data);
+                loginStatus.info.name = _this.getDisplayNameFromObject(response.data);
             })
             .catch(function (response) {
                 _this.putStatus = 'error';
