@@ -36,16 +36,7 @@
     - name: copy extra dev stuff
       copy: "src=../{{item}} dest={{app_base}}/pdp group=iam-dev mode=664 directory_mode=2775"
       with_items:
-        - requirements-dev.txt
         - it
-      when: cluster_type != "prod"
-
-    - name: pip install dev
-      pip: 
-        requirements: "{{app_base}}/pdp/requirements-dev.txt"
-        virtualenv: "{{app_base}}/pdp"
-        extra_args: "-U --exists-action s"
-
       when: cluster_type != "prod"
 
     - name: run integration tests
