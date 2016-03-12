@@ -4,6 +4,8 @@ import json
 
 LOGIN_URL = '/id/mocklogin'  # Hide the LOGIN_URL from shib
 MIDDLEWARE_CLASSES.insert(0, 'idbase.middleware.MockLoginMiddleware')
+RESTCLIENTS_IRWS_HOST = 'https://mango-eval.u.washington.edu:646'
+RESTCLIENTS_IRWS_SERVICE_NAME = 'registry-eval'
 
 if RESTCLIENTS_IRWS_DAO_CLASS == 'restclients.dao_implementation.irws.File':
     # if we're mocking then stuff the cache for our users under test.
@@ -17,3 +19,12 @@ if RESTCLIENTS_IRWS_DAO_CLASS == 'restclients.dao_implementation.irws.File':
             ]
         })
     })
+LOGGING['handlers'].update({
+    'debuglog': {
+        'level': 'DEBUG',
+        'class': 'logging.handlers.TimedRotatingFileHandler',
+        'formatter': 'verbose',
+        'filename': '/tmp/pdp-process.log',
+        'when': 'midnight'
+    }
+})
