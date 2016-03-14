@@ -12,20 +12,13 @@
     app_base: /data/local/django
     app_url_base: id
     local_base: ..
+    secrets_file: /data/local/etc/pdp-secret
 
   roles:
     - apache_cluster
     - django
 
   tasks:
-    - name: stat the secret file
-      stat: path=/data/local/etc/pdp-secret
-      register: secrets_stat
-
-    - name: fail if no secret
-      fail: msg="No secret file"
-      when: not secrets_stat.stat.isreg or secrets_stat.stat.size < 8
-
     - name: copy pdp-access files
       template: "src=apache/pdp-access.xml dest=/data/conf/apache.conf.d/pdp-access.xml group=iam-dev mode=664"
       notify:
