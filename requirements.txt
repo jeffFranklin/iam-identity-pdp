@@ -8,5 +8,5 @@ pytest-cov
 pytest-django
 tox
 requests
--e git+https://github.com/UWIT-IAM/uw-restclients@develop#egg=UW-RestClients
+-e git+https://github.com/UWIT-IAM/uw-restclients#egg=UW-RestClients
 -e git+https://github.com/UWIT-IAM/iam-idbase.git#egg=idbase

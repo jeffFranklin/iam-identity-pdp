@@ -1,41 +1,43 @@
 [![Build Status](https://travis-ci.org/UWIT-IAM/iam-identity-pdp.svg?branch=master)](https://travis-ci.org/UWIT-IAM/iam-identity-pdp)
 [![Coverage Status](https://coveralls.io/repos/github/UWIT-IAM/iam-identity-pdp/badge.svg?branch=master)](https://coveralls.io/github/UWIT-IAM/iam-identity-pdp?branch=master)
 
-Personal Data Preferences
--------------------------
+#Personal Data Preferences
 
-Essential information about this project to go here...
-
-Development
------------
+##Development
 
 pdp-site/settings.py is configured to run with mock data. Currently
-only javerage works.  To run as javerage you can declare REMOTE_USER
+only javerage and user1e work as user ids.  To run as javerage you can declare REMOTE_USER
 at startup such as the following:
 
 ```bash
-REMOTE_USER=javerage python manage.py runserver
+REMOTE_USER=javerage@washington.edu python manage.py runserver
 ```
 
-Setup with PyCharm
-------------------
-
-###Setting up py.test###
-
-See [here](https://wiki.cac.washington.edu/x/MqUnB)
+##Running python tests
 
 
-
-Running python tests
---------------------
-
-To run tests in your local environment do the following from this
-directory
+###From the command line
+In your project directory
 
 ```bash
 pip install tox
 tox
 ```
 
-The first run might take a minute to load dependencies but you should
-be set after that.
+###From within PyCharm
+Add a new py.test configuration with the following settings...
+```
+Target: /home/you/projects/pdp/pdp
+Options: --pep8
+Environment variables: DJANGO_SETTINGS_MODULE=pdp-site.settings
+Python interpreter: Your pdp virtualenv
+Working directory: /home/you/projects/pdp
+```
+
+##Deploying
+Example deploy to a docker instance...
+
+```
+cd ansible
+./install.sh rivera_docker
+```
