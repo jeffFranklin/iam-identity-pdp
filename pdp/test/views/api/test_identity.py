@@ -1,125 +1,92 @@
 from pdp.views.api.identity import Publish
 import json
-from pdp.test.util import TestWithMocks, mock_request
-from restclients.exceptions import DataFailureException, IRWSPersonNotFound
+from idbase.exceptions import NotFoundError, BadRequestError
+from pytest import fixture, raises
+import re
 
 
-class TestIdentity(TestWithMocks):
+def test_publish_get(irws_file_cache, source, publish_value, rf):
+    update_file_cache(irws_file_cache, source=source,
+                      publish_value=publish_value)
+    states = {'Y': 'yes', 'N': 'no', 'E': 'no email', 'X': 'X'}
+    request = rf.get('/api/publish', netid='joe')
+    response = Publish().GET(request)
+    assert response.status_code == 200
+    assert json.loads(response.content) == {'publish': states[publish_value]}
 
-    def setup_class(self):
-        self.mock_items = {'irws': 'pdp.views.api.identity.IRWS'}
 
-    def test_publish_basic(self):
-        assert (set((key, value)
-                    for key, value in Publish.publish_options.items()) ==
-                {('Y', 'yes'), ('N', 'no'), ('E', 'no email')})
-        assert (set((key, value)
-                    for key, value
-                    in Publish.publish_options_reverse.items()) ==
-                {('yes', 'Y'), ('no', 'N'), ('no email', 'E')})
+def test_publish_get_not_found(rf, file_cache):
+    with raises(NotFoundError):
+        Publish().GET(rf.get('/', netid='noworker'))
 
-    def test_publish_get_no(self):
-        publish = Publish()
-        get_hepps = self.irws.return_value.get_hepps_person_by_netid
-        get_hepps.return_value.wp_publish = 'N'
 
-        response = publish.GET(mock_request())
+def test_publish_put(rf, put_option, irws_file_cache, source):
+    update_file_cache(irws_file_cache, source=source)
+    stored_states = {'yes': 'Y', 'no': 'N', 'no email': 'E'}
+    response = Publish().PUT(rf.put('/', netid='joe',
+                                    data=json.dumps({'publish': put_option})))
+    assert response.status_code == 200
+    joe_hr = json.loads(irws_file_cache[irws_file_cache['joe_hr_key']])
+    assert joe_hr['person'][0]['wp_publish'] == stored_states[put_option]
 
-        assert response.status_code == 200
-        body = json.loads(response.content)
-        assert body['publish'] == 'no'
-        get_hepps.assert_called_once_with('jjj')
 
-    def test_publish_get_no_email(self):
-        publish = Publish()
-        get_hepps = self.irws.return_value.get_hepps_person_by_netid
-        get_hepps.return_value.wp_publish = 'E'
+def test_publish_put_no_worker(rf, file_cache):
+    with raises(NotFoundError):
+        Publish().PUT(
+            rf.put('/', netid='noworker', data=json.dumps({'publish': 'yes'})))
 
-        response = publish.GET(mock_request())
 
-        assert response.status_code == 200
-        body = json.loads(response.content)
-        assert body['publish'] == 'no email'
+def test_publish_bad_option(rf, file_cache):
+    with raises(BadRequestError):
+        Publish().PUT(
+            rf.put('/', netid='joe', data=json.dumps({'publish': 'X'})))
 
-    def test_publish_get_unexpected_publish_value(self):
-        publish = Publish()
-        get_hepps = self.irws.return_value.get_hepps_person_by_netid
-        get_hepps.return_value.wp_publish = 'Q'
 
-        response = publish.GET(mock_request())
+@fixture(params=('yes', 'no', 'no email'))
+def put_option(request):
+    return request.param
 
-        assert response.status_code == 200
-        body = json.loads(response.content)
-        assert body['publish'] == 'Q'
 
-    def test_publish_get_not_hepps_person(self):
-        publish = Publish()
-        self.irws.return_value.get_hepps_person_by_netid.side_effect = (
-            IRWSPersonNotFound('not a hepps person'))
+@fixture(params=['hepps', 'uwhr'])
+def source(request):
+    return request.param
 
-        response = publish.GET(mock_request())
 
-        assert response.status_code == 404
+@fixture(params=['Y', 'N', 'E', 'X'])
+def publish_value(request):
+    return request.param
 
-    def test_publish_get_df_exception(self):
-        publish = Publish()
-        self.irws.return_value.get_hepps_person_by_netid.side_effect = (
-            DataFailureException('foo', '200', 'service error'))
-        exception_caught = False
 
-        try:
-            publish.GET(mock_request())
-        except DataFailureException:
-            exception_caught = True
+@fixture
+def file_cache(irws_file_cache):
+    update_file_cache(irws_file_cache)
+    return irws_file_cache
 
-        assert exception_caught
 
-    def test_publish_put_basic(self):
-        publish = Publish()
-        self.irws.return_value.post_hepps_person_by_netid.return_value = {}
-
-        response = publish.PUT(mock_request(body={'publish': 'no email'}))
-
-        assert response.status_code == 200
-        (self.irws.return_value.post_hepps_person_by_netid
-         .assert_called_once_with('jjj', json.dumps({'wp_publish': 'E'})))
-
-    def test_publish_put_not_hepps_person(self):
-        publish = Publish()
-        self.irws.return_value.post_hepps_person_by_netid.side_effect = (
-            IRWSPersonNotFound('not hepps'))
-
-        response = publish.PUT(mock_request(body={'publish': 'no email'}))
-
-        assert response.status_code == 404
-
-    def test_publish_put_not_hepps_person(self):
-        publish = Publish()
-        self.irws.return_value.post_hepps_person_by_netid.side_effect = (
-            IRWSPersonNotFound('not hepps'))
-
-        response = publish.PUT(mock_request(body={'publish': 'no email'}))
-
-        assert response.status_code == 404
-
-    def test_publish_put_bad_request(self):
-        publish = Publish()
-        self.irws.return_value.post_hepps_person_by_netid.side_effect = (
-            IRWSPersonNotFound('not hepps'))
-
-        response = publish.PUT(mock_request(body={'publish': 'Q'}))
-
-        assert response.status_code == 400
-
-    def test_publish_put_df_exception(self):
-        publish = Publish()
-        self.irws.return_value.post_hepps_person_by_netid.side_effect = (
-            DataFailureException('foo', '200', 'service error'))
-        exception_caught = False
-
-        try:
-            publish.PUT(mock_request(body={'publish': 'no email'}))
-        except DataFailureException:
-            exception_caught = True
-
-        assert exception_caught
+def update_file_cache(file_cache, source='uwhr', publish_value='N'):
+    joe_hr_key = '/registry-dev/v1/person/{source}/123'.format(
+        source=source)
+    file_cache.update({
+        '/registry-dev/v1/person?uwnetid=joe': json.dumps({
+            "person": [{"identity": {
+                "regid": "00deadbeef", "lname": "STUDENT",
+                "fname": "JAMES AVERAGE",
+                "identifiers": {
+                    "hepps": re.sub(r'/registry-dev/v1', '', joe_hr_key)}}}],
+            "totalcount": 1}),
+        joe_hr_key: json.dumps({
+                "person": [{
+                    "validid": "123456775", "regid": "00deadbeef",
+                    "lname": "STUDENT", "fname": "JIMMY",
+                    "wp_publish": publish_value, "category_code": "XXX",
+                    "category_name": "bah"}],
+                "totalcount": 1}),
+        '/registry-dev/v1/person?uwnetid=noworker': json.dumps({
+            "person": [{"identity": {
+                "regid": "00deadbeef", "lname": "NOTAWORKER",
+                "fname": "JAMES AVERAGE",
+                "identifiers": {}}}],
+            "totalcount": 1}),
+    })
+    file_cache.update(dict(joe_hr_key=joe_hr_key))
+    return file_cache

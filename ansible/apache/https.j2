@@ -7,65 +7,18 @@
 <LocationMatch /{{app_url_base}}/login>
   AuthType shibboleth
   ShibRequireSession On
+  {% if is_apache24|default(False) %}
+  require shibboleth
+  Require shib-plugin /data/conf/apache.conf.d/pdp-access.xml
+  {% else %}
   ShibRequireAll On
   AuthzShibAuthoritative On
-
   require shibboleth
   ShibAccessControl /data/conf/apache.conf.d/pdp-access.xml
+  {% endif %}
+
 
   order allow,deny
   allow from all
 </LocationMatch>
 
-{% if false %}
-# later
-
-# browser authn secure
-<LocationMatch /{{app_url_base}}/securelogin>
-  RequestHeader set Content-type application/xml
-  AuthType shibboleth
-  ShibRequireSessionWith UWSECURE
-  ShibRequireAll On
-  AuthzShibAuthoritative On
-  require affiliation member@washington.edu alum@washington.edu
-
-  {% if cluster_type == "prod" %}
-  require isMemberOf urn:mace:washington.edu:groups:{{prod_tester_group}}
-  {% endif %}
-
-  order allow,deny
-  allow from all
-</LocationMatch>
-
-# browser authn via google
-<LocationMatch /{{app_url_base}}/googlelogin>
-  RequestHeader set Content-type application/xml
-  AuthType shibboleth
-  ShibRequireSession On
-  shibRequireSessionWith UWGOOGLE
-  {% if cluster_type == "dev" or cluster_type == "eval" %}
-  require affiliation member@washington.edu
-  {% endif %}
-  {% if cluster_type == "prod" %}
-  require isMemberOf urn:mace:washington.edu:groups:{{prod_tester_group}}
-  {% endif %}
-  order allow,deny
-  allow from all
-</LocationMatch>
-
-
-# cert client authn
-<Location /{{app_url_base}}/ws/>
-RequestHeader set Content-type application/xml
-SSLRequireSSL
-SSLVerifyClient require
-SSLVerifyDepth 5
-SSLOptions +StdEnvVars +ExportCertData
-Options -MultiViews
-order allow,deny
-allow from all
-</Location>
-
-
-
-{% endif %}

@@ -1,7 +1,6 @@
 import os
 # Django setting for personal prefs
 # These can be reset in 'local_settings.py'
-
 DEBUG = True
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -25,44 +24,32 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'compressor',
-    'templatetag_handlebars',
-    'userservice',
-    # 'demoapp',
     'restclients',
+    'idbase',
     'pdp'
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'idbase.middleware.SessionTimeoutMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'uw_django.auth.middleware.RemoteUserIfExistsMiddleware',
+    'idbase.middleware.LoginUrlMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'mobility.middleware.DetectMobileMiddleware',
-    'mobility.middleware.XMobileMiddleware',
-    'userservice.user.UserServiceMiddleware',
-
-)
+    'django.middleware.clickjacking.XFrameOptionsMiddleware']
 
 ROOT_URLCONF = 'pdp-site.urls'
 
 WSGI_APPLICATION = 'pdp-site.wsgi.application'
 
-AUTHENTICATION_BACKENDS = (
-     'django.contrib.auth.backends.RemoteUserBackend',
-)
-
+PDP_BASE = '/id/'
 LOGIN_URL = '/id/login/'
+GET_FULL_NAME_FUNCTION = 'pdp.util.get_full_name'
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_COOKIE_NAME = 'pdpsession'
 SESSION_COOKIE_PATH = '/'
-SESSION_COOKIE_SECURE = True  # False if you are using development environment
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-# This can't be true if we want to set AGE
-SESSION_COOKIE_AGE = 60*60  # seconds
+  # False if you are using development environment
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 
 # Database
@@ -77,6 +64,24 @@ DATABASES = {
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'idbase.context_processors.app_context'
+            ],
+        },
+    },
+]
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -94,30 +99,29 @@ LOGGING = {
         },
         'debuglog': {
             'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'formatter': 'verbose',
-            'filename': os.path.join(BASE_DIR, 'process.log'),
-        },
-        'console': {
-            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
             'stream': 'ext://sys.stdout',
-        },
+        }
     },
     'loggers': {
         'django.request': {
-            'handlers': ['debuglog', 'console'],
+            'handlers': ['debuglog'],
             'level': 'DEBUG',
             'propagate': True,
         },
         'pdp': {
-            'handlers': ['debuglog', 'console'],
+            'handlers': ['debuglog'],
             'level': 'DEBUG',
             'propagate': True,
         },
         'restclients': {
-            'handlers': ['debuglog', 'console'],
+            'handlers': ['debuglog'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'idbase':{
+            'handlers': ['debuglog'],
             'level': 'DEBUG',
             'propagate': True,
         },
@@ -128,13 +132,9 @@ LOGGING = {
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+TIME_ZONE = 'America/Los_Angeles'
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -146,11 +146,10 @@ STATIC_ROOT = '/tmp/'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
 )
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'pdp/static'),
 )
 
 
@@ -170,3 +169,14 @@ try:
     from local_settings import *
 except ImportError:
     pass
+
+
+APP_CONTEXTS = {
+    'default': {
+        'base_url': PDP_BASE,
+        'css_loads': ['css/pdp.css'],
+        'javascript_loads': ['js/pdp-app.js']
+    }
+}
+
+SESSION_COOKIE_SECURE = not DEBUG

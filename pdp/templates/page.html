@@ -1,8 +1,8 @@
-{% extends "base.html" %}
+{% extends "idbase/base.html" %}
 
 {% block content %}
 
-    <div ng-app="pdpApp" ng-cloak class="container">
+    <div ng-cloak class="container">
 
         {% if show_publish %}
             <!-- tabs for pref name and pub pref -->
@@ -25,14 +25,14 @@
                 <div ng-show="name.getStatus >= 400">
                     <p class="general-error alert alert-danger" role="alert">Error trying to get name information</p>
                 </div>
-                <div class="legalname">
-                    <h2>Legal Name</h2>
-                    <p>{{ name.pn.formal_fname }} {{ name.pn.formal_lname }}</p>
-                </div>
                 <div class="preferred-name">
-                    <h2>Preferred Name</h2>
+                    <h1 class="page-title">Preferred Name</h1>
                      <p>You can set a preferred name to be used in place of your legal name wherever possible. If you are listed in the <a href=
                         "http://www.washington.edu/home/peopledir/" target="_blank">UW directory</a>, your preferred name will be visible there immediately. There is a limit of 80 characters for all three names.</p>
+                </div>
+                <div class="legalname">
+                    <h2>Legal Name</h2>
+                    <span>{{ name.pn.formal_fname }} {{ name.pn.formal_lname }}</span>
                 </div>
                 <form role="form" name="name.form">
                     <div id="fieldset_wrapper">

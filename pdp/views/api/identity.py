@@ -1,13 +1,13 @@
 # identity apis
 
 import logging
-from django.http import HttpResponse, HttpResponseNotFound
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponse
 import json
-from restclients.exceptions import DataFailureException, IRWSPersonNotFound
+from restclients.exceptions import IRWSPersonNotFound
 from restclients.irws import IRWS
-from pdp.views.rest_dispatch import RESTDispatch
-from pdp.util import Util
+from idbase.api import RESTDispatch
+from idbase.exceptions import NotFoundError, BadRequestError
+from pdp.util import netid_from_remote_user
 
 logger = logging.getLogger(__name__)
 
@@ -23,46 +23,35 @@ class Publish(RESTDispatch):
     def GET(self, request):
         logger.debug("publish api get for user {}".format(
             request.user.username))
-        netid = Util.netid_from_remote_user(request.user.username)
+        netid = netid_from_remote_user(request.user.username)
         try:
-            person = IRWS().get_hepps_person_by_netid(netid)
+            person = IRWS().get_hr_person_by_netid(netid)
             response = HttpResponse(
                 self._person_object_to_json(person),
                 content_type='application/json')
-        except IRWSPersonNotFound:
+        except IRWSPersonNotFound as nfe:
             logger.debug('failed publish get for non-employee {}'.format(
                 request.user.username))
-            response = HttpResponseNotFound()
-        except DataFailureException as dfe:
-            logger.info(str(dfe))
-            raise dfe
+            raise NotFoundError(nfe)
         return response
 
     def PUT(self, request):
         logger.info('publish api put for user {}'.format(
             request.user.username))
-        netid = Util.netid_from_remote_user(request.user.username)
 
         irws = IRWS()
         try:
             # success or exception
-            irws.post_hepps_person_by_netid(
-                netid,
+            irws.post_hr_person_by_netid(
+                request.user.netid,
                 self._json_to_irws_json(request.body))
             response = HttpResponse(json.dumps({'message': 'successful put'}),
                                     content_type='application_json',
                                     status=200)
-        except DataFailureException as dfe:
-            logger.info(str(dfe))
-            raise dfe
-        except IRWSPersonNotFound:
+        except IRWSPersonNotFound as nfe:
             logger.info('failed attempt to post for non-employee {}'.format(
                 request.user.username))
-            response = HttpResponseNotFound()
-        except Exception as e:
-            logger.info('exception {} occurred: {}'.format(
-                type(e).__name__, str(e)))
-            response = HttpResponseBadRequest()
+            raise NotFoundError(nfe)
 
         return response
 
@@ -82,5 +71,5 @@ class Publish(RESTDispatch):
                 {'wp_publish': Publish.publish_options_reverse[
                     person['publish']]})
         except:
-            raise ValueError('bad json from browser')
+            raise BadRequestError('bad json from browser')
         return irws_json
