@@ -5,12 +5,13 @@ from pdp.views.page import index
 from pdp.views.api.name import Name
 from pdp.views.api.identity import Publish
 from idbase.api import LoginStatus
-from idbase.views import login
+from idbase.views import login, logout
 
 
 urlpatterns = [
     url(r'^$', index, name='home'),
-    url(r'^login', login),
+    url(r'^login/$', login),
+    url(r'^logout/$', logout),
     url(r'^api/loginstatus$', LoginStatus(login_required=False).run),
     url(r'^api/name$', Name().run, name='name'),
     url(r'^api/publish$', Publish().run)
