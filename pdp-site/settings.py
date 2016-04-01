@@ -44,6 +44,7 @@ WSGI_APPLICATION = 'pdp-site.wsgi.application'
 
 PDP_BASE = '/id/'
 LOGIN_URL = '/id/login/'
+LOGOUT_URL = '/id/logout/'
 GET_FULL_NAME_FUNCTION = 'pdp.util.get_full_name'
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_COOKIE_NAME = 'pdpsession'
