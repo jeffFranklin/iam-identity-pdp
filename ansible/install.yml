@@ -11,8 +11,14 @@
     app_name: pdp
     app_base: /data/local/django
     app_url_base: id
-    local_base: ..
+    local_base: "{{playbook_dir}}/.."
     secrets_file: /data/local/etc/pdp-secret
+
+  pre_tasks:
+    - name: get version
+      local_action: "shell python {{local_base}}/setup.py --version"
+      register: version_cmd
+    - set_fact: app_dir="{{app_base}}/{{app_name}}-{{version_cmd.stdout}}"
 
   roles:
     - apache_cluster
@@ -27,7 +33,7 @@
     # testing non-prod environments, should probably get done another way if the tests
     # start getting longer
     - name: copy extra dev stuff
-      copy: "src=../{{item}} dest={{app_base}}/pdp group=iam-dev mode=664 directory_mode=2775"
+      copy: "src={{local_base}}/{{item}} dest={{app_dir}} group=iam-dev mode=664 directory_mode=2775"
       with_items:
         - it
       when: cluster_type != "prod"
@@ -37,7 +43,7 @@
       environment:
         DJANGO_SETTINGS_MODULE: pdp-site.it_settings
       args:
-        chdir: "{{ app_base }}/pdp"
+        chdir: "{{ app_dir }}"
       when: cluster_type != "prod"
 
     # always notify if we get all the way through in case we bombed out on a

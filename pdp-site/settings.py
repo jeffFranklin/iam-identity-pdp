@@ -1,4 +1,5 @@
 import os
+from pdp import __version__
 # Django setting for personal prefs
 # These can be reset in 'local_settings.py'
 DEBUG = True
@@ -24,6 +25,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'compressor',
     'restclients',
     'idbase',
     'pdp'
@@ -49,8 +51,9 @@ GET_FULL_NAME_FUNCTION = 'pdp.util.get_full_name'
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_COOKIE_NAME = 'pdpsession'
 SESSION_COOKIE_PATH = '/'
-  # False if you are using development environment
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+SETTINGS_CONTEXT_ATTRIBUTES = ['DEBUG', 'LOGOUT_URL', 'PDP_BASE']
 
 
 # Database
@@ -77,7 +80,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'idbase.context_processors.app_context'
+                'idbase.context_processors.settings_context'
             ],
         },
     },
@@ -137,16 +140,18 @@ TIME_ZONE = 'America/Los_Angeles'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+COMPRESS_ENABLED = False
+COMPRESS_OUTPUT_DIR = 'cache-' + __version__
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-
-STATIC_URL = '/static/'
-STATIC_ROOT = '/tmp/'
+STATIC_URL = '/static-id/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static-id')
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
 )
 
 STATICFILES_DIRS = (
@@ -164,20 +169,9 @@ RESTCLIENTS_CA_BUNDLE = '/data/local/etc/cacerts.cert'
 RESTCLIENTS_IRWS_MAX_POOL_SIZE = 10
 
 RESTCLIENTS_TIMEOUT = None
-# RESTCLIENTS_DAO_CACHE_CLASS = 'pdp.cache.UICache'
-# import local settings
 try:
     from local_settings import *
 except ImportError:
     pass
-
-
-APP_CONTEXTS = {
-    'default': {
-        'base_url': PDP_BASE,
-        'css_loads': ['css/pdp.css'],
-        'javascript_loads': ['js/pdp-app.js']
-    }
-}
 
 SESSION_COOKIE_SECURE = not DEBUG
