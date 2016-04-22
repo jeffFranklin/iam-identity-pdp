@@ -1,18 +1,11 @@
 import os
 from settings import LOGGING
 
-# local additions to settings
-
 DEBUG = False
 SECRET_KEY = open(os.path.join('/data/local/etc', 'pdp-secret')).read().strip()
 TEMPLATE_DEBUG = False
-USER_SERVICE_NO_DEFAULT_USER = True
-LOGIN_URL = '/id/login/'
-STATIC_URL = '/static-id/'
-STATIC_ROOT = 'static-id'
-
 ALLOWED_HOSTS = ['*']
-COMPRESS_ENABLED = False
+COMPRESS_ENABLED = True
 
 # IRWS settings (dev host)
 
