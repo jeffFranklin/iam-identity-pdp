@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.conf import settings
 
-from pdp.views.page import index
+from pdp.views.page import index, cascade
 from pdp.views.api.name import Name
 from pdp.views.api.identity import Publish
 from idbase.api import LoginStatus
@@ -10,6 +10,7 @@ from idbase.views import login, logout
 
 urlpatterns = [
     url(r'^$', index, name='home'),
+    url(r'^cascade/$', cascade, name='new cascade page'),
     url(r'^login/$', login),
     url(r'^logout/$', logout),
     url(r'^api/loginstatus$', LoginStatus(login_required=False).run),
