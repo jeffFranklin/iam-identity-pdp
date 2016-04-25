@@ -16,3 +16,9 @@ def index(request, template=None):
                     else True)
 
     return render(request, 'page.html', {'show_publish': show_publish})
+
+
+@login_required
+@ensure_csrf_cookie
+def cascade(request):
+    return render(request, 'cascade.html')
