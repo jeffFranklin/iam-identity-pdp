@@ -1,8 +1,65 @@
-from pdp.views.api.identity import Publish
+from pdp.api import Name, Publish
+import logging
 import json
-from idbase.exceptions import NotFoundError, BadRequestError
-from pytest import fixture, raises
 import re
+from pytest import fixture, raises
+from idbase.exceptions import NotFoundError, BadRequestError
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
+
+def test_name_get(rf):
+    request = rf.get('/api/name', netid='joe')
+    response = Name().GET(request)
+    assert response.status_code == 200
+    request.user.set_full_name.assert_called_once_with('JO BLO')
+    name = json.loads(response.content)
+    formals = {'formal_lname': 'BLO', 'formal_fname': 'JO'}
+    assert (formals == {k: v for k, v in name.items() if k in formals})
+    displays = {'display_lname': '', 'display_mname': '', 'display_fname': ''}
+    assert (displays == {k: v for k, v in name.items() if k in displays})
+
+
+def test_name_get_with_display_name(rf):
+    request = rf.get('/api/name', netid='javerage')
+    response = Name().GET(request)
+    assert response.status_code == 200
+    request.user.set_full_name.assert_called_once_with('James Average Student')
+    displays = {'display_lname': 'Student', 'display_mname': 'Average',
+                'display_fname': 'James'}
+    name = json.loads(response.content)
+    assert (displays == {k: v for k, v in name.items() if k in displays})
+
+
+def test_name_put(rf):
+    name = json.dumps({
+        'display_fname': 'Jane', 'display_mname': 'X', 'display_lname': 'Doe'})
+    request = rf.put('/api/name', netid='joe', data=name)
+    response = Name().PUT(request)
+    assert response.status_code == 200
+    request.user.set_full_name.assert_called_once_with('Jane X Doe')
+
+
+@fixture(autouse=True)
+def file_cache(irws_file_cache):
+    irws_file_cache.update({
+        '/registry-dev/v1/name/uwnetid=joe': json.dumps({
+            'name': [{
+                'validid': '123',
+                'formal_fname': 'JO', 'formal_sname': 'BLO'}
+            ]
+        }),
+        '/registry-dev/v1/name/uwnetid=javerage': json.dumps({
+            'name': [{
+                'validid': '123',
+                'formal_fname': 'JO', 'formal_sname': 'BLO',
+                'display_fname': 'James', 'display_mname': 'Average',
+                'display_sname': 'Student'}
+            ]}),
+    })
+    update_file_cache(irws_file_cache)
+    return irws_file_cache
 
 
 def test_publish_get(irws_file_cache, source, publish_value, rf):
@@ -55,12 +112,6 @@ def source(request):
 @fixture(params=['Y', 'N', 'E', 'X'])
 def publish_value(request):
     return request.param
-
-
-@fixture
-def file_cache(irws_file_cache):
-    update_file_cache(irws_file_cache)
-    return irws_file_cache
 
 
 def update_file_cache(file_cache, source='uwhr', publish_value='N'):

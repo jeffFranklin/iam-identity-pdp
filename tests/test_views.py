@@ -1,4 +1,4 @@
-from pdp.views.page import index
+from pdp.views import index
 from mock import patch
 from django.shortcuts import render
 import logging
@@ -6,7 +6,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 
-@patch('pdp.views.page.render', side_effect=render)
+@patch('pdp.views.render', side_effect=render)
 def test_index(mock_render, rf):
     request = rf.get('/', netid='foo')
     response = index(request)
@@ -23,7 +23,7 @@ def test_index_no_login(rf):
     assert response.url == '/id/login/?next=/'
 
 
-@patch('pdp.views.page.render', side_effect=render)
+@patch('pdp.views.render', side_effect=render)
 def test_index_show_publish(mock_render, rf):
     request = rf.get('/?show_publish', netid='foo')
     response = index(request)

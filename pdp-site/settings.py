@@ -124,7 +124,7 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
-        'idbase':{
+        'idbase': {
             'handlers': ['debuglog'],
             'level': 'DEBUG',
             'propagate': True,
