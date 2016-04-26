@@ -35,11 +35,11 @@
     - name: copy extra dev stuff
       copy: "src={{local_base}}/{{item}} dest={{app_dir}} group=iam-dev mode=664 directory_mode=2775"
       with_items:
-        - it
+        - tests
       when: cluster_type != "prod"
 
     - name: run integration tests
-      command: bin/py.test it
+      command: bin/py.test tests/integration_tests.py
       environment:
         DJANGO_SETTINGS_MODULE: pdp-site.it_settings
       args:

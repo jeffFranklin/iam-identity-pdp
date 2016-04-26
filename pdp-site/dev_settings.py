@@ -30,5 +30,3 @@ LOGGING['handlers'].update({
         'when': 'midnight'
     }
 })
-
-

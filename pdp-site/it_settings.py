@@ -13,11 +13,10 @@ if RESTCLIENTS_IRWS_DAO_CLASS == 'restclients.dao_implementation.irws.File':
     File._cache.update({
         '/{service}/v1/name/uwnetid=idtest55'.format(
             service=RESTCLIENTS_IRWS_SERVICE_NAME): json.dumps({
-            'name': [{
-                'validid': '123',
-                'formal_fname': 'DWIGHT', 'formal_sname': 'ADAMS'}
-            ]
-        })
+                'name': [{
+                    'validid': '123',
+                    'formal_fname': 'DWIGHT', 'formal_sname': 'ADAMS'}
+                ]})
     })
 LOGGING['handlers'].update({
     'debuglog': {

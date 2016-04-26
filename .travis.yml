@@ -15,6 +15,6 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
 script:
-  - py.test --pep8 --cov pdp pdp
+  - py.test --pep8 --cov pdp
   # - py.test tests/functional_tests.py
   - coveralls

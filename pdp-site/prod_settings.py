@@ -12,8 +12,8 @@ COMPRESS_ENABLED = True
 RESTCLIENTS_IRWS_DAO_CLASS = 'restclients.dao_implementation.irws.Live'
 RESTCLIENTS_IRWS_HOST = 'https://mango.u.washington.edu:646'
 RESTCLIENTS_IRWS_SERVICE_NAME = 'registry'
-RESTCLIENTS_IRWS_CERT_FILE = '/data/local/django/pdp/certs/identity.uw.edu.uwca.cert'
-RESTCLIENTS_IRWS_KEY_FILE = '/data/local/django/pdp/certs/identity.uw.edu.uwca.key'
+RESTCLIENTS_IRWS_CERT_FILE = '/usr/local/ssl/certs/identity.uw.edu.uwca.cert'
+RESTCLIENTS_IRWS_KEY_FILE = '/usr/local/ssl/certs/identity.uw.edu.uwca.key'
 RESTCLIENTS_CA_BUNDLE = '/usr/local/ssl/certs/ca-bundle.crt'
 RESTCLIENTS_IRWS_MAX_POOL_SIZE = 10
 

@@ -1,9 +1,9 @@
 from django.conf.urls import url
 from django.conf import settings
 
-from pdp.views.page import index, cascade
-from pdp.views.api.name import Name
-from pdp.views.api.identity import Publish
+from pdp.views import index, cascade
+from pdp.api import Name
+from pdp.api import Publish
 from idbase.api import LoginStatus
 from idbase.views import login, logout
 
