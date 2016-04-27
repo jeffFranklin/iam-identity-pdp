@@ -1,7 +1,8 @@
 {% extends 'base-pdp.html' %}
 
 {% block content %}
-    <div  class="container">
+    {% verbatim %}
+    <div  class="container" ng-controller="ProfileCtrl as profile" ng-cloak>
     <!-- NEW PAGE-TITLE -->
 		<div class="page-title">
            <h1>Profile information</h1>
@@ -35,7 +36,7 @@
                     </li>
                     <li class="list-group-item">
                         <label>Official Name // add (?)tooltip here</label> <br>
-                        <p>TIMOTHY ROBERT JOHNSON</p>
+                        <p>{{ profile.info.data.official_name }}</p>
                     </li>
                     <li class="list-group-item">
                         <label>UW Email</label><br>
@@ -46,7 +47,7 @@
         </div>
       </div>
 
-     <div class="row">
+     <div class="row" ng-show="profile.info.data.student">
        <div class="col-md-7">
            <div class="panel panel-default">
                <div class="panel-heading">
@@ -62,7 +63,7 @@
                 </li>
                 <li class="list-group-item">
                     <label>Year, Major</label><br>
-                    <p>Graduate </p>
+                    <p ng-show="profile.info.data.student.clazz">{{ profile.info.data.student.clazz }}</p>
                     <p>Sociology</p>
                 </li>
             </ul>
@@ -175,6 +176,7 @@
 
         <!--<p>Your session should time out in {{ session_timeout }} seconds.</p>-->
     </div>
+    {% endverbatim %}
 {% endblock %}
 
 {% load static %}

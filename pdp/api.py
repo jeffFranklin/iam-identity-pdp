@@ -4,10 +4,19 @@ import json
 from restclients.irws import IRWS
 from restclients.exceptions import InvalidIRWSName, IRWSPersonNotFound
 from pdp.util import full_name_from_object
+from pdp.dao import get_profile
 from idbase.api import RESTDispatch
 from idbase.exceptions import NotFoundError, BadRequestError
 
 logger = logging.getLogger(__name__)
+
+
+class Profile(RESTDispatch):
+
+    def GET(self, request):
+        logger.debug(
+            'getting profile for {}'.format(request.user.get_username()))
+        return get_profile(request.user.netid).to_dict()
 
 
 class Name(RESTDispatch):

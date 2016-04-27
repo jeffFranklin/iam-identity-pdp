@@ -1,4 +1,4 @@
-from pdp.views import index
+from pdp.views import index, cascade
 from mock import patch
 from django.shortcuts import render
 import logging
@@ -30,3 +30,8 @@ def test_index_show_publish(mock_render, rf):
     assert response.status_code == 200
     mock_render.assert_called_once_with(
         request, 'page.html', {'show_publish': True})
+
+
+def test_cascade(rf):
+    response = cascade(rf.get('/', netid='joe'))
+    assert response.status_code == 200

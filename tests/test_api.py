@@ -1,4 +1,4 @@
-from pdp.api import Name, Publish
+from pdp.api import Name, Publish, Profile
 import logging
 import json
 import re
@@ -141,3 +141,8 @@ def update_file_cache(file_cache, source='uwhr', publish_value='N'):
     })
     file_cache.update(dict(joe_hr_key=joe_hr_key))
     return file_cache
+
+
+def test_profile(rf):
+    response = Profile().GET(rf.get('/', netid='joe'))
+    assert response['netid'] == 'joe'

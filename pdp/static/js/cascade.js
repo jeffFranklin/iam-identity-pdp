@@ -1,3 +1,45 @@
+var app = angular.module('identityApp');
+
+function ServiceService($log, $http, ErrorSvc){
+    var get = function(url) {
+        $log.info('getting ' + url);
+        return $http.get(url)
+            .then(function(response){
+                $log.info(response);
+                return response;
+            })
+            .catch(function(response) {
+                $log.info(response);
+                if (response.status == 500 || response.status == 401) {
+                    ErrorSvc.handleError(response.data, response.status);
+                }
+            })
+    };
+    return {get: get};
+}
+
+app.factory('serviceSvc', ['$log', '$http', 'ErrorSvc', ServiceService]);
+
+function ProfileService(serviceSvc) {
+    // Service returning profile information about an authenticated user.
+    var profile = {getting: false, data: {}};
+    var getProfile = function(netid) {
+        profile.getting = true;
+        serviceSvc.get('api/profile/')
+            .then(function(response){
+                profile.data = response.data;})
+            .finally(function(){ profile.getting = false;});};
+    return {profile: profile,
+        getProfile: getProfile};
+}
+
+app.factory('profileService', ['serviceSvc', ProfileService]);
+
+app.controller('ProfileCtrl', ['profileService', function(profileService){
+    profileService.getProfile('huh?');
+
+    this.info = profileService.profile;
+}]);
 
 //$(".modal-transparent").on('show.bs.modal', function () {
 //  setTimeout( function() {
