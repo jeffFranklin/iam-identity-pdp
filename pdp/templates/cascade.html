@@ -1,7 +1,8 @@
 {% extends 'base-pdp.html' %}
 
 {% block content %}
-    <div  class="container">
+    {% verbatim %}
+    <div  class="container" ng-controller="ProfileCtrl as profile" ng-cloak>
     <!-- NEW PAGE-TITLE -->
 		<div class="page-title">
            <h1>Profile information</h1>
@@ -31,22 +32,23 @@
                 <ul class="list-group">
                     <li class="list-group-item">
                         <label>Preferred Name</label><br>
-                        <p><a href="">Set your preferred name</a> to replace your legal name in <a href="">UW Directory</a></p>
+                        <p ng-hide="profile.data.preferred_name"><a href="">Set your preferred name</a> to replace your legal name in <a href="">UW Directory</a></p>
+                        <p ng-show="profile.data.preferred_name"><a href="">{{ profile.data.preferred_name }}</a></p>
                     </li>
                     <li class="list-group-item">
                         <label>Official Name // add (?)tooltip here</label> <br>
-                        <p>TIMOTHY ROBERT JOHNSON</p>
+                        <p>{{ profile.data.official_name }}</p>
                     </li>
                     <li class="list-group-item">
                         <label>UW Email</label><br>
-                        <p>tjohn1234@uw.edu</p>
+                        <p ng-repeat="email in profile.data.emails track by $index">{{ email }}</p>
                     </li>
                 </ul>
             </div>
         </div>
       </div>
 
-     <div class="row">
+     <div class="row" ng-show="profile.data.student">
        <div class="col-md-7">
            <div class="panel panel-default">
                <div class="panel-heading">
@@ -58,19 +60,19 @@
             <ul class="list-group">
                 <li class="list-group-item">
                     <label>Phone Number</label><br>
-                    <p>(425)333-4444</p>
+                    <p ng-repeat="phone in profile.data.student.phone_numbers track by $index">{{ phone }}</p>
                 </li>
                 <li class="list-group-item">
                     <label>Year, Major</label><br>
-                    <p>Graduate </p>
-                    <p>Sociology</p>
+                    <p>{{ profile.data.student.clazz }}</p>
+                    <p>{{ profile.data.student.major }}</p>
                 </li>
             </ul>
         </div>
        </div>
      </div>
 
-     <div class="row">
+     <div class="row" ng-show="profile.data.emloyee">
        <div class="col-md-7">
            <div class="panel panel-default">
                <div class="panel-heading">
@@ -81,15 +83,15 @@
             <ul class="list-group">
                 <li class="list-group-item">
                     <label>Phone Number</label><br>
-                    <p>(206)123-2222</p>
+                    <p ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</p>
                 </li>
-                <li class="list-group-item">
+                <li class="list-group-item" ng-show="profile.data.employee.official_name">
                     <label>Legal Name</label><br>
-                    <p>TIMOTHY ROBERT JOHNSON</p>
+                    <p>{{ profile.data.employee.official_name }}</p>
                 </li>
                 <li class="list-group-item">
                     <label>UW Email</label><br>
-                    <p>tjohn1234@uw.edu</p>
+                    <p ng-repeat="email in profile.data.employee.emails track by $index">{{ email }}</p>
                 </li>
             </ul>
         </div>
@@ -175,6 +177,7 @@
 
         <!--<p>Your session should time out in {{ session_timeout }} seconds.</p>-->
     </div>
+    {% endverbatim %}
 {% endblock %}
 
 {% load static %}
