@@ -10,7 +10,7 @@ def get_profile(netid):
         emails=['tjohn1234@uw.edu'],
         student=dict(
             phone_numbers=['(425)333-4444'],
-            clazz='Graduate',
+            clazz='Frosh',
             major='Sociology'
         ),
         employee=dict(

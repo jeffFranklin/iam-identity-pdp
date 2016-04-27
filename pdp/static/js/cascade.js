@@ -1,6 +1,6 @@
 var app = angular.module('identityApp');
 
-function ServiceService($log, $http, ErrorSvc){
+function ApiService($log, $http, ErrorSvc){
     var get = function(url) {
         $log.info('getting ' + url);
         return $http.get(url)
@@ -18,27 +18,27 @@ function ServiceService($log, $http, ErrorSvc){
     return {get: get};
 }
 
-app.factory('serviceSvc', ['$log', '$http', 'ErrorSvc', ServiceService]);
+app.factory('apiService', ['$log', '$http', 'ErrorSvc', ApiService]);
 
-function ProfileService(serviceSvc) {
+function ProfileService(apiService) {
     // Service returning profile information about an authenticated user.
     var profile = {getting: false, data: {}};
     var getProfile = function(netid) {
         profile.getting = true;
-        serviceSvc.get('api/profile/')
+        apiService.get('api/profile/')
             .then(function(response){
-                profile.data = response.data;})
+                for (var key in response.data){ profile.data[key] = response.data[key];}})
             .finally(function(){ profile.getting = false;});};
     return {profile: profile,
         getProfile: getProfile};
 }
 
-app.factory('profileService', ['serviceSvc', ProfileService]);
+app.factory('profileService', ['apiService', ProfileService]);
 
 app.controller('ProfileCtrl', ['profileService', function(profileService){
-    profileService.getProfile('huh?');
+    profileService.getProfile('');
 
-    this.info = profileService.profile;
+    this.data = profileService.profile.data;
 }]);
 
 //$(".modal-transparent").on('show.bs.modal', function () {
