@@ -6,13 +6,14 @@ function ApiService($log, $http, ErrorSvc){
         return $http.get(url)
             .then(function(response){
                 $log.info(response);
-                return response;
+                return response.data;
             })
             .catch(function(response) {
                 $log.info(response);
                 if (response.status == 500 || response.status == 401) {
                     ErrorSvc.handleError(response.data, response.status);
                 }
+                return null;
             })
     };
     return {get: get};
@@ -20,25 +21,47 @@ function ApiService($log, $http, ErrorSvc){
 
 app.factory('apiService', ['$log', '$http', 'ErrorSvc', ApiService]);
 
-function ProfileService(apiService) {
+function ProfileService(apiService, $log, $q) {
     // Service returning profile information about an authenticated user.
     var profile = {getting: false, data: {}};
     var getProfile = function(netid) {
-        profile.getting = true;
-        apiService.get('api/profile/')
-            .then(function(response){
-                for (var key in response.data){ profile.data[key] = response.data[key];}})
-            .finally(function(){ profile.getting = false;});};
+        return apiService.get('api/profile/');};
     return {profile: profile,
         getProfile: getProfile};
 }
 
-app.factory('profileService', ['apiService', ProfileService]);
+function MockProfileService(apiService, $log, $q) {
+    var getProfile = function(netid){
+        response = {netid: netid, preferred_name: 'Joe Blow',
+            official_name: 'JOSEPH BLOW', emails: ['j@f.u'],
+            student: {official_name: 'Joey Blow', phone_numbers: ['12345'],
+                clazz: 'Junior', major: 'French'},
+            employee: {official_name: 'JOEY BLOW', phone_numbers: ['54321'],
+                emails: ['f@j.u'], address: 'Wallaby Way', box: 'P32'}};
+        return $q.when(response);
+    };
+    return {getProfile: getProfile};
+}
 
-app.controller('ProfileCtrl', ['profileService', function(profileService){
-    profileService.getProfile('');
+app.factory('profileService', ['apiService', '$log', '$q', ProfileService]);
 
-    this.data = profileService.profile.data;
+app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', function(profileService, loginStatus, $log){
+    this.data = {};
+    var _this = this;
+    loginStatus.info.promise.then(function () {
+        profileService.getProfile(loginStatus.info.netid).then(function (data) {
+            if (data) {
+                $log.info('pfc got ');
+                $log.info(data);
+                for (var key in data) {
+                    _this.data[key] = data[key];
+                }
+            }
+            else {
+                $log.info('pfc got no data')
+            }
+        });
+    });
 }]);
 
 //$(".modal-transparent").on('show.bs.modal', function () {
