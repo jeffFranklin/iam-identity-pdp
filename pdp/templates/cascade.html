@@ -24,11 +24,44 @@
         </div> -->
     <!--</div>-->
 
-        <span class="glyphicon glyphicon-question-sign"></span>
 
-        <button type="button" class="btn btn-default" aria-label="Left Align">
-  <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
-</button>
+
+
+            <div class="modal fade bs-modal-sm" id="timeoutModal" tabindex="-1" role="dialog"
+                 ng-controller="TimeoutCtrl as timeout"
+                 aria-labelledby="modalTitle">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <!--<h2 class="modal-title" id="modalTitle">Error</h2>-->
+                        </div>
+                        <!-- /.modal-header -->
+                        <div class="modal-body" id="expired_message">
+                            <!--<p> Your session became invalid. </p>-->
+                                <h1>Welcome to Identity.uw!</h1>
+                                <p>At Identity.uw you can:</p>
+                                <p>[TBD]</p>
+                                <ul>
+                                    <li>Set your preferred name to replace your legal name on the UW Directory.</li>
+                                    <li>Change your information sharing settings.</li>
+                                    <li>Set your recovery settings.</li>
+                                </ul>
+                                <p><a href="">Let's get started!</a></p>
+
+                                <!--<form><button type="button" class="btn btn-primary first-btn"-->
+                                        <!--ng-click="timeout.reload()">-->
+                                    <!--Restart-->
+                                <!--</button></form>-->
+                        </div>
+                        <!-- /.modal-body -->
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
 
      <div class="row">
        <div class="col-md-7">
