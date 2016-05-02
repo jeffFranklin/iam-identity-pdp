@@ -71,7 +71,9 @@
                     <li class="list-group-item">
                         <label>Preferred Name</label><br>
                         <p ng-hide="profile.data.preferred_name"><a href="">Set your preferred name</a> to replace your legal name in <a href="">UW Directory</a></p>
-                        <p ng-show="profile.data.preferred_name"><a href="">{{ profile.data.preferred_name }}</a></p>
+                        <p ng-show="profile.data.preferred_name"><a href="">{{ profile.data.preferred_name }}</a><button type="button" id="edit-pn-btn" class="btn btn-default btn-xs" >Edit</button>
+                                        
+                                    	</button></p>
                     </li>
                     <li class="list-group-item">
                         <label>Official Name</label> <br>
@@ -193,7 +195,7 @@
                         <li>Teaching Assistant, Sociology</li>
                         <li>107 NE 45th St. #505 Seattle WA 98105</li>
                      </ul>
-                    <p><button class="btn btn-default edit-directory" type="button">Change settings</button></p>
+                    <p><button class="btn btn-default btn-xs" type="button">Change settings</button></p>
                 </li>
                 
                 <li class="list-group-item">
