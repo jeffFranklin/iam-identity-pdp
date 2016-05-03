@@ -59,7 +59,9 @@ def test_profile():
         student=dict(official_name='JoE', phone_numbers=['1'], clazz='Junior',
                      major='ART'),
         employee=dict(official_name='jOe', phone_numbers=['2'],
-                      emails=['j@j.u'], address='123', box='456'))
+                      emails=['j@j.u'], address='123', box='456'),
+        preferred=dict(full='J O E', first='J', middle='O', last='E')
+    )
     dct_out = Profile(dct=dct_in).to_dict()
     assert dct_in == dct_out
     assert dct_in is not dct_out
