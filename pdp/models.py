@@ -28,14 +28,25 @@ class Profile(BaseModel):
     def __init__(self, dct={}):
         self._specials = {
             'student': StudentProfile,
-            'employee': EmployeeProfile
+            'employee': EmployeeProfile,
+            'preferred': PreferredNameParts
         }
         self.netid = None
-        self.preferred_name = None
         self.official_name = None
         self.emails = []
         self.student = None
         self.employee = None
+        self.preferred_name = None
+        self.preferred = None
+        super(self.__class__, self).__init__(dct=dct)
+
+
+class PreferredNameParts(BaseModel):
+    def __init__(self, dct={}):
+        self.full = ''
+        self.first = ''
+        self.middle = ''
+        self.last = ''
         super(self.__class__, self).__init__(dct=dct)
 
 

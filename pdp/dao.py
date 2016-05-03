@@ -1,12 +1,18 @@
-from pdp.models import Profile
+from pdp.models import Profile, PreferredNameParts
+from django.conf import settings
+from resttools.irws import IRWS as RestToolsIRWS
+from idbase.exceptions import ServiceError
+
+
+def IRWS():
+    return RestToolsIRWS(settings.IRWS_CLIENT)
 
 
 def get_profile(netid):
     """Return the profile for a given netid."""
+    # TODO: This goes away after we plug in all the right attributes
     fake_profile = dict(
         netid=netid,
-        preferred_name='Timmy Johnson',
-        official_name='TIMOTHY ROBERT JOHNSON',
         emails=['tjohn1234@uw.edu'],
         student=dict(
             phone_numbers=['(425)333-4444'],
@@ -20,4 +26,29 @@ def get_profile(netid):
             address='107 NE 45th St. #505 Seattle WA 98105'
         )
     )
-    return Profile(dct=fake_profile)
+    # TODO: We eventually won't pass in fake_profile
+    profile = Profile(dct=fake_profile)
+    name = get_name(netid)
+    profile.preferred = PreferredNameParts(dct=dict(
+        full=name.display_cname,
+        first=name.display_fname,
+        middle=name.display_mname,
+        last=name.display_lname))
+
+    profile.official_name = name.formal_cname
+    profile.preferred_name = name.display_cname
+    return profile
+
+
+def get_name(netid):
+    """
+    Look up an irws name by netid. All people should have a name. Raise a
+    ServiceError for all errors and no-names.
+    """
+    try:
+        name = IRWS().get_name_by_netid(netid)
+        if not name:
+            raise ServiceError('no name resource')
+    except Exception as e:
+        raise ServiceError(e)
+    return name
