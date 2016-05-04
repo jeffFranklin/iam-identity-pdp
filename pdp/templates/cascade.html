@@ -8,38 +8,16 @@
            <h1>Profile information</h1>
         </div><!-- end new H1 -->
 
-
-    <!-- html for overlay box -->
-    <!--<div class="modal modal-transparent fade">-->
-      <!--  FOR NOW <div class="row">
-            <h1>Welcome to Identity.uw!</h1>
-            <p>At Identity.uw you can:</p>
-            <p>[TBD]</p>
-            <ul>
-                <li>Set your preferred name to replace your legal name on the UW Directory.</li>
-                <li>Change your information sharing settings.</li>
-                <li>Set your recovery settings.</li>
-            </ul>
-            <p><a href="">Let's get started!</a></p>
-        </div> -->
-    <!--</div>-->
-
-
-
-
             <div class="modal fade bs-modal-sm" id="splashModal" tabindex="-1" role="dialog"
                  ng-controller="SplashModalCtrl"
                  aria-labelledby="modalTitle">
                 <div class="modal-dialog modal-sm" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                            <!--<h2 class="modal-title" id="modalTitle">Error</h2>-->
-                        </div>
                         <!-- /.modal-header -->
                         <div class="modal-body" id="expired_message">
                             <!--<p> Your session became invalid. </p>-->
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
                                 <h1>Welcome to Identity.uw!</h1>
                                 <p>At Identity.uw you can:</p>
                                 <p>[TBD]</p>
@@ -48,12 +26,8 @@
                                     <li>Change your information sharing settings.</li>
                                     <li>Set your recovery settings.</li>
                                 </ul>
-                                <p><a href="#" data-dismiss="modal">Let's get started!</a></p>
-
-                                <!--<form><button type="button" class="btn btn-primary first-btn"-->
-                                        <!--ng-click="timeout.reload()">-->
-                                    <!--Restart-->
-                                <!--</button></form>-->
+                                <!--<p><a href="#" data-dismiss="modal" class="modal-started">Let's get started!</a></p>-->
+                                <button type="button" data-dismiss="modal" class="btn-start btn btn-default">Let's get started!</button>
                         </div>
                         <!-- /.modal-body -->
                     </div>
@@ -69,9 +43,9 @@
            <div class="panel panel-default">
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <label>Preferred Name</label><br>
+                        <label>Preferred Name</label><button type="button" id="edit-pn-btn" class="btn btn-default btn-xs" >Edit</button><br>
                         <p ng-hide="profile.data.preferred_name"><a href="">Set your preferred name</a> to replace your legal name in <a href="">UW Directory</a></p>
-                        <p ng-show="profile.data.preferred_name"><a href="">{{ profile.data.preferred_name }}</a><button type="button" id="edit-pn-btn" class="btn btn-default btn-xs" >Edit</button></p>
+                        <p ng-show="profile.data.preferred_name"><a href="">{{ profile.data.preferred_name }}</a></p>
                     </li>
                     <li class="list-group-item">
                         <label>Official Name</label>
@@ -195,7 +169,7 @@
                         <li>Teaching Assistant, Sociology</li>
                         <li>107 NE 45th St. #505 Seattle WA 98105</li>
                      </ul>
-                    <p><button class="btn btn-default btn-xs" type="button">Change settings</button></p>
+                    <p><button class="employee-btn btn btn-default btn-xs" type="button">Change settings</button></p>
                 </li>
                 
                 <li class="list-group-item">

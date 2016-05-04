@@ -39,3 +39,31 @@
     padding: 20px;
 }
 
+.close {
+    font-size: 40px;
+}
+
+.modal-body h1 {
+    padding-top: 20px;
+}
+
+.btn-start {
+    margin-top: 30px;
+    background-color: #fff;
+    color: #000;
+    border-color: none;
+}
+
+#edit-pn-btn {
+    background-color: #fff;
+    color: #000;
+    border-color: none;
+    float: right;
+}
+
+.employee-btn {
+    margin-top: 20px;
+    background-color: #fff;
+    color: #000;
+    border-color: none;
+}
