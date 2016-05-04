@@ -29,7 +29,7 @@
 
 .modal-content {
     width: 500px;
-    height: 400px;
+    height: 350px;
     position: relative;
     position: absolute;
     top: 50%;
@@ -48,10 +48,12 @@
     float: left;
     margin-bottom: 10px;
 }
-
-.modal-body h1 {
-    padding-top: 20px;
+.welcome{
+	margin-top: 0px;
 }
+/* .modal-body h1 {
+    padding-top: 20px;
+} */
 
 .btn-start {
     margin-top: 30px;
