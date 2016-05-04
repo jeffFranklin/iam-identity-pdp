@@ -58,7 +58,7 @@ app.controller('NameCtrl', ['$http', '$log', 'ErrorSvc', 'loginStatus', function
         if (_this.puttingPrefName == true) return;
         _this.puttingPrefName = true;
         $log.info('about to put ' + pdp_name_url);
-        $http.put(pdp_name_url, _this.pn)
+        $http.put(pdp_name_url, {first: _this.pn.display_fname, middle: _this.pn.display_mname,  last: _this.pn.display_lname})
             .then(function (response) {
                 _this.putStatus = 'success';
                 $log.info(_this.putStatus);

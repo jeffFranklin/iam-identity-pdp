@@ -1,8 +1,10 @@
 import logging
 from django.http import HttpResponse
 import json
-from restclients.irws import IRWS
-from restclients.exceptions import InvalidIRWSName, IRWSPersonNotFound
+from restclients.irws import IRWS as RestClientsIRWS
+from pdp.dao import IRWS
+from resttools.exceptions import InvalidIRWSName
+from restclients.exceptions import IRWSPersonNotFound
 from pdp.util import full_name_from_object
 from pdp.dao import get_profile
 from idbase.api import RESTDispatch
@@ -33,7 +35,14 @@ class Name(RESTDispatch):
         logger.info('name api put for user {}'.format(
             request.user.username))
         try:
-            IRWS().put_name_by_netid(request.user.netid, request.body)
+            data = json.loads(request.body)
+            name_args = {key: data[key]
+                         for key in ('first', 'middle', 'last')}
+        except:
+            raise BadRequestError('invalid json')
+
+        try:
+            IRWS().put_name_by_netid(request.user.netid, **name_args)
         except InvalidIRWSName as e:
             logger.info(e)
             raise BadRequestError('invalid name')
@@ -51,7 +60,7 @@ class Publish(RESTDispatch):
             request.user.username))
         netid = request.user.netid
         try:
-            person = IRWS().get_hr_person_by_netid(netid)
+            person = RestClientsIRWS().get_hr_person_by_netid(netid)
             response = HttpResponse(
                 self._person_object_to_json(person),
                 content_type='application/json')
@@ -65,7 +74,7 @@ class Publish(RESTDispatch):
         logger.info('publish api put for user {}'.format(
             request.user.username))
 
-        irws = IRWS()
+        irws = RestClientsIRWS()
         try:
             # success or exception
             irws.post_hr_person_by_netid(
