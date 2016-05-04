@@ -67,3 +67,10 @@
     color: #000;
     border-color: none;
 }
+
+/* Inline help icon style */
+.icon-look {
+	color: #aaa;
+	padding-left: 5px;
+	padding: 5px;
+}
