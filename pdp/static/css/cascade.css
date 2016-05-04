@@ -39,8 +39,14 @@
     padding: 20px;
 }
 
-.close {
+#modal-exit.close {
     font-size: 40px;
+}
+
+#pn-alert.close {
+    font-size: 10px;
+    float: left;
+    margin-bottom: 10px;
 }
 
 .modal-body h1 {
