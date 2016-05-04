@@ -43,16 +43,10 @@
            <div class="panel panel-default">
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <label>Preferred Name</label><button type="button" id="edit-pn-btn" class="btn btn-default btn-xs" >Edit</button><br>
-                        <p ng-hide="profile.data.preferred_name"><a href="">Set your preferred name</a> to replace your legal name in <a href="">UW Directory</a></p>
-                        <p ng-show="profile.data.preferred_name"><a href="">{{ profile.data.preferred_name }}</a></p>
-                        <!--<button type="button" id="pn-alert" class="close" data-dismiss="alert" aria-label="Close">-->
-                            <!--<span aria-hidden="true">Preferred name is set and will be displayed in <a href="https://www.washington.edu/home/peopledir/">the UW Directory</a> immediately.</span>-->
-                        <!--</button>-->
-                        <div class="alert alert-success">
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            Preferred name is set and will be displayed in <a href="https://www.washington.edu/home/peopledir/">the UW Directory</a> immediately.
-                        </div>
+                        <label>Preferred Name</label><br>
+                        {% endverbatim %}
+                        {% include "profile-name.html" %}
+                        {% verbatim %}
                     </li>
                     <li class="list-group-item">
                         <label>Official Name</label>
