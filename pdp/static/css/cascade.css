@@ -27,6 +27,52 @@
     font-weight: bold;
 }
 
+.modal-content {
+    width: 500px;
+    height: 400px;
+    position: relative;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -200px;
+    margin-left: -225px;
+    padding: 20px;
+}
+
+#modal-exit.close {
+    font-size: 40px;
+}
+
+#pn-alert.close {
+    font-size: 10px;
+    float: left;
+    margin-bottom: 10px;
+}
+
+.modal-body h1 {
+    padding-top: 20px;
+}
+
+.btn-start {
+    margin-top: 30px;
+    background-color: #fff;
+    color: #000;
+    border-color: none;
+}
+
+#edit-pn-btn {
+    background-color: #fff;
+    color: #000;
+    border-color: none;
+    float: right;
+}
+
+.employee-btn {
+    margin-top: 20px;
+    background-color: #fff;
+    color: #000;
+    border-color: none;
+}
 
 /* Inline help icon style */
 .icon-look {
