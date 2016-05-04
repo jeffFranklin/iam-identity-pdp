@@ -71,12 +71,12 @@
                     <li class="list-group-item">
                         <label>Preferred Name</label><br>
                         <p ng-hide="profile.data.preferred_name"><a href="">Set your preferred name</a> to replace your legal name in <a href="">UW Directory</a></p>
-                        <p ng-show="profile.data.preferred_name"><a href="">{{ profile.data.preferred_name }}</a><button type="button" id="edit-pn-btn" class="btn btn-default btn-xs" >Edit</button>
-                                        
-                                    	</button></p>
+                        <p ng-show="profile.data.preferred_name"><a href="">{{ profile.data.preferred_name }}</a><button type="button" id="edit-pn-btn" class="btn btn-default btn-xs" >Edit</button></p>
                     </li>
                     <li class="list-group-item">
                         <label>Official Name</label> <br>
+                        <i class="fa fa-question-circle fa-lg" data-toggle="tooltip" uw-tooltip
+                                           title="tooltip example"></i>
                         <p>{{ profile.data.official_name }}</p>
                     </li>
                     <li class="list-group-item">

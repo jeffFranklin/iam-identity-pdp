@@ -175,3 +175,13 @@ except ImportError:
     pass
 
 SESSION_COOKIE_SECURE = not DEBUG
+IRWS_CLIENT = dict(HOST=RESTCLIENTS_IRWS_HOST,
+                   SERVICE_NAME=RESTCLIENTS_IRWS_SERVICE_NAME,
+                   CERT_FILE=RESTCLIENTS_IRWS_CERT_FILE,
+                   KEY_FILE=RESTCLIENTS_IRWS_KEY_FILE,
+                   CA_FILE=RESTCLIENTS_CA_BUNDLE,
+                   RUN_MODE=RESTCLIENTS_IRWS_DAO_CLASS.split('.')[-1])
+
+if IRWS_CLIENT['RUN_MODE'] == 'File':
+    from pdp.mock import mock_irws_resources
+    mock_irws_resources(conf=IRWS_CLIENT)
