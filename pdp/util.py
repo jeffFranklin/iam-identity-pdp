@@ -1,5 +1,5 @@
 import re
-from restclients.irws import IRWS
+from pdp.dao import IRWS
 
 
 def netid_from_remote_user(remote_user):

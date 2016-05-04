@@ -41,7 +41,7 @@
     - name: run integration tests
       command: bin/py.test tests/integration_tests.py
       environment:
-        DJANGO_SETTINGS_MODULE: pdp-site.it_settings
+        DJANGO_SETTINGS_MODULE: pdp-site.settings_no_logging
       args:
         chdir: "{{ app_dir }}"
       when: cluster_type != "prod"
