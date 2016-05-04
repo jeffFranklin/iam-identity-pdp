@@ -4,8 +4,9 @@ from resttools.irws import IRWS as RestToolsIRWS
 from idbase.exceptions import ServiceError
 
 
-def IRWS():
-    return RestToolsIRWS(settings.IRWS_CLIENT)
+class IRWS(RestToolsIRWS):
+    def __init__(self):
+        super(self.__class__, self).__init__(settings.IRWS_CLIENT)
 
 
 def get_profile(netid):

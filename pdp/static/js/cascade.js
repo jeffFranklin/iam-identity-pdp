@@ -39,6 +39,21 @@ app.controller('ProfileCtrl', ['profileService', function(profileService){
     profileService.getProfile('');
 
     this.data = profileService.profile.data;
+    var _this = this;
+    this.clearNameChange = function(){
+        _this.isSettingName = false;
+    };
+    this.showNameChange = function(){
+        _this.isSettingName = true;
+        _this.nameChangeSuccess = false;
+    };
+    this.isSettingName = false;
+    this.onNameChange = function(data){
+        _this.isSettingName = false;
+        _this.nameChangeSuccess = true;
+        _this.data.preferred = data;
+        _this.data.preferred_name = data.full;
+    };
 }]);
 
 app.factory('modalService', [function(){
