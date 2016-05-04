@@ -58,13 +58,14 @@ app.controller('NameCtrl', ['$http', '$log', 'ErrorSvc', 'loginStatus', function
         if (_this.puttingPrefName == true) return;
         _this.puttingPrefName = true;
         $log.info('about to put ' + pdp_name_url);
-        $http.put(pdp_name_url, {first: _this.pn.display_fname, middle: _this.pn.display_mname,  last: _this.pn.display_lname})
+        return $http.put(pdp_name_url, {first: _this.pn.display_fname, middle: _this.pn.display_mname,  last: _this.pn.display_lname})
             .then(function (response) {
                 _this.putStatus = 'success';
                 $log.info(_this.putStatus);
                 $log.info(response);
                 _this.form.$setPristine(); // only set pristine on success
                 loginStatus.info.name = _this.getDisplayNameFromObject(response.data);
+                return response.data;
             })
             .catch(function (response) {
                 _this.putStatus = 'error';
@@ -90,6 +91,15 @@ app.controller('NameCtrl', ['$http', '$log', 'ErrorSvc', 'loginStatus', function
         return Math.min(totalMax, _this.fieldMax);
     };
     this.getPrefName();
+    this.profilePutName = function(onPutSuccess){
+        return _this.putPrefName().then(function(data){
+            if(data){
+                onPutSuccess({
+                    first: data.display_fname, middle: data.display_mname,
+                    last: data.display_lname, full: data.display_cname});
+            }
+        })
+    }
 }]);
 
 

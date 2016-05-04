@@ -18,7 +18,7 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                      employee_id='123456789', student_number='1234567',
                      birthdate='2001-01-01',
                      formal={'first': 'JANE', 'last': 'DOE'},
-                     display={'first': 'Jane', 'middle': 'X', 'last': 'Doe'},
+                     display={},
                      identifiers=('uwhr', 'sdb'), system_key='123456789',
                      email=None, sms=None, pac='123456',
                      **kwargs):
@@ -59,10 +59,12 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                 "formal_cname": '{first} {last}'.format(**formal),
                 "formal_fname": formal['first'],
                 "formal_sname": formal['last'],
-                'display_cname': '{first} {middle} {last}'.format(**display),
-                'display_fname': display['first'],
-                'display_mname': display['middle'],
-                'display_sname': display['last']
+                'display_cname': ' '.join(display.get(x, '')
+                                          for x in ('first', 'middle', 'last')
+                                          if display.get(x, '')),
+                'display_fname': display.get('first', ''),
+                'display_mname': display.get('middle', ''),
+                'display_sname': display.get('last', '')
             }]},
         '{irws_root}/profile/validid=uwnetid={netid}': {
             "profile": [{
