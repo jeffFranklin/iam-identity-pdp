@@ -40,14 +40,12 @@ def get_profile(netid):
     # Get and set the SDB student data (need to inquire by netid first
     # to find studentid or system key)--and only get this if such an
     # identifier exists for that person
-    student = get_student(netid)
-    profile.student = StudentProfile(dct=dict(
-        clazz=student.wp_title,
-        phone_numbers=student.wp_phone,
-        major=student.department
-
-
-    ))
+    # student = get_student(netid)
+    # profile.student = StudentProfile(dct=dict(
+    #    clazz=student.wp_title,
+    #    phone_numbers=student.wp_phone,
+    #    major=student.department
+    # ))
 
     profile.official_name = name.formal_cname
     profile.preferred_name = name.display_cname
