@@ -18,16 +18,15 @@
                             <!--<p> Your session became invalid. </p>-->
                             <button type="button" id="modal-exit" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                                <h1>Welcome to Identity.uw!</h1>
+                                <h1 class="welcome">Welcome to Identity.uw!</h1>
                                 <p>At Identity.uw you can:</p>
-                                <p>[TBD]</p>
+                             
                                 <ul>
                                     <li>Set your preferred name to replace your legal name on the UW Directory.</li>
                                     <li>Change your information sharing settings.</li>
                                     <li>Set your recovery settings.</li>
                                 </ul>
-                                <!--<p><a href="#" data-dismiss="modal" class="modal-started">Let's get started!</a></p>-->
-                                <button type="button" data-dismiss="modal" class="btn-start btn btn-default">Let's get started!</button>
+                                <div class="center"> <button type="button" data-dismiss="modal" class="btn btn-primary bigbtn">Let's get started!</button></div>
                         </div>
                         <!-- /.modal-body -->
                     </div>
@@ -39,7 +38,7 @@
 
      <div class="row">
        <div class="col-md-7">
-           <h2>Profile Information</h2>
+           <h2 class="profile-h2">Profile Information</h2>
            <div class="panel panel-default">
                 <ul class="list-group">
                     <li class="list-group-item">
@@ -105,52 +104,24 @@
                 </li>
                 <li class="list-group-item">
                     <label>Position</label><br>
-                    <p>{{ profile.data.employee.title }} [Working title]</p>
-                    <p>{{ profile.data.employee.department }}[Department]</p>
+                    <p>{{ profile.data.employee.title }} Teaching Assistant</p>
+                    <p>{{ profile.data.employee.department }}Sociology</p>
                 </li>
                 <li class="list-group-item">
                     <label>Campus Address</label><br>
-                    <p>{{ profile.data.employee.apartment }}</p>
+                    <p>{{ profile.data.employee.apartment }}211 Savery Hall Seattle, WA 98195-3340
+
+</p>
                 </li>
             </ul>
         </div>
        </div>
      </div>
-
-
-     <!-- UCI-s1 view set PN -->
-   <!-- FOR NOW: DON'T KNOW WHY THOSE ARE HERE  <div class="row">
-       <div class="col-md-7">
-           <h2>Information Sharing Settings</h2>
-           <p>[TBD] Depending on the application, some or all information above will be released.</p>
-           <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><a href="">UW Directory</a><br>
-                <p><a href="">The UW Directory</a> will show the following:</p></h3>
-            </div>
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <h3>Your current setting for Employee info: <button class="btn btn-default edit-directory" type="button">Edit</button></h3>
-                    <p><a href="">Listed with email</a></p>
-                    <p class="bold-text">Following employee information will be viewable by anyone:</p>
-                    <p>Your legal name, UW NetID, UW email address, phone number, position, campus address.</p>
-                </li>
-                <li class="list-group-item">
-                    <h3>Your current setting for Student info:</h3>
-                    <p><a href="">[TBD] Yes to Release</a></p>
-                    <p>You can change the setting on the <a href="">Student Personal Services Site</a>. Changes will take up to 1-2 business days to be effective.</p>
-                    <p class="bold-text">Following student information will be viewable by the UW NetID owners:</p>
-                    <p>Your phone number, year</p>
-                </li>
-            </ul>
-            </div>
-       </div>
-     </div>  -->
-
+     
      <!-- opt2: UC1 - s1. View - Set PN -->
       <div class="row">
        <div class="col-md-7">
-           <h2>Information Sharing Settings</h2>
+           <h2 class="profile-h2">Information Sharing Settings</h2>
            <p>[TBD] Depending on the application, some or all information above will be released.</p>
            <div class="panel panel-default">
             <div class="panel-heading">
@@ -169,7 +140,7 @@
                         <li>Teaching Assistant, Sociology</li>
                         <li>107 NE 45th St. #505 Seattle WA 98105</li>
                      </ul>
-                    <p><button class="employee-btn btn btn-default btn-xs" type="button">Change settings</button></p>
+                    <p><button class="btn btn-default btn-xs" type="button">Change settings</button></p>
                 </li>
                 
                 <li class="list-group-item">
