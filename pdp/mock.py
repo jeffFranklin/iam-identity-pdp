@@ -8,7 +8,9 @@ def mock_irws_resources(conf={}):
     kwargs = dict(irws_root='/{}/v2'.format(conf.get('SERVICE_NAME')))
 
     resources = {}
-    resources.update(mock_irws_person('user1e', **kwargs))
+    resources.update(mock_irws_person('user1e', display={}, **kwargs))
+    resources.update(mock_irws_person('idtest55', display=dict(
+        first='Dwight', middle='David', last='Adams')))
 
     RestToolsFile._cache_db.update(resources)
     RestClientsFile._cache.update(resources)
@@ -17,8 +19,8 @@ def mock_irws_resources(conf={}):
 def mock_irws_person(netid, irws_root='/registry-dev/v2',
                      employee_id='123456789', student_number='1234567',
                      birthdate='2001-01-01',
-                     formal={'first': 'JANE', 'last': 'DOE'},
-                     display={},
+                     formal=dict(first='JANE', last='DOE'),
+                     display=dict(first='Jane', middle='X', last='Doe'),
                      identifiers=('uwhr', 'sdb'), system_key='123456789',
                      email=None, sms=None, pac='123456',
                      **kwargs):

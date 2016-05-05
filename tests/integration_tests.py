@@ -1,4 +1,5 @@
 from django.test import override_settings
+from django.conf import settings
 import simplejson as json
 from pytest import fixture
 import requests
@@ -7,8 +8,14 @@ import re
 
 @fixture(scope='session')
 def client_idtest55(live_server):
-    with override_settings(DEBUG=True,
-                           MOCK_LOGIN_USER='idtest55@washington.edu'):
+    with override_settings(
+            DEBUG=True,
+            MOCK_LOGIN_USER='idtest55@washington.edu',
+            LOGIN_URL='/id/mocklogin',
+            MIDDLEWARE_CLASSES=(
+                ['idbase.middleware.MockLoginMiddleware'] +
+                settings.MIDDLEWARE_CLASSES),
+            LOGGING=None):
         # We need to hard-set DEBUG to True because Django's test runner
         # sets it to False regardless of what's in settings.
         session = requests.session()
