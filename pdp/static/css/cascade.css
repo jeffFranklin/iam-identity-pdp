@@ -18,6 +18,13 @@ width: 50%;
 }
 
 
+#edit-pn-btn {
+    background-color: #fff;
+    color: #000;
+    float: right;
+}
+
+
 /* overlay box css */
 .modal-transparent {
   background: transparent;
@@ -90,9 +97,5 @@ width: 50%;
 }*/
 
 
-#edit-pn-btn {
-    background-color: #fff;
-    color: #000;
-    float: right;
-}
+
 
