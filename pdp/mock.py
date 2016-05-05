@@ -18,9 +18,11 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                      employee_id='123456789', student_number='1234567',
                      birthdate='2001-01-01',
                      formal={'first': 'JANE', 'last': 'DOE'},
-                     display={'first': 'Jane', 'middle': 'X', 'last': 'Doe'},
+                     display={'first': 'Jane', 'middle': 'Z', 'last': 'Doe'},
                      identifiers=('uwhr', 'sdb'), system_key='123456789',
-                     email=None, sms=None, pac='123456',
+                     email=None, sms=None, pac='123456', clazz='Senior', major='HCDE',
+                     student_phone_number=['206-123-4567', '206-123-4568'],
+                     employee_phone_number=['206-234-4567', '206-234-4568'],
                      **kwargs):
     """Return mocks of the resources needed for a given netid."""
 
@@ -28,7 +30,8 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                        employee_id=employee_id, student_number=student_number,
                        birthdate=birthdate, formal=formal, display=display,
                        identifiers=identifiers, system_key=system_key,
-                       email=email, sms=sms, pac=pac))
+                       email=email, sms=sms, pac=pac, clazz=clazz, major=major, student_phone_number=student_phone_number,
+                       employee_phone_number=employee_phone_number))
 
     irws_resources = {}
     identifier_urls = {}
@@ -69,6 +72,22 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                 "recover_contacts": recover_contacts,
                 "recover_block_reasons": []}
             ]}
+        # '{irws_root}/person/sdb/{netid}': {
+        #     "person": [{
+        #         "validid": "0000deadbeef",
+        #         "department": '{major}'.format(major=major), # this is a single-valued field--wp_department is an object containing multiple
+        #         # majors and we might want that instead?
+        #         "sdb_class": '{clazz}'.format(clazz=clazz), # wp_title gives this as text...this is just a number and we might
+        #         # need a function to convert
+        #         "wp_phone": '{phone}'.format(phone=phone_number)
+        #     }]},
+        # '{irws_root}/person/uwhr/{netid}': {
+        #     "person": [{
+        #         "validid": "0000deadbeef",
+        #         "wp_phone": '{phone}'.format(phone=phone_number),
+        #         "wp_email": [],
+        #         "wp_address": []
+        #     }]},
     })
 
     resources = {key.format(**kwargs): json.dumps(value)
@@ -90,7 +109,8 @@ def source_person(identifier, **kwargs):
             lname=kwargs['formal']['last'], fname=kwargs['formal']['first'],
             status_code='1', source_code='1', source_name='F',
             status_name='F',
-            category_code='shhh', category_name='fff'  # remove when no v1
+            wp_phone=kwargs['employee_phone_number'], # V2
+            category_code='shhh', category_name='fff',  # remove when no v1
         )]}
     elif identifier == 'sdb':
         pac = 'P' if kwargs.get('pac', None) else None
@@ -99,6 +119,8 @@ def source_person(identifier, **kwargs):
             studentid=kwargs.get('student_number'), pac=pac, branch='0',
             lname=kwargs['formal']['last'], fname=kwargs['formal']['first'],
             status_code='1', in_feed='1', categories=[{'category_code': '1'}],
+            wp_title=kwargs.get('clazz'), department=kwargs.get('major'),
+            wp_phone=kwargs['student_phone_number'], # V2
             source_code='1', status_name='F', source_name='F'
         )]}
         if kwargs.get('pac', None):
