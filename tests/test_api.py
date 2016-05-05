@@ -34,11 +34,23 @@ def test_name_get_no_display_name(rf):
 
 def test_name_put(rf):
     name = json.dumps({
-        'display_fname': 'Jane', 'display_mname': 'X', 'display_lname': 'Doe'})
+        'first': 'Jane', 'middle': 'X', 'last': 'Doe'})
     request = rf.put('/api/name', netid='joe', data=name)
     response = Name().PUT(request)
     assert response.status_code == 200
     request.user.set_full_name.assert_called_once_with('Jane X Doe')
+
+
+def test_name_put_bad_json(rf):
+    name = json.dumps({'foo': 'bar'})
+    with raises(BadRequestError):
+        Name().PUT(rf.put('/', data=name))
+
+
+def test_name_put_bad_name(rf):
+    name = json.dumps(dict(first='', middle='', last='blow'))
+    with raises(BadRequestError):
+        Name().PUT(rf.put('/', data=name))
 
 
 def test_publish_get(caches, source, publish_value, rf):

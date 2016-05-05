@@ -1,4 +1,5 @@
 from django.test import override_settings
+from django.conf import settings
 import simplejson as json
 from pytest import fixture
 import requests
@@ -7,8 +8,14 @@ import re
 
 @fixture(scope='session')
 def client_idtest55(live_server):
-    with override_settings(DEBUG=True,
-                           MOCK_LOGIN_USER='idtest55@washington.edu'):
+    with override_settings(
+            DEBUG=True,
+            MOCK_LOGIN_USER='idtest55@washington.edu',
+            LOGIN_URL='/id/mocklogin',
+            MIDDLEWARE_CLASSES=(
+                ['idbase.middleware.MockLoginMiddleware'] +
+                settings.MIDDLEWARE_CLASSES),
+            LOGGING=None):
         # We need to hard-set DEBUG to True because Django's test runner
         # sets it to False regardless of what's in settings.
         session = requests.session()
@@ -44,8 +51,8 @@ def good_name(request):
 
 
 def test_put_success(client_idtest55, live_server, good_name):
-    name = dict(display_fname=good_name[0], display_mname=good_name[1],
-                display_lname=good_name[2])
+    name = dict(first=good_name[0], middle=good_name[1],
+                last=good_name[2])
     response = client_idtest55.put(
         live_server + '/id/api/name',
         data=json.dumps(name))
@@ -77,8 +84,8 @@ def bad_name(request):
 
 
 def test_put_invalid(client_idtest55, live_server, bad_name):
-    name = dict(display_fname=bad_name[0], display_mname=bad_name[1],
-                display_lname=bad_name[2])
+    name = dict(first=bad_name[0], middle=bad_name[1],
+                last=bad_name[2])
     response = client_idtest55.put(
         live_server + '/id/api/name',
         data=json.dumps(name))

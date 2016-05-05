@@ -8,7 +8,9 @@ def mock_irws_resources(conf={}):
     kwargs = dict(irws_root='/{}/v2'.format(conf.get('SERVICE_NAME')))
 
     resources = {}
-    resources.update(mock_irws_person('user1e', **kwargs))
+    resources.update(mock_irws_person('user1e', display={}, **kwargs))
+    resources.update(mock_irws_person('idtest55', display=dict(
+        first='Dwight', middle='David', last='Adams')))
 
     RestToolsFile._cache_db.update(resources)
     RestClientsFile._cache.update(resources)
@@ -17,8 +19,8 @@ def mock_irws_resources(conf={}):
 def mock_irws_person(netid, irws_root='/registry-dev/v2',
                      employee_id='123456789', student_number='1234567',
                      birthdate='2001-01-01',
-                     formal={'first': 'JANE', 'last': 'DOE'},
-                     display={'first': 'Jane', 'middle': 'Z', 'last': 'Doe'},
+                     formal=dict(first='JANE', last='DOE'),
+                     display=dict(first='Jane', middle='X', last='Doe'),
                      identifiers=('uwhr', 'sdb'), system_key='123456789',
                      email=None, sms=None, pac='123456', clazz='Senior', major='HCDE',
                      student_phone_number=['206-123-4567', '206-123-4568'],
@@ -62,32 +64,18 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                 "formal_cname": '{first} {last}'.format(**formal),
                 "formal_fname": formal['first'],
                 "formal_sname": formal['last'],
-                'display_cname': '{first} {middle} {last}'.format(**display),
-                'display_fname': display['first'],
-                'display_mname': display['middle'],
-                'display_sname': display['last']
+                'display_cname': ' '.join(display.get(x, '')
+                                          for x in ('first', 'middle', 'last')
+                                          if display.get(x, '')),
+                'display_fname': display.get('first', ''),
+                'display_mname': display.get('middle', ''),
+                'display_sname': display.get('last', '')
             }]},
         '{irws_root}/profile/validid=uwnetid={netid}': {
             "profile": [{
                 "recover_contacts": recover_contacts,
                 "recover_block_reasons": []}
             ]}
-        # '{irws_root}/person/sdb/{netid}': {
-        #     "person": [{
-        #         "validid": "0000deadbeef",
-        #         "department": '{major}'.format(major=major), # this is a single-valued field--wp_department is an object containing multiple
-        #         # majors and we might want that instead?
-        #         "sdb_class": '{clazz}'.format(clazz=clazz), # wp_title gives this as text...this is just a number and we might
-        #         # need a function to convert
-        #         "wp_phone": '{phone}'.format(phone=phone_number)
-        #     }]},
-        # '{irws_root}/person/uwhr/{netid}': {
-        #     "person": [{
-        #         "validid": "0000deadbeef",
-        #         "wp_phone": '{phone}'.format(phone=phone_number),
-        #         "wp_email": [],
-        #         "wp_address": []
-        #     }]},
     })
 
     resources = {key.format(**kwargs): json.dumps(value)

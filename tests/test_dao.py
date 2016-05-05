@@ -37,6 +37,5 @@ def irws(monkeypatch):
     name.display_fname = 'J'
     name.formal_cname = 'JOE'
 
-    monkeypatch.setattr('pdp.dao.RestToolsIRWS',
-                        lambda x: client)
+    monkeypatch.setattr('pdp.dao.IRWS', lambda: client)
     return client
