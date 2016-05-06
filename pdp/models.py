@@ -52,6 +52,7 @@ class PreferredNameParts(BaseModel):
 
 class StudentProfile(BaseModel):
     def __init__(self, dct={}):
+        self.system_key = None
         self.official_name = None
         self.phone_numbers = None
         self.clazz = None
@@ -65,5 +66,7 @@ class EmployeeProfile(BaseModel):
         self.phone_numbers = []
         self.emails = []
         self.address = None
+        self.department = []
+        self.title = []
         self.box = None
         super(self.__class__, self).__init__(dct=dct)
