@@ -50,11 +50,11 @@
                     <li class="list-group-item">
                         <label class="profile-label"> Official Name</label>
                         <i class="fa fa-question-circle fa-lg icon-look" data-toggle="tooltip" uw-tooltip title="tooltip for Official Name description"></i>
-                        <p class="userinfo">{{ profile.data.official_name }}310-6991</p>
+                        <p class="userinfo">{{ profile.data.official_name }} 310-6991</p>
                     </li>
                     <li class="list-group-item">
-                        <label>UW Email</label><br>
-                        <p ng-repeat="email in profile.data.emails track by $index">{{ email }}</p>
+                        <label class="profile-label">UW Email</label><br>
+                        <p class="userinfo" ng-repeat="email in profile.data.emails track by $index">{{ email }}</p>
                     </li>
                 </ul>
             </div>
@@ -72,13 +72,13 @@
                 </div>
             <ul class="list-group">
                 <li class="list-group-item">
-                    <label>Phone Number</label><br>
-                    <p ng-repeat="phone in profile.data.student.phone_numbers track by $index">{{ phone }}</p>
+                    <label class="profile-label">Phone Number</label><br>
+                    <p class="userinfo" ng-repeat="phone in profile.data.student.phone_numbers track by $index">{{ phone }}</p>
                 </li>
                 <li class="list-group-item">
-                    <label>Year, Major</label><br>
-                    <p>{{ profile.data.student.clazz }}</p>
-                    <p>{{ profile.data.student.major }}</p>
+                    <label class="profile-label">Year, Major</label><br>
+                    <p class="userinfo">{{ profile.data.student.clazz }}</p>
+                    <p class="userinfo">{{ profile.data.student.major }}</p>
                 </li>
             </ul>
         </div>
@@ -95,23 +95,21 @@
                </div>
             <ul class="list-group">
                 <li class="list-group-item">
-                    <label>Phone Number</label><br>
-                    <p ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</p>
+                    <label class="profile-label">Phone Number</label><br>
+                    <p class="userinfo" ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</p>
                 </li>
                 <li class="list-group-item">
-                    <label>Box Number</label><br>
-                    <p>1234567{{ profile.data.employee.box }}</p>
+                    <label class="profile-label">Box Number</label><br>
+                    <p class="userinfo">{{ profile.data.employee.box }}<span class="fake-data">1234567</span></p>
                 </li>
                 <li class="list-group-item">
-                    <label>Position</label><br>
-                    <p>{{ profile.data.employee.title }} Teaching Assistant</p>
-                    <p>{{ profile.data.employee.department }}Sociology</p>
+                    <label class="profile-label">Position</label><br>
+                    <p class="userinfo">{{ profile.data.employee.title }} <span class="fake-data">Teaching Assistant</span></p>
+                    <p class="userinfo">{{ profile.data.employee.department }}<span class="fake-data">Sociology</span></p>
                 </li>
                 <li class="list-group-item">
-                    <label>Campus Address</label><br>
-                    <p>{{ profile.data.employee.apartment }}211 Savery Hall Seattle, WA 98195-3340
-
-</p>
+                    <label class="profile-label">Campus Address</label><br>
+                    <p class="userinfo">{{ profile.data.employee.apartment }}<span class="fake-data">211 Savery Hall Seattle, WA 98195-3340</span></p>
                 </li>
             </ul>
         </div>
