@@ -23,7 +23,7 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                      display=dict(first='Jane', middle='X', last='Doe'),
                      identifiers=('uwhr', 'sdb'), system_key='123456789',
                      email=None, sms=None, pac='123456',
-                     clazz='Senior', major='HCDE',
+                     clazz='Senior', majors=['HCDE'],
                      student_phone_number=['206-123-4567', '206-123-4568'],
                      employee_phone_number=['206-234-4567', '206-234-4568'],
                      **kwargs):
@@ -33,16 +33,24 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                        employee_id=employee_id, student_number=student_number,
                        birthdate=birthdate, formal=formal, display=display,
                        identifiers=identifiers, system_key=system_key,
-                       email=email, sms=sms, pac=pac, clazz=clazz, major=major,
+                       email=email, sms=sms, pac=pac, clazz=clazz,
+                       majors=majors,
                        student_phone_number=student_phone_number,
                        employee_phone_number=employee_phone_number))
 
     irws_resources = {}
     identifier_urls = {}
+    # This code generates the identifiers and relative URLS
+    # that are returned when you search for a person
+    # Currently supports only UWHR, HEPPS, and SDB sources
     for identifier in identifiers:
         source = source_person(identifier, **kwargs)
-        identifier_urls[identifier] = '/person/{identifier}/{netid}'.format(
-            identifier=identifier, netid=netid)
+        if identifier in {'uwhr', 'hepps'}:
+            identifier_urls[identifier] = '/person/{identifier}/{employee_id}'\
+                .format(identifier=identifier, employee_id=employee_id)
+        elif identifier == 'sdb':
+            identifier_urls[identifier] = '/person/{identifier}/{system_key}'\
+                .format(identifier=identifier, system_key=system_key)
         irws_resources.update(source)
 
     irws_person = {
@@ -89,11 +97,12 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
 
 
 def source_person(identifier, **kwargs):
-    key = '{irws_root}/person/{identifier}/{netid}'.format(
-        irws_root=kwargs.get('irws_root'), identifier=identifier,
-        netid=kwargs.get('netid'))
+    key = ''
     resources = {}
     if identifier in ('hepps', 'uwhr'):
+        key = '{irws_root}/person/{identifier}/{employee_id}'.format(
+            irws_root=kwargs.get('irws_root'), identifier=identifier,
+            employee_id=kwargs.get('employee_id'))
         person = {'person': [dict(
             validid=kwargs.get('employee_id'), regid='0000deadbeef',
             lname=kwargs['formal']['last'], fname=kwargs['formal']['first'],
@@ -103,20 +112,28 @@ def source_person(identifier, **kwargs):
             category_code='shhh', category_name='fff',  # remove when no v1
         )]}
     elif identifier == 'sdb':
+        key = '{irws_root}/person/{identifier}/{system_key}'.format(
+            irws_root=kwargs.get('irws_root'), identifier=identifier,
+            system_key=kwargs.get('system_key'))
         pac = 'P' if kwargs.get('pac', None) else None
         person = {'person': [dict(
             validid=kwargs.get('system_key'), regid='0000deadbeef',
             studentid=kwargs.get('student_number'), pac=pac, branch='0',
             lname=kwargs['formal']['last'], fname=kwargs['formal']['first'],
             status_code='1', in_feed='1', categories=[{'category_code': '1'}],
-            wp_title=kwargs.get('clazz'), department=kwargs.get('major'),
+            wp_title=kwargs.get('clazz'), department=kwargs.get('majors'),
             wp_phone=kwargs['student_phone_number'],  # V2
             source_code='1', status_name='F', source_name='F'
         )]}
+        # TODO I think this is currently broken (mattjm 2016-05-06)
+        # As far as I know setting a PAC isn't supported and the setting
+        # is done via a post to the following URL
+        # (URLS fixed by mattjm 2016-05-06)
         if kwargs.get('pac', None):
             # add a pac resource
-            pac_key = re.sub('/{netid}$'.format(netid=kwargs.get('netid')),
-                             '/{student_number}?pac={pac}', key)
+            pac_key = re.sub('/{system_key}$'.format(
+                system_key=kwargs.get('system_key')), '/{system_key}/pac', key
+            )
             resources[pac_key] = {'exists': 'yup'}
     else:
         person = {'person': [{'status_code': '1'}]}
