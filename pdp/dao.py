@@ -48,9 +48,9 @@ def get_profile(netid):
         system_key = person.identifiers['sdb'][-9:]
         student = get_student(system_key)
         profile.student = StudentProfile(dct=dict(
-           clazz=student.wp_title,
-           phone_numbers=student.wp_phone,
-           major=student.department # note this is the
+            clazz=student.wp_title,
+            phone_numbers=student.wp_phone,
+            major=student.department  # note this is the
             # "department" attribute, not the "wp_department"
             # TODO we might want to use wp_department
         ))
