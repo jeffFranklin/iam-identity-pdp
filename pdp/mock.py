@@ -23,6 +23,9 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                      display=dict(first='Jane', middle='X', last='Doe'),
                      identifiers=('uwhr', 'sdb'), system_key='123456789',
                      email=None, sms=None, pac='123456',
+                     clazz='Senior', major='HCDE',
+                     student_phone_number=['206-123-4567', '206-123-4568'],
+                     employee_phone_number=['206-234-4567', '206-234-4568'],
                      **kwargs):
     """Return mocks of the resources needed for a given netid."""
 
@@ -30,7 +33,9 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                        employee_id=employee_id, student_number=student_number,
                        birthdate=birthdate, formal=formal, display=display,
                        identifiers=identifiers, system_key=system_key,
-                       email=email, sms=sms, pac=pac))
+                       email=email, sms=sms, pac=pac, clazz=clazz, major=major,
+                       student_phone_number=student_phone_number,
+                       employee_phone_number=employee_phone_number))
 
     irws_resources = {}
     identifier_urls = {}
@@ -94,7 +99,8 @@ def source_person(identifier, **kwargs):
             lname=kwargs['formal']['last'], fname=kwargs['formal']['first'],
             status_code='1', source_code='1', source_name='F',
             status_name='F',
-            category_code='shhh', category_name='fff'  # remove when no v1
+            wp_phone=kwargs['employee_phone_number'],  # V2
+            category_code='shhh', category_name='fff',  # remove when no v1
         )]}
     elif identifier == 'sdb':
         pac = 'P' if kwargs.get('pac', None) else None
@@ -103,6 +109,8 @@ def source_person(identifier, **kwargs):
             studentid=kwargs.get('student_number'), pac=pac, branch='0',
             lname=kwargs['formal']['last'], fname=kwargs['formal']['first'],
             status_code='1', in_feed='1', categories=[{'category_code': '1'}],
+            wp_title=kwargs.get('clazz'), department=kwargs.get('major'),
+            wp_phone=kwargs['student_phone_number'],  # V2
             source_code='1', status_name='F', source_name='F'
         )]}
         if kwargs.get('pac', None):
