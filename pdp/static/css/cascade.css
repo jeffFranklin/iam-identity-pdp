@@ -6,12 +6,17 @@ color:red;
 }	
 
 /* ++++++++++++++++ GLOBAL ELEMENTS ++++++++++++++++ */
-
+/*******  SPACING *******/
 /* center me */
 .center { 
 margin:auto;
 width: 50%;
 }	
+
+/* Add space before & after each panel */
+.add-top-space {
+	margin: 10px 0px 20px 0px;
+}
 
 /* Inline help icon style */
 .icon-look {
@@ -20,6 +25,7 @@ width: 50%;
 	padding: 5px;
 }
 
+/* Heading & Text style */
 .profile-h2 {
 	font-size: 24px; 
 }
@@ -36,9 +42,9 @@ width: 50%;
     line-height: 1.3;
 }
 
-/* Add space before & after each panel */
-.add-top-space {
-	margin: 10px 0px 20px 0px;
+/* UW Dir app module header */
+.app-deatail-header{
+	color:#595959;
 }
 
 /* Data source bylin style */
@@ -86,10 +92,6 @@ width: 50%;
 }
 
 
-.bold-text {
-    font-weight: bold;
-}
-
 .modal-content {
     width: 500px;
     height: 320px;
@@ -130,7 +132,12 @@ width: 50%;
     background-color: #fff;
     color: #000;
     border-color: none;
-}*/
+}
+
+.bold-text { DUPE!
+    font-weight: bold;
+} 
+*/
 
 
 
