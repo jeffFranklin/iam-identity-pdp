@@ -1,10 +1,22 @@
-/* ++++++++++++++++ GLOBAL ELEMENTS ++++++++++++++++ */
+/* ++++++++++++++++ TO BE DELETED  ++++++++++++++++ */
 
+/* temporary fake-data */
+.fake-data { 
+	color:red;
+}	
+
+/* ++++++++++++++++ GLOBAL ELEMENTS ++++++++++++++++ */
+/*******  SPACING *******/
 /* center me */
 .center { 
 margin:auto;
 width: 50%;
 }	
+
+/* Add space before & after each panel */
+.add-top-space {
+	margin: 10px 0px 20px 0px;
+}
 
 /* Inline help icon style */
 .icon-look {
@@ -13,10 +25,60 @@ width: 50%;
 	padding: 5px;
 }
 
-.profile-h2{
-	font-size: 24px;
+/* Heading & Text style */
+.profile-h2 {
+	font-size: 24px; 
 }
 
+.profile-h3 {
+	font-size: 20px; 
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+.profile-label {
+	font-weight: 400;
+	font-family: "Encode Sans Compressed", sans-serif;
+    line-height: 1.3;
+}
+
+/* UW Dir app module header */
+.app-deatail-header {
+	color:#595959;
+}
+
+/* Data source bylin style */
+.data-source {
+	display: inline-block;
+    font-size: 12px;
+    float: right;
+    margin-top: -30px;
+    margin-left: 200px;
+}
+
+/* Data source bylin style */
+ul.data-list {
+	padding-bottom: 15px;
+}
+/* Data list visual */
+ul.data-list li {
+	font-size: 12px;
+	color: red; 
+}
+/* Tweak buttons style */
+
+#edit-pn-btn {
+    float: right;
+}
+
+.add-space-left{
+	margin-left: 15px;
+}
+
+/* Set-pn-btn spacing */
+#set-pn-btn{
+	margin-left: 0px
+}
 
 /* overlay box css */
 .modal-transparent {
@@ -42,10 +104,6 @@ width: 50%;
     margin-left: 50px;
 }
 
-
-.bold-text {
-    font-weight: bold;
-}
 
 .modal-content {
     width: 500px;
@@ -87,12 +145,13 @@ width: 50%;
     background-color: #fff;
     color: #000;
     border-color: none;
-}*/
-
-
-#edit-pn-btn {
-    background-color: #fff;
-    color: #000;
-    float: right;
 }
+
+.bold-text { DUPE!
+    font-weight: bold;
+} 
+*/
+
+
+
 

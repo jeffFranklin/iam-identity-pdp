@@ -38,23 +38,23 @@
 
      <div class="row">
        <div class="col-md-7">
-           <h2 class="profile-h2">Profile Information</h2>
-           <div class="panel panel-default">
+           <h2 class="profile-h2 sr-only">Profile Information</h2>
+           <div class="panel panel-default add-top-space">
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <label>Preferred Name</label><br>
+                        <label class="profile-label">Preferred Name</label><br>
                         {% endverbatim %}
                         {% include "profile-name.html" %}
                         {% verbatim %}
                     </li>
                     <li class="list-group-item">
-                        <label>Official Name</label>
+                        <label class="profile-label"> Official Name</label>
                         <i class="fa fa-question-circle fa-lg icon-look" data-toggle="tooltip" uw-tooltip title="tooltip for Official Name description"></i>
-                        <p>{{ profile.data.official_name }}</p>
+                        <p class="userinfo">{{ profile.data.official_name }} 310-6991</p>
                     </li>
                     <li class="list-group-item">
-                        <label>UW Email</label><br>
-                        <p ng-repeat="email in profile.data.emails track by $index">{{ email }}</p>
+                        <label class="profile-label">UW Email</label><br>
+                        <p class="userinfo" ng-repeat="email in profile.data.emails track by $index">{{ email }}</p>
                     </li>
                 </ul>
             </div>
@@ -63,22 +63,21 @@
 
      <div class="row" ng-show="profile.data.student">
        <div class="col-md-7">
-           <div class="panel panel-default">
+           <div class="panel panel-default add-top-space">
                <div class="panel-heading">
-                    <h3 class="panel-title">Student Information
-                        <p>Source: <a href="">Student Personal Services</a></p>
-                        <p><a href="https://www.washington.edu/students/reg/ferpa.html">Read FERPA</a> to learn about your privacy rights.</p>
-                    </h3>
+                    <h3 class="panel-title profile-h3">Student Information</h3>
+                        <p class="data-source">Source: <a href="">Student Personal Services</a></p>
+                        <p><a href="https://www.washington.edu/students/reg/ferpa.html">Read FERPA</a> to learn about your privacy rights.</p>           
                 </div>
             <ul class="list-group">
                 <li class="list-group-item">
-                    <label>Phone Number</label><br>
-                    <p ng-repeat="phone in profile.data.student.phone_numbers track by $index">{{ phone }}</p>
+                    <label class="profile-label">Phone Number</label><br>
+                    <p class="userinfo" ng-repeat="phone in profile.data.student.phone_numbers track by $index">{{ phone }}</p>
                 </li>
                 <li class="list-group-item">
-                    <label>Year, Major</label><br>
-                    <p>{{ profile.data.student.clazz }}</p>
-                    <p>{{ profile.data.student.major }}</p>
+                    <label class="profile-label">Year, Major</label><br>
+                    <p class="userinfo">{{ profile.data.student.clazz }}</p>
+                    <p class="userinfo">{{ profile.data.student.major }}</p>
                 </li>
             </ul>
         </div>
@@ -87,31 +86,29 @@
 
      <div class="row" ng-show="profile.data.employee">
        <div class="col-md-7">
-           <div class="panel panel-default">
+           <div class="panel panel-default add-top-space">
                <div class="panel-heading">
-                    <h3 class="panel-title">Employee Information
-                        <p>Source: <a href="">Employee Self-Service(ESS)</a></p>
-                    </h3>
+                    <h3 class="panel-title profile-h3">Employee Information</h3>
+                        <p class="data-source">Source: <a href="#">Employee Self-Service(ESS)</a></p>
+                    
                </div>
             <ul class="list-group">
                 <li class="list-group-item">
-                    <label>Phone Number</label><br>
-                    <p ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</p>
+                    <label class="profile-label">Phone Number</label><br>
+                    <p class="userinfo" ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</p>
                 </li>
                 <li class="list-group-item">
-                    <label>Box Number</label><br>
-                    <p>1234567{{ profile.data.employee.box }}</p>
+                    <label class="profile-label">Box Number</label><br>
+                    <p class="userinfo">{{ profile.data.employee.box }}<span class="fake-data">1234567</span></p>
                 </li>
                 <li class="list-group-item">
-                    <label>Position</label><br>
-                    <p>{{ profile.data.employee.title }} Teaching Assistant</p>
-                    <p>{{ profile.data.employee.department }}Sociology</p>
+                    <label class="profile-label">Position</label><br>
+                    <p class="userinfo">{{ profile.data.employee.title }} <span class="fake-data">Teaching Assistant</span></p>
+                    <p class="userinfo">{{ profile.data.employee.department }}<span class="fake-data">Sociology</span></p>
                 </li>
                 <li class="list-group-item">
-                    <label>Campus Address</label><br>
-                    <p>{{ profile.data.employee.apartment }}211 Savery Hall Seattle, WA 98195-3340
-
-</p>
+                    <label class="profile-label">Campus Address</label><br>
+                    <p class="userinfo">{{ profile.data.employee.apartment }}<span class="fake-data">211 Savery Hall Seattle, WA 98195-3340</span></p>
                 </li>
             </ul>
         </div>
@@ -123,16 +120,16 @@
        <div class="col-md-7">
            <h2 class="profile-h2">Information Sharing Settings</h2>
            <p>[TBD] Depending on the application, some or all information above will be released.</p>
-           <div class="panel panel-default">
+           <div class="panel panel-default add-top-space">
             <div class="panel-heading">
-                <h3 class="panel-title"><a href="">UW Directory</a><br>
-                <p><a href="">The UW Directory</a> will show the following:</p></h3>
+                <h3 class="panel-title profile-h3">UW Directory</h3>
+                <p><a href="">The UW Directory</a> will show the following:</p>
             </div>
             <ul class="list-group">
                 <li class="list-group-item">
                    
-                    <p class="bold-text">Following employee information will be viewable by anyone:</p>
-                    <ul>
+                    <p class="bold app-deatail-header">Following employee information will be viewable by anyone:</p>
+                    <ul class="data-list">
                         <li>Timothy Robert Smith</li>
                         <li>UW NetID: tjohn1234</li>
                         <li>tsmith1234@uw.edu</li>
@@ -145,8 +142,8 @@
                 
                 <li class="list-group-item">
 
-                    <p class="bold-text">In addition to the employee info above, following student information will be viewable by the UW NetID owners:</p>
-                    <ul>
+                    <p class="bold app-deatail-header">In addition to the employee info above, following student information will be viewable by the UW NetID owners:</p>
+                    <ul class="data-list">
                         <li>hipstergrad@yahoo.com</li>
                         <li>(425) 333-4444</li>
                         <li>Graduate, Sociology</li>
