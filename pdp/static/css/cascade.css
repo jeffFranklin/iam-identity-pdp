@@ -18,6 +18,17 @@ width: 50%;
 	margin: 10px 0px 20px 0px;
 }
 
+/* spacing between message and button */
+.pn-set-msg{
+	margin-top: 20px;
+	margin-bottom: 5px;
+}
+
+/* spacing between buttons and border */
+.pn-btn-space {
+	margin-bottom: 10px;
+}
+
 /* Inline help icon style */
 .icon-look {
 	color: #aaa;
@@ -42,6 +53,9 @@ width: 50%;
     line-height: 1.3;
 }
 
+.set-pn-h3{
+	font-size: 18px;
+}
 /* UW Dir app module header */
 .app-deatail-header {
 	color:#595959;

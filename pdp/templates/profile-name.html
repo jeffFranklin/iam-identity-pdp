@@ -6,7 +6,7 @@
     <button id="set-pn-btn"class="btn btn-primary btn-xs" type="button" ng-click="profile.showNameChange()">Set preferred name</button>
 </p>
     <p class="userinfo" ng-show="profile.data.preferred_name">{{ profile.data.preferred_name }}</p>
-    <div ng-show="profile.nameChangeSuccess" class="alert alert-success">
+    <div ng-show="profile.nameChangeSuccess" class="alert alert-success pn-set-msg">
         <a href="" class="close" ng-click="profile.nameChangeSuccess = false" aria-label="close">&times;</a>
         Preferred name is set and will be displayed in the <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory</a> immediately.
     </div>
@@ -74,7 +74,7 @@
         </div>
 
         <div class="policy">
-            <h3>Terms & Conditions</h3>
+            <h3 class="set-pn-h3">Terms & Conditions</h3>
             <p>When you save your preferred name, you agree that:</p>
             <ul>
                 <li>You have not set a preferred name with an intent to impersonate someone else, to deceive, or
@@ -93,11 +93,11 @@
             </p>
         </div>
 
-        <button type="submit" class="btn btn-primary" ng-click="name.profilePutName(profile.onNameChange)"
+        <button type="submit" class="btn btn-primary pn-btn-space" ng-click="name.profilePutName(profile.onNameChange)"
                 ng-disabled="name.form.$invalid || name.form.$pristine"
                 >Agree & Save Name
         </button>
-        <button class="btn btn-default add-space-left" ng-click="profile.clearNameChange()">
+        <button class="btn btn-default add-space-left pn-btn-space" ng-click="profile.clearNameChange()">
             Cancel
         </button>
     </form>
