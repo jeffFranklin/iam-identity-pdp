@@ -1,4 +1,5 @@
-from pdp.models import Profile, PreferredNameParts
+from pdp.models import (Profile, PreferredNameParts,
+                        StudentProfile, EmployeeProfile)
 from django.conf import settings
 from resttools.irws import IRWS as RestToolsIRWS
 from idbase.exceptions import ServiceError
@@ -36,6 +37,16 @@ def get_profile(netid):
         middle=name.display_mname,
         last=name.display_lname))
 
+    # Get and set the SDB student data (need to inquire by netid first
+    # to find studentid or system key)--and only get this if such an
+    # identifier exists for that person
+    # student = get_student(netid)
+    # profile.student = StudentProfile(dct=dict(
+    #    clazz=student.wp_title,
+    #    phone_numbers=student.wp_phone,
+    #    major=student.department
+    # ))
+
     profile.official_name = name.formal_cname
     profile.preferred_name = name.display_cname
     return profile
@@ -53,3 +64,31 @@ def get_name(netid):
     except Exception as e:
         raise ServiceError(e)
     return name
+
+
+def get_student(netid):  # TODO fix this to use student id
+    """
+    Look up IRWS student data by netid (for mock...system key in real life).
+    """
+    try:
+        # TODO fix this to use student id
+        sdb_person = IRWS().get_sdb_person(sid=netid)
+        if not sdb_person:
+            raise ServiceError('no SDB entry')
+    except Exception as e:
+        raise ServiceError(e)
+    return sdb_person
+
+
+def get_student(netid):  # TODO fix this to use student id
+    """
+    Look up IRWS student data by netid (for mock...system key in real life).
+    """
+    try:
+        # TODO fix this to use student id
+        sdb_person = IRWS().get_sdb_person(sid=netid)
+        if not sdb_person:
+            raise ServiceError('no SDB entry')
+    except Exception as e:
+        raise ServiceError(e)
+    return sdb_person
