@@ -111,9 +111,7 @@ def get_employee(eid, source='uwhr'):
     """
     try:
         # person = IRWS().get_person() # don't need?
-        uwhr_person = IRWS().get_uwhr_person(eid=eid)
-        if source == 'hepps':
-            uwhr_person = IRWS().get_hepps_person(eid=eid)
+        uwhr_person = IRWS().get_uwhr_person(eid=eid, source=source)
         if not uwhr_person:
             raise ServiceError('no ' + source + ' entry')
     except Exception as e:
