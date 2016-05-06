@@ -21,13 +21,28 @@ width: 50%;
 }
 
 .profile-h2 {
-	font-size: 24px;
+	font-size: 24px; 
+}
+
+.profile-h3 {
+	font-size: 20px; 
+	margin-top: 5px;
+	margin-bottom: 10px;
 }
 
 .profile-label {
 	font-weight: 400;
 	font-family: "Encode Sans Compressed", sans-serif;
     line-height: 1.3;
+}
+
+/* Data source bylin style */
+.data-source{
+	display: inline-block;
+    font-size: 12px;
+    float: right;
+    margin-top: -30px;
+    margin-left: 200px;
 }
 
 /* Tweak buttons style */
