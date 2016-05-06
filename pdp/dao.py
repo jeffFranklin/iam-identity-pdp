@@ -36,7 +36,10 @@ def get_profile(netid):
         eid = person.identifiers['uwhr'][-9:]
         employee = get_employee(eid)
         profile.employee = EmployeeProfile(dct=dict(
-           phone_numbers=employee.wp_phone
+            phone_numbers=employee.wp_phone,
+            titles=employee.wp_title,
+            departments=employee.wp_department
+
         ))
     if 'sdb' in person.identifiers:
         # Get and set the SDB student data (need to inquire by netid first
@@ -47,7 +50,9 @@ def get_profile(netid):
         profile.student = StudentProfile(dct=dict(
            clazz=student.wp_title,
            phone_numbers=student.wp_phone,
-           major=student.department
+           major=student.department # note this is the
+            # "department" attribute, not the "wp_department"
+            # TODO we might want to use wp_department
         ))
 
     name = get_name(netid)

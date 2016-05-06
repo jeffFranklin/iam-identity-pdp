@@ -57,16 +57,17 @@ class StudentProfile(BaseModel):
         self.phone_numbers = None
         self.clazz = None
         self.major = None
+        self.emails = None
         super(self.__class__, self).__init__(dct=dct)
 
 
 class EmployeeProfile(BaseModel):
     def __init__(self, dct={}):
         self.official_name = None
-        self.phone_numbers = []
-        self.emails = []
+        self.phone_numbers = None
+        self.emails = None
         self.address = None
-        self.department = []
-        self.title = []
+        self.departments = None
+        self.titles = None
         self.box = None
         super(self.__class__, self).__init__(dct=dct)
