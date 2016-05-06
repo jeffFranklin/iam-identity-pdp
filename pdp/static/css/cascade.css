@@ -75,6 +75,10 @@ ul.data-list li {
 	margin-left: 15px;
 }
 
+/* Set-pn-btn spacing */
+#set-pn-btn{
+	margin-left: 0px
+}
 
 /* overlay box css */
 .modal-transparent {
