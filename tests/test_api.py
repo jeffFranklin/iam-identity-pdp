@@ -70,13 +70,19 @@ def test_publish_get_not_found(rf):
 
 
 def test_publish_put(rf, put_option, caches, source):
-    mock_person('joe', caches, identifiers=[source])
+    employee_id = '022221234'
+    netid = 'joe'
+    mock_person(
+        netid, caches, identifiers=[source], employee_id=employee_id
+    )
     stored_states = {'yes': 'Y', 'no': 'N', 'no email': 'E'}
     response = Publish().PUT(rf.put('/', netid='joe',
                                     data=json.dumps({'publish': put_option})))
     assert response.status_code == 200
     joe_hr = json.loads(
-        caches[1]['/registry-dev/v1/person/{}/joe'.format(source)])
+        caches[1]['/registry-dev/v1/person/{source}/{employee_id}'.format(
+            source=source, employee_id=employee_id
+        )])
     assert joe_hr['person'][0]['wp_publish'] == stored_states[put_option]
 
 
