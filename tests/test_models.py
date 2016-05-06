@@ -57,9 +57,10 @@ def test_profile():
         official_name='JOE',
         emails=['joe@example.com'],
         student=dict(official_name='JoE', phone_numbers=['1'], clazz='Junior',
-                     major='ART'),
+                     major='ART', system_key='009123456'),
         employee=dict(official_name='jOe', phone_numbers=['2'],
-                      emails=['j@j.u'], address='123', box='456'),
+                      emails=['j@j.u'], address='123', box='456',
+                      department=['3', '4'], title=['boss', 'employee']),
         preferred=dict(full='J O E', first='J', middle='O', last='E')
     )
     dct_out = Profile(dct=dct_in).to_dict()
