@@ -19,7 +19,7 @@ def get_profile(netid):
         student=dict(
             phone_numbers=['(425)333-4444'],
             clazz='Frosh',
-            major='Sociology'
+            majors=['Sociology']
         ),
         employee=dict(
             phone_numbers=['(206)123-2222'],
@@ -50,7 +50,7 @@ def get_profile(netid):
         profile.student = StudentProfile(dct=dict(
             clazz=student.wp_title,
             phone_numbers=student.wp_phone,
-            major=student.department  # note this is the
+            majors=student.department  # note this is the
             # "department" attribute, not the "wp_department"
             # TODO we might want to use wp_department
         ))

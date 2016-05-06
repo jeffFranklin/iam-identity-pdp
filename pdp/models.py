@@ -54,20 +54,20 @@ class StudentProfile(BaseModel):
     def __init__(self, dct={}):
         self.system_key = None
         self.official_name = None
-        self.phone_numbers = None
+        self.phone_numbers = []
         self.clazz = None
-        self.major = None
-        self.emails = None
+        self.majors = []
+        self.emails = []
         super(self.__class__, self).__init__(dct=dct)
 
 
 class EmployeeProfile(BaseModel):
     def __init__(self, dct={}):
         self.official_name = None
-        self.phone_numbers = None
-        self.emails = None
+        self.phone_numbers = []
+        self.emails = []
         self.address = None
-        self.departments = None
-        self.titles = None
+        self.departments = []
+        self.titles = []
         self.box = None
         super(self.__class__, self).__init__(dct=dct)
