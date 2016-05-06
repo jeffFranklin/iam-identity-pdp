@@ -36,6 +36,11 @@ width: 50%;
     line-height: 1.3;
 }
 
+/* Add space before & after each panel */
+.add-top-space {
+	margin: 10px 0px 20px 0px;
+}
+
 /* Data source bylin style */
 .data-source{
 	display: inline-block;
