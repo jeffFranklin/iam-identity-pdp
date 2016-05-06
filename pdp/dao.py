@@ -32,28 +32,29 @@ def get_profile(netid):
     profile = Profile(dct=fake_profile)
 
     person = get_person(netid)
-    if 'hepps' or 'uwhr' in person.identifiers:
-        eid = person.identifiers['uwhr'][-9:]
-        employee = get_employee(eid)
-        profile.employee = EmployeeProfile(dct=dict(
-            phone_numbers=employee.wp_phone,
-            titles=employee.wp_title,
-            departments=employee.wp_department
+    for identifier in person.identifiers:
+        if identifier in {'hepps', 'uwhr'}:
+            eid = person.identifiers['uwhr'][-9:]
+            employee = get_employee(eid)
+            profile.employee = EmployeeProfile(dct=dict(
+                phone_numbers=employee.wp_phone,
+                titles=employee.wp_title,
+                departments=employee.wp_department
 
-        ))
-    if 'sdb' in person.identifiers:
-        # Get and set the SDB student data (need to inquire by netid first
-        # to find studentid or system key)--and only get this if such an
-        # identifier exists for that person
-        system_key = person.identifiers['sdb'][-9:]
-        student = get_student(system_key)
-        profile.student = StudentProfile(dct=dict(
-            clazz=student.wp_title,
-            phone_numbers=student.wp_phone,
-            majors=student.department  # note this is the
-            # "department" attribute, not the "wp_department"
-            # TODO we might want to use wp_department
-        ))
+            ))
+        if identifier in {'sdb'}:
+            # Get and set the SDB student data (need to inquire by netid first
+            # to find studentid or system key)--and only get this if such an
+            # identifier exists for that person
+            system_key = person.identifiers['sdb'][-9:]
+            student = get_student(system_key)
+            profile.student = StudentProfile(dct=dict(
+                clazz=student.wp_title,
+                phone_numbers=student.wp_phone,
+                majors=student.department  # note this is the
+                # "department" attribute, not the "wp_department"
+                # TODO we might want to use wp_department
+            ))
 
     name = get_name(netid)
     profile.preferred = PreferredNameParts(dct=dict(
