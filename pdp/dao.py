@@ -32,21 +32,29 @@ def get_profile(netid):
     profile = Profile(dct=fake_profile)
 
     person = get_person(netid)
+
+    # Intersection...if it's in both of these sets then do it
     for identifier in person.identifiers:
-        if identifier in {'hepps', 'uwhr'}:
-            eid = person.identifiers['uwhr'][-9:]
-            employee = get_employee(eid)
+        if identifier in {'uwhr', 'hepps'}:
+            # split identifier URI into components
+            components = person.identifiers[identifier].split('/')
+            eid = components[len(components) - 1]
+            source = components[len(components) - 2]
+            employee = get_employee(eid, source=source)
             profile.employee = EmployeeProfile(dct=dict(
                 phone_numbers=employee.wp_phone,
                 titles=employee.wp_title,
                 departments=employee.wp_department
 
             ))
-        if identifier in {'sdb'}:
+
+        if 'sdb' in person.identifiers:
             # Get and set the SDB student data (need to inquire by netid first
             # to find studentid or system key)--and only get this if such an
             # identifier exists for that person
-            system_key = person.identifiers['sdb'][-9:]
+            # split identifier URI into components
+            components = person.identifiers[identifier].split('/')
+            system_key = components[len(components) - 1]
             student = get_student(system_key)
             profile.student = StudentProfile(dct=dict(
                 clazz=student.wp_title,
