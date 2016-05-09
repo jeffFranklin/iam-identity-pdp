@@ -91,7 +91,8 @@ ul.data-list li {
 
 /* Set-pn-btn spacing */
 #set-pn-btn{
-	margin-left: 0px
+	margin-left: 0px;
+	margin-top:10px;
 }
 
 /* overlay box css */
