@@ -32,28 +32,37 @@ def get_profile(netid):
     profile = Profile(dct=fake_profile)
 
     person = get_person(netid)
-    if 'hepps' or 'uwhr' in person.identifiers:
-        eid = person.identifiers['uwhr'][-9:]
-        employee = get_employee(eid)
-        profile.employee = EmployeeProfile(dct=dict(
-            phone_numbers=employee.wp_phone,
-            titles=employee.wp_title,
-            departments=employee.wp_department
 
-        ))
-    if 'sdb' in person.identifiers:
-        # Get and set the SDB student data (need to inquire by netid first
-        # to find studentid or system key)--and only get this if such an
-        # identifier exists for that person
-        system_key = person.identifiers['sdb'][-9:]
-        student = get_student(system_key)
-        profile.student = StudentProfile(dct=dict(
-            clazz=student.wp_title,
-            phone_numbers=student.wp_phone,
-            majors=student.department  # note this is the
-            # "department" attribute, not the "wp_department"
-            # TODO we might want to use wp_department
-        ))
+    # Intersection...if it's in both of these sets then do it
+    for identifier in person.identifiers:
+        if identifier in {'uwhr', 'hepps'}:
+            # split identifier URI into components
+            components = person.identifiers[identifier].split('/')
+            eid = components[len(components) - 1]
+            source = components[len(components) - 2]
+            employee = get_employee(eid, source=source)
+            profile.employee = EmployeeProfile(dct=dict(
+                phone_numbers=employee.wp_phone,
+                titles=employee.wp_title,
+                departments=employee.wp_department
+
+            ))
+
+        if 'sdb' in person.identifiers:
+            # Get and set the SDB student data (need to inquire by netid first
+            # to find studentid or system key)--and only get this if such an
+            # identifier exists for that person
+            # split identifier URI into components
+            components = person.identifiers[identifier].split('/')
+            system_key = components[len(components) - 1]
+            student = get_student(system_key)
+            profile.student = StudentProfile(dct=dict(
+                clazz=student.wp_title,
+                phone_numbers=student.wp_phone,
+                majors=student.department  # note this is the
+                # "department" attribute, not the "wp_department"
+                # TODO we might want to use wp_department
+            ))
 
     name = get_name(netid)
     profile.preferred = PreferredNameParts(dct=dict(
@@ -102,9 +111,7 @@ def get_employee(eid, source='uwhr'):
     """
     try:
         # person = IRWS().get_person() # don't need?
-        uwhr_person = IRWS().get_uwhr_person(eid=eid)
-        if source == 'hepps':
-            uwhr_person = IRWS().get_hepps_person(eid=eid)
+        uwhr_person = IRWS().get_uwhr_person(eid=eid, source=source)
         if not uwhr_person:
             raise ServiceError('no ' + source + ' entry')
     except Exception as e:

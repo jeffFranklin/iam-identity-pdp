@@ -167,5 +167,10 @@ ul.data-list li {
 */
 
 
+.row input[type=radio] {
+    height: 0px;
+}
 
-
+.radio-inline {
+    font-weight: bold;
+}
