@@ -153,10 +153,11 @@ ul.data-list li {
 */
 
 
-.row input {
-    height: 0px;
-}
 
 .radio-inline {
+    input {
+    height: 0px;
+    }
+
     font-weight: bold;
 }
