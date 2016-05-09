@@ -13,16 +13,15 @@
                  aria-labelledby="modalTitle">
                 <div class="modal-dialog modal-sm" role="document">
                     <div class="modal-content">
-                        <!-- /.modal-header -->
-                        <div class="modal-body" id="expired_message">
-                            <!--<p> Your session became invalid. </p>-->
-                            <button type="button" id="modal-exit" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
+                        <span><button type="button" id="modal-exit" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button></span>
+                        <div class="modal-body">
+                            
                                 <h1 class="welcome">Welcome to Identity.uw!</h1>
                                 <p>At Identity.uw you can:</p>
                              
                                 <ul>
-                                    <li>Set your preferred name to replace your legal name on the UW Directory.</li>
+                                    <li>Set your preferred name to replace your legal name on the <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory</a>.</li>
                                     <li>Change your information sharing settings.</li>
                                     <li>Set your recovery settings.</li>
                                 </ul>
@@ -42,7 +41,7 @@
            <div class="panel panel-default add-top-space">
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <label class="profile-label">Preferred Name</label><br>
+                        
                         {% endverbatim %}
                         {% include "profile-name.html" %}
                         {% verbatim %}
@@ -50,7 +49,7 @@
                     <li class="list-group-item">
                         <label class="profile-label"> Official Name</label>
                         <i class="fa fa-question-circle fa-lg icon-look" data-toggle="tooltip" uw-tooltip title="tooltip for Official Name description"></i>
-                        <p class="userinfo">{{ profile.data.official_name }} 310-6991</p>
+                        <p class="userinfo">{{ profile.data.official_name }}</p>
                     </li>
                     <li class="list-group-item">
                         <label class="profile-label">UW Email</label><br>
@@ -66,8 +65,8 @@
            <div class="panel panel-default add-top-space">
                <div class="panel-heading">
                     <h3 class="panel-title profile-h3">Student Information</h3>
-                        <p class="data-source">Source: <a href="">Student Personal Services</a></p>
-                        <p><a href="https://www.washington.edu/students/reg/ferpa.html">Read FERPA</a> to learn about your privacy rights.</p>           
+                        <p class="data-source">Source: <a href="https://sdb.admin.uw.edu/students/uwnetid/address.asp" target="_blank">Student Personal Services</a></p>
+                        <p><a href="https://www.washington.edu/students/reg/ferpa.html" target="_blank">Read FERPA</a> to learn about your privacy rights.</p>           
                 </div>
             <ul class="list-group">
                 <li class="list-group-item">
@@ -119,11 +118,11 @@
       <div class="row">
        <div class="col-md-7">
            <h2 class="profile-h2">Information Sharing Settings</h2>
-           <p>[TBD] Depending on the application, some or all information above will be released.</p>
+           
            <div class="panel panel-default add-top-space">
             <div class="panel-heading">
                 <h3 class="panel-title profile-h3">UW Directory</h3>
-                <p><a href="">The UW Directory</a> will show the following:</p>
+                <p>The <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory</a> will show the following:</p>
             </div>
             <ul class="list-group">
                 <li class="list-group-item">
@@ -151,7 +150,7 @@
                         <li>(425) 333-4444</li>
                         <li>Graduate, Sociology</li>
                      </ul>
-                     <p><a href="">Change the Directory release settings on the Student Personal Services</a>. Changes will take up to 1-2 business days to be effective.</p>
+                     <p><a href="https://sdb.admin.uw.edu/students/uwnetid/address.asp" target="_blank">Change the Directory release settings on the Student Personal Services</a>. Changes will take up to 1-2 business days to be effective.</p>
                 </li>
             </ul>
             </div>
