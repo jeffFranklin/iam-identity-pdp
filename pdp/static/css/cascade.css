@@ -158,9 +158,5 @@ ul.data-list li {
 }
 
 .radio-inline {
-    input {
-    height: 0px;
-    }
-
     font-weight: bold;
 }
