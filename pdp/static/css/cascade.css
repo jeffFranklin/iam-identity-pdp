@@ -9,8 +9,9 @@
 /*******  SPACING *******/
 /* center me */
 .center { 
-margin:auto;
-width: 50%;
+	margin:auto;
+	width: 50%;
+	text-align: center;
 }	
 
 /* Add space before & after each panel */
@@ -134,6 +135,7 @@ ul.data-list li {
 
 #modal-exit.close {
     font-size: 40px;
+    margin-top: -10px;
 }
 
 #pn-alert.close {
