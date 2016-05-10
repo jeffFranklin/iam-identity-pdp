@@ -2,12 +2,52 @@ from pdp.models import (Profile, PreferredNameParts,
                         StudentProfile, EmployeeProfile)
 from django.conf import settings
 from resttools.irws import IRWS as RestToolsIRWS
-from idbase.exceptions import ServiceError
+from resttools.exceptions import DataFailureException
+from resttools.dao import IRWS_DAO
+from idbase.exceptions import ServiceError, NotFoundError, BadRequestError
+import json
 
 
 class IRWS(RestToolsIRWS):
     def __init__(self):
         super(self.__class__, self).__init__(settings.IRWS_CLIENT)
+
+    def get_hr_person_by_netid(self, netid):
+        # TODO: This likely can come out after Publish() refactor.
+        hr_url = self._get_hr_url(netid)
+        if hr_url:
+            source, eid = hr_url.split('/')[-2:]
+            hr_person = self.get_uwhr_person(eid, source=source)
+        else:
+            raise NotFoundError('not hr person: {}'.format(netid))
+        return hr_person
+
+    def put_hr_person_by_netid(self, netid, wp_publish=None):
+        # TODO: move into resttools once we've finalized the design.
+        if wp_publish not in ('Y', 'N', 'E'):
+            raise BadRequestError('Invalid publish option')
+
+        hr_url = self._get_hr_url(netid)
+        if hr_url:
+            url = '/{}/v2{}'.format(self._service_name, hr_url)
+            hr_data = {'person': [{'wp_publish': wp_publish}]}
+            response = IRWS_DAO(self._conf).putURL(
+                url, {"Accept": "application/json"}, json.dumps(hr_data))
+            if response.status != 200:
+                raise DataFailureException(url, response.status, response.data)
+        else:
+            raise NotFoundError('not hr person: {}'.format(netid))
+        source, eid = hr_url.split('/')[-2:]
+        return self.get_uwhr_person(eid, source=source)
+
+    def _get_hr_url(self, netid):
+        person = self.get_person(netid=netid)
+        hr_url = None
+        if person:
+            hr_url = next((url for key, url in person.identifiers.items()
+                           if key in ('uwhr', 'hepps')),
+                          None)
+        return hr_url
 
 
 def get_profile(netid):

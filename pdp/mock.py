@@ -1,6 +1,4 @@
-import re
 import json
-from restclients.dao_implementation.irws import File as RestClientsFile
 from resttools.dao_implementation.irws import File as RestToolsFile
 
 
@@ -13,7 +11,6 @@ def mock_irws_resources(conf={}):
         first='Dwight', middle='David', last='Adams')))
 
     RestToolsFile._cache_db.update(resources)
-    RestClientsFile._cache.update(resources)
 
 # we only receive one "clazz" from the registrar, so "clazz" should always
 # contain just one value in the list.  Modeled in rest of application as a
@@ -88,9 +85,6 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
 
     resources = {key.format(**kwargs): json.dumps(value)
                  for key, value in irws_resources.items()}
-    # add in v1 equivalents for restclients
-    resources.update({re.sub(r'/v2/', '/v1/', key): value
-                      for key, value in resources.items()})
     return resources
 
 
@@ -115,8 +109,8 @@ def source_person(identifier, **kwargs):
             lname=kwargs['formal']['last'], fname=kwargs['formal']['first'],
             status_code='1', source_code='1', source_name='F',
             status_name='F',
+            wp_publish='N',
             wp_phone=kwargs['employee_phone_number'],  # V2
-            category_code='shhh', category_name='fff',  # remove when no v1
         )]}
     elif identifier == 'sdb':
         pac = 'P' if kwargs.get('pac', None) else None

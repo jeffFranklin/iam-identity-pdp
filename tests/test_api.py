@@ -74,12 +74,12 @@ def test_publish_put(rf, put_option, caches, source):
     resources = mock_person(
         netid, caches, identifiers=[source])
     joe_hr_key = next(key for key in resources
-                      if source in key and '/v1/' in key)
+                      if source in key and '/v2/' in key)
     stored_states = {'yes': 'Y', 'no': 'N', 'no email': 'E'}
     response = Publish().PUT(rf.put('/', netid='joe',
                                     data=json.dumps({'publish': put_option})))
     assert response.status_code == 200
-    joe_hr = json.loads(caches[1][joe_hr_key])
+    joe_hr = json.loads(caches[0][joe_hr_key])
     assert joe_hr['person'][0]['wp_publish'] == stored_states[put_option]
 
 
@@ -116,8 +116,8 @@ def publish_value(request):
 
 
 @fixture(autouse=True)
-def caches(irws_file_cache, restclients_file_cache):
-    caches = [irws_file_cache, restclients_file_cache]
+def caches(irws_file_cache):
+    caches = [irws_file_cache]
     mock_person('joe', caches, formal=dict(first='JO', last='BLO'),
                 display=dict(first='James', middle='Average', last='Student'))
     mock_person('javerage', caches, formal=dict(first='JO', last='BLO'),

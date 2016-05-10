@@ -26,7 +26,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'compressor',
-    'restclients',
     'idbase',
     'pdp'
 )
@@ -119,7 +118,7 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
-        'restclients': {
+        'resttools': {
             'handlers': ['debuglog'],
             'level': 'DEBUG',
             'propagate': True,

@@ -1,10 +1,8 @@
 import logging
 from django.http import HttpResponse
 import json
-from restclients.irws import IRWS as RestClientsIRWS
 from pdp.dao import IRWS
 from resttools.exceptions import InvalidIRWSName
-from restclients.exceptions import IRWSPersonNotFound
 from pdp.util import full_name_from_object
 from pdp.dao import get_profile
 from idbase.api import RESTDispatch
@@ -50,7 +48,8 @@ class Name(RESTDispatch):
 
 
 class Publish(RESTDispatch):
-
+    # TODO: Simplification - GET isn't necessary, change put to take
+    # netid and publish value. This can be a lot leaner.
     publish_options = {'N': 'no', 'Y': 'yes', 'E': 'no email'}
     publish_options_reverse = {value: key
                                for key, value in publish_options.items()}
@@ -60,11 +59,11 @@ class Publish(RESTDispatch):
             request.user.username))
         netid = request.user.netid
         try:
-            person = RestClientsIRWS().get_hr_person_by_netid(netid)
+            person = IRWS().get_hr_person_by_netid(netid)
             response = HttpResponse(
                 self._person_object_to_json(person),
                 content_type='application/json')
-        except IRWSPersonNotFound as nfe:
+        except NotFoundError as nfe:
             logger.debug('failed publish get for non-employee {}'.format(
                 request.user.username))
             raise NotFoundError(nfe)
@@ -74,16 +73,16 @@ class Publish(RESTDispatch):
         logger.info('publish api put for user {}'.format(
             request.user.username))
 
-        irws = RestClientsIRWS()
+        irws = IRWS()
         try:
             # success or exception
-            irws.post_hr_person_by_netid(
+            irws.put_hr_person_by_netid(
                 request.user.netid,
-                self._json_to_irws_json(request.body))
+                wp_publish=self._publish_flag_from_json(request.body))
             response = HttpResponse(json.dumps({'message': 'successful put'}),
                                     content_type='application_json',
                                     status=200)
-        except IRWSPersonNotFound as nfe:
+        except NotFoundError as nfe:
             logger.info('failed attempt to post for non-employee {}'.format(
                 request.user.username))
             raise NotFoundError(nfe)
@@ -99,12 +98,10 @@ class Publish(RESTDispatch):
         return json.dumps(
             {'publish': publish_flag})
 
-    def _json_to_irws_json(self, data):
+    def _publish_flag_from_json(self, data):
         try:
             person = json.loads(data)
-            irws_json = json.dumps(
-                {'wp_publish': Publish.publish_options_reverse[
-                    person['publish']]})
+            publish_flag = Publish.publish_options_reverse[person['publish']]
         except:
             raise BadRequestError('bad json from browser')
-        return irws_json
+        return publish_flag
