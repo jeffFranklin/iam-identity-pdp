@@ -70,19 +70,16 @@ def test_publish_get_not_found(rf):
 
 
 def test_publish_put(rf, put_option, caches, source):
-    employee_id = '022221234'
     netid = 'joe'
-    mock_person(
-        netid, caches, identifiers=[source], employee_id=employee_id
-    )
+    resources = mock_person(
+        netid, caches, identifiers=[source])
+    joe_hr_key = next(key for key in resources
+                      if source in key and '/v1/' in key)
     stored_states = {'yes': 'Y', 'no': 'N', 'no email': 'E'}
     response = Publish().PUT(rf.put('/', netid='joe',
                                     data=json.dumps({'publish': put_option})))
     assert response.status_code == 200
-    joe_hr = json.loads(
-        caches[1]['/registry-dev/v1/person/{source}/{employee_id}'.format(
-            source=source, employee_id=employee_id
-        )])
+    joe_hr = json.loads(caches[1][joe_hr_key])
     assert joe_hr['person'][0]['wp_publish'] == stored_states[put_option]
 
 
@@ -132,3 +129,4 @@ def caches(irws_file_cache, restclients_file_cache):
 def mock_person(netid, caches, **kwargs):
     resources = mock_irws_person(netid, **kwargs)
     [cache.update(resources) for cache in caches]
+    return resources

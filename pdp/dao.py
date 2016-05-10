@@ -12,57 +12,37 @@ class IRWS(RestToolsIRWS):
 
 def get_profile(netid):
     """Return the profile for a given netid."""
-    # TODO: This goes away after we plug in all the right attributes
-    fake_profile = dict(
-        netid=netid,
-        emails=['tjohn1234@uw.edu'],
-        student=dict(
-            phone_numbers=['(425)333-4444'],
-            clazz='Frosh',
-            majors=['Sociology']
-        ),
-        employee=dict(
-            phone_numbers=['(206)123-2222'],
-            official_name='TIMOTHY ROBERT JOHNSON',
-            emails=['tjohn1234@uw.edu'],
-            address='107 NE 45th St. #505 Seattle WA 98105'
-        )
-    )
-    # TODO: We eventually won't pass in fake_profile
-    profile = Profile(dct=fake_profile)
-
+    profile = Profile()
+    profile.netid = netid
     person = get_person(netid)
 
-    # Intersection...if it's in both of these sets then do it
-    for identifier in person.identifiers:
-        if identifier in {'uwhr', 'hepps'}:
-            # split identifier URI into components
-            components = person.identifiers[identifier].split('/')
-            eid = components[len(components) - 1]
-            source = components[len(components) - 2]
-            employee = get_employee(eid, source=source)
-            profile.employee = EmployeeProfile(dct=dict(
-                phone_numbers=employee.wp_phone,
-                titles=employee.wp_title,
-                departments=employee.wp_department
+    # grab the next uwhr or hepps url if there is one
+    hr_url = next((url for key, url in person.identifiers.items()
+                   if key in ('uwhr', 'hepps')),
+                  None)  # default to None
+    if hr_url:
+        # set source, eid to the last two items following slashes.
+        (source, eid) = hr_url.split('/')[-2:]
+        employee = get_employee(eid, source=source)
+        profile.employee = EmployeeProfile(dct=dict(
+            phone_numbers=employee.wp_phone,
+            titles=employee.wp_title,
+            departments=employee.wp_department))
 
-            ))
-
-        if 'sdb' in person.identifiers:
-            # Get and set the SDB student data (need to inquire by netid first
-            # to find studentid or system key)--and only get this if such an
-            # identifier exists for that person
-            # split identifier URI into components
-            components = person.identifiers[identifier].split('/')
-            system_key = components[len(components) - 1]
-            student = get_student(system_key)
-            profile.student = StudentProfile(dct=dict(
-                clazz=student.wp_title,
-                phone_numbers=student.wp_phone,
-                majors=student.department  # note this is the
-                # "department" attribute, not the "wp_department"
-                # TODO we might want to use wp_department
-            ))
+    if 'sdb' in person.identifiers:
+        # Get and set the SDB student data (need to inquire by netid first
+        # to find studentid or system key)--and only get this if such an
+        # identifier exists for that person
+        # split identifier URI into components
+        system_key = person.identifiers['sdb'].split('/')[-1]
+        student = get_student(system_key)
+        profile.student = StudentProfile(dct=dict(
+            clazz=student.wp_title,
+            phone_numbers=student.wp_phone,
+            majors=student.department  # note this is the
+            # "department" attribute, not the "wp_department"
+            # TODO we might want to use wp_department
+        ))
 
     name = get_name(netid)
     profile.preferred = PreferredNameParts(dct=dict(
