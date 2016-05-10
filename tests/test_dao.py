@@ -2,9 +2,12 @@ from pdp.dao import get_profile
 from pytest import fixture, raises
 from idbase.exceptions import ServiceError
 from mock import MagicMock
+from pdp.mock import mock_irws_person
+
+irws_root = '/registry-dev/v2'
 
 
-def test_get_profile():
+def test_get_profile(irws):
     profile = get_profile('jeff')
     assert profile.netid == 'jeff'
 
@@ -26,8 +29,35 @@ def test_profile_name_none(irws):
         get_profile('jeff')
 
 
-@fixture(autouse=True)
+def test_profile_employee_student(irws_cache):
+    irws_cache.update(mock_irws_person('empstu', irws_root=irws_root))
+    profile = get_profile('empstu')
+    assert profile.student
+    assert profile.employee
+
+
+def test_profile_employee_only(irws_cache):
+    irws_cache.update(mock_irws_person('employee', irws_root=irws_root,
+                                       identifiers=['hepps']))
+    profile = get_profile('employee')
+    assert profile.employee
+    assert not profile.student
+
+
+def test_profile_student_only(irws_cache):
+    irws_cache.update(mock_irws_person('student', irws_root=irws_root,
+                                       identifiers=['sdb']))
+    profile = get_profile('student')
+    assert profile.student
+    assert not profile.employee
+
+
+@fixture
 def irws(monkeypatch):
+    """
+    Mock irws client. Use this if you want to mock behaviors of the
+    client itself.
+    """
     client = MagicMock()
     # mock name resource
     name = client.get_name_by_netid.return_value
@@ -39,3 +69,19 @@ def irws(monkeypatch):
 
     monkeypatch.setattr('pdp.dao.IRWS', lambda: client)
     return client
+
+
+@fixture
+def irws_cache(request):
+    """
+    Mock irws cache. Use this if you want to mock a person by modifying
+    the file-based mock dao.
+    """
+    from resttools.dao_implementation.irws import File
+    old_cache = File._cache_db
+    File._cache_db = {}
+
+    def fin():
+        File._cache_db = old_cache
+    request.addfinalizer(fin)
+    return File._cache_db

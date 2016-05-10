@@ -21,7 +21,7 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                      birthdate='2001-01-01',
                      formal=dict(first='JANE', last='DOE'),
                      display=dict(first='Jane', middle='X', last='Doe'),
-                     identifiers=('uwhr', 'sdb'), system_key='123456789',
+                     identifiers=('hepps', 'sdb'), system_key='123456789',
                      email=None, sms=None, pac='123456',
                      clazz='Senior', majors=['HCDE'],
                      student_phone_number=['206-123-4567', '206-123-4568'],
@@ -41,17 +41,13 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
     irws_resources = {}
     identifier_urls = {}
     # This code generates the identifiers and relative URLS
-    # that are returned when you search for a person
-    # Currently supports only UWHR, HEPPS, and SDB sources
+    # that are returned when you search for a person.
     for identifier in identifiers:
         source = source_person(identifier, **kwargs)
-        if identifier in {'uwhr', 'hepps'}:
-            identifier_urls[identifier] = '/person/{identifier}/{employee_id}'\
-                .format(identifier=identifier, employee_id=employee_id)
-        elif identifier == 'sdb':
-            identifier_urls[identifier] = '/person/{identifier}/{system_key}'\
-                .format(identifier=identifier, system_key=system_key)
-        irws_resources.update(source)
+        # grab the shortest key for our url, split out irws_root
+        identifier_urls[identifier] = min(source.keys(), key=len).split(
+            irws_root)[1]
+        irws_resources.update(source_person(identifier, **kwargs))
 
     irws_person = {
         'person': [{
@@ -97,12 +93,21 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
 
 
 def source_person(identifier, **kwargs):
-    key = ''
+    """
+    Return the resources associated with a given source.
+    Special hack to update source attributes by including an
+    {identifier}_update dictionary in the kwargs.
+    """
+    # We make no assumption on the id. To ensure this, make the id
+    # a 9-digit hash of netid and identifier. The aim is to guarantee
+    # uniqueness in our resources dictionary.
+    key = '{irws_root}/person/{identifier}/{hash}'.format(
+        identifier=identifier,
+        hash=hash(kwargs.get('netid') + identifier) % (10**9),
+        **kwargs)
+
     resources = {}
     if identifier in ('hepps', 'uwhr'):
-        key = '{irws_root}/person/{identifier}/{employee_id}'.format(
-            irws_root=kwargs.get('irws_root'), identifier=identifier,
-            employee_id=kwargs.get('employee_id'))
         person = {'person': [dict(
             validid=kwargs.get('employee_id'), regid='0000deadbeef',
             lname=kwargs['formal']['last'], fname=kwargs['formal']['first'],
@@ -112,9 +117,6 @@ def source_person(identifier, **kwargs):
             category_code='shhh', category_name='fff',  # remove when no v1
         )]}
     elif identifier == 'sdb':
-        key = '{irws_root}/person/{identifier}/{system_key}'.format(
-            irws_root=kwargs.get('irws_root'), identifier=identifier,
-            system_key=kwargs.get('system_key'))
         pac = 'P' if kwargs.get('pac', None) else None
         person = {'person': [dict(
             validid=kwargs.get('system_key'), regid='0000deadbeef',
@@ -125,16 +127,6 @@ def source_person(identifier, **kwargs):
             wp_phone=kwargs['student_phone_number'],  # V2
             source_code='1', status_name='F', source_name='F'
         )]}
-        # TODO I think this is currently broken (mattjm 2016-05-06)
-        # As far as I know setting a PAC isn't supported and the setting
-        # is done via a post to the following URL
-        # (URLS fixed by mattjm 2016-05-06)
-        if kwargs.get('pac', None):
-            # add a pac resource
-            pac_key = re.sub('/{system_key}$'.format(
-                system_key=kwargs.get('system_key')), '/{system_key}/pac', key
-            )
-            resources[pac_key] = {'exists': 'yup'}
     else:
         person = {'person': [{'status_code': '1'}]}
 
