@@ -37,11 +37,9 @@ def get_profile(netid):
         system_key = person.identifiers['sdb'].split('/')[-1]
         student = get_student(system_key)
         profile.student = StudentProfile(dct=dict(
-            clazz=student.wp_title,
+            clazz=student.wp_title[0],  # only ever one value
             phone_numbers=student.wp_phone,
-            majors=student.department  # note this is the
-            # "department" attribute, not the "wp_department"
-            # TODO we might want to use wp_department
+            majors=student.wp_department
         ))
 
     name = get_name(netid)

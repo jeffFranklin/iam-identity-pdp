@@ -74,8 +74,7 @@
                 </li>
                 <li class="list-group-item">
                     <label class="profile-label">Year, Major</label><br>
-                    <p class="userinfo">{{ profile.data.student.clazz }}</p>
-                    <p class="userinfo">{{ profile.data.student.major }}</p>
+                    <p class="userinfo" ng-repeat="major in profile.data.student.majors track by $index">{{ profile.data.student.clazz }}, {{ major }}</p>
                 </li>
             </ul>
         </div>
