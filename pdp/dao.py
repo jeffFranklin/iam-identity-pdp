@@ -6,6 +6,12 @@ from resttools.exceptions import DataFailureException
 from resttools.dao import IRWS_DAO
 from idbase.exceptions import ServiceError, NotFoundError, BadRequestError
 import json
+try:  # http://asq.googlecode.com/hg-history/1.0/asq/_portability.py
+    # Python 2
+    from itertools import izip_longest
+except ImportError:
+    # Python 3
+    from itertools import zip_longest as izip_longest
 
 
 class IRWS(RestToolsIRWS):
@@ -67,7 +73,16 @@ def get_profile(netid):
         profile.employee = EmployeeProfile(dct=dict(
             phone_numbers=employee.wp_phone,
             titles=employee.wp_title,
-            departments=employee.wp_department))
+            departments=employee.wp_department,
+            addresses=employee.wp_address,
+            box=employee.mailstop,
+
+            titledepts=[', '.join(pair) for pair in izip_longest(
+                    employee.wp_title,
+                    employee.wp_department,
+                    fillvalue='-')]
+
+            ))
 
     if 'sdb' in person.identifiers:
         # Get and set the SDB student data (need to inquire by netid first

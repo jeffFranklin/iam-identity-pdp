@@ -15,6 +15,8 @@ def mock_irws_resources(conf={}):
 # we only receive one "clazz" from the registrar, so "clazz" should always
 # contain just one value in the list.  Modeled in rest of application as a
 # variable, not object, but comes from IRWS as object so mock is an object
+
+
 def mock_irws_person(netid, irws_root='/registry-dev/v2',
                      employee_id='123456789', student_number='1234567',
                      birthdate='2001-01-01',
@@ -25,9 +27,13 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                      clazz=['Senior'], majors=['HCDE', 'Physics'],
                      student_phone_number=['206-123-4567', '206-123-4568'],
                      employee_phone_number=['206-234-4567', '206-234-4568'],
-                     **kwargs):
-    """Return mocks of the resources needed for a given netid."""
+                     employee_address=['4333 Brooklyn Ave NE ' +
+                                       'Seattle WA 98125'],
+                     employee_titles=['Specialist', 'Professor'],
+                     employee_depts=['UWIT', 'Psychology'],
+                     mailstop='359540', **kwargs):
 
+    """Return mocks of the resources needed for a given netid."""
     kwargs.update(dict(netid=netid, irws_root=irws_root,
                        employee_id=employee_id, student_number=student_number,
                        birthdate=birthdate, formal=formal, display=display,
@@ -35,7 +41,10 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                        email=email, sms=sms, pac=pac, clazz=clazz,
                        majors=majors,
                        student_phone_number=student_phone_number,
-                       employee_phone_number=employee_phone_number))
+                       employee_phone_number=employee_phone_number,
+                       employee_address=employee_address, mailstop=mailstop,
+                       employee_titles=employee_titles,
+                       employee_depts=employee_depts))
 
     irws_resources = {}
     identifier_urls = {}
@@ -111,6 +120,10 @@ def source_person(identifier, **kwargs):
             status_name='F',
             wp_publish='N',
             wp_phone=kwargs['employee_phone_number'],  # V2
+            wp_address=kwargs['employee_address'],
+            mailstop=kwargs['mailstop'],
+            wp_title=kwargs['employee_titles'],
+            wp_department=kwargs['employee_depts']
         )]}
     elif identifier == 'sdb':
         pac = 'P' if kwargs.get('pac', None) else None

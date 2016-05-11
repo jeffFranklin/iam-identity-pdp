@@ -66,8 +66,10 @@ class EmployeeProfile(BaseModel):
         self.official_name = None
         self.phone_numbers = []
         self.emails = []
-        self.address = None
+        self.addresses = []
         self.departments = []
         self.titles = []
         self.box = None
+        self.titledepts = []  # Title and Department join
+
         super(self.__class__, self).__init__(dct=dct)

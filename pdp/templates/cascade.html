@@ -96,16 +96,15 @@
                 </li>
                 <li class="list-group-item">
                     <label class="profile-label">Box Number</label><br>
-                    <p class="userinfo">{{ profile.data.employee.box }}<span class="fake-data">1234567</span></p>
+                    <p class="userinfo">{{ profile.data.employee.box }}</p>
                 </li>
                 <li class="list-group-item">
                     <label class="profile-label">Position</label><br>
-                    <p class="userinfo">{{ profile.data.employee.title }} <span class="fake-data">Teaching Assistant</span></p>
-                    <p class="userinfo">{{ profile.data.employee.department }}<span class="fake-data">Sociology</span></p>
+                    <p class="userinfo" ng-repeat="position in profile.data.employee.titledepts track by $index">{{ position }}</p>
                 </li>
                 <li class="list-group-item">
                     <label class="profile-label">Campus Address</label><br>
-                    <p class="userinfo">{{ profile.data.employee.apartment }}<span class="fake-data">211 Savery Hall Seattle, WA 98195-3340</span></p>
+                    <p class="userinfo" ng-repeat="address in profile.data.employee.addresses track by $index">{{ address }}</p>
                 </li>
             </ul>
         </div>
