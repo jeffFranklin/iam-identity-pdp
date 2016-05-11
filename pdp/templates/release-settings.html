@@ -1,9 +1,24 @@
 {% verbatim %}
-<div>
-    <button class="btn btn-default btn-xs" type="button">Change settings</button>
+<div ng-show="!profile.isSettingPublish">
+    <!--<ul class="list-group">-->
+                <!--<li class="list-group-item">-->
+                    <p class="bold app-deatail-header">Following employee information will be viewable by anyone:</p>
+                    <ul class="data-list">
+                        <li>Timothy Robert Smith</li>
+                        <li>UW NetID: tjohn1234</li>
+                        <li>tsmith1234@uw.edu</li>
+                        <li>(206) 123-2222</li>
+                        <li>Teaching Assistant, Sociology</li>
+                        <li>107 NE 45th St. #505 Seattle WA 98105</li>
+                     </ul>
+
+                <!--</li>-->
+        <button class="btn btn-default btn-xs" type="button" ng-click="profile.showPublishScreen()">Change settings</button>
+        <!--</ul>-->
+
 </div>
 <br>
-    <div>
+    <div ng-show="profile.isSettingPublish">
         <label class="radio-inline"><input type="radio" name="optradio">Unlisted:</label>
             <p>You are not searchable in the UW directory. Nobody can find your contact information.</p>
         <label class="radio-inline"><input type="radio" name="optradio">Listed with email address:</label>
@@ -16,7 +31,6 @@
                 <li>Teaching Assistant, Sociology</li>
                 <li>107 NE 45th St. #505 Seattle, WA 98105</li>
             </ul>
-            <br>
         <label class="radio-inline"><input type="radio" name="optradio">Listed without email address:</label>
             <p>This listing option will display the following:</p>
             <ul>
@@ -26,8 +40,9 @@
                 <li>Teaching Assistant, Sociology</li>
                 <li>107 NE 45th St. #505 Seattle, WA 98105</li>
             </ul>
+        <button class="btn btn-default btn-xs" type="button" ng-click="profile.clearPublishChange()">Save Changes</button>
     </div>
     <br>
-    <button class="btn btn-default btn-xs" type="button">Save Changes</button>
+
 </div>
 {% endverbatim %}

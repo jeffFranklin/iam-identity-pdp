@@ -2,7 +2,7 @@
 
 {% block content %}
     {% verbatim %}
-    <div  class="container" ng-controller="ProfileCtrl as profile" ng-cloak>
+    <div class="container" ng-controller="ProfileCtrl as profile" ng-cloak>
     <!-- NEW PAGE-TITLE -->
 		<div class="page-title">
            <h1>Profile information</h1>
@@ -24,7 +24,7 @@
                                     <li>Change your information sharing settings.</li>
                                     <li>Set your recovery settings.</li>
                                 </ul>
-                                <div class="center"> <button type="button" data-dismiss="modal" class="btn btn-primary bigbtn">Let's get started!</button></div>
+                                <div class="center"><button type="button" data-dismiss="modal" class="btn btn-primary bigbtn">Let's get started!</button></div>
                         </div>
                         <!-- /.modal-body -->
                     </div>
@@ -121,25 +121,17 @@
                 <h3 class="panel-title profile-h3">UW Directory</h3>
                 <p>The <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory</a> will show the following:</p>
             </div>
-            <ul class="list-group">
-                <li class="list-group-item">
-                   
-                    <p class="bold app-deatail-header">Following employee information will be viewable by anyone:</p>
-                    <ul class="data-list">
-                        <li>Timothy Robert Smith</li>
-                        <li>UW NetID: tjohn1234</li>
-                        <li>tsmith1234@uw.edu</li>
-                        <li>(206) 123-2222</li>
-                        <li>Teaching Assistant, Sociology</li>
-                        <li>107 NE 45th St. #505 Seattle WA 98105</li>
-                     </ul>
-                    <!--<p><button class="btn btn-default btn-xs" type="button">Change settings</button></p>-->
-                    {% endverbatim %}
-                    {% include "release-settings.html" %}
-                    {% verbatim %}
-                </li>
-                
-                <li class="list-group-item">
+            {% endverbatim %}
+               {% include "release-settings.html" %}
+            {% verbatim %}
+           </div>
+       </div>
+
+
+
+        <div class="row">
+           <div class="col-md-7">
+               <li class="list-group-item">
 
                     <p class="bold app-deatail-header">In addition to the employee info above, following student information will be viewable by the UW NetID owners:</p>
                     <ul class="data-list">
@@ -149,11 +141,11 @@
                      </ul>
                      <p><a href="https://sdb.admin.uw.edu/students/uwnetid/address.asp" target="_blank">Change the Directory release settings on the Student Personal Services</a>. Changes will take up to 1-2 business days to be effective.</p>
                 </li>
-            </ul>
-            </div>
-       </div>
-     </div>
 
+           </div>
+        </div>
+
+        </div>
         <!--<p>By clicking <a id="loginLink" href="/secure">this link!</a></p>-->
         <!--<h2>Test errors</h2>-->
         <!--<p ng-controller="MakeErrorCtrl as makeError">By clicking-->
@@ -162,7 +154,8 @@
                     <!--ng-click="makeError.doIt()">this button!</button></p>-->
 
         <!--<p>Your session should time out in {{ session_timeout }} seconds.</p>-->
-    </div>
+
+
     {% endverbatim %}
 {% endblock %}
 
