@@ -47,6 +47,17 @@ app.controller('ProfileCtrl', ['profileService', function(profileService){
         _this.isSettingName = true;
         _this.nameChangeSuccess = false;
     };
+
+    this.clearPublishChange = function(){
+        _this.isSettingPublish = false;
+    };
+
+    this.showPublishScreen = function(){
+        _this.isSettingPublish = true;
+    };
+
+    this.isSettingPublish = false;
+
     this.isSettingName = false;
     this.onNameChange = function(data){
         _this.isSettingName = false;
