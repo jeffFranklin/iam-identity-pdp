@@ -1,5 +1,11 @@
 from pdp.models import BaseModel, Profile
 from pytest import mark, raises
+try:  # http://asq.googlecode.com/hg-history/1.0/asq/_portability.py
+    # Python 2
+    from itertools import izip_longest
+except ImportError:
+    # Python 3
+    from itertools import zip_longest as izip_longest
 
 
 class FooModel(BaseModel):
@@ -60,10 +66,16 @@ def test_profile():
                      majors=['ART'], system_key='009123456',
                      emails=['j@jstudent.u']),
         employee=dict(official_name='jOe', phone_numbers=['2'],
-                      emails=['j@j.u'], address='123', box='456',
-                      departments=['3', '4'], titles=['boss', 'employee']),
+                      emails=['j@j.u'], addresses=['123'], box='456',
+                      departments=['3', '4'], titles=['boss', 'employee'],
+                      ),
         preferred=dict(full='J O E', first='J', middle='O', last='E')
     )
+    dct_in['employee']['titledepts'] = [
+                    ', '.join(pair) for pair in izip_longest(
+                        dct_in['employee']['titles'],
+                        dct_in['employee']['departments'],
+                        fillvalue='-')]
     dct_out = Profile(dct=dct_in).to_dict()
     assert dct_in == dct_out
     assert dct_in is not dct_out
