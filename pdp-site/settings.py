@@ -46,13 +46,16 @@ WSGI_APPLICATION = 'pdp-site.wsgi.application'
 PDP_BASE = '/id/'
 LOGIN_URL = '/id/login/'
 LOGOUT_URL = '/id/logout/'
+PROFILE_URL = '/id/cascade/'
+RECOVERY_OPTIONS_URL = '/account/recovery/'
 GET_FULL_NAME_FUNCTION = 'pdp.util.get_full_name'
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_COOKIE_NAME = 'pdpsession'
 SESSION_COOKIE_PATH = '/'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-SETTINGS_CONTEXT_ATTRIBUTES = ['DEBUG', 'LOGOUT_URL', 'PDP_BASE']
+SETTINGS_CONTEXT_ATTRIBUTES = ['DEBUG', 'LOGOUT_URL', 'PDP_BASE',
+                               'PROFILE_URL', 'RECOVERY_OPTIONS_URL']
 
 
 # Database
