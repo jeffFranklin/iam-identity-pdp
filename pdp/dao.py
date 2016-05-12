@@ -92,7 +92,7 @@ def get_profile(netid):
         system_key = person.identifiers['sdb'].split('/')[-1]
         student = get_student(system_key)
         profile.student = StudentProfile(dct=dict(
-            clazz=student.wp_title[0],  # only ever one value
+            clazz=''.join(student.wp_title),  # expect one value only
             phone_numbers=student.wp_phone,
             majors=student.wp_department
         ))

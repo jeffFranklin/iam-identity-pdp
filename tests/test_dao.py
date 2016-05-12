@@ -71,6 +71,25 @@ def irws(monkeypatch):
     return client
 
 
+def test_profile_unset_defaults(irws_cache):
+    irws_cache.update(mock_irws_person(
+        'empstu', irws_root=irws_root, clazz=[],
+        majors=[], student_phone_number=[],
+        employee_address=[], employee_depts=[], employee_titles=[],
+        employee_phone_number=[]
+    ))
+    profile = get_profile('empstu')
+    assert profile.student.clazz == ''
+    assert profile.student.emails == []
+    assert profile.student.majors == []
+    assert profile.student.phone_numbers == []
+    assert profile.employee.emails == []
+    assert profile.employee.phone_numbers == []
+    assert profile.employee.titledepts == []
+    assert profile.employee.titles == []
+    assert profile.employee.departments == []
+
+
 @fixture
 def irws_cache(request):
     """
