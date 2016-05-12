@@ -172,7 +172,7 @@ ul.data-list li {
 
 
 .row input[type=radio] {
-    height: 0px;
+    height: 4px;
 }
 
 .radio-inline {
@@ -182,5 +182,9 @@ ul.data-list li {
 
 .publish-directory {
     padding-left: 20px;
+}
 
+label.radio-inline {
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
