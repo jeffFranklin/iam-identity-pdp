@@ -98,19 +98,7 @@ ul.data-list li {
 }
 
 /* overlay box css */
-.modal-transparent {
-  background: transparent;
-}
-.modal-transparent .modal-content {
-  background: transparent;
-}
-.modal-backdrop.modal-backdrop-transparent {
-  background: #ffffff;
-}
-.modal-backdrop.modal-backdrop-transparent.in {
-  opacity: .9;
-  filter: alpha(opacity=90);
-}
+
 
 .request-submitted {
     color: #ff0000;
@@ -121,6 +109,9 @@ ul.data-list li {
     margin-left: 50px;
 }
 
+.modal {
+    bottom: inherit;
+}
 
 #modal-exit.close {
     font-size: 40px;
@@ -136,6 +127,8 @@ ul.data-list li {
 .welcome{
 	margin-top: 0px;
 }
+
+
 
 
 /* .modal-body h1 {
