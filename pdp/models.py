@@ -55,7 +55,7 @@ class StudentProfile(BaseModel):
         self.system_key = None
         self.official_name = None
         self.phone_numbers = []
-        self.clazz = None  # IRWS has wp_title as an object
+        self.clazz = None
         self.majors = []
         self.emails = []
         super(self.__class__, self).__init__(dct=dct)
