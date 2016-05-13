@@ -80,6 +80,15 @@ app.factory('modalService', [function(){
     };
 }]);
 
-app.controller('SplashModalCtrl', ['modalService', function(modalService){
-    modalService.showModal('#splashModal');
+app.controller('SplashModalCtrl', ['modalService', '$cookies', function(modalService, $cookies){
+    var cookieName = 'profileSplashPersistent';   /* persistent in the name keeps it around after logout */
+
+    this.setProfileVisit = function() {
+        var now = new Date();
+        var inTenYears = new Date(now.getFullYear() + 10, now.getMonth(), now.getDate());
+        $cookies.put(cookieName, true, {expires: inTenYears});
+    };
+    if(!$cookies.get(cookieName)){
+        modalService.showModal('#splashModal');
+    }
 }]);
