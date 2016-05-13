@@ -11,7 +11,7 @@
 
 
             <div class="modal fade bs-modal-sm" id="splashModal" tabindex="-1" role="dialog"
-                 ng-controller="SplashModalCtrl"
+                 ng-controller="SplashModalCtrl as splash"
                  aria-labelledby="modalTitle">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
@@ -26,7 +26,9 @@
                                     <li>Change your information sharing settings.</li>
                                     <li>Set your recovery settings.</li>
                                 </ul>
-                                <div class="center"><button type="button" data-dismiss="modal" class="btn btn-primary bigbtn">Let's get started!</button></div>
+                                <div class="center">
+                                    <button type="button" data-dismiss="modal" class="btn btn-primary bigbtn"
+                                            ng-click="splash.setProfileVisit()">Let's get started!</button></div>
                         </div>
                         <!-- /.modal-body -->
                     </div>
