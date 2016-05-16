@@ -76,7 +76,7 @@ def get_profile(netid):
             departments=employee.wp_department,
             addresses=employee.wp_address,
             box=employee.mailstop,
-
+            publish=employee.wp_publish,
             titledepts=[', '.join(pair) for pair in izip_longest(
                     employee.wp_title,
                     employee.wp_department,
@@ -94,7 +94,8 @@ def get_profile(netid):
         profile.student = StudentProfile(dct=dict(
             clazz=''.join(student.wp_title),  # expect one value only
             phone_numbers=student.wp_phone,
-            majors=student.wp_department
+            majors=student.wp_department,
+            publish=(False if student.wp_publish == 'N' else True)
         ))
 
     name = get_name(netid)
