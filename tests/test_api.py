@@ -2,8 +2,9 @@ from pdp.api import Name, Publish, Profile
 from pdp.mock import mock_irws_person
 import logging
 import json
-from pytest import fixture, raises
+from pytest import fixture, raises, mark
 from idbase.exceptions import NotFoundError, BadRequestError
+from idbase.exceptions import InvalidSessionError
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -53,66 +54,42 @@ def test_name_put_bad_name(rf):
         Name().PUT(rf.put('/', data=name))
 
 
-def test_publish_get(caches, source, publish_value, rf):
-    kwargs = {'identifiers': [source],
-              source + '_update': dict(wp_publish=publish_value)}
-    mock_person('joe', caches, **kwargs)
-    states = {'Y': 'yes', 'N': 'no', 'E': 'no email', 'X': 'X'}
-    request = rf.get('/api/publish', netid='joe')
-    response = Publish().GET(request)
-    assert response.status_code == 200
-    assert json.loads(response.content) == {'publish': states[publish_value]}
-
-
-def test_publish_get_not_found(rf):
-    with raises(NotFoundError):
-        Publish().GET(rf.get('/', netid='noworker'))
-
-
-def test_publish_put(rf, put_option, caches, source):
+@mark.parametrize('put_option', ('Y', 'N', 'E'))
+@mark.parametrize('source', ('hepps', 'uwhr'))
+def test_publish_put(rf, caches, put_option, source):
     netid = 'joe'
     resources = mock_person(
         netid, caches, identifiers=[source])
     joe_hr_key = next(key for key in resources
                       if source in key and '/v2/' in key)
-    stored_states = {'yes': 'Y', 'no': 'N', 'no email': 'E'}
-    response = Publish().PUT(rf.put('/', netid='joe',
-                                    data=json.dumps({'publish': put_option})))
-    assert response.status_code == 200
+    req = rf.put('joe?value={}'.format(put_option), netid='joe')
+    response = Publish().PUT(req, netid='joe')
+    assert response == {'publish': put_option}
     joe_hr = json.loads(caches[0][joe_hr_key])
-    assert joe_hr['person'][0]['wp_publish'] == stored_states[put_option]
+    assert joe_hr['person'][0]['wp_publish'] == put_option
 
 
 def test_publish_put_no_worker(rf):
     with raises(NotFoundError):
-        Publish().PUT(
-            rf.put('/', netid='noworker', data=json.dumps({'publish': 'yes'})))
+        req = rf.put('noworker?value=Y', netid='noworker')
+        Publish().PUT(req, netid='noworker')
 
 
 def test_publish_bad_option(rf):
     with raises(BadRequestError):
-        Publish().PUT(
-            rf.put('/', netid='joe', data=json.dumps({'publish': 'X'})))
+        req = rf.put('joe?value=X', netid='joe')
+        Publish().PUT(req, netid='joe')
+
+
+def test_publish_netid_switch(rf):
+    with raises(InvalidSessionError):
+        req = rf.put('joe?value=X', netid='joe')
+        Publish().PUT(req, netid='jack')
 
 
 def test_profile(rf):
     response = Profile().GET(rf.get('/', netid='joe'))
     assert response['netid'] == 'joe'
-
-
-@fixture(params=('yes', 'no', 'no email'))
-def put_option(request):
-    return request.param
-
-
-@fixture(params=['hepps', 'uwhr'])
-def source(request):
-    return request.param
-
-
-@fixture(params=['Y', 'N', 'E', 'X'])
-def publish_value(request):
-    return request.param
 
 
 @fixture(autouse=True)

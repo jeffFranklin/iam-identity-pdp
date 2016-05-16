@@ -1,27 +1,30 @@
 {% verbatim %}
-<div ng-show="!profile.isSettingPublish">
-    <!--<ul class="list-group">-->
-                <!--<li class="list-group-item">-->
-                    <p class="bold app-deatail-header">Following employee information will be viewable by anyone:</p>
-                    <ul class="data-list">
-                        <li>Timothy Robert Smith</li>
-                        <li>UW NetID: tjohn1234</li>
-                        <li>tsmith1234@uw.edu</li>
-                        <li>(206) 123-2222</li>
-                        <li>Teaching Assistant, Sociology</li>
-                        <li>107 NE 45th St. #505 Seattle WA 98105</li>
-                     </ul>
-
-                <!--</li>-->
-        <button class="btn btn-default btn-xs" type="button" ng-click="profile.showPublishScreen()">Change settings</button>
-        <!--</ul>-->
+<div ng-if="!profile.isSettingPublish && profile.data.employee">
+    <p ng-show="profile.data.employee.publish == 'N'">You are not searchable in
+        the UW directory. Nobody can find your contact information.</p>
+    <div ng-show="profile.data.employee.publish != 'N'">
+        <p class="bold app-detail-header">The following employee information
+            will be viewable by anyone:</p>
+        <ul class="data-list">
+            <li>{{ profile.data.official_name }}</li>  <!-- TODO: Use the correct name here -->
+            <li>UW NetID: {{ profile.data.netid }}</li>
+            <li ng-show="profile.data.employee.publish == 'Y'"
+                ng-repeat="email in profile.data.employee.emails track by $index">{{ email }}</li>
+            <li ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</li>
+            <li ng-repeat="titledept in profile.data.employee.titledepts track by $index">{{ titledept }}</li>
+            <li ng-repeat="address in profile.data.employee.addresses track by $index">{{ address }}</li>
+            <li ng-show="profile.data.employee.box">Box {{ profile.data.employee.box}}</li>
+        </ul>
+    </div>
+    <button class="btn btn-default btn-xs" type="button"
+            ng-click="profile.showPublishScreen()">Change settings
+    </button>
 
 </div>
-<br>
     <div ng-show="profile.isSettingPublish" class="publish-directory">
-        <label class="radio-inline"><input type="radio" name="optradio">Unlisted:</label>
+        <label class="radio-inline"><input type="radio" name="employeepublish" value="N" ng-model="profile.employeePublishValue">Unlisted:</label>
             <p>You are not searchable in the UW directory. Nobody can find your contact information.</p>
-        <label class="radio-inline"><input type="radio" name="optradio">Listed with email address:</label>
+        <label class="radio-inline"><input type="radio" name="employeepublish" value="Y" ng-model="profile.employeePublishValue">Listed with email address:</label>
             <p>This listing will display the following:</p>
             <ul>
                 <li>Tina Johnson</li>
@@ -31,7 +34,7 @@
                 <li>Teaching Assistant, Sociology</li>
                 <li>107 NE 45th St. #505 Seattle, WA 98105</li>
             </ul>
-        <label class="radio-inline"><input type="radio" name="optradio">Listed without email address:</label>
+        <label class="radio-inline"><input type="radio" name="employeepublish" value="E" ng-model="profile.employeePublishValue">Listed without email address:</label>
             <p>This listing option will display the following:</p>
             <ul>
                 <li>Tina Johnson</li>
@@ -40,9 +43,6 @@
                 <li>Teaching Assistant, Sociology</li>
                 <li>107 NE 45th St. #505 Seattle, WA 98105</li>
             </ul>
-        <button class="btn btn-default btn-xs" type="button" ng-click="profile.clearPublishChange()">Save Changes</button>
+        <button class="btn btn-default btn-xs" type="button" ng-click="profile.putPublish()">Save Changes</button>
     </div>
-    <br>
-
-</div>
 {% endverbatim %}

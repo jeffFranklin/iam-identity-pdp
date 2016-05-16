@@ -7,6 +7,7 @@ from pdp.util import full_name_from_object
 from pdp.dao import get_profile
 from idbase.api import RESTDispatch
 from idbase.exceptions import NotFoundError, BadRequestError
+from idbase.exceptions import InvalidSessionError
 
 logger = logging.getLogger(__name__)
 
@@ -48,60 +49,27 @@ class Name(RESTDispatch):
 
 
 class Publish(RESTDispatch):
-    # TODO: Simplification - GET isn't necessary, change put to take
-    # netid and publish value. This can be a lot leaner.
-    publish_options = {'N': 'no', 'Y': 'yes', 'E': 'no email'}
-    publish_options_reverse = {value: key
-                               for key, value in publish_options.items()}
 
-    def GET(self, request):
-        logger.debug("publish api get for user {}".format(
-            request.user.username))
-        netid = request.user.netid
-        try:
-            person = IRWS().get_hr_person_by_netid(netid)
-            response = HttpResponse(
-                self._person_object_to_json(person),
-                content_type='application/json')
-        except NotFoundError as nfe:
-            logger.debug('failed publish get for non-employee {}'.format(
-                request.user.username))
-            raise NotFoundError(nfe)
-        return response
-
-    def PUT(self, request):
+    def PUT(self, request, netid=None):
+        """
+        Set the publish value for the given netid according to the query
+        parameter in 'value'. Return the new publish flag.
+        """
+        if netid != request.user.netid:
+            raise InvalidSessionError()
+        publish_value = request.GET.get('value', '')
+        if publish_value not in ('Y', 'N', 'E'):
+            raise BadRequestError()
         logger.info('publish api put for user {}'.format(
             request.user.username))
 
-        irws = IRWS()
         try:
-            # success or exception
-            irws.put_hr_person_by_netid(
+            person = IRWS().put_hr_person_by_netid(
                 request.user.netid,
-                wp_publish=self._publish_flag_from_json(request.body))
-            response = HttpResponse(json.dumps({'message': 'successful put'}),
-                                    content_type='application_json',
-                                    status=200)
+                wp_publish=publish_value)
         except NotFoundError as nfe:
             logger.info('failed attempt to post for non-employee {}'.format(
                 request.user.username))
             raise NotFoundError(nfe)
 
-        return response
-
-    def _person_object_to_json(self, person):
-        if person.wp_publish in Publish.publish_options:
-            publish_flag = Publish.publish_options[person.wp_publish]
-        else:
-            # unexpected value, just return it
-            publish_flag = person.wp_publish
-        return json.dumps(
-            {'publish': publish_flag})
-
-    def _publish_flag_from_json(self, data):
-        try:
-            person = json.loads(data)
-            publish_flag = Publish.publish_options_reverse[person['publish']]
-        except:
-            raise BadRequestError('bad json from browser')
-        return publish_flag
+        return {'publish': person.wp_publish}

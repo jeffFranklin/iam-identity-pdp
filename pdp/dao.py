@@ -18,16 +18,6 @@ class IRWS(RestToolsIRWS):
     def __init__(self):
         super(self.__class__, self).__init__(settings.IRWS_CLIENT)
 
-    def get_hr_person_by_netid(self, netid):
-        # TODO: This likely can come out after Publish() refactor.
-        hr_url = self._get_hr_url(netid)
-        if hr_url:
-            source, eid = hr_url.split('/')[-2:]
-            hr_person = self.get_uwhr_person(eid, source=source)
-        else:
-            raise NotFoundError('not hr person: {}'.format(netid))
-        return hr_person
-
     def put_hr_person_by_netid(self, netid, wp_publish=None):
         # TODO: move into resttools once we've finalized the design.
         if wp_publish not in ('Y', 'N', 'E'):
