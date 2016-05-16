@@ -31,6 +31,8 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                                        'Seattle WA 98125'],
                      employee_titles=['Specialist', 'Professor'],
                      employee_depts=['UWIT', 'Psychology'],
+                     employee_publish='Y',  # 'Y', 'N', or 'E' (default 'Y')
+                     student_publish='N',  # 'Y' or 'N', default 'Y
                      mailstop='359540', **kwargs):
 
     """Return mocks of the resources needed for a given netid."""
@@ -41,10 +43,12 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                        email=email, sms=sms, pac=pac, clazz=clazz,
                        majors=majors,
                        student_phone_number=student_phone_number,
+                       student_publish=student_publish,
                        employee_phone_number=employee_phone_number,
                        employee_address=employee_address, mailstop=mailstop,
                        employee_titles=employee_titles,
-                       employee_depts=employee_depts))
+                       employee_depts=employee_depts,
+                       employee_publish=employee_publish))
 
     irws_resources = {}
     identifier_urls = {}
@@ -118,7 +122,7 @@ def source_person(identifier, **kwargs):
             lname=kwargs['formal']['last'], fname=kwargs['formal']['first'],
             status_code='1', source_code='1', source_name='F',
             status_name='F',
-            wp_publish='N',
+            wp_publish=kwargs['employee_publish'],
             wp_phone=kwargs['employee_phone_number'],  # V2
             wp_address=kwargs['employee_address'],
             mailstop=kwargs['mailstop'],
@@ -133,7 +137,8 @@ def source_person(identifier, **kwargs):
             lname=kwargs['formal']['last'], fname=kwargs['formal']['first'],
             status_code='1', in_feed='1', categories=[{'category_code': '1'}],
             wp_title=kwargs.get('clazz'), wp_department=kwargs.get('majors'),
-            wp_phone=kwargs['student_phone_number'],  # V2
+            wp_phone=kwargs['student_phone_number'],
+            wp_publish=kwargs['student_publish'],
             source_code='1', status_name='F', source_name='F'
         )]}
     else:

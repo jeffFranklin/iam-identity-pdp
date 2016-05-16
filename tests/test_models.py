@@ -64,10 +64,12 @@ def test_profile():
         emails=['joe@example.com'],
         student=dict(official_name='JoE', phone_numbers=['1'], clazz='Junior',
                      majors=['ART'], system_key='009123456',
-                     emails=['j@jstudent.u']),
+                     emails=['j@jstudent.u'],
+                     publish=False),
         employee=dict(official_name='jOe', phone_numbers=['2'],
                       emails=['j@j.u'], addresses=['123'], box='456',
                       departments=['3', '4'], titles=['boss', 'employee'],
+                      publish='E',
                       ),
         preferred=dict(full='J O E', first='J', middle='O', last='E')
     )

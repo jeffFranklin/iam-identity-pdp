@@ -58,6 +58,7 @@ class StudentProfile(BaseModel):
         self.clazz = None
         self.majors = []
         self.emails = []
+        self.publish = True  # True/False, default true
         super(self.__class__, self).__init__(dct=dct)
 
 
@@ -71,5 +72,5 @@ class EmployeeProfile(BaseModel):
         self.titles = []
         self.box = None
         self.titledepts = []  # Title and Department join
-
+        self.publish = 'Y'
         super(self.__class__, self).__init__(dct=dct)

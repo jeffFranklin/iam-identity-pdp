@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'^logout/$', logout),
     url(r'^api/loginstatus$', LoginStatus(login_required=False).run),
     url(r'^api/name$', Name().run, name='name'),
-    url(r'^api/publish$', Publish().run),
+    url(r'^api/publish/([^/]*)$', Publish().run),
     url(r'^api/profile/$', Profile().run)
 ]
 

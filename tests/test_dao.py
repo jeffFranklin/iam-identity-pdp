@@ -90,6 +90,15 @@ def test_profile_unset_defaults(irws_cache):
     assert profile.employee.departments == []
 
 
+def test_profile_publish_flag(irws_cache):
+    irws_cache.update(mock_irws_person(
+        'empstu', irws_root=irws_root,
+        employee_publish='E', student_publish='N'))
+    profile = get_profile('empstu')
+    assert profile.employee.publish == 'E'
+    assert not profile.student.publish
+
+
 @fixture
 def irws_cache(request):
     """

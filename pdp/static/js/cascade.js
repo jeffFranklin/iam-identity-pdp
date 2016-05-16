@@ -1,9 +1,9 @@
 var app = angular.module('identityApp');
 
 function ApiService($log, $http, ErrorSvc){
-    var get = function(url) {
-        $log.info('getting ' + url);
-        return $http.get(url)
+    var apiFunc = function(operation){ return function(url) {
+        $log.info(operation + ' ' + url);
+        return $http[operation](url)
             .then(function(response){
                 $log.info(response);
                 return response;
@@ -13,33 +13,48 @@ function ApiService($log, $http, ErrorSvc){
                 if (response.status == 500 || response.status == 401) {
                     ErrorSvc.handleError(response.data, response.status);
                 }
+                return response;
             })
-    };
-    return {get: get};
+    }};
+    var get = apiFunc('get');
+    var put = apiFunc('put');
+    return {get: get, put: put};
 }
 
 app.factory('apiService', ['$log', '$http', 'ErrorSvc', ApiService]);
 
 function ProfileService(apiService) {
+    var profileUrl = 'api/profile/';
+    var publishUrl = 'api/publish/';
     // Service returning profile information about an authenticated user.
     var profile = {getting: false, data: {}};
     var getProfile = function(netid) {
         profile.getting = true;
-        apiService.get('api/profile/')
+        apiService.get(profileUrl)
             .then(function(response){
                 for (var key in response.data){ profile.data[key] = response.data[key];}})
             .finally(function(){ profile.getting = false;});};
+    var putEmployeePublish = function(netid, publishValue){
+        return apiService.put(publishUrl + netid + '?value=' + publishValue).then(function(response){
+            return response.status == 200 ? response.data.publish : null;
+        });
+    };
     return {profile: profile,
-        getProfile: getProfile};
+        getProfile: getProfile,
+        putEmployeePublish: putEmployeePublish
+    };
 }
 
 app.factory('profileService', ['apiService', ProfileService]);
 
-app.controller('ProfileCtrl', ['profileService', function(profileService){
-    profileService.getProfile('');
-
-    this.data = profileService.profile.data;
+app.controller('ProfileCtrl', ['profileService', 'loginStatus', function(profileService, loginStatus){
     var _this = this;
+    this.netid = null;
+    loginStatus.getNetid().then(function(netid){
+        _this.netid = netid;  /* null on error */
+        if(netid){profileService.getProfile(netid);}
+    });
+    this.data = profileService.profile.data;
     this.clearNameChange = function(){
         _this.isSettingName = false;
     };
@@ -54,6 +69,17 @@ app.controller('ProfileCtrl', ['profileService', function(profileService){
 
     this.showPublishScreen = function(){
         _this.isSettingPublish = true;
+        _this.employeePublishValue = _this.data.employee && _this.data.employee.publish ?
+            _this.data.employee.publish : 'Y';
+    };
+
+    this.putPublish  = function(){
+        profileService.putEmployeePublish(_this.netid, _this.employeePublishValue).then(function(newValue){
+            if(newValue){
+                _this.data.employee.publish = newValue;
+                _this.clearPublishChange();
+            }
+        });
     };
 
     this.isSettingPublish = false;
