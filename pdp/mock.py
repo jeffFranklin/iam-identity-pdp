@@ -24,13 +24,15 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                      display=dict(first='Jane', middle='X', last='Doe'),
                      identifiers=('hepps', 'sdb'), system_key='123456789',
                      email='jane.doe@uw.edu', sms=None, pac='123456',
-                     clazz=['Senior'], majors=['HCDE', 'Physics'],
-                     student_phone_number=['206-123-4567', '206-123-4568'],
-                     employee_phone_number=['206-234-4567', '206-234-4568'],
-                     employee_address=['4333 Brooklyn Ave NE ' +
-                                       'Seattle WA 98125'],
-                     employee_titles=['Specialist', 'Professor'],
-                     employee_depts=['UWIT', 'Psychology'],
+                     clazz=('Senior'), majors=('HCDE', 'Physics'),
+                     student_phone_number=('206-123-4567', '206-123-4568'),
+                     student_emails=('a@a',),
+                     employee_phone_number=('206-234-4567', '206-234-4568'),
+                     employee_address=('4333 Brooklyn Ave NE ' +
+                                       'Seattle WA 98125',),
+                     employee_titles=('Specialist', 'Professor'),
+                     employee_depts=('UWIT', 'Psychology'),
+                     employee_emails=('p@u', 'j@f'),
                      employee_publish='Y',  # 'Y', 'N', or 'E' (default 'Y')
                      student_publish='N',  # 'Y' or 'N', default 'Y
                      mailstop='359540', **kwargs):
@@ -44,11 +46,13 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                        majors=majors,
                        student_phone_number=student_phone_number,
                        student_publish=student_publish,
+                       student_emails=student_emails,
                        employee_phone_number=employee_phone_number,
                        employee_address=employee_address, mailstop=mailstop,
                        employee_titles=employee_titles,
                        employee_depts=employee_depts,
-                       employee_publish=employee_publish))
+                       employee_publish=employee_publish,
+                       employee_emails=employee_emails))
 
     irws_resources = {}
     identifier_urls = {}
@@ -127,6 +131,7 @@ def source_person(identifier, **kwargs):
             wp_address=kwargs['employee_address'],
             mailstop=kwargs['mailstop'],
             wp_title=kwargs['employee_titles'],
+            wp_email=kwargs['employee_emails'],
             wp_department=kwargs['employee_depts']
         )]}
     elif identifier == 'sdb':
@@ -139,6 +144,7 @@ def source_person(identifier, **kwargs):
             wp_title=kwargs.get('clazz'), wp_department=kwargs.get('majors'),
             wp_phone=kwargs['student_phone_number'],
             wp_publish=kwargs['student_publish'],
+            wp_email=kwargs['student_emails'],
             source_code='1', status_name='F', source_name='F'
         )]}
     else:

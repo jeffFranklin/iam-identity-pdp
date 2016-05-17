@@ -59,7 +59,7 @@ def test_profile():
         official_name='JOE',
         emails=['joe@example.com'],
         student=dict(official_name='JoE', phone_numbers=['1'], clazz='Junior',
-                     majors=['ART'], system_key='009123456',
+                     majors=['ART'],
                      emails=['j@jstudent.u'],
                      publish=False),
         employee=dict(official_name='jOe', phone_numbers=['2'],
