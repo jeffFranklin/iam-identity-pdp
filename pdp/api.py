@@ -2,7 +2,7 @@ import logging
 from django.http import HttpResponse
 import json
 from pdp.dao import IRWS
-from resttools.exceptions import InvalidIRWSName
+from resttools.exceptions import InvalidIRWSName, ResourceNotFound
 from pdp.util import full_name_from_object
 from pdp.dao import get_profile
 from idbase.api import RESTDispatch
@@ -64,10 +64,10 @@ class Publish(RESTDispatch):
             request.user.username))
 
         try:
-            person = IRWS().put_hr_person_by_netid(
+            person = IRWS().post_hr_person_by_netid(
                 request.user.netid,
                 wp_publish=publish_value)
-        except NotFoundError as nfe:
+        except ResourceNotFound as nfe:
             logger.info('failed attempt to post for non-employee {}'.format(
                 request.user.username))
             raise NotFoundError(nfe)

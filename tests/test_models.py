@@ -9,17 +9,13 @@ except ImportError:
 
 
 class FooModel(BaseModel):
-    def __init__(self, dct={}):
-        self.netid = None
-        self.sub_foo = None
-        self._specials = {'sub_foo': FooSubModel}
-        super(self.__class__, self).__init__(dct=dct)
+    netid = None
+    sub_foo = None
+    _specials = {'sub_foo': 'test_models.FooSubModel'}
 
 
 class FooSubModel(BaseModel):
-    def __init__(self, dct={}):
-        self.netid = None
-        super(self.__class__, self).__init__(dct=dct)
+    netid = None
 
 
 def test_base_model_no_dict():
@@ -29,18 +25,18 @@ def test_base_model_no_dict():
 
 
 def test_base_model_good_dict():
-    model = FooModel(dct=dict(netid='joe', sub_foo=dict(netid='blow')))
+    model = FooModel(netid='joe', sub_foo=dict(netid='blow'))
     assert model.netid == 'joe'
     assert model.sub_foo.netid == 'blow'
 
 
 def test_base_model_to_dict():
-    model = FooModel(dct=dict(netid='joe', sub_foo=dict(netid='blow')))
+    model = FooModel(netid='joe', sub_foo=dict(netid='blow'))
     assert model.to_dict() == {'netid': 'joe', 'sub_foo': {'netid': 'blow'}}
 
 
 def test_base_model_to_dict_no_sub():
-    model = FooModel(dct=dict(netid='joe'))
+    model = FooModel(netid='joe')
     assert model.to_dict() == {'netid': 'joe', 'sub_foo': None}
 
 
@@ -53,7 +49,7 @@ def test_base_model_to_dict_no_sub():
          'underscore sub attibute'])
 def test_base_model_bad_dict(dct):
     with raises(ValueError):
-        FooModel(dct=dct)
+        FooModel(**dct)
 
 
 def test_profile():
@@ -78,6 +74,6 @@ def test_profile():
                         dct_in['employee']['titles'],
                         dct_in['employee']['departments'],
                         fillvalue='-')]
-    dct_out = Profile(dct=dct_in).to_dict()
+    dct_out = Profile(**dct_in).to_dict()
     assert dct_in == dct_out
     assert dct_in is not dct_out
