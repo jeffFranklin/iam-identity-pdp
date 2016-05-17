@@ -77,10 +77,13 @@ def get_employee(identifiers):
         return None
 
     return EmployeeProfile(
+        official_name=' '.join(x for x in [employee.fname, employee.lname]
+                               if x),
         phone_numbers=employee.wp_phone,
         titles=employee.wp_title,
         departments=employee.wp_department,
         addresses=employee.wp_address,
+        emails=employee.wp_email,
         box=employee.mailstop,
         publish=employee.wp_publish,
         titledepts=[', '.join(pair) for pair in izip_longest(
@@ -102,7 +105,9 @@ def get_student(identifiers):
     if student.status_code != '1':
         return None
     return StudentProfile(
+        official_name=' '.join(x for x in [student.fname, student.lname] if x),
         clazz=''.join(student.wp_title),  # expect one value only
+        emails=student.wp_email,
         phone_numbers=student.wp_phone,
         majors=student.wp_department,
         publish=(False if student.wp_publish == 'N' else True)

@@ -61,7 +61,6 @@ class PreferredNameParts(BaseModel):
 
 
 class StudentProfile(BaseModel):
-    system_key = None
     official_name = None
     phone_numbers = []
     clazz = None
