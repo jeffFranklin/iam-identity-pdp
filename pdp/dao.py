@@ -25,11 +25,11 @@ def get_profile(netid):
     profile.employee = get_employee(person.identifiers)
     profile.student = get_student(person.identifiers)
     name = get_name(netid)
-    profile.preferred = PreferredNameParts(dct=dict(
+    profile.preferred = PreferredNameParts(
         full=name.display_cname,
         first=name.display_fname,
         middle=name.display_mname,
-        last=name.display_lname))
+        last=name.display_lname)
     profile.official_name = name.formal_cname
     profile.preferred_name = name.display_cname
     return profile
@@ -76,7 +76,7 @@ def get_employee(identifiers):
     if employee.status_code != '1':
         return None
 
-    return EmployeeProfile(dct=dict(
+    return EmployeeProfile(
         phone_numbers=employee.wp_phone,
         titles=employee.wp_title,
         departments=employee.wp_department,
@@ -87,8 +87,7 @@ def get_employee(identifiers):
                 employee.wp_title,
                 employee.wp_department,
                 fillvalue='-')]
-
-        ))
+        )
 
 
 def get_student(identifiers):
@@ -102,9 +101,9 @@ def get_student(identifiers):
     student = IRWS().get_sdb_person(sid=system_key)
     if student.status_code != '1':
         return None
-    return StudentProfile(dct=dict(
+    return StudentProfile(
         clazz=''.join(student.wp_title),  # expect one value only
         phone_numbers=student.wp_phone,
         majors=student.wp_department,
         publish=(False if student.wp_publish == 'N' else True)
-    ))
+    )
