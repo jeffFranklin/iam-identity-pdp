@@ -24,17 +24,18 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                      display=dict(first='Jane', middle='X', last='Doe'),
                      identifiers=('hepps', 'sdb'), system_key='123456789',
                      email='jane.doe@uw.edu', sms=None, pac='123456',
-                     clazz=('Senior'), majors=('HCDE', 'Physics'),
+                     clazz=('Senior', 'Senior'), majors=('HCDE', 'Physics'),
                      student_phone_number=('206-123-4567', '206-123-4568'),
-                     student_emails=('a@a',),
+                     student_emails=('janey@example.com',),
                      employee_phone_number=('206-234-4567', '206-234-4568'),
                      employee_address=('4333 Brooklyn Ave NE ' +
                                        'Seattle WA 98125',),
                      employee_titles=('Specialist', 'Professor'),
                      employee_depts=('UWIT', 'Psychology'),
-                     employee_emails=('p@u', 'j@f'),
+                     employee_emails=('jane@example.edu',
+                                      'jane-test@example.com'),
                      employee_publish='Y',  # 'Y', 'N', or 'E' (default 'Y')
-                     student_publish='N',  # 'Y' or 'N', default 'Y
+                     student_publish='Y',  # 'Y' or 'N', default 'Y
                      mailstop='359540', **kwargs):
 
     """Return mocks of the resources needed for a given netid."""

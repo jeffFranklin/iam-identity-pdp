@@ -118,3 +118,20 @@ app.controller('SplashModalCtrl', ['modalService', '$cookies', function(modalSer
         modalService.showModal('#splashModal');
     }
 }]);
+
+
+// This should ultimately replace the tooltip in idbase.
+// Usage: <uw-tooltip>Tooltip description goes here</uw-tooltip>
+app.directive('uwTooltip', ['$log', function($log){
+    return {
+        restrict: 'E',
+        link: function(scope, element, attrs){
+            $log.info('tooltip set?');
+            $(element).children().tooltip();
+        },
+        template: function(element){
+            return  $('<a href="" data-toggle="tooltip"><i class="fa fa-question-circle fa-lg icon-look" data-toggle="tooltip" /></a>')
+                .attr('title', $(element).text());
+        }
+    };
+}]);

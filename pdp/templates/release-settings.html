@@ -1,48 +1,85 @@
 {% verbatim %}
-<div ng-if="!profile.isSettingPublish && profile.data.employee">
-    <p ng-show="profile.data.employee.publish == 'N'">You are not searchable in
-        the UW directory. Nobody can find your contact information.</p>
-    <div ng-show="profile.data.employee.publish != 'N'">
-        <p class="bold app-detail-header">The following employee information
-            will be viewable by anyone:</p>
-        <ul class="data-list">
-            <li>{{ profile.data.official_name }}</li>  <!-- TODO: Use the correct name here -->
-            <li>UW NetID: {{ profile.data.netid }}</li>
-            <li ng-show="profile.data.employee.publish == 'Y'"
-                ng-repeat="email in profile.data.employee.emails track by $index">{{ email }}</li>
-            <li ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</li>
-            <li ng-repeat="titledept in profile.data.employee.titledepts track by $index">{{ titledept }}</li>
-            <li ng-repeat="address in profile.data.employee.addresses track by $index">{{ address }}</li>
-            <li ng-show="profile.data.employee.box">Box {{ profile.data.employee.box}}</li>
-        </ul>
-    </div>
-    <button class="btn btn-default btn-xs" type="button"
-            ng-click="profile.showPublishScreen()">Change settings
-    </button>
 
-</div>
-    <div ng-show="profile.isSettingPublish" class="publish-directory">
-        <label class="radio-inline"><input type="radio" name="employeepublish" value="N" ng-model="profile.employeePublishValue">Unlisted:</label>
-            <p>You are not searchable in the UW directory. Nobody can find your contact information.</p>
-        <label class="radio-inline"><input type="radio" name="employeepublish" value="Y" ng-model="profile.employeePublishValue">Listed with email address:</label>
-            <p>This listing will display the following:</p>
-            <ul>
-                <li>Tina Johnson</li>
-                <li>UW NetID: tjohn1234</li>
-                <li>tjohnson1234@uw.edu</li>
-                <li>(206)123-2222</li>
-                <li>Teaching Assistant, Sociology</li>
-                <li>107 NE 45th St. #505 Seattle, WA 98105</li>
-            </ul>
-        <label class="radio-inline"><input type="radio" name="employeepublish" value="E" ng-model="profile.employeePublishValue">Listed without email address:</label>
-            <p>This listing option will display the following:</p>
-            <ul>
-                <li>Tina Johnson</li>
-                <li>UW NetID: tjohn1234</li>
-                <li>(206)123-2222</li>
-                <li>Teaching Assistant, Sociology</li>
-                <li>107 NE 45th St. #505 Seattle, WA 98105</li>
-            </ul>
-        <button class="btn btn-default btn-xs" type="button" ng-click="profile.putPublish()">Save Changes</button>
+<div ng-show="profile.data.employee || profile.data.student" class="row">
+    <div class="col-md-7">
+       <h2 class="profile-h2">Information Sharing Settings</h2>
+
+       <div class="panel panel-default add-top-space">
+           <div class="panel-heading">
+               <h3 class="panel-title profile-h3">UW Directory</h3>
+               <p>The <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory</a> will show the following:</p>
+           </div>
+           <ul class="list-group">
+               <li ng-show="profile.data.employee" class="list-group-item">
+                   <!-- Employee publishing info -->
+                   <div ng-if="!profile.isSettingPublish && profile.data.employee">
+                        <p ng-show="profile.data.employee.publish == 'N'">You are not searchable in
+                            the UW directory. Nobody can find your contact information.</p>
+                        <div ng-show="profile.data.employee.publish != 'N'">
+                            <p class="bold app-detail-header">The following employee information
+                                will be viewable by anyone:</p>
+                            <ul class="data-list">
+                                <li>{{ profile.data.official_name }}</li>  <!-- TODO: Use the correct name here -->
+                                <li>UWNetID: {{ profile.data.netid }}</li>
+                                <li ng-show="profile.data.employee.publish == 'Y'"
+                                    ng-repeat="email in profile.data.employee.emails track by $index">{{ email }}</li>
+                                <li ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</li>
+                                <li ng-repeat="titledept in profile.data.employee.titledepts track by $index">{{ titledept }}</li>
+                                <li ng-repeat="address in profile.data.employee.addresses track by $index">{{ address }}</li>
+                                <li ng-show="profile.data.employee.box">Box {{ profile.data.employee.box}}</li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-default btn-xs" type="button"
+                                ng-click="profile.showPublishScreen()">Change settings
+                        </button>
+                   </div>
+                   <!-- Change employee publishing setting -->
+                   <div ng-show="profile.isSettingPublish">
+                        <h3>Change your publishing preference to:</h3>
+                        <ul class="publish-radio">
+                            <li><label class="radio-inline"><input type="radio" name="employeepublish" value="N" ng-model="profile.employeePublishValue">Unlisted</label></li>
+                            <li><label class="radio-inline"><input type="radio" name="employeepublish" value="Y" ng-model="profile.employeePublishValue">
+                                Listed with email address</label></li>
+                            <li><label class="radio-inline"><input type="radio" name="employeepublish" value="E" ng-model="profile.employeePublishValue">
+                                Listed without email address</label></li>
+                        </ul>
+                        <div ng-show="profile.employeePublishValue == 'N'">
+                            <p>You will not be searchable in the UW directory. Nobody can find your contact
+                            information.</p>
+                        </div>
+                        <div ng-show="profile.employeePublishValue != 'N'">
+                            <p>This listing will display the following:</p>
+                            <ul class="data-list">
+                                <li>{{ profile.data.official_name }}</li>  <!-- TODO: Use the correct name here -->
+                                <li>UWNetID: {{ profile.data.netid }}</li>
+                                <li ng-show="profile.employeePublishValue == 'Y'"
+                                    ng-repeat="email in profile.data.employee.emails track by $index">{{ email }}</li>
+                                <li ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</li>
+                                <li ng-repeat="titledept in profile.data.employee.titledepts track by $index">{{ titledept }}</li>
+                                <li ng-repeat="address in profile.data.employee.addresses track by $index">{{ address }}</li>
+                                <li ng-show="profile.data.employee.box">Box {{ profile.data.employee.box}}</li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-default btn-xs" type="button"
+                                ng-click="profile.putPublish()">Save Changes
+                        </button>
+                   </div>
+               </li>
+               <li ng-show="profile.data.student" class="list-group-item">
+                   <!-- Student directory info -->
+                   <p class="bold app-detail-header">The following student information will be viewable by UW NetID owners:</p>
+                   <p ng-show="!profile.data.student.publish">Not publisht</p>
+                   <ul ng-show="profile.data.student.publish" class="data-list">
+                       <li>{{ profile.data.official_name }}</li>  <!-- TODO: Use the correct name here -->
+                       <li>UWNetID: {{ profile.data.netid }}</li>
+                       <li ng-repeat="email in profile.data.student.emails track by $index">{{ email }}</li>
+                       <li ng-repeat="phone in profile.data.student.phone_numbers track by $index">{{ phone }}</li>
+                       <li ng-repeat="classMajor in profile.data.student.class_majors track by $index">{{ classMajor }}</li>
+                   </ul>
+                   <p><a href="https://sdb.admin.uw.edu/students/uwnetid/address.asp" target="_blank">Change the Directory release settings on the Student Personal Services</a>. Changes will take up to 1-2 business days to be effective.</p>
+               </li>
+           </ul>
+       </div>
     </div>
+</div>
 {% endverbatim %}
