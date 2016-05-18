@@ -109,7 +109,28 @@
         <!-- opt2: UC1 - s1. View - Set PN -->
         {% endverbatim %}
         {% include "release-settings.html" %}
+        {% verbatim %}
+
+        <!-- Admin section -->
+        <div ng-if="profile.isAdmin" class="row">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input type="text" class="form-control"
+                           ng-model="profile.impersonateNetid"
+                           placeholder="Admin impersonate netid...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default"
+                                ng-click="profile.impersonate(profile.impersonateNetid)"
+                                type="button">Go!</button>
+                    </span>
+                </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <div ng-show="profile.impersonationNetid" class="alert alert-danger" role="alert">
+                Impersonating UWNetID "{{ profile.impersonationNetid }}"
+            </div>
+        </div>
     </div>
+    {% endverbatim %}
 {% endblock %}
 
 {% load static %}

@@ -1,7 +1,7 @@
 import logging
 from django.http import HttpResponse
 import json
-from pdp.dao import IRWS
+from pdp.dao import IRWS, GWS
 from resttools.exceptions import InvalidIRWSName, ResourceNotFound
 from pdp.util import full_name_from_object
 from pdp.dao import get_profile
@@ -14,10 +14,11 @@ logger = logging.getLogger(__name__)
 
 class Profile(RESTDispatch):
 
-    def GET(self, request):
+    def GET(self, request, netid=None):
+        netid = verify_netid(request, netid=netid)
         logger.debug(
-            'getting profile for {}'.format(request.user.get_username()))
-        return get_profile(request.user.netid).to_dict()
+            'getting profile for {}'.format(netid))
+        return get_profile(netid).to_dict()
 
 
 class Name(RESTDispatch):
@@ -55,8 +56,7 @@ class Publish(RESTDispatch):
         Set the publish value for the given netid according to the query
         parameter in 'value'. Return the new publish flag.
         """
-        if netid != request.user.netid:
-            raise InvalidSessionError()
+        netid = verify_netid(request, netid=netid)
         publish_value = request.GET.get('value', '')
         if publish_value not in ('Y', 'N', 'E'):
             raise BadRequestError()
@@ -65,7 +65,7 @@ class Publish(RESTDispatch):
 
         try:
             person = IRWS().post_hr_person_by_netid(
-                request.user.netid,
+                netid,
                 wp_publish=publish_value)
         except ResourceNotFound as nfe:
             logger.info('failed attempt to post for non-employee {}'.format(
@@ -73,3 +73,18 @@ class Publish(RESTDispatch):
             raise NotFoundError(nfe)
 
         return {'publish': person.wp_publish}
+
+
+def verify_netid(request, netid=None):
+    """
+    Check that the netid coming in from an API request is that of the logged in
+    user or that the logged in user has the authority to impersonate
+    the netid. Return the netid if so, otherwise raise InvalidSessionError.
+    """
+    if not netid or netid == request.user.netid:
+        return request.user.netid
+    elif netid and GWS().is_profile_admin(netid=request.user.netid):
+        logger.info('Impersonation of netid {} by {}'.format(
+            netid, request.user.netid))
+        return netid
+    raise InvalidSessionError()

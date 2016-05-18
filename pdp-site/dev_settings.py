@@ -9,7 +9,7 @@ TEMPLATE_DEBUG = False
 ALLOWED_HOSTS = ['*']
 COMPRESS_ENABLED = True
 
-RESTCLIENTS_IRWS_DAO_CLASS = 'restclients.dao_implementation.irws.Live'
+RESTCLIENTS_RUN_MODE = 'Live'
 # RESTCLIENTS_IRWS_HOST = 'https://mango-dev.u.washington.edu:646'
 # RESTCLIENTS_IRWS_SERVICE_NAME = 'registry-dev'
 RESTCLIENTS_IRWS_HOST = 'https://mango-eval.u.washington.edu:646'

@@ -30,9 +30,15 @@ function ProfileService(apiService) {
     var profile = {getting: false, data: {}};
     var getProfile = function(netid) {
         profile.getting = true;
-        apiService.get(profileUrl)
+        return apiService.get(profileUrl + netid)
             .then(function(response){
-                for (var key in response.data){ profile.data[key] = response.data[key];}})
+                if (response.status == 200) {
+                    for (var key in response.data) {
+                        profile.data[key] = response.data[key];
+                    }
+                }
+                return profile.data;
+            })
             .finally(function(){ profile.getting = false;});};
     var putEmployeePublish = function(netid, publishValue){
         return apiService.put(publishUrl + netid + '?value=' + publishValue).then(function(response){
@@ -47,12 +53,18 @@ function ProfileService(apiService) {
 
 app.factory('profileService', ['apiService', ProfileService]);
 
-app.controller('ProfileCtrl', ['profileService', 'loginStatus', function(profileService, loginStatus){
+app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', function(profileService, loginStatus, $log){
     var _this = this;
     this.netid = null;
+    this.isAdmin = null;  // set to true or false when we get it.
     loginStatus.getNetid().then(function(netid){
         _this.netid = netid;  /* null on error */
-        if(netid){profileService.getProfile(netid);}
+        if(netid){
+            profileService.getProfile(netid).then(function(profile){
+                if (_this.isAdmin == null) _this.isAdmin = profile.is_profile_admin;
+                $log.info('admin mode available')
+            });
+        }
     });
     this.data = profileService.profile.data;
     this.clearNameChange = function(){
@@ -91,6 +103,16 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', function(profile
         _this.data.preferred = data;
         _this.data.preferred_name = data.full;
     };
+
+    this.impersonate = function(netid){
+        profileService.getProfile(netid || '').then(function(profile){
+            if(!netid || netid == _this.netid){
+                _this.impersonationNetid = null;
+            }
+            else { _this.impersonationNetid = netid;}
+        })
+
+    }
 }]);
 
 app.factory('modalService', [function(){
