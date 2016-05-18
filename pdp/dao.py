@@ -1,5 +1,5 @@
 from pdp.models import (Profile, PreferredNameParts,
-                        StudentProfile, EmployeeProfile)
+                        StudentProfile, EmployeeProfile, PDSProfile)
 from django.conf import settings
 from resttools.irws import IRWS as RestToolsIRWS
 from idbase.exceptions import ServiceError
@@ -36,6 +36,7 @@ def get_profile(netid):
         last=name.display_lname)
     profile.official_name = name.formal_cname
     profile.preferred_name = name.display_cname
+    profile.pds = get_pdsentry(netid=netid)
     return profile
 
 
@@ -116,3 +117,13 @@ def get_student(identifiers):
             student.wp_title, student.wp_department, fillvalue='-')],
         publish=(False if student.wp_publish == 'N' else True)
     )
+
+def get_pdsentry(netid):
+    pdsentry = IRWS().get_pdsentry_by_netid(netid=netid)
+    # make sure this is a natural person
+    if 'uwPerson' in pdsentry.objectclass:
+        return PDSProfile(
+            pdspreferredname=pdsentry.preferredname
+        )
+    else:
+        raise ServiceError('not a natural person (e.g. shared account)')

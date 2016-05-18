@@ -36,7 +36,9 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                                       'jane-test@example.com'),
                      employee_publish='Y',  # 'Y', 'N', or 'E' (default 'Y')
                      student_publish='Y',  # 'Y' or 'N', default 'Y
-                     mailstop='359540', **kwargs):
+                     mailstop='359540', pdspreferredname='Jane PDS Doe',
+                     pdsobjectclass=('uwPerson'),
+                     **kwargs):
 
     """Return mocks of the resources needed for a given netid."""
     kwargs.update(dict(netid=netid, irws_root=irws_root,
@@ -53,7 +55,9 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                        employee_titles=employee_titles,
                        employee_depts=employee_depts,
                        employee_publish=employee_publish,
-                       employee_emails=employee_emails))
+                       employee_emails=employee_emails,
+                       pdspreferredname=pdspreferredname,
+                       pdsobjectclass=pdsobjectclass))
 
     irws_resources = {}
     identifier_urls = {}
@@ -98,6 +102,14 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
             "profile": [{
                 "recover_contacts": recover_contacts,
                 "recover_block_reasons": []}
+            ]},
+        '{irws_root}/pdsentry/validid=uwnetid={netid}': {
+            "pdsentry": [{
+                "entry": {
+                    "uwPersonPreferredName": pdspreferredname,
+                    "objectClass": [pdsobjectclass]
+                }
+            }
             ]}
     })
 

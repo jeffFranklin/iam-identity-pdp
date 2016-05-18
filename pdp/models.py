@@ -42,7 +42,8 @@ class Profile(BaseModel):
     _specials = {
         'student': 'pdp.models.StudentProfile',
         'employee': 'pdp.models.EmployeeProfile',
-        'preferred': 'pdp.models.PreferredNameParts'
+        'preferred': 'pdp.models.PreferredNameParts',
+        'pds': 'pdp.models.PDSProfile'
     }
     netid = None
     official_name = None
@@ -78,3 +79,8 @@ class EmployeeProfile(BaseModel):
     box = None
     titledepts = []  # Title and Department join
     publish = 'Y'
+
+
+class PDSProfile(BaseModel):
+    pdspreferredname = ''
+    pdsobjectclass = []
