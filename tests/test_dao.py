@@ -80,9 +80,8 @@ def test_profile_unset_defaults(irws_cache):
         employee_phone_number=[], employee_emails=[], student_emails=[]
     ))
     profile = get_profile('empstu')
-    assert profile.student.clazz == ''
     assert profile.student.emails == []
-    assert profile.student.majors == []
+    assert profile.student.class_majors == []
     assert profile.student.phone_numbers == []
     assert profile.employee.emails == []
     assert profile.employee.phone_numbers == []
@@ -137,15 +136,16 @@ def test_get_student(irws_cache):
     student = mock_irws_person(
         'stu', irws_root=irws_root, identifiers=['sdb'],
         sdb_update=dict(
-            fname='J', lname='F', wp_title='Fresh', wp_phone=['567', '890'],
+            fname='J', lname='F', wp_title=['Fresh'], wp_phone=['567', '890'],
             wp_department=['Gen', 'Stu'], wp_publish='N',
             wp_email=['e@f', 'g@h']))
     irws_cache.update(student)
     sdb_uri = next(uri for uri in student if '/person/sdb/' in uri)
     student_profile = get_student({'sdb': sdb_uri})
     assert student_profile.to_dict() == dict(
-        official_name=u'J F', phone_numbers=[u'567', u'890'], clazz=u'Fresh',
-        majors=[u'Gen', u'Stu'], emails=[u'e@f', u'g@h'], publish=False)
+        official_name=u'J F', phone_numbers=[u'567', u'890'],
+        class_majors=[u'Fresh, Gen', u'-, Stu'],
+        emails=[u'e@f', u'g@h'], publish=False)
 
 
 def test_get_student_not_student(irws_cache):

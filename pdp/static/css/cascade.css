@@ -77,9 +77,6 @@ ul.data-list {
 	padding-bottom: 15px;
 }
 
-ul.data-list > li {
-	font-size: 12px;
-}
 /* Tweak buttons style */
 
 #edit-pn-btn {
@@ -128,46 +125,15 @@ ul.data-list > li {
 }
 
 
-
-
-/* .modal-body h1 {
-    padding-top: 20px;
-} 
-
-.btn-start {
-    margin-top: 30px;
-    background-color: #fff;
-    color: #000;
-    border-color: none;
-}
-
-.employee-btn {
-    margin-top: 20px;
-    background-color: #fff;
-    color: #000;
-    border-color: none;
-}
-
-.bold-text { DUPE!
-    font-weight: bold;
-} 
-*/
-
-
-.row input[type=radio] {
+.publish-radio input[type=radio] {
     height: 4px;
 }
 
-.radio-inline {
-    font-weight: bold;
+.publish-radio {
+	list-style-type: none;
+	padding-left: 0;
 }
 
-
-.publish-directory {
-    padding-left: 20px;
-}
-
-label.radio-inline {
-    padding-top: 0px;
-    padding-bottom: 0px;
+.publish-radio label {
+	font-weight: bold;
 }

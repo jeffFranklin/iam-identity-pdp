@@ -24,6 +24,10 @@ def get_profile(netid):
 
     profile.employee = get_employee(person.identifiers)
     profile.student = get_student(person.identifiers)
+    # cast to set() to get unique emails
+    profile.emails = list(set(
+        (profile.employee.emails if profile.employee else []) +
+        (profile.student.emails if profile.student else [])))
     name = get_name(netid)
     profile.preferred = PreferredNameParts(
         full=name.display_cname,
@@ -106,9 +110,9 @@ def get_student(identifiers):
         return None
     return StudentProfile(
         official_name=' '.join(x for x in [student.fname, student.lname] if x),
-        clazz=''.join(student.wp_title),  # expect one value only
         emails=student.wp_email,
         phone_numbers=student.wp_phone,
-        majors=student.wp_department,
+        class_majors=[', '.join(pair) for pair in izip_longest(
+            student.wp_title, student.wp_department, fillvalue='-')],
         publish=(False if student.wp_publish == 'N' else True)
     )

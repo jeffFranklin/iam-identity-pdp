@@ -63,8 +63,7 @@ class PreferredNameParts(BaseModel):
 class StudentProfile(BaseModel):
     official_name = None
     phone_numbers = []
-    clazz = None
-    majors = []
+    class_majors = []  # A join of year list and majors list
     emails = []
     publish = True  # True/False, default true
 

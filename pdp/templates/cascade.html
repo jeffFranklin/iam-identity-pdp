@@ -9,43 +9,37 @@
            <h1>Profile information</h1>
         </div><!-- end new H1 -->
 
+        <!-- First time visitor modal -->
+        <div class="modal fade bs-modal-sm" id="splashModal" tabindex="-1" role="dialog"
+             ng-controller="SplashModalCtrl as splash"
+             aria-labelledby="modalTitle">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" id="expired_message">
+                       <button type="button" id="modal-exit" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                            <h1 class="welcome">Welcome to Identity.uw!</h1>
+                            <p>At Identity.uw you can:</p>
 
-            <div class="modal fade bs-modal-sm" id="splashModal" tabindex="-1" role="dialog"
-                 ng-controller="SplashModalCtrl as splash"
-                 aria-labelledby="modalTitle">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body" id="expired_message">
-                           <button type="button" id="modal-exit" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                                <h1 class="welcome">Welcome to Identity.uw!</h1>
-                                <p>At Identity.uw you can:</p>
-                             
-                                <ul>
-                                    <li>Set your preferred name to replace your legal name on the <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory</a>.</li>
-                                    <li>Change your information sharing settings.</li>
-                                    <li>Set your recovery settings.</li>
-                                </ul>
-                                <div class="center">
-                                    <button type="button" data-dismiss="modal" class="btn btn-primary bigbtn"
-                                            ng-click="splash.setProfileVisit()">Let's get started!</button></div>
-                        </div>
-                        <!-- /.modal-body -->
+                            <ul>
+                                <li>Set your preferred name to replace your legal name on the <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory</a>.</li>
+                                <li>Change your information sharing settings.</li>
+                                <li>Set your recovery settings.</li>
+                            </ul>
+                            <div class="center">
+                                <button type="button" data-dismiss="modal" class="btn btn-primary bigbtn"
+                                        ng-click="splash.setProfileVisit()">Let's get started!</button></div>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal -->
+        </div>
 
-
-     <div class="row">
-       <div class="col-md-7">
+        <!-- General Profile section - viewable by all -->
+        <div class="row"><div class="col-md-7">
            <h2 class="profile-h2 sr-only">Profile Information</h2>
            <div class="panel panel-default add-top-space">
                 <ul class="list-group">
                     <li class="list-group-item">
-                        
                         {% endverbatim %}
                         {% include "profile-name.html" %}
                         {% verbatim %}
@@ -61,97 +55,61 @@
                     </li>
                 </ul>
             </div>
-        </div>
-      </div>
+        </div></div>
 
-     <div class="row" ng-show="profile.data.student">
-       <div class="col-md-7">
+        <!-- Student section viewable only by current students. -->
+        <div class="row" ng-show="profile.data.student"><div class="col-md-7">
            <div class="panel panel-default add-top-space">
                <div class="panel-heading">
                     <h3 class="panel-title profile-h3">Student Information</h3>
                         <p class="data-source">Source: <a href="https://sdb.admin.uw.edu/students/uwnetid/address.asp" target="_blank">Student Personal Services</a></p>
                         <p><a href="https://www.washington.edu/students/reg/ferpa.html" target="_blank">Read FERPA</a> to learn about your privacy rights.</p>           
-                </div>
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <label class="profile-label">Phone Number</label><br>
-                    <p class="userinfo" ng-repeat="phone in profile.data.student.phone_numbers track by $index">{{ phone }}</p>
-                </li>
-                <li class="list-group-item">
-                    <label class="profile-label">Year, Major</label><br>
-                    <p class="userinfo" ng-repeat="major in profile.data.student.majors track by $index">{{ profile.data.student.clazz }}, {{ major }}</p>
-                </li>
-            </ul>
-        </div>
-       </div>
-     </div>
+               </div>
+               <ul class="list-group">
+                    <li class="list-group-item">
+                        <label class="profile-label">Phone Number</label><br>
+                        <p class="userinfo" ng-repeat="phone in profile.data.student.phone_numbers track by $index">{{ phone }}</p>
+                    </li>
+                    <li class="list-group-item">
+                        <label class="profile-label">Year, Major</label><br>
+                        <p class="userinfo" ng-repeat="classMajor in profile.data.student.class_majors track by $index">{{ classMajor }}</p>
+                    </li>
+               </ul>
+            </div>
+       </div></div>
 
-     <div class="row" ng-show="profile.data.employee">
-       <div class="col-md-7">
+        <!-- Employee section viewable only by current employees -->
+        <div class="row" ng-show="profile.data.employee"><div class="col-md-7">
            <div class="panel panel-default add-top-space">
                <div class="panel-heading">
-                    <h3 class="panel-title profile-h3">Employee Information</h3>
-                        <p class="data-source">Source: <a href="#">Employee Self-Service(ESS)</a></p>
-                    
+                   <h3 class="panel-title profile-h3">Employee Information</h3>
+                   <p class="data-source">Source: <a href="#">Employee Self-Service(ESS)</a></p>
                </div>
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <label class="profile-label">Phone Number</label><br>
-                    <p class="userinfo" ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</p>
-                </li>
-                <li class="list-group-item">
-                    <label class="profile-label">Box Number</label><br>
-                    <p class="userinfo">{{ profile.data.employee.box }}</p>
-                </li>
-                <li class="list-group-item">
-                    <label class="profile-label">Position</label><br>
-                    <p class="userinfo" ng-repeat="position in profile.data.employee.titledepts track by $index">{{ position }}</p>
-                </li>
-                <li class="list-group-item">
-                    <label class="profile-label">Campus Address</label><br>
-                    <p class="userinfo" ng-repeat="address in profile.data.employee.addresses track by $index">{{ address }}</p>
-                </li>
-            </ul>
-        </div>
-       </div>
-     </div>
-     
-     <!-- opt2: UC1 - s1. View - Set PN -->
-      <div class="row">
-       <div class="col-md-7">
-           <h2 class="profile-h2">Information Sharing Settings</h2>
-           
-           <div class="panel panel-default add-top-space">
-            <div class="panel-heading">
-                <h3 class="panel-title profile-h3">UW Directory</h3>
-                <p>The <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory</a> will show the following:</p>
-            </div>
-            {% endverbatim %}
-               {% include "release-settings.html" %}
-            {% verbatim %}
+               <ul class="list-group">
+                    <li class="list-group-item">
+                        <label class="profile-label">Phone Number</label><br>
+                        <p class="userinfo" ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</p>
+                    </li>
+                    <li class="list-group-item">
+                        <label class="profile-label">Box Number</label><br>
+                        <p class="userinfo">{{ profile.data.employee.box }}</p>
+                    </li>
+                    <li class="list-group-item">
+                        <label class="profile-label">Position</label><br>
+                        <p class="userinfo" ng-repeat="position in profile.data.employee.titledepts track by $index">{{ position }}</p>
+                    </li>
+                    <li class="list-group-item">
+                        <label class="profile-label">Campus Address</label><br>
+                        <p class="userinfo" ng-repeat="address in profile.data.employee.addresses track by $index">{{ address }}</p>
+                    </li>
+               </ul>
            </div>
-       </div>
+        </div></div>
 
-
-
-        <div class="row">
-           <div class="col-md-7">
-               <li class="list-group-item">
-
-                    <p class="bold app-deatail-header">In addition to the employee info above, following student information will be viewable by the UW NetID owners:</p>
-                    <ul class="data-list">
-                        <li>hipstergrad@yahoo.com</li>
-                        <li>(425) 333-4444</li>
-                        <li>Graduate, Sociology</li>
-                     </ul>
-                     <p><a href="https://sdb.admin.uw.edu/students/uwnetid/address.asp" target="_blank">Change the Directory release settings on the Student Personal Services</a>. Changes will take up to 1-2 business days to be effective.</p>
-                </li>
-
-           </div>
-        </div>
-
-        </div>
-    {% endverbatim %}
+        <!-- opt2: UC1 - s1. View - Set PN -->
+        {% endverbatim %}
+        {% include "release-settings.html" %}
+    </div>
 {% endblock %}
 
 {% load static %}
