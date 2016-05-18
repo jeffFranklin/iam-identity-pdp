@@ -137,3 +137,7 @@ ul.data-list {
 .publish-radio label {
 	font-weight: bold;
 }
+
+.input-group > input[type='text'] {
+	height: 43px;
+}
