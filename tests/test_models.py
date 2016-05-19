@@ -68,7 +68,8 @@ def test_profile():
                       publish='E',
                       ),
         preferred=dict(full='J O E', first='J', middle='O', last='E'),
-        is_profile_admin=False
+        is_profile_admin=False,
+        is_publish_hidden=False
     )
     dct_in['employee']['titledepts'] = [
                     ', '.join(pair) for pair in izip_longest(

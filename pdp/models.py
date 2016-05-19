@@ -52,6 +52,7 @@ class Profile(BaseModel):
     preferred_name = None
     preferred = None
     is_profile_admin = False
+    is_publish_hidden = False
 
 
 class PreferredNameParts(BaseModel):
