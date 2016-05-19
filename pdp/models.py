@@ -52,6 +52,7 @@ class Profile(BaseModel):
     employee = None
     preferred_name = None
     preferred = None
+    is_profile_admin = False
 
 
 class PreferredNameParts(BaseModel):

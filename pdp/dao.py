@@ -2,6 +2,7 @@ from pdp.models import (Profile, PreferredNameParts,
                         StudentProfile, EmployeeProfile, PDSProfile)
 from django.conf import settings
 from resttools.irws import IRWS as RestToolsIRWS
+from resttools.gws import GWS as RestToolsGWS
 from idbase.exceptions import ServiceError
 try:  # http://asq.googlecode.com/hg-history/1.0/asq/_portability.py
     # Python 2
@@ -13,7 +14,16 @@ except ImportError:
 
 class IRWS(RestToolsIRWS):
     def __init__(self):
-        super(self.__class__, self).__init__(settings.IRWS_CLIENT)
+        super(self.__class__, self).__init__(settings.IRWS_CONF)
+
+
+class GWS(RestToolsGWS):
+    def __init__(self):
+        super(self.__class__, self).__init__(settings.GWS_CONF)
+
+    def is_profile_admin(self, netid=None):
+        return netid and self.is_effective_member(
+            settings.PROFILE_IMPERSONATORS_GROUP, netid)
 
 
 def get_profile(netid):
@@ -37,6 +47,7 @@ def get_profile(netid):
     profile.official_name = name.formal_cname
     profile.preferred_name = name.display_cname
     profile.pds = get_pdsentry(netid=netid)
+    profile.is_profile_admin = GWS().is_profile_admin(netid)
     return profile
 
 

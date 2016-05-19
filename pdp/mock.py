@@ -1,5 +1,6 @@
 import json
-from resttools.dao_implementation.irws import File as RestToolsFile
+from resttools.dao_implementation.irws import File as IRWSFile
+from resttools.dao_implementation.gws import File as GWSFile
 
 
 def mock_irws_resources(conf={}):
@@ -9,8 +10,23 @@ def mock_irws_resources(conf={}):
     resources.update(mock_irws_person('user1e', display={}, **kwargs))
     resources.update(mock_irws_person('idtest55', display=dict(
         first='Dwight', middle='David', last='Adams')))
+    resources.update(mock_irws_person('student', identifiers=['sdb']))
+    resources.update(mock_irws_person('employee', identifiers=['hepps']))
+    resources.update(mock_irws_person('studemp',
+                                      identifiers=['sdb', 'hepps']))
+    resources.update(mock_irws_person('nothing', identifiers=['cascadia']))
 
-    RestToolsFile._cache_db.update(resources)
+    IRWSFile._cache_db.update(resources)
+
+
+def mock_gws_resources(admin_group='u_identity_profile_impersonators'):
+    # make user1e an admin and noone else.
+    gws_root = '/group_sws/v2'
+    effective_member = (
+        '{gws_root}/group/{group}/effective_member/{netid}'.format(
+            gws_root=gws_root, group=admin_group, netid='user1e'))
+    GWSFile._cache_db.update({
+        effective_member: '<gws class="gws" version="2"></gws>'})
 
 # we only receive one "clazz" from the registrar, so "clazz" should always
 # contain just one value in the list.  Modeled in rest of application as a
