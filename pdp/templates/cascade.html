@@ -112,8 +112,8 @@
         {% verbatim %}
 
         <!-- Admin section -->
-        <div ng-if="profile.isAdmin" class="row">
-            <div class="col-lg-6">
+        <div ng-if="profile.isAdmin">
+            <div class="row"><div class="col-lg-6">
                 <div class="input-group">
                     <input type="text" class="form-control"
                            ng-model="profile.impersonateNetid"
@@ -124,10 +124,12 @@
                                 type="button">Go!</button>
                     </span>
                 </div><!-- /input-group -->
-            </div><!-- /.col-lg-6 -->
-            <div ng-show="profile.impersonationNetid" class="alert alert-danger" role="alert">
-                Impersonating UWNetID "{{ profile.impersonationNetid }}"
-            </div>
+            </div></div>
+            <div class="row"><div class="col-lg-6">
+                <div ng-show="profile.impersonationNetid" class="alert alert-danger" role="alert">
+                    Impersonating UWNetID "{{ profile.impersonationNetid }}"
+                </div>
+            </div></div>
         </div>
     </div>
     {% endverbatim %}
