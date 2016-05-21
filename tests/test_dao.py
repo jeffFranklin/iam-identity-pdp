@@ -1,9 +1,11 @@
-from pdp.dao import get_profile, get_employee, get_student
+from pdp.dao import get_profile, get_employee, get_student, GWS
 from pytest import fixture, raises
 from idbase.exceptions import ServiceError
 from mock import MagicMock
 from pdp.mock import mock_irws_person, source_person
 import json
+from resttools.dao_implementation.irws import File as IRWSFile
+from resttools.dao_implementation.gws import File as GWSFile
 
 irws_root = '/registry-dev/v2'
 
@@ -51,6 +53,33 @@ def test_profile_student_only(irws_cache):
     profile = get_profile('student')
     assert profile.student
     assert not profile.employee
+
+
+def test_profile_profile_admin(irws, gws):
+    gws.is_profile_admin.return_value = False
+    profile = get_profile('jeff')
+    assert not profile.is_profile_admin
+
+    gws.is_profile_admin.return_value = True
+    profile = get_profile('jeff')
+    assert profile.is_profile_admin
+
+
+def test_profile_publish_hidden(irws, gws):
+    gws.is_publish_hidden.return_value = False
+    profile = get_profile('jeff')
+    assert not profile.is_publish_hidden
+
+    gws.is_publish_hidden.return_value = True
+    profile = get_profile('jeff')
+    assert profile.is_profile_admin
+
+
+@fixture
+def gws(monkeypatch):
+    client = MagicMock()
+    monkeypatch.setattr('pdp.dao.GWS', lambda: client)
+    return client
 
 
 @fixture
@@ -161,17 +190,53 @@ def test_get_student_not_active(irws_cache):
     assert not get_student({'sdb': sdb_uri})
 
 
+def test_gws_is_profile_admin(gws_cache, settings):
+    group = 'u_admins'
+    settings.PROFILE_IMPERSONATORS_GROUP = group
+    gws_cache.update(mock_effective_member(group, 'joe'))
+    assert GWS().is_profile_admin(netid='joe')
+    assert not GWS().is_profile_admin(netid='notjoe')
+    # test unset setting
+    delattr(settings, 'PROFILE_IMPERSONATORS_GROUP')
+    assert not GWS().is_profile_admin(netid='joe')
+
+
+def test_gws_is_publish_hidden(gws_cache, settings):
+    group = 'u_joe'
+    settings.PUBLISH_PREVIEWERS_GROUP = group
+    gws_cache.update(mock_effective_member(group, 'joe'))
+    assert not GWS().is_publish_hidden(netid='joe')
+    assert GWS().is_publish_hidden(netid='notjoe')
+    # test unset setting
+    delattr(settings, 'PUBLISH_PREVIEWERS_GROUP')
+    assert not GWS().is_publish_hidden(netid='joe')
+
+
+@fixture
+def gws_cache(request):
+    return mock_cache(request, GWSFile)
+
+
 @fixture
 def irws_cache(request):
+    return mock_cache(request, IRWSFile)
+
+
+def mock_cache(request, file_class):
     """
-    Mock irws cache. Use this if you want to mock a person by modifying
+    Mock a File.cache_db. Use this if you want to mock a person by modifying
     the file-based mock dao.
     """
-    from resttools.dao_implementation.irws import File
-    old_cache = File._cache_db
-    File._cache_db = {}
+    old_cache = file_class._cache_db
+    file_class._cache_db = {}
 
     def fin():
-        File._cache_db = old_cache
+        file_class._cache_db = old_cache
     request.addfinalizer(fin)
-    return File._cache_db
+    return file_class._cache_db
+
+
+def mock_effective_member(group, netid):
+    full_group = '/group_sws/v2/group/{}/effective_member/{}'.format(
+        group, netid)
+    return {full_group: 'unchecked payload'}

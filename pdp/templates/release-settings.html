@@ -29,9 +29,14 @@
                                 <li ng-show="profile.data.employee.box">Box {{ profile.data.employee.box}}</li>
                             </ul>
                         </div>
-                        <button class="btn btn-default btn-xs" type="button"
+                        <button ng-show="!profile.data.is_publish_hidden"
+                                class="btn btn-default btn-xs" type="button"
                                 ng-click="profile.showPublishScreen()">Change settings
                         </button>
+                        <div ng-show="profile.data.is_publish_hidden">
+                            <a href="https://prp.admin.uw.edu/ess/uwnetid/address.aspx" target="_blank">
+                                Want to change your directory settings? Go to Employee Self-Service.</a>
+                        </div>
                    </div>
                    <!-- Change employee publishing setting -->
                    <div ng-show="profile.isSettingPublish">

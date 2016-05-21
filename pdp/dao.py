@@ -22,8 +22,29 @@ class GWS(RestToolsGWS):
         super(self.__class__, self).__init__(settings.GWS_CONF)
 
     def is_profile_admin(self, netid=None):
-        return netid and self.is_effective_member(
-            settings.PROFILE_IMPERSONATORS_GROUP, netid)
+        """
+        Return whether a given netid can impersonate others for troubleshooting
+        purposes. Return False unless the netid is a member of group
+        pointed at by settings.PROFILE_IMPERSONATORS_GROUP. Absence of the
+        setting should always return False.
+        """
+        admin_group = getattr(settings, 'PROFILE_IMPERSONATORS_GROUP', None)
+
+        return (admin_group and
+                netid and
+                self.is_effective_member(admin_group, netid))
+
+    def is_publish_hidden(self, netid=None):
+        """
+        Return whether a given netid can't preview the publish update
+        interaction. Controlled by settings.PUBLISH_PREVIEWERS_GROUP, absence
+        of the setting deploys the feature to everyone, after which this
+        and the pieces that use it should come out.
+        """
+        preview_group = getattr(settings, 'PUBLISH_PREVIEWERS_GROUP', None)
+        return (preview_group and
+                netid and
+                not self.is_effective_member(preview_group, netid))
 
 
 def get_profile(netid):
@@ -46,7 +67,8 @@ def get_profile(netid):
         last=name.display_lname)
     profile.official_name = name.formal_cname
     profile.preferred_name = name.display_cname
-    profile.is_profile_admin = GWS().is_profile_admin(netid)
+    profile.is_profile_admin = GWS().is_profile_admin(netid=netid)
+    profile.is_publish_hidden = GWS().is_publish_hidden(netid=netid)
     return profile
 
 
