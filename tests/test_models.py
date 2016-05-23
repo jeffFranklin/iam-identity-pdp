@@ -68,6 +68,9 @@ def test_profile():
                       publish='E',
                       ),
         preferred=dict(full='J O E', first='J', middle='O', last='E'),
+        rollup_name=dict(full='Joe Roll', first='J',
+                         middle='Roll', last='E'
+                         ),
         is_profile_admin=False
     )
     dct_in['employee']['titledepts'] = [
