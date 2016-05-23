@@ -1,6 +1,6 @@
 {% verbatim %}
 <div ng-show="!profile.isSettingName">
-	<label class="profile-label">Preferred Name</label><br>
+    <p class="profile-label">Preferred Name</p><br>
     <button ng-show="profile.data.preferred_name" type="button" id="edit-pn-btn" class="btn btn-default btn-xs" ng-click="profile.showNameChange()">Edit</button>
     <p ng-show="!profile.data.preferred_name">Set your preferred name to replace your legal name in the <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory.</a><br>
     <button id="set-pn-btn"class="btn btn-primary btn-xs" type="button" ng-click="profile.showNameChange()">Set preferred name</button>
