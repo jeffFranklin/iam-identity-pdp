@@ -144,8 +144,6 @@ ul.data-list {
 	height: 43px;
 }
 
-label {
-    .hidden {
-        display: none;
-    }
+label .hidden {
+	display: none;
 }
