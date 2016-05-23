@@ -73,7 +73,8 @@
                <li ng-show="profile.data.student" class="list-group-item">
                    <!-- Student directory info -->
                    <h4 class="bold app-detail-header">The following student information will be viewable by UW NetID owners:</h4>
-                   <p ng-show="!profile.data.student.publish">Not publish</p>
+                   <p ng-show="!profile.data.student.publish">You are not searchable in
+                            the UW directory. Nobody can find your contact information.</p>
                    <ul ng-show="profile.data.student.publish" class="data-list">
                        <li>{{ profile.data.rollup_name }}</li>  <!-- TODO: Use the correct name here -->
                        <li>UW NetID: {{ profile.data.netid }}</li>
