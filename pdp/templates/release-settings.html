@@ -7,7 +7,7 @@
        <div class="panel panel-default add-top-space">
            <div class="panel-heading">
                <h3 class="panel-title profile-h3">UW Directory</h3>
-               <p>The <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory</a> will show the following:</p>
+               <p>The <a href="https://www.washington.edu/home/peopledir/" target="_blank" title="Go to the UW Directory">UW Directory</a> will show the following:</p>
            </div>
            <ul class="list-group">
                <li ng-show="profile.data.employee" class="list-group-item">
@@ -16,8 +16,8 @@
                         <p ng-show="profile.data.employee.publish == 'N'">You are not searchable in
                             the UW directory. Nobody can find your contact information.</p>
                         <div ng-show="profile.data.employee.publish != 'N'">
-                            <p class="bold app-detail-header">The following employee information
-                                will be viewable by anyone:</p>
+                            <h4 class="bold app-detail-header">The following employee information
+                                will be viewable by anyone:</h4>
                             <ul class="data-list">
                                 <li>{{ profile.data.official_name }}</li>  <!-- TODO: Use the correct name here -->
                                 <li>UW NetID: {{ profile.data.netid }}</li>
@@ -40,7 +40,7 @@
                    </div>
                    <!-- Change employee publishing setting -->
                    <div ng-show="profile.isSettingPublish">
-                        <h3>Change your publishing preference to:</h3>
+                        <h4>Change your publishing preference to:</h4>
                         <ul class="publish-radio">
                             <li><label class="radio-inline"><input type="radio" name="employeepublish" value="N" ng-model="profile.employeePublishValue">Unlisted</label></li>
                             <li><label class="radio-inline"><input type="radio" name="employeepublish" value="Y" ng-model="profile.employeePublishValue">
@@ -72,8 +72,8 @@
                </li>
                <li ng-show="profile.data.student" class="list-group-item">
                    <!-- Student directory info -->
-                   <p class="bold app-detail-header">The following student information will be viewable by UW NetID owners:</p>
-                   <p ng-show="!profile.data.student.publish">Not publisht</p>
+                   <h4 class="bold app-detail-header">The following student information will be viewable by UW NetID owners:</h4>
+                   <p ng-show="!profile.data.student.publish">Not publish</p>
                    <ul ng-show="profile.data.student.publish" class="data-list">
                        <li>{{ profile.data.rollup_name }}</li>  <!-- TODO: Use the correct name here -->
                        <li>UW NetID: {{ profile.data.netid }}</li>
@@ -81,7 +81,7 @@
                        <li ng-repeat="phone in profile.data.student.phone_numbers track by $index">{{ phone }}</li>
                        <li ng-repeat="classMajor in profile.data.student.class_majors track by $index">{{ classMajor }}</li>
                    </ul>
-                   <p><a href="https://sdb.admin.uw.edu/students/uwnetid/address.asp" target="_blank">Change the Directory release settings on the Student Personal Services</a>. Changes will take up to 1-2 business days to be effective.</p>
+                   <p><a href="https://sdb.admin.uw.edu/students/uwnetid/address.asp" target="_blank" title="Go to the Student Personal Services">Change the Directory release settings on the Student Personal Services</a>. Changes will take up to 1-2 business days to be effective.</p>
                </li>
            </ul>
        </div>
