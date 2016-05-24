@@ -69,11 +69,10 @@ def test_profile():
                       ),
         preferred=dict(full='J O E', first='J', middle='O', last='E'),
         is_profile_admin=False,
-        is_publish_hidden=False
+        is_publish_hidden=False,
         rollup_name=dict(full='Joe Roll', first='J',
                          middle='Roll', last='E'
                          ),
-        is_profile_admin=False
     )
     dct_in['employee']['titledepts'] = [
                     ', '.join(pair) for pair in izip_longest(
