@@ -60,6 +60,7 @@ def get_profile(netid):
         (profile.employee.emails if profile.employee else []) +
         (profile.student.emails if profile.student else [])))
     name = get_name(netid)
+    rollup_name = get_rollup_name(netid)
     profile.preferred = PreferredNameParts(
         full=name.display_cname,
         first=name.display_fname,
@@ -67,6 +68,7 @@ def get_profile(netid):
         last=name.display_lname)
     profile.official_name = name.formal_cname
     profile.preferred_name = name.display_cname
+    profile.rollup_name = rollup_name.display_cname
     profile.is_profile_admin = GWS().is_profile_admin(netid=netid)
     profile.is_publish_hidden = GWS().is_publish_hidden(netid=netid)
     return profile
@@ -88,6 +90,17 @@ def get_name(netid):
     ServiceError for all no-names.
     """
     name = IRWS().get_name_by_netid(netid)
+    if not name:
+        raise ServiceError('no name resource')
+    return name
+
+
+def get_rollup_name(netid):
+    """
+    Look up an irws rollup name by netid. All people should have a name.
+    Raise a ServiceError for all no-names.
+    """
+    name = IRWS().get_name_by_netid(netid, rollup=True)
     if not name:
         raise ServiceError('no name resource')
     return name

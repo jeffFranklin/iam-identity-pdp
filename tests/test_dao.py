@@ -17,9 +17,10 @@ def test_get_profile(irws):
 
 def test_profile_name(irws):
     profile = get_profile('jeff')
-    irws.get_name_by_netid.assert_called_once_with('jeff')
+    irws.get_name_by_netid.assert_called_with('jeff', rollup=True)
     assert profile.preferred_name == 'J O E'
     assert profile.official_name == 'JOE'
+    assert profile.rollup_name == 'J O E'
     assert profile.preferred.first == 'J'
     assert profile.preferred.middle == 'O'
     assert profile.preferred.last == 'E'

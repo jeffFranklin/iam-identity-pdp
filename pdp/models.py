@@ -51,6 +51,7 @@ class Profile(BaseModel):
     employee = None
     preferred_name = None
     preferred = None
+    rollup_name = None
     is_profile_admin = False
     is_publish_hidden = False
 

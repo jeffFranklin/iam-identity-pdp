@@ -42,6 +42,8 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                      birthdate='2001-01-01',
                      formal=dict(first='JANE', last='DOE'),
                      display=dict(first='Jane', middle='X', last='Doe'),
+                     # rollup is same as display but listed separate for tests
+                     rollup_name=dict(first='Jane', middle='roll', last='Doe'),
                      identifiers=('hepps', 'sdb'), system_key='123456789',
                      email='jane.doe@uw.edu', sms=None, pac='123456',
                      clazz=('Senior', 'Senior'), majors=('HCDE', 'Physics'),
@@ -56,12 +58,14 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                                       'jane-test@example.com'),
                      employee_publish='Y',  # 'Y', 'N', or 'E' (default 'Y')
                      student_publish='Y',  # 'Y' or 'N', default 'Y
-                     mailstop='359540', **kwargs):
+                     mailstop='359540',
+                     **kwargs):
 
     """Return mocks of the resources needed for a given netid."""
     kwargs.update(dict(netid=netid, irws_root=irws_root,
                        employee_id=employee_id, student_number=student_number,
                        birthdate=birthdate, formal=formal, display=display,
+                       rollup_name=rollup_name,
                        identifiers=identifiers, system_key=system_key,
                        email=email, sms=sms, pac=pac, clazz=clazz,
                        majors=majors,
@@ -73,7 +77,8 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                        employee_titles=employee_titles,
                        employee_depts=employee_depts,
                        employee_publish=employee_publish,
-                       employee_emails=employee_emails))
+                       employee_emails=employee_emails
+                       ))
 
     irws_resources = {}
     identifier_urls = {}
@@ -99,9 +104,7 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
         dict(type=ctype, value=value, validation_date='today')
         for ctype, value in (('email', email), ('sms', sms)) if value]
 
-    irws_resources.update({
-        '{irws_root}/person?uwnetid={netid}': irws_person,
-        '{irws_root}/name/uwnetid={netid}': {
+    name_info = {
             "name": [{
                 "validid": "0000deadbeef",
                 "formal_cname": '{first} {last}'.format(**formal),
@@ -113,7 +116,26 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                 'display_fname': display.get('first', ''),
                 'display_mname': display.get('middle', ''),
                 'display_sname': display.get('last', '')
-            }]},
+            }]}
+
+    rollup_name_info = {
+        "name": [{
+            "validid": "0000deadbeef",
+            "formal_cname": '{first} {last}'.format(**formal),
+            "formal_fname": formal['first'],
+            "formal_sname": formal['last'],
+            'display_cname': ' '.join(rollup_name.get(x, '')
+                                      for x in ('first', 'middle', 'last')
+                                      if rollup_name.get(x, '')),
+            'display_fname': rollup_name.get('first', ''),
+            'display_mname': rollup_name.get('middle', ''),
+            'display_sname': rollup_name.get('last', '')
+        }]}
+
+    irws_resources.update({
+        '{irws_root}/person?uwnetid={netid}': irws_person,
+        '{irws_root}/name/uwnetid={netid}': name_info,
+        '{irws_root}/name/uwnetid={netid}?-rollup': rollup_name_info,
         '{irws_root}/profile/validid=uwnetid={netid}': {
             "profile": [{
                 "recover_contacts": recover_contacts,

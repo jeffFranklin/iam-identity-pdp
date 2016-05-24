@@ -20,7 +20,7 @@
                                 will be viewable by anyone:</h4>
                             <ul class="data-list">
                                 <li>{{ profile.data.official_name }}</li>  <!-- TODO: Use the correct name here -->
-                                <li>UWNetID: {{ profile.data.netid }}</li>
+                                <li>UW NetID: {{ profile.data.netid }}</li>
                                 <li ng-show="profile.data.employee.publish == 'Y'"
                                     ng-repeat="email in profile.data.employee.emails track by $index">{{ email }}</li>
                                 <li ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</li>
@@ -56,7 +56,7 @@
                             <p>This listing will display the following:</p>
                             <ul class="data-list">
                                 <li>{{ profile.data.official_name }}</li>  <!-- TODO: Use the correct name here -->
-                                <li>UWNetID: {{ profile.data.netid }}</li>
+                                <li>UW NetID: {{ profile.data.netid }}</li>
                                 <li ng-show="profile.employeePublishValue == 'Y'"
                                     ng-repeat="email in profile.data.employee.emails track by $index">{{ email }}</li>
                                 <li ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</li>
@@ -75,7 +75,7 @@
                    <h4 class="bold app-detail-header">The following student information will be viewable by UW NetID owners:</h4>
                    <p ng-show="!profile.data.student.publish">Not publish</p>
                    <ul ng-show="profile.data.student.publish" class="data-list">
-                       <li>{{ profile.data.official_name }}</li>  <!-- TODO: Use the correct name here -->
+                       <li>{{ profile.data.rollup_name }}</li>  <!-- TODO: Use the correct name here -->
                        <li>UW NetID: {{ profile.data.netid }}</li>
                        <li ng-repeat="email in profile.data.student.emails track by $index">{{ email }}</li>
                        <li ng-repeat="phone in profile.data.student.phone_numbers track by $index">{{ phone }}</li>
