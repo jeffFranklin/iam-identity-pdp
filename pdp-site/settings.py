@@ -6,15 +6,8 @@ DEBUG = True
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
-
 SECRET_KEY = 'set-in-local_settings'
-
-TEMPLATE_DEBUG = True
-
 ALLOWED_HOSTS = []
-
-USER_SERVICE_NO_DEFAULT_USER = True
 
 # Application definition
 
@@ -69,9 +62,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db/db.sqlite3'),
     }
 }
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates'),
-)
 
 TEMPLATES = [
     {
@@ -173,8 +163,6 @@ RESTCLIENTS_CA_BUNDLE = '/data/local/etc/cacerts.cert'
 RESTCLIENTS_IRWS_MAX_POOL_SIZE = 10
 RESTCLIENTS_GWS_HOST = 'https://iam-ws.u.washington.edu:7443'
 RESTCLIENTS_GWS_SERVICE = 'gws'
-
-
 RESTCLIENTS_TIMEOUT = None
 try:
     from local_settings import *
