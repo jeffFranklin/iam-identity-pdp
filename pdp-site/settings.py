@@ -195,9 +195,3 @@ GWS_CONF = dict(HOST=RESTCLIENTS_GWS_HOST,
                 KEY_FILE=RESTCLIENTS_IRWS_KEY_FILE,
                 CA_FILE=RESTCLIENTS_CA_BUNDLE,
                 RUN_MODE=RESTCLIENTS_RUN_MODE)
-
-
-if RESTCLIENTS_RUN_MODE == 'File':
-    from pdp.mock import mock_irws_resources, mock_gws_resources
-    mock_irws_resources(conf=IRWS_CONF)
-    mock_gws_resources()

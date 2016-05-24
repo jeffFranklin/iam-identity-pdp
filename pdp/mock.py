@@ -1,10 +1,12 @@
 import json
 from resttools.dao_implementation.irws import File as IRWSFile
 from resttools.dao_implementation.gws import File as GWSFile
+from django.conf import settings
 
 
-def mock_irws_resources(conf={}):
-    kwargs = dict(irws_root='/{}/v2'.format(conf.get('SERVICE_NAME')))
+def mock_irws_resources():
+    kwargs = dict(irws_root='/{}/v2'.format(
+        settings.IRWS_CONF.get('SERVICE_NAME')))
 
     resources = {}
     resources.update(mock_irws_person('user1e', display={}, **kwargs))

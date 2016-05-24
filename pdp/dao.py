@@ -1,9 +1,11 @@
 from pdp.models import (Profile, PreferredNameParts,
                         StudentProfile, EmployeeProfile)
+from pdp.mock import mock_irws_resources, mock_gws_resources
 from django.conf import settings
 from resttools.irws import IRWS as RestToolsIRWS
 from resttools.gws import GWS as RestToolsGWS
 from idbase.exceptions import ServiceError
+import logging
 try:  # http://asq.googlecode.com/hg-history/1.0/asq/_portability.py
     # Python 2
     from itertools import izip_longest
@@ -11,14 +13,31 @@ except ImportError:
     # Python 3
     from itertools import zip_longest as izip_longest
 
+logger = logging.getLogger(__name__)
+
 
 class IRWS(RestToolsIRWS):
+
+    is_mock_set = False
+
     def __init__(self):
+        if (settings.IRWS_CONF.get('RUN_MODE', 'Live') == 'File' and
+                not IRWS.is_mock_set):
+            logger.info('setting mock data.')
+            mock_irws_resources()
+            IRWS.is_mock_set = True
         super(self.__class__, self).__init__(settings.IRWS_CONF)
 
 
 class GWS(RestToolsGWS):
+
+    is_mock_set = False
+
     def __init__(self):
+        if (settings.GWS_CONF.get('RUN_MODE', 'Live') == 'File' and
+                not GWS.is_mock_set):
+            mock_gws_resources()
+            GWS.is_mock_set = True
         super(self.__class__, self).__init__(settings.GWS_CONF)
 
     def is_profile_admin(self, netid=None):
