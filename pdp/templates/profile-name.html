@@ -1,6 +1,6 @@
 {% verbatim %}
 <div ng-show="!profile.isSettingName">
-    <p class="profile-label">Preferred Name</p><br>
+    <h3 class="profile-label">Preferred Name</h3><br>
     <button ng-show="profile.data.preferred_name" type="button" id="edit-pn-btn" class="btn btn-default btn-xs" ng-click="profile.showNameChange()">Edit</button>
     <p ng-show="!profile.data.preferred_name">Set your preferred name to replace your legal name in the <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory.</a><br>
     <button id="set-pn-btn"class="btn btn-primary btn-xs" type="button" ng-click="profile.showNameChange()">Set preferred name</button>
@@ -14,10 +14,10 @@
 
 <div ng-show="profile.isSettingName" ng-controller="NameCtrl as name"
         ng-model-options="{ allowInvalid: true }">
-    <h2 class="page-title">Set Preferred Name</h2>
+    <h3 class="page-title">Set Preferred Name</h3>
     <p>You can set a preferred name to be used in place of your
         legal name wherever possible. If you are listed in the
-        <a href="http://www.washington.edu/home/peopledir/" target="_blank">UW directory</a>,
+        <a href="http://www.washington.edu/home/peopledir/" target="_blank" title="Go to the UW Directory">UW directory</a>,
         your preferred name will be visible there immediately. There is a limit of
         80 characters for all three names.</p>
 
@@ -74,7 +74,7 @@
         </div>
 
         <div class="policy">
-            <h3 class="set-pn-h3">Terms & Conditions</h3>
+            <h4 class="set-pn-h3">Terms & Conditions</h4>
             <p>When you save your preferred name, you agree that:</p>
             <ul>
                 <li>You have not set a preferred name with an intent to impersonate someone else, to deceive, or
