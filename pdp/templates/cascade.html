@@ -51,7 +51,7 @@
                     </li>
                     <li class="list-group-item">
                         <h3 class="profile-label">UW Email</h3>
-                        <p class="userinfo" ng-repeat="email in profile.data.emails track by $index">{{ email }}</p>
+                        <p class="userinfo" ng-show="profile.data.emails.length" ng-repeat="email in profile.data.emails track by $index">{{ email }}</p>
                     </li>
                 </ul>
             </div>
