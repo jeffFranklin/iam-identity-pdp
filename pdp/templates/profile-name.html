@@ -12,7 +12,7 @@
     </div>
 </div>
 
-<div ng-show="profile.isSettingName" ng-controller="NameCtrl as name"
+<div ng-if="profile.isSettingName" ng-controller="NameCtrl as name"
         ng-model-options="{ allowInvalid: true }">
     <h3 class="page-title">Set Preferred Name</h3>
     <p>You can set a preferred name to be used in place of your

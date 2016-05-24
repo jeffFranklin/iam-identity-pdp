@@ -1,3 +1,8 @@
+"""
+Tests to make sure our APIs and Live backend APIs (IRWS) are working together
+correctly.  These are run by ansible/install.yml at the time we deploy
+to develop. Failure here will block a deploy to develop.
+"""
 from django.test import override_settings
 from django.conf import settings
 import simplejson as json
