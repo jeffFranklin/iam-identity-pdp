@@ -19,14 +19,18 @@ def mock_irws_resources(conf={}):
     IRWSFile._cache_db.update(resources)
 
 
-def mock_gws_resources(admin_group='u_identity_profile_impersonators'):
+def mock_gws_resources(
+        admin_group='u_identity_profile_impersonators',
+        publish_preview_group='u_identity_profile_publish-previewers'):
     # make user1e an admin and noone else.
+    groups = [admin_group, publish_preview_group]
     gws_root = '/group_sws/v2'
-    effective_member = (
+    netid = 'user1e'
+    effective_members = {
         '{gws_root}/group/{group}/effective_member/{netid}'.format(
-            gws_root=gws_root, group=admin_group, netid='user1e'))
-    GWSFile._cache_db.update({
-        effective_member: '<gws class="gws" version="2"></gws>'})
+            gws_root=gws_root, group=group, netid=netid): 'payload'
+        for group in groups}
+    GWSFile._cache_db.update(effective_members)
 
 # we only receive one "clazz" from the registrar, so "clazz" should always
 # contain just one value in the list.  Modeled in rest of application as a

@@ -15,10 +15,10 @@ logger = logging.getLogger(__name__)
 class Profile(RESTDispatch):
 
     def GET(self, request, netid=None):
-        netid = verify_netid(request, netid=netid)
+        verified_netid = verify_netid(request, netid=netid)
         logger.debug(
-            'getting profile for {}'.format(netid))
-        return get_profile(netid).to_dict()
+            'getting profile for {}'.format(verified_netid))
+        return get_profile(verified_netid).to_dict()
 
 
 class Name(RESTDispatch):
@@ -56,20 +56,20 @@ class Publish(RESTDispatch):
         Set the publish value for the given netid according to the query
         parameter in 'value'. Return the new publish flag.
         """
-        netid = verify_netid(request, netid=netid)
+        verified_netid = verify_netid(request, netid=netid)
         publish_value = request.GET.get('value', '')
         if publish_value not in ('Y', 'N', 'E'):
             raise BadRequestError()
         logger.info('publish api put for user {}'.format(
-            request.user.username))
+            verified_netid))
 
         try:
             person = IRWS().post_hr_person_by_netid(
-                netid,
+                verified_netid,
                 wp_publish=publish_value)
         except ResourceNotFound as nfe:
             logger.info('failed attempt to post for non-employee {}'.format(
-                request.user.username))
+                verified_netid))
             raise NotFoundError(nfe)
 
         return {'publish': person.wp_publish}
@@ -81,10 +81,15 @@ def verify_netid(request, netid=None):
     user or that the logged in user has the authority to impersonate
     the netid. Return the netid if so, otherwise raise InvalidSessionError.
     """
+    verified_netid = None
     if not netid or netid == request.user.netid:
-        return request.user.netid
-    elif netid and GWS().is_profile_admin(netid=request.user.netid):
-        logger.info('Impersonation of netid {} by {}'.format(
+        verified_netid = request.user.netid
+    elif GWS().is_profile_admin(netid=request.user.netid):
+        logger.info('IMPERSONATION of netid {} by {}'.format(
             netid, request.user.netid))
-        return netid
-    raise InvalidSessionError()
+        verified_netid = netid
+    if not verified_netid:
+        logger.error('FAILED IMPERSONATION of netid {} by {}'.format(
+            netid, request.user.netid))
+        raise InvalidSessionError()
+    return verified_netid

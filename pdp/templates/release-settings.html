@@ -19,7 +19,7 @@
                             <p class="bold app-detail-header">The following employee information
                                 will be viewable by anyone:</p>
                             <ul class="data-list">
-                                <li>{{ profile.data.rollup_name }}</li>  <!-- TODO: Use the correct name here -->
+                                <li>{{ profile.data.official_name }}</li>  <!-- TODO: Use the correct name here -->
                                 <li>UWNetID: {{ profile.data.netid }}</li>
                                 <li ng-show="profile.data.employee.publish == 'Y'"
                                     ng-repeat="email in profile.data.employee.emails track by $index">{{ email }}</li>
@@ -29,9 +29,14 @@
                                 <li ng-show="profile.data.employee.box">Box {{ profile.data.employee.box}}</li>
                             </ul>
                         </div>
-                        <button class="btn btn-default btn-xs" type="button"
+                        <button ng-show="!profile.data.is_publish_hidden"
+                                class="btn btn-default btn-xs" type="button"
                                 ng-click="profile.showPublishScreen()">Change settings
                         </button>
+                        <div ng-show="profile.data.is_publish_hidden">
+                            <a href="https://prp.admin.uw.edu/ess/uwnetid/address.aspx" target="_blank">
+                                Want to change your directory settings? Go to Employee Self-Service.</a>
+                        </div>
                    </div>
                    <!-- Change employee publishing setting -->
                    <div ng-show="profile.isSettingPublish">
@@ -50,7 +55,7 @@
                         <div ng-show="profile.employeePublishValue != 'N'">
                             <p>This listing will display the following:</p>
                             <ul class="data-list">
-                                <li>{{ profile.data.rollup_name }}</li>  <!-- TODO: Use the correct name here -->
+                                <li>{{ profile.data.official_name }}</li>  <!-- TODO: Use the correct name here -->
                                 <li>UWNetID: {{ profile.data.netid }}</li>
                                 <li ng-show="profile.employeePublishValue == 'Y'"
                                     ng-repeat="email in profile.data.employee.emails track by $index">{{ email }}</li>

@@ -68,6 +68,8 @@ def test_profile():
                       publish='E',
                       ),
         preferred=dict(full='J O E', first='J', middle='O', last='E'),
+        is_profile_admin=False,
+        is_publish_hidden=False
         rollup_name=dict(full='Joe Roll', first='J',
                          middle='Roll', last='E'
                          ),

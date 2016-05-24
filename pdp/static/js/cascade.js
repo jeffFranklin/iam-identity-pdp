@@ -105,6 +105,8 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', function
     };
 
     this.impersonate = function(netid){
+        _this.clearNameChange();
+        _this.clearPublishChange();
         profileService.getProfile(netid || '').then(function(profile){
             if(!netid || netid == _this.netid){
                 _this.impersonationNetid = null;

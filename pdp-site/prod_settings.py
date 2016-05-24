@@ -7,8 +7,7 @@ TEMPLATE_DEBUG = False
 ALLOWED_HOSTS = ['*']
 COMPRESS_ENABLED = True
 
-# IRWS settings (dev host)
-
+PROFILE_IMPERSONATORS_GROUP = None  # Turn off for prod
 RESTCLIENTS_RUN_MODE = 'Live'
 RESTCLIENTS_IRWS_HOST = 'https://mango.u.washington.edu:646'
 RESTCLIENTS_IRWS_SERVICE_NAME = 'registry'

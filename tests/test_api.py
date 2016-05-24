@@ -1,10 +1,12 @@
-from pdp.api import Name, Publish, Profile
+from pdp.api import Name, Publish, Profile, verify_netid
 from pdp.mock import mock_irws_person
 import logging
 import json
 from pytest import fixture, raises, mark
 from idbase.exceptions import NotFoundError, BadRequestError
 from idbase.exceptions import InvalidSessionError
+from mock import MagicMock
+
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -90,6 +92,35 @@ def test_publish_netid_switch(rf):
 def test_profile(rf):
     response = Profile().GET(rf.get('/', netid='joe'))
     assert response['netid'] == 'joe'
+
+
+@mark.parametrize('netid', ['joe', None, ''])
+def test_verify_netid_same_netid(rf, netid):
+    assert verify_netid(rf.get('/', netid='joe'), netid=netid) == 'joe'
+
+
+def test_verify_netid_not_authorized(gws, rf):
+    gws.is_profile_admin.return_value = False
+    with raises(InvalidSessionError):
+        verify_netid(rf.get('/', netid='joe'), netid='notjoe')
+
+
+def test_verify_netid_is_admin(gws, rf):
+    """
+    Check that joe can impersonate bob and bob can't impersonate joe.
+    """
+    gws.is_profile_admin = lambda *x, **y: y['netid'] == 'joe'
+    req = rf.get('/', netid='joe')
+    assert verify_netid(req, netid='bob') == 'bob'
+    with raises(InvalidSessionError):
+        verify_netid(rf.get('/', netid='bob'), netid='joe')
+
+
+@fixture
+def gws(monkeypatch):
+    client = MagicMock()
+    monkeypatch.setattr('pdp.api.GWS', lambda: client)
+    return client
 
 
 @fixture(autouse=True)
