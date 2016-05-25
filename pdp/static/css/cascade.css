@@ -122,7 +122,7 @@ ul.data-list {
 
 .publish-radio input[type=radio] {
     height: 10px;
-    width: none;
+    width: 10px;
 }
 
 .publish-radio {
