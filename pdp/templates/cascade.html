@@ -49,7 +49,7 @@
                         <uw-tooltip>tooltip for Official Name description</uw-tooltip></h3>
                         <p class="userinfo">{{ profile.data.official_name }}</p>
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item" ng-show="profile.data.emails.length">
                         <h3 class="profile-label">UW Email</h3>
                         <p class="userinfo" ng-repeat="email in profile.data.emails track by $index">{{ email }}</p>
                     </li>
