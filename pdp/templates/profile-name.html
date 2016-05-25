@@ -59,7 +59,7 @@
                 </div>
                 <p id="errormessage" ng-show="name.form.$dirty && name.form.$error.pattern">The following characters are
                     not allowed: {{ name.displayName | invalid_chars : name.valid_chars }}</p>
-                <legend class="legend-pn"></legend>
+                <legend class="legend-pn">Preferred Name</legend>
             </fieldset>
             <input type="hidden" name="pndn" ng-model="name.displayName" maxlength="{{ name.displayNameMax }}"/>
                                        <!-- Counter for character -->
