@@ -27,7 +27,7 @@
                 <div class="row">
                     <div class="col-md-4 namefield">
                         <label for="pnfname">First Name</label>
-                        <input type="text" name="pnfname" ng-model="name.pn.display_fname"
+                        <input type="text" name="pnfname" id="pnfname" aria-describedby="pnfname" ng-model="name.pn.display_fname"
                                ng-pattern="name.valid_chars"
                                ng-change="name.updateDisplayName()"
                                maxlength="{{ name.getFieldMaxLength(name.pn.display_fname) }}"
@@ -39,14 +39,14 @@
                     </div>
                     <div class="col-md-4 namefield">
                         <label for="pnmname">Middle Name</label>
-                        <input type="text" name="pnmname" ng-model="name.pn.display_mname"
+                        <input type="text" name="pnmname" id="pnmname" aria-describedby="pnmname" ng-model="name.pn.display_mname"
                                ng-pattern="name.valid_chars"
                                ng-change="name.updateDisplayName()"
                                maxlength="{{ name.getFieldMaxLength(name.pn.display_mname) }}"/>
                     </div>
                     <div class="col-md-4 namefield">
                         <label for="pnlname">Last Name</label>
-                        <input type="text" name="pnlname" ng-model="name.pn.display_lname"
+                        <input type="text" name="pnlname" id="pnlname" aria-describedby="pnlname" ng-model="name.pn.display_lname"
                                ng-change="name.updateDisplayName()"
                                ng-pattern="name.valid_chars"
                                maxlength="{{ name.getFieldMaxLength(name.pn.display_lname) }}"
@@ -59,6 +59,7 @@
                 </div>
                 <p id="errormessage" ng-show="name.form.$dirty && name.form.$error.pattern">The following characters are
                     not allowed: {{ name.displayName | invalid_chars : name.valid_chars }}</p>
+                <legend class="legend-pn"></legend>
             </fieldset>
             <input type="hidden" name="pndn" ng-model="name.displayName" maxlength="{{ name.displayNameMax }}"/>
                                        <!-- Counter for character -->

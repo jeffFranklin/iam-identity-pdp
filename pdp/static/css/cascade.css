@@ -140,3 +140,8 @@ ul.data-list {
 label .hidden {
 	display: none;
 }
+
+.legend-pn {
+    display: none;
+
+}
