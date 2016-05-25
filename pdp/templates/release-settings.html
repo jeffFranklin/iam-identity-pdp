@@ -41,6 +41,7 @@
                    <!-- Change employee publishing setting -->
                    <div ng-show="profile.isSettingPublish">
                         <h4>Change your publishing preference to:</h4>
+                        <fieldset>
                         <ul class="publish-radio">
                             <li><label class="radio-inline"><input type="radio" name="employeepublish" value="N" ng-model="profile.employeePublishValue">Unlisted</label></li>
                             <li><label class="radio-inline"><input type="radio" name="employeepublish" value="Y" ng-model="profile.employeePublishValue">
@@ -68,6 +69,8 @@
                         <button class="btn btn-default btn-xs" type="button"
                                 ng-click="profile.putPublish()">Save Changes
                         </button>
+                        <legend class="legend-pn"></legend>
+                        </fieldset>
                    </div>
                </li>
                <li ng-show="profile.data.student" class="list-group-item">
