@@ -1,9 +1,9 @@
 var app = angular.module('identityApp');
 
 function ApiService($log, $http, ErrorSvc){
-    var apiFunc = function(operation){ return function(url) {
+    var apiFunc = function(operation){ return function(url, data) {
         $log.info(operation + ' ' + url);
-        return $http[operation](url)
+        return $http[operation](url, data)
             .then(function(response){
                 $log.info(response);
                 return response;
@@ -23,35 +23,48 @@ function ApiService($log, $http, ErrorSvc){
 
 app.factory('apiService', ['$log', '$http', 'ErrorSvc', ApiService]);
 
-function ProfileService(apiService) {
+function ProfileService(apiService, $q) {
     var profileUrl = 'api/profile/';
     var publishUrl = 'api/publish/';
-    // Service returning profile information about an authenticated user.
-    var profile = {getting: false, data: {}};
+    var nameUrl = 'api/name/';
+
+    var lastProfile = {netid: null, promise: null};
     var getProfile = function(netid) {
-        profile.getting = true;
-        return apiService.get(profileUrl + netid)
+        lastProfile.netid = netid;
+        lastProfile.promise = apiService.get(profileUrl + netid)
             .then(function(response){
-                if (response.status == 200) {
-                    for (var key in response.data) {
-                        profile.data[key] = response.data[key];
-                    }
-                }
-                return profile.data;
-            })
-            .finally(function(){ profile.getting = false;});};
+                return response.status == 200 ? response.data : {};
+            });
+        return lastProfile.promise;
+    };
     var putEmployeePublish = function(netid, publishValue){
         return apiService.put(publishUrl + netid + '?value=' + publishValue).then(function(response){
             return response.status == 200 ? response.data.publish : null;
         });
     };
-    return {profile: profile,
-        getProfile: getProfile,
-        putEmployeePublish: putEmployeePublish
+    var getPreferredName = function(netid) {
+        promise = (lastProfile.netid == netid && lastProfile.promise) ? lastProfile.promise : getProfile(netid);
+        return promise.then(function(profile){
+            return profile ? profile.preferred: null;
+        });
+    };
+    var getNetid = function() {
+        if(!lastProfile.promise){return $q.when(null);}
+        return lastProfile.promise.then(function(profile){return profile ? profile.netid : null}); };
+    var putPreferredName = function(netid, name){
+        return apiService.put(nameUrl, {first: name.first, middle: name.middle, last: name.last})
+            .then(function(response){return response.status == 200 ? response.data : null});
+    };
+
+    return {getProfile: getProfile,
+        putEmployeePublish: putEmployeePublish,
+        getPreferredName: getPreferredName,
+        putPreferredName: putPreferredName,
+        getNetid: getNetid
     };
 }
 
-app.factory('profileService', ['apiService', ProfileService]);
+app.factory('profileService', ['apiService', '$q', ProfileService]);
 
 app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', function(profileService, loginStatus, $log){
     var _this = this;
@@ -62,11 +75,11 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', function
         if(netid){
             profileService.getProfile(netid).then(function(profile){
                 if (_this.isAdmin == null) _this.isAdmin = profile.is_profile_admin;
-                $log.info('admin mode available')
+                $log.info('admin mode available');
+                _this.data = profile;
             });
         }
     });
-    this.data = profileService.profile.data;
     this.clearNameChange = function(){
         _this.isSettingName = false;
     };
@@ -112,6 +125,7 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', function
                 _this.impersonationNetid = null;
             }
             else { _this.impersonationNetid = netid;}
+            _this.data = profile;
         })
 
     }
