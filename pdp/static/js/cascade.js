@@ -1,7 +1,11 @@
 var app = angular.module('identityApp');
 
 function ApiService($log, $http, ErrorSvc){
-    var apiFunc = function(operation){ return function(url, data) {
+    var apiFunc = function(operation){ return function(url, opts) {
+        opts = opts || {};
+        var data = opts.data;
+        var expectedErrors = opts.expectedErrors || [];
+
         $log.info(operation + ' ' + url);
         return $http[operation](url, data)
             .then(function(response){
@@ -10,11 +14,12 @@ function ApiService($log, $http, ErrorSvc){
             })
             .catch(function(response) {
                 $log.info(response);
-                if (response.status == 500 || response.status == 401) {
-                    ErrorSvc.handleError(response.data, response.status);
+                if (response.status >= 400 && expectedErrors.indexOf(response.status) < 0){
+                    // ErrorSvc ignores everything not 401 or 500. Promote non-401s to 500s.
+                    ErrorSvc.handleError(response.data, response.status == 401 ? 401 : 500);
                 }
                 return response;
-            })
+            });
     }};
     var get = apiFunc('get');
     var put = apiFunc('put');
@@ -23,48 +28,34 @@ function ApiService($log, $http, ErrorSvc){
 
 app.factory('apiService', ['$log', '$http', 'ErrorSvc', ApiService]);
 
-function ProfileService(apiService, $q) {
+function ProfileService(apiService) {
     var profileUrl = 'api/profile/';
     var publishUrl = 'api/publish/';
     var nameUrl = 'api/name/';
 
-    var lastProfile = {netid: null, promise: null};
     var getProfile = function(netid) {
-        lastProfile.netid = netid;
-        lastProfile.promise = apiService.get(profileUrl + netid)
+        return apiService.get(profileUrl + netid)
             .then(function(response){
-                return response.status == 200 ? response.data : {};
+                return response.status == 200 ? response.data : null;
             });
-        return lastProfile.promise;
     };
     var putEmployeePublish = function(netid, publishValue){
         return apiService.put(publishUrl + netid + '?value=' + publishValue).then(function(response){
             return response.status == 200 ? response.data.publish : null;
         });
     };
-    var getPreferredName = function(netid) {
-        promise = (lastProfile.netid == netid && lastProfile.promise) ? lastProfile.promise : getProfile(netid);
-        return promise.then(function(profile){
-            return profile ? profile.preferred: null;
-        });
-    };
-    var getNetid = function() {
-        if(!lastProfile.promise){return $q.when(null);}
-        return lastProfile.promise.then(function(profile){return profile ? profile.netid : null}); };
     var putPreferredName = function(netid, name){
-        return apiService.put(nameUrl + netid, {first: name.first, middle: name.middle, last: name.last})
+        return apiService.put(nameUrl + netid, {data: {first: name.first, middle: name.middle, last: name.last}})
             .then(function(response){return response.status == 200 ? response.data : null});
     };
 
     return {getProfile: getProfile,
         putEmployeePublish: putEmployeePublish,
-        getPreferredName: getPreferredName,
-        putPreferredName: putPreferredName,
-        getNetid: getNetid
+        putPreferredName: putPreferredName
     };
 }
 
-app.factory('profileService', ['apiService', '$q', ProfileService]);
+app.factory('profileService', ['apiService', ProfileService]);
 
 app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', function(profileService, loginStatus, $log){
     var _this = this;
@@ -156,7 +147,7 @@ app.controller('SplashModalCtrl', ['modalService', '$cookies', function(modalSer
     this.setProfileVisit = function() {
         var now = new Date();
         var inTenYears = new Date(now.getFullYear() + 10, now.getMonth(), now.getDate());
-        $cookies.put(cookieName, true, {expires: inTenYears});
+        $cookies.put(cookieName, true, {expires: inTenYears, path: '/'});
     };
     if(!$cookies.get(cookieName)){
         modalService.showModal('#splashModal');

@@ -14,7 +14,7 @@ app.filter('invalid_chars', function () {
     };
 });
 
-app.controller('NameCtrl', ['profileService', 'loginStatus', '$log', function (profileService, loginStatus, $log) {
+app.controller('NameCtrl', [function () {
     var _this = this;
     // sample valid name characters
     this.valid_chars = /^[\w !#$%&\'*+\-,.?^_`{}~]*$/;
