@@ -52,7 +52,7 @@ function ProfileService(apiService, $q) {
         if(!lastProfile.promise){return $q.when(null);}
         return lastProfile.promise.then(function(profile){return profile ? profile.netid : null}); };
     var putPreferredName = function(netid, name){
-        return apiService.put(nameUrl, {first: name.first, middle: name.middle, last: name.last})
+        return apiService.put(nameUrl + netid, {first: name.first, middle: name.middle, last: name.last})
             .then(function(response){return response.status == 200 ? response.data : null});
     };
 
@@ -82,10 +82,26 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', function
     });
     this.clearNameChange = function(){
         _this.isSettingName = false;
+        _this.pn = {};
     };
     this.showNameChange = function(){
         _this.isSettingName = true;
         _this.nameChangeSuccess = false;
+        var pn = _this.data.preferred;
+        _this.pn = {first: pn.first, middle: pn.middle, last: pn.last};
+    };
+    this.putPreferredName = function(name){
+        _this.puttingPrefName = true;
+        return profileService.putPreferredName(_this.data.netid, name).then(function(name){
+            if(name){
+                _this.nameChangeSuccess = true;
+                _this.data.preferred = name;
+                _this.data.preferred_name = name.full;
+                _this.clearNameChange();
+            }
+            else {_this.nameChangeError = true;}
+            return name;
+        }).finally(function(){_this.puttingPrefName = false;})
     };
 
     this.clearPublishChange = function(){
@@ -105,16 +121,6 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', function
                 _this.clearPublishChange();
             }
         });
-    };
-
-    this.isSettingPublish = false;
-
-    this.isSettingName = false;
-    this.onNameChange = function(data){
-        _this.isSettingName = false;
-        _this.nameChangeSuccess = true;
-        _this.data.preferred = data;
-        _this.data.preferred_name = data.full;
     };
 
     this.impersonate = function(netid){
