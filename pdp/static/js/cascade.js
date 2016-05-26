@@ -1,20 +1,25 @@
 var app = angular.module('identityApp');
 
 function ApiService($log, $http, ErrorSvc){
-    var apiFunc = function(operation){ return function(url) {
+    var apiFunc = function(operation){ return function(url, opts) {
+        opts = opts || {};
+        var data = opts.data;
+        var expectedErrors = opts.expectedErrors || [];
+
         $log.info(operation + ' ' + url);
-        return $http[operation](url)
+        return $http[operation](url, data)
             .then(function(response){
                 $log.info(response);
                 return response;
             })
             .catch(function(response) {
                 $log.info(response);
-                if (response.status == 500 || response.status == 401) {
-                    ErrorSvc.handleError(response.data, response.status);
+                if (response.status >= 400 && expectedErrors.indexOf(response.status) < 0){
+                    // ErrorSvc ignores everything not 401 or 500. Promote non-401s to 500s.
+                    ErrorSvc.handleError(response.data, response.status == 401 ? 401 : 500);
                 }
                 return response;
-            })
+            });
     }};
     var get = apiFunc('get');
     var put = apiFunc('put');
@@ -26,28 +31,27 @@ app.factory('apiService', ['$log', '$http', 'ErrorSvc', ApiService]);
 function ProfileService(apiService) {
     var profileUrl = 'api/profile/';
     var publishUrl = 'api/publish/';
-    // Service returning profile information about an authenticated user.
-    var profile = {getting: false, data: {}};
+    var nameUrl = 'api/name/';
+
     var getProfile = function(netid) {
-        profile.getting = true;
         return apiService.get(profileUrl + netid)
             .then(function(response){
-                if (response.status == 200) {
-                    for (var key in response.data) {
-                        profile.data[key] = response.data[key];
-                    }
-                }
-                return profile.data;
-            })
-            .finally(function(){ profile.getting = false;});};
+                return response.status == 200 ? response.data : null;
+            });
+    };
     var putEmployeePublish = function(netid, publishValue){
         return apiService.put(publishUrl + netid + '?value=' + publishValue).then(function(response){
             return response.status == 200 ? response.data.publish : null;
         });
     };
-    return {profile: profile,
-        getProfile: getProfile,
-        putEmployeePublish: putEmployeePublish
+    var putPreferredName = function(netid, name){
+        return apiService.put(nameUrl + netid, {data: {first: name.first, middle: name.middle, last: name.last}})
+            .then(function(response){return response.status == 200 ? response.data : null});
+    };
+
+    return {getProfile: getProfile,
+        putEmployeePublish: putEmployeePublish,
+        putPreferredName: putPreferredName
     };
 }
 
@@ -62,17 +66,33 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', function
         if(netid){
             profileService.getProfile(netid).then(function(profile){
                 if (_this.isAdmin == null) _this.isAdmin = profile.is_profile_admin;
-                $log.info('admin mode available')
+                $log.info('admin mode available');
+                _this.data = profile;
             });
         }
     });
-    this.data = profileService.profile.data;
     this.clearNameChange = function(){
         _this.isSettingName = false;
+        _this.pn = {};
     };
     this.showNameChange = function(){
         _this.isSettingName = true;
         _this.nameChangeSuccess = false;
+        var pn = _this.data.preferred;
+        _this.pn = {first: pn.first, middle: pn.middle, last: pn.last};
+    };
+    this.putPreferredName = function(name){
+        _this.puttingPrefName = true;
+        return profileService.putPreferredName(_this.data.netid, name).then(function(name){
+            if(name){
+                _this.nameChangeSuccess = true;
+                _this.data.preferred = name;
+                _this.data.preferred_name = name.full;
+                _this.clearNameChange();
+            }
+            else {_this.nameChangeError = true;}
+            return name;
+        }).finally(function(){_this.puttingPrefName = false;})
     };
 
     this.clearPublishChange = function(){
@@ -94,16 +114,6 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', function
         });
     };
 
-    this.isSettingPublish = false;
-
-    this.isSettingName = false;
-    this.onNameChange = function(data){
-        _this.isSettingName = false;
-        _this.nameChangeSuccess = true;
-        _this.data.preferred = data;
-        _this.data.preferred_name = data.full;
-    };
-
     this.impersonate = function(netid){
         _this.clearNameChange();
         _this.clearPublishChange();
@@ -112,6 +122,7 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', function
                 _this.impersonationNetid = null;
             }
             else { _this.impersonationNetid = netid;}
+            _this.data = profile;
         })
 
     }
@@ -136,7 +147,7 @@ app.controller('SplashModalCtrl', ['modalService', '$cookies', function(modalSer
     this.setProfileVisit = function() {
         var now = new Date();
         var inTenYears = new Date(now.getFullYear() + 10, now.getMonth(), now.getDate());
-        $cookies.put(cookieName, true, {expires: inTenYears});
+        $cookies.put(cookieName, true, {expires: inTenYears, path: '/'});
     };
     if(!$cookies.get(cookieName)){
         modalService.showModal('#splashModal');

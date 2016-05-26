@@ -10,11 +10,5 @@ logger = logging.getLogger('pdp')
 
 @login_required
 @ensure_csrf_cookie
-def index(request, template=None):
-    return render(request, 'page.html')
-
-
-@login_required
-@ensure_csrf_cookie
-def cascade(request):
+def index(request):
     return render(request, 'cascade.html')

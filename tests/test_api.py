@@ -14,34 +14,37 @@ logger = logging.getLogger(__name__)
 
 def test_name_get_with_display_name(rf):
     request = rf.get('/api/name', netid='joe')
-    response = Name().GET(request)
-    assert response.status_code == 200
-    request.user.set_full_name.assert_called_once_with('James Average Student')
-    name = json.loads(response.content)
-    formals = {'formal_lname': 'BLO', 'formal_fname': 'JO'}
-    assert (formals == {k: v for k, v in name.items() if k in formals})
-    displays = {'display_lname': 'Student',
-                'display_mname': 'Average', 'display_fname': 'James'}
-    assert (displays == {k: v for k, v in name.items() if k in displays})
+    name = Name().GET(request, netid='joe')
+    assert name == {'first': 'James', 'middle': 'Average', 'last': 'Student',
+                    'full': 'James Average Student'}
 
 
 def test_name_get_no_display_name(rf):
     request = rf.get('/api/name', netid='javerage')
-    response = Name().GET(request)
-    assert response.status_code == 200
-    request.user.set_full_name.assert_called_once_with('JO BLO')
-    displays = {'display_lname': '', 'display_mname': '', 'display_fname': ''}
-    name = json.loads(response.content)
-    assert (displays == {k: v for k, v in name.items() if k in displays})
+    name = Name().GET(request, netid='javerage')
+    assert name == {'first': '', 'middle': '', 'last': '', 'full': ''}
+
+
+def test_name_get_wrong_netid(rf):
+    request = rf.get('/api/name', netid='javerage')
+    with raises(InvalidSessionError):
+        Name().GET(request, netid='joe')
 
 
 def test_name_put(rf):
     name = json.dumps({
         'first': 'Jane', 'middle': 'X', 'last': 'Doe'})
     request = rf.put('/api/name', netid='joe', data=name)
-    response = Name().PUT(request)
-    assert response.status_code == 200
-    request.user.set_full_name.assert_called_once_with('Jane X Doe')
+    name = Name().PUT(request, netid='joe')
+    assert name == {'first': 'Jane', 'middle': 'X', 'last': 'Doe',
+                    'full': 'Jane X Doe'}
+
+
+def test_name_put_wrong_netid(rf):
+    with raises(InvalidSessionError):
+        name = json.dumps({'first': 'Jane', 'middle': 'X', 'last': 'Doe'})
+        request = rf.get('/api/name/', netid='javerage')
+        Name().PUT(request, netid='joe')
 
 
 def test_name_put_bad_json(rf):

@@ -3,8 +3,8 @@
     <h3 class="profile-label">Preferred Name</h3><br>
     <button ng-show="profile.data.preferred_name" type="button" id="edit-pn-btn" class="btn btn-default btn-xs" ng-click="profile.showNameChange()">Edit</button>
     <p ng-show="!profile.data.preferred_name">Set your preferred name to replace your legal name in the <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory.</a><br>
-    <button id="set-pn-btn"class="btn btn-primary btn-xs" type="button" ng-click="profile.showNameChange()">Set preferred name</button>
-</p>
+        <button id="set-pn-btn" class="btn btn-primary btn-xs" type="button" ng-click="profile.showNameChange()">Set preferred name</button>
+    </p>
     <p class="userinfo" ng-show="profile.data.preferred_name">{{ profile.data.preferred_name }}</p>
     <div ng-show="profile.nameChangeSuccess" class="alert alert-success pn-set-msg" role="alert">
         <a href="" class="close" ng-click="profile.nameChangeSuccess = false" aria-label="close">&times;</a>
@@ -12,25 +12,25 @@
     </div>
 </div>
 
-<div ng-if="profile.isSettingName" ng-controller="NameCtrl as name"
-        ng-model-options="{ allowInvalid: true }">
+<div ng-if="profile.isSettingName">
     <h3 class="page-title">Set Preferred Name</h3>
     <p>You can set a preferred name to be used in place of your
         legal name wherever possible. If you are listed in the
         <a href="http://www.washington.edu/home/peopledir/" target="_blank" title="Go to the UW Directory">UW directory</a>,
-        your preferred name will be visible there immediately. There is a limit of
-        80 characters for all three names.</p>
+        your preferred name will be visible there immediately.</p>
 
-    <form role="form" name="name.form">
+    <form ng-controller="NameCtrl as name"
+          ng-model-options="{ allowInvalid: true }"
+          role="form" name="name.form">
         <div id="fieldset_wrapper">
-            <fieldset ng-disabled="name.getStatus >= 400">
+            <fieldset>
                 <div class="row">
                     <div class="col-md-4 namefield">
                         <label for="pnfname">First Name</label>
-                        <input type="text" name="pnfname" id="pnfname" aria-describedby="pnfname" ng-model="name.pn.display_fname"
+                        <input type="text" name="pnfname" id="pnfname" aria-describedby="pnfname" ng-model="profile.pn.first"
                                ng-pattern="name.valid_chars"
-                               ng-change="name.updateDisplayName()"
-                               maxlength="{{ name.getFieldMaxLength(name.pn.display_fname) }}"
+                               ng-change="name.updateDisplayName(profile.pn)"
+                               maxlength="{{ name.getFieldMaxLength(profile.pn.first) }}"
                                required="required"/>
 
                         <p id="errormessage"
@@ -39,17 +39,17 @@
                     </div>
                     <div class="col-md-4 namefield">
                         <label for="pnmname">Middle Name</label>
-                        <input type="text" name="pnmname" id="pnmname" aria-describedby="pnmname" ng-model="name.pn.display_mname"
+                        <input type="text" name="pnmname" id="pnmname" aria-describedby="pnmname" ng-model="profile.pn.middle"
                                ng-pattern="name.valid_chars"
-                               ng-change="name.updateDisplayName()"
-                               maxlength="{{ name.getFieldMaxLength(name.pn.display_mname) }}"/>
+                               ng-change="name.updateDisplayName(profile.pn)"
+                               maxlength="{{ name.getFieldMaxLength(profile.pn.middle) }}"/>
                     </div>
                     <div class="col-md-4 namefield">
                         <label for="pnlname">Last Name</label>
-                        <input type="text" name="pnlname" id="pnlname" aria-describedby="pnlname" ng-model="name.pn.display_lname"
-                               ng-change="name.updateDisplayName()"
+                        <input type="text" name="pnlname" id="pnlname" aria-describedby="pnlname" ng-model="profile.pn.last"
+                               ng-change="name.updateDisplayName(profile.pn)"
                                ng-pattern="name.valid_chars"
-                               maxlength="{{ name.getFieldMaxLength(name.pn.display_lname) }}"
+                               maxlength="{{ name.getFieldMaxLength(profile.pn.last) }}"
                                required="required"/>
 
                         <p id="errormessage"
@@ -62,10 +62,10 @@
                 <legend class="legend-pn">Preferred Name</legend>
             </fieldset>
             <input type="hidden" name="pndn" ng-model="name.displayName" maxlength="{{ name.displayNameMax }}"/>
-                                       <!-- Counter for character -->
-            <div ng-repeat="field in [['display_fname', 'First'],['display_mname', 'Middle'],['display_lname', 'Last']]"
-                 id="char-counter" class="alert alert-{{ name.fieldMax - name.pn[field[0]].length > 10 ? 'info' : 'warning' }}">
-                <p><b>{{ name.fieldMax - name.pn[field[0]].length }} character{{ name.fieldMax - name.pn[field[0]].length == 1 ? '' : 's' }} remaining</b> for {{ field[1] }} Name</p>
+            <div ng-repeat="field in ['first','middle','last']"
+                 id="char-counter" class="alert alert-{{ name.fieldMax - profile.pn[field].length > 10 ? 'info' : 'warning' }}">
+                <p><b>{{ name.fieldMax - profile.pn[field].length }} character{{ name.fieldMax - profile.pn[field].length == 1 ? '' : 's' }}
+                    remaining</b> for <b>{{ field }} name</b></p>
             </div>
             <div id="char-counter" class="alert alert-{{ name.displayCharsRemaining > 10 ? 'info'
                     : name.displayCharsRemaining >= 0 ? 'warning' : 'danger'}}">
@@ -88,17 +88,12 @@
                 </li>
             </ul>
         </div>
-        <div class="save-message">
-            <p ng-show="name.putStatus == 'error'" class="save-failure alert alert-danger" role="alert">
-                Error trying to save name.
-            </p>
-        </div>
 
-        <button type="submit" class="btn btn-primary pn-btn-space" ng-click="name.profilePutName(profile.onNameChange)"
-                ng-disabled="name.form.$invalid || name.form.$pristine"
+        <button type="submit" class="btn btn-primary pn-btn-space" ng-click="profile.putPreferredName(profile.pn)"
+                ng-disabled="name.form.$invalid || name.form.$pristine || profile.puttingPrefName"
                 >Agree & Save Name
         </button>
-        <button class="btn btn-default add-space-left pn-btn-space" ng-click="profile.clearNameChange()">
+        <button class="btn btn-default add-space-left pn-btn-space" ng-click="profile.clearNameChange()" ng-disabled="profile.puttingPrefName">
             Cancel
         </button>
     </form>

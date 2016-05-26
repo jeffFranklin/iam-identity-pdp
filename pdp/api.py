@@ -23,17 +23,18 @@ class Profile(RESTDispatch):
 
 class Name(RESTDispatch):
 
-    def GET(self, request):
-        logger.debug("name api get for user {}".format(request.user.username))
-        irws = IRWS()
-        name = irws.get_name_by_netid(request.user.netid)
-        request.user.set_full_name(full_name_from_object(name))
-        return HttpResponse(json.dumps(name.json_data()),
-                            content_type='application/json')
+    def GET(self, request, netid=None):
+        verified_netid = verify_netid(request, netid=netid)
+        name = IRWS().get_name_by_netid(verified_netid)
+        return {'first': name.display_fname,
+                'middle': name.display_mname,
+                'last': name.display_lname,
+                'full': name.display_cname}
 
-    def PUT(self, request):
+    def PUT(self, request, netid=None):
+        verified_netid = verify_netid(request, netid=netid)
         logger.info('name api put for user {}'.format(
-            request.user.username))
+            verified_netid))
         try:
             data = json.loads(request.body)
             name_args = {key: data[key]
@@ -42,11 +43,11 @@ class Name(RESTDispatch):
             raise BadRequestError('invalid json')
 
         try:
-            IRWS().put_name_by_netid(request.user.netid, **name_args)
+            IRWS().put_name_by_netid(verified_netid, **name_args)
         except InvalidIRWSName as e:
             logger.info(e)
             raise BadRequestError('invalid name')
-        return self.GET(request)
+        return self.GET(request, netid=verified_netid)
 
 
 class Publish(RESTDispatch):
