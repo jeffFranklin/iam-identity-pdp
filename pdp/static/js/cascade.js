@@ -90,6 +90,7 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', '$timeou
                 _this.nameChangeSuccess = true;
                 _this.data.preferred = name;
                 _this.data.preferred_name = name.full;
+                _this.data.rollup_name = name.full;
                 _this.clearNameChange();
             }
             else {_this.nameChangeError = true;}
