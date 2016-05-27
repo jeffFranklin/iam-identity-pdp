@@ -16,7 +16,7 @@ def client_idtest55(live_server):
     with override_settings(
             DEBUG=True,
             MOCK_LOGIN_USER='idtest55@washington.edu',
-            LOGIN_URL='/id/mocklogin',
+            LOGIN_URL='/profile/mocklogin',
             MIDDLEWARE_CLASSES=(
                 ['idbase.middleware.MockLoginMiddleware'] +
                 settings.MIDDLEWARE_CLASSES),
@@ -25,7 +25,7 @@ def client_idtest55(live_server):
         # sets it to False regardless of what's in settings.
         session = requests.session()
         # this will trigger a login to mocklogin and send us a csrftoken.
-        session.get(live_server + '/id/')
+        session.get(live_server + '/profile/')
         session.headers.update(
             {'X-CSRFToken': session.cookies.get('csrftoken')})
     return session
@@ -46,7 +46,7 @@ good_name_ids = [re.sub(r'\.', 'dot', '-'.join(n)) for n in good_names]
 
 
 def test_get_basic(client_idtest55, live_server):
-    response = client_idtest55.get(live_server + '/id/api/name')
+    response = client_idtest55.get(live_server + '/profile/api/name')
     assert response.status_code == 200
 
 
@@ -59,10 +59,10 @@ def test_put_success(client_idtest55, live_server, good_name):
     name = dict(first=good_name[0], middle=good_name[1],
                 last=good_name[2])
     response = client_idtest55.put(
-        live_server + '/id/api/name/idtest55',
+        live_server + '/profile/api/name/idtest55',
         data=json.dumps(name))
     assert response.status_code == 200
-    response = client_idtest55.get(live_server + '/id/api/name/idtest55')
+    response = client_idtest55.get(live_server + '/profile/api/name/idtest55')
     name_response = json.loads(response.content)
     assert good_name[0] == name_response['first']
     assert good_name[1] == name_response['middle']
@@ -92,6 +92,6 @@ def test_put_invalid(client_idtest55, live_server, bad_name):
     name = dict(first=bad_name[0], middle=bad_name[1],
                 last=bad_name[2])
     response = client_idtest55.put(
-        live_server + '/id/api/name',
+        live_server + '/profile/api/name',
         data=json.dumps(name))
     assert response.status_code == 400
