@@ -57,7 +57,7 @@ function ProfileService(apiService) {
 
 app.factory('profileService', ['apiService', ProfileService]);
 
-app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', function(profileService, loginStatus, $log){
+app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', '$timeout', function(profileService, loginStatus, $log, $timeout){
     var _this = this;
     this.netid = null;
     this.isAdmin = null;  // set to true or false when we get it.
@@ -80,6 +80,8 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', function
         _this.nameChangeSuccess = false;
         var pn = _this.data.preferred;
         _this.pn = {first: pn.first, middle: pn.middle, last: pn.last};
+        // $timeout so we focus after the form's visible. this kinda smells.
+        $timeout(function(){$('#nameForm').find('input')[0].focus();});
     };
     this.putPreferredName = function(name){
         _this.puttingPrefName = true;
@@ -101,17 +103,25 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', function
 
     this.showPublishScreen = function(){
         _this.isSettingPublish = true;
+        _this.publishChangeSuccess = false;
+        _this.publishForm.$setPristine();
         _this.employeePublishValue = _this.data.employee && _this.data.employee.publish ?
             _this.data.employee.publish : 'Y';
+        // wrapping the focus in a $timeout lets the form become visible before
+        // focusing. It feels a little like black magic, unsure if it works
+        // on a slower box.
+        $timeout(function(){$('#publishForm').find('input:checked').focus();});
     };
 
     this.putPublish  = function(){
+        _this.puttingPublish = true;
         profileService.putEmployeePublish(_this.netid, _this.employeePublishValue).then(function(newValue){
             if(newValue){
                 _this.data.employee.publish = newValue;
+                _this.publishChangeSuccess = true;
                 _this.clearPublishChange();
-            }
-        });
+            }})
+            .finally(function(){_this.puttingPublish = false;});
     };
 
     this.impersonate = function(netid){
