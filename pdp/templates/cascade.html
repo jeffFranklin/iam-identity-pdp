@@ -67,11 +67,11 @@
                </div>
                <ul class="list-group">
                     <li class="list-group-item">
-                        <p class="profile-label">Phone Number</p><br>
+                        <h4 class="profile-label">Phone Number</h4><br>
                         <p class="userinfo" ng-repeat="phone in profile.data.student.phone_numbers track by $index">{{ phone }}</p>
                     </li>
                     <li class="list-group-item">
-                        <p class="profile-label">Year, Major</p><br>
+                        <h4 class="profile-label">Year, Major</h4><br>
                         <p class="userinfo" ng-repeat="classMajor in profile.data.student.class_majors track by $index">{{ classMajor }}</p>
                     </li>
                </ul>
@@ -87,19 +87,19 @@
                </div>
                <ul class="list-group">
                     <li class="list-group-item">
-                        <p class="profile-label">Phone Number</p><br>
+                        <h4 class="profile-label">Phone Number</h4><br>
                         <p class="userinfo" ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</p>
                     </li>
                     <li class="list-group-item">
-                        <p class="profile-label">Box Number</p><br>
+                        <h4 class="profile-label">Box Number</h4><br>
                         <p class="userinfo">{{ profile.data.employee.box }}</p>
                     </li>
                     <li class="list-group-item">
-                        <p class="profile-label">Position</p><br>
+                        <h4 class="profile-label">Position</h4><br>
                         <p class="userinfo" ng-repeat="position in profile.data.employee.titledepts track by $index">{{ position }}</p>
                     </li>
                     <li class="list-group-item">
-                        <p class="profile-label">Campus Address</p><br>
+                        <h4 class="profile-label">Campus Address</h4><br>
                         <p class="userinfo" ng-repeat="address in profile.data.employee.addresses track by $index">{{ address }}</p>
                     </li>
                </ul>
@@ -113,7 +113,7 @@
 
         <!-- Admin section -->
         <div ng-if="profile.isAdmin">
-            <div class="row"><div class="col-lg-6">
+            <div class="row"><div class="col-lg-6"><form role="form">
                 <div class="input-group">
                     <label class="hidden" for="impersonateField">Admin impersonate another UW NetID</label>
                     <input name="impersonateField" id="impersonateField" type="text" class="form-control"
@@ -122,10 +122,10 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default"
                                 ng-click="profile.impersonate(profile.impersonateNetid)"
-                                type="button">Go!</button>
+                                type="submit">Go!</button>
                     </span>
                 </div><!-- /input-group -->
-            </div></div>
+            </form></div></div>
             <div class="row"><div class="col-lg-6">
                 <div ng-show="profile.impersonationNetid" class="alert alert-danger" role="alert">
                     Impersonating UWNetID "{{ profile.impersonationNetid }}"

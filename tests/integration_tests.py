@@ -59,14 +59,14 @@ def test_put_success(client_idtest55, live_server, good_name):
     name = dict(first=good_name[0], middle=good_name[1],
                 last=good_name[2])
     response = client_idtest55.put(
-        live_server + '/id/api/name',
+        live_server + '/id/api/name/idtest55',
         data=json.dumps(name))
     assert response.status_code == 200
-    response = client_idtest55.get(live_server + '/id/api/name')
+    response = client_idtest55.get(live_server + '/id/api/name/idtest55')
     name_response = json.loads(response.content)
-    assert good_name[0] == name_response['display_fname']
-    assert good_name[1] == name_response['display_mname']
-    assert good_name[2] == name_response['display_lname']
+    assert good_name[0] == name_response['first']
+    assert good_name[1] == name_response['middle']
+    assert good_name[2] == name_response['last']
 
 bad_char_names = [('Dw{}ght'.format(c), 'David', 'Adams')
                   for c in '"():;<>[\]|@']
