@@ -10,7 +10,7 @@
   vars:
     app_name: pdp
     app_base: /data/local/django
-    app_url_base: id
+    app_url_base: profile
     local_base: "{{playbook_dir}}/.."
     secrets_file: /data/local/etc/pdp-secret
 

@@ -36,10 +36,10 @@ ROOT_URLCONF = 'pdp-site.urls'
 
 WSGI_APPLICATION = 'pdp-site.wsgi.application'
 
-PDP_BASE = '/id/'
-LOGIN_URL = '/id/login/'
-LOGOUT_URL = '/id/logout/'
-PROFILE_URL = '/id/'
+PDP_BASE = '/profile/'
+LOGIN_URL = '/profile/login/'
+LOGOUT_URL = '/profile/logout/'
+PROFILE_URL = '/profile/'
 RECOVERY_OPTIONS_URL = '/account/recovery/'
 PROFILE_IMPERSONATORS_GROUP = 'u_identity_profile_impersonators'
 PUBLISH_PREVIEWERS_GROUP = 'u_identity_profile_publish-previewers'
@@ -140,8 +140,8 @@ COMPRESS_OUTPUT_DIR = 'cache-' + __version__
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-STATIC_URL = '/static-id/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static-id')
+STATIC_URL = '/static-profile/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static-profile')
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',

@@ -24,7 +24,7 @@ def test_cascade_page(browser, live_server, settings):
     settings.MOCK_LOGIN_USER = 'studemp@washington.edu'
     # if ever we want to switch users:
     # browser.get(live_server + settings.LOGOUT_URL)
-    browser.get(live_server + '/id/cascade/')
+    browser.get(live_server + '/profile/')
     wait_for_title(browser)
     WebDriverWait(browser, 5).until(EC.text_to_be_present_in_element(
         (By.CLASS_NAME, 'netid-navbar'), 'UW NetID: studemp'))

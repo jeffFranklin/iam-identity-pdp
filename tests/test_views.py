@@ -19,4 +19,4 @@ def test_index_no_login(rf):
     request.user.is_authenticated = lambda: False
     response = index(request)
     assert response.status_code == 302
-    assert response.url == '/id/login/?next=/'
+    assert response.url == '/profile/login/?next=/'
