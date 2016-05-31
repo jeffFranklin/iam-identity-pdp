@@ -14,12 +14,10 @@ RewriteRule ^id/$ /{{app_url_base}}/ [R,L]
   ShibRequireSession On
   {% if is_apache24|default(False) %}
   require shibboleth
-  Require shib-plugin /data/conf/apache.conf.d/pdp-access.xml
   {% else %}
   ShibRequireAll On
   AuthzShibAuthoritative On
   require shibboleth
-  ShibAccessControl /data/conf/apache.conf.d/pdp-access.xml
   {% endif %}
 
 
