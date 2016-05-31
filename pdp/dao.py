@@ -74,10 +74,8 @@ def get_profile(netid):
 
     profile.employee = get_employee(person.identifiers)
     profile.student = get_student(person.identifiers)
-    # cast to set() to get unique emails
-    profile.emails = list(set(
-        (profile.employee.emails if profile.employee else []) +
-        (profile.student.emails if profile.student else [])))
+    # for email we append @uw.edu to UW NetID
+    profile.emails = [netid + '@uw.edu']
     name = get_name(netid)
     rollup_name = get_rollup_name(netid)
     profile.preferred = PreferredNameParts(

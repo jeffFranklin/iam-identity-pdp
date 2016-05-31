@@ -25,6 +25,7 @@ def test_profile_name(irws):
     assert profile.preferred.middle == 'O'
     assert profile.preferred.last == 'E'
     assert profile.preferred.full == 'J O E'
+    assert profile.emails == ['jeff@uw.edu']
 
 
 def test_profile_name_none(irws):
@@ -97,6 +98,7 @@ def irws(monkeypatch):
     name.display_mname = 'O'
     name.display_fname = 'J'
     name.formal_cname = 'JOE'
+    name.emails = ['jeff@uw.edu']
 
     monkeypatch.setattr('pdp.dao.IRWS', lambda: client)
     return client
