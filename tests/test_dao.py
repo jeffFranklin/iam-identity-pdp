@@ -25,6 +25,7 @@ def test_profile_name(irws):
     assert profile.preferred.middle == 'O'
     assert profile.preferred.last == 'E'
     assert profile.preferred.full == 'J O E'
+    assert profile.emails == ['jeff@uw.edu']
 
 
 def test_profile_name_none(irws):
