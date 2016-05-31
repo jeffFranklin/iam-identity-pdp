@@ -98,7 +98,6 @@ def irws(monkeypatch):
     name.display_mname = 'O'
     name.display_fname = 'J'
     name.formal_cname = 'JOE'
-    name.emails = ['jeff@uw.edu']
 
     monkeypatch.setattr('pdp.dao.IRWS', lambda: client)
     return client
