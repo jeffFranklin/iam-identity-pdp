@@ -1,9 +1,1 @@
-<AccessControl type="edu.internet2.middleware.shibboleth.sp.provider.XMLAccessControl">
- <AND>
-     <Rule require="affiliation">alum@washington.edu member@washington.edu affiliate@washington.edu</Rule>
-     <NOT>
-       <Rule require="isMemberOf">urn:mace:washington.edu:groups:u_groups_pdp-disusered</Rule>
-     </NOT>
- </AND>
-</AccessControl>
-
+<!-- To be removed after next ansible deploy -->

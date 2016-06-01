@@ -142,9 +142,12 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
             "profile": [{
                 "recover_contacts": recover_contacts,
                 "recover_block_reasons": []}
-            ]}
+            ]},
+        '{irws_root}/regid?uwnetid={netid}': {'regid': [{
+            'regid': '0000deadbeef', 'entity_code': '888',
+            'entity_name': 'Person',
+            'status_code': 'xxx', 'status_name': 'xxx'}]}
     })
-
     resources = {key.format(**kwargs): json.dumps(value)
                  for key, value in irws_resources.items()}
     return resources

@@ -164,6 +164,8 @@ RESTCLIENTS_IRWS_MAX_POOL_SIZE = 10
 RESTCLIENTS_GWS_HOST = 'https://iam-ws.u.washington.edu:7443'
 RESTCLIENTS_GWS_SERVICE = 'gws'
 RESTCLIENTS_TIMEOUT = None
+MOCK_LOGIN_USER = 'user1e@washington.edu'
+IDBASE_IRWS_CLASS = 'pdp.dao.IRWS'
 try:
     from local_settings import *
 except ImportError:
@@ -183,3 +185,7 @@ GWS_CONF = dict(HOST=RESTCLIENTS_GWS_HOST,
                 KEY_FILE=RESTCLIENTS_IRWS_KEY_FILE,
                 CA_FILE=RESTCLIENTS_CA_BUNDLE,
                 RUN_MODE=RESTCLIENTS_RUN_MODE)
+
+if DEBUG and RESTCLIENTS_RUN_MODE == 'File':
+    MIDDLEWARE_CLASSES = (['idbase.middleware.MockLoginMiddleware'] +
+                          MIDDLEWARE_CLASSES)
