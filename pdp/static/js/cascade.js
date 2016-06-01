@@ -71,16 +71,14 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', '$timeou
             });
         }
     });
-    this.clearNameChange = function(){
 
+    this.clearNameChange = function(){
         $('#setPreferredName').collapse('hide');
         $('#showPreferredName').collapse('show');
         _this.isSettingName = false;
         _this.pn = {};
 
     };
-    
-
 
 
     this.showNameChange = function(){
