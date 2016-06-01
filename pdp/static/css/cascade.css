@@ -14,6 +14,11 @@
 	text-align: center;
 }	
 
+
+a {
+    color: #0000ff;
+}
+
 /* Add space before & after each panel */
 .add-top-space {
 	margin: 10px 0px 20px 0px;
