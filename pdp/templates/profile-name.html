@@ -6,7 +6,7 @@
         <button id="set-pn-btn" class="btn btn-primary btn-xs" type="button" ng-click="profile.showNameChange()">Set preferred name</button>
     </p>
     <p class="userinfo" ng-show="profile.data.preferred_name">{{ profile.data.preferred_name }}</p>
-    <div ng-show="profile.nameChangeSuccess" class="alert alert-success pn-set-msg" role="alert">
+    <div ng-show="profile.nameChangeSuccess" role="alert" class="alert alert-success pn-set-msg" role="alert">
         <a href="" class="close" ng-click="profile.nameChangeSuccess = false" aria-label="close">&times;</a>
         Preferred name is set and will be displayed in the <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory</a> immediately.
     </div>
@@ -52,12 +52,12 @@
                                maxlength="{{ name.getFieldMaxLength(profile.pn.last) }}"
                                required="required"/>
 
-                        <p id="errormessage"
+                        <p id="errormessage" role="alert"
                            ng-show="name.form.pnlname.$dirty && name.form.pnlname.$error.required">Last name is
                             required.</p>
                     </div>
                 </div>
-                <p id="errormessage" ng-show="name.form.$dirty && name.form.$error.pattern">The following characters are
+                <p id="errormessage" role="alert" ng-show="name.form.$dirty && name.form.$error.pattern">The following characters are
                     not allowed: {{ name.displayName | invalid_chars : name.valid_chars }}</p>
                 <legend class="legend-pn">Preferred Name</legend>
             </fieldset>
