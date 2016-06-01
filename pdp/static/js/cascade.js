@@ -72,16 +72,27 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', '$timeou
         }
     });
     this.clearNameChange = function(){
+
+        $('#setPreferredName').collapse('hide');
+        $('#showPreferredName').collapse('show');
         _this.isSettingName = false;
         _this.pn = {};
+
     };
+    
+
+
+
     this.showNameChange = function(){
         _this.isSettingName = true;
         _this.nameChangeSuccess = false;
         var pn = _this.data.preferred;
         _this.pn = {first: pn.first, middle: pn.middle, last: pn.last};
+        $('#showPreferredName').collapse('hide');
+        $('#setPreferredName').collapse('show');
         // $timeout so we focus after the form's visible. this kinda smells.
         $timeout(function(){$('#nameForm').find('input')[0].focus();});
+
     };
     this.putPreferredName = function(name){
         _this.puttingPrefName = true;

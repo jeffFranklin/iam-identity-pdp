@@ -1,9 +1,10 @@
 {% verbatim %}
-<div ng-show="!profile.isSettingName">
+<div class="collapse in" id="showPreferredName">
     <h3 class="profile-label">Preferred Name</h3><br>
     <button ng-show="profile.data.preferred_name" type="button" id="edit-pn-btn" class="btn btn-default btn-xs" ng-click="profile.showNameChange()">Edit</button>
     <p ng-show="!profile.data.preferred_name">Set your preferred name to replace your legal name in the <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory.</a><br>
-        <button id="set-pn-btn" class="btn btn-primary btn-xs" type="button" ng-click="profile.showNameChange()">Set preferred name</button>
+        <button id="set-pn-btn" class="btn btn-primary btn-xs" type="button" ng-click="profile.showNameChange()">
+            Set preferred name</button>
     </p>
     <p class="userinfo" ng-show="profile.data.preferred_name">{{ profile.data.preferred_name }}</p>
     <div ng-show="profile.nameChangeSuccess" class="alert alert-success pn-set-msg" role="alert">
@@ -12,7 +13,7 @@
     </div>
 </div>
 
-<div ng-if="profile.isSettingName">
+<div class="collapse" id="setPreferredName">
     <h3 class="page-title">Set Preferred Name</h3>
     <p>You can set a preferred name to be used in place of your
         legal name wherever possible. If you are listed in the
@@ -91,7 +92,8 @@
 
         <button type="submit" class="btn btn-primary pn-btn-space" ng-click="profile.putPreferredName(profile.pn)"
                 ng-disabled="name.form.$invalid || name.form.$pristine || profile.puttingPrefName"
-                >Agree & Save Name
+
+        >Agree & Save Name
         </button>
         <button class="btn btn-default add-space-left pn-btn-space" ng-click="profile.clearNameChange()" ng-disabled="profile.puttingPrefName">
             Cancel
