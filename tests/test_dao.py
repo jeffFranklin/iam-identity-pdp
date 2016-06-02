@@ -1,5 +1,6 @@
 from pdp.dao import get_profile, get_employee, get_student, GWS
-from pytest import fixture, raises
+from pdp.dao import format_phone_number
+from pytest import fixture, raises, mark
 from idbase.exceptions import ServiceError
 from mock import MagicMock
 from pdp.mock import mock_irws_person, source_person
@@ -212,6 +213,15 @@ def test_gws_is_publish_hidden(gws_cache, settings):
     # test unset setting
     delattr(settings, 'PUBLISH_PREVIEWERS_GROUP')
     assert not GWS().is_publish_hidden(netid='joe')
+
+
+@mark.parametrize('phone_number, expected_result',
+                  [('+1 555 666-7777', '(555) 666-7777'),
+                   ('555-666-7777', '555-666-7777'),
+                   ('555 666-7777', '555 666-7777'),
+                   ('+1 555 666-77778', '+1 555 666-77778')])
+def test_format_phone_number(phone_number, expected_result):
+    assert expected_result == format_phone_number(phone_number)
 
 
 @fixture

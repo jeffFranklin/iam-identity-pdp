@@ -6,6 +6,7 @@ from resttools.irws import IRWS as RestToolsIRWS
 from resttools.gws import GWS as RestToolsGWS
 from idbase.exceptions import ServiceError
 import logging
+import re
 try:  # http://asq.googlecode.com/hg-history/1.0/asq/_portability.py
     # Python 2
     from itertools import izip_longest
@@ -146,7 +147,7 @@ def get_employee(identifiers):
     return EmployeeProfile(
         official_name=' '.join(x for x in [employee.fname, employee.lname]
                                if x),
-        phone_numbers=employee.wp_phone,
+        phone_numbers=[format_phone_number(x) for x in employee.wp_phone],
         titles=employee.wp_title,
         departments=employee.wp_department,
         addresses=employee.wp_address,
@@ -174,8 +175,13 @@ def get_student(identifiers):
     return StudentProfile(
         official_name=' '.join(x for x in [student.fname, student.lname] if x),
         emails=student.wp_email,
-        phone_numbers=student.wp_phone,
+        phone_numbers=[format_phone_number(x) for x in student.wp_phone],
         class_majors=[', '.join(pair) for pair in izip_longest(
             student.wp_title, student.wp_department, fillvalue='-')],
         publish=(False if student.wp_publish == 'N' else True)
     )
+
+
+def format_phone_number(phone_number):
+    """If '+1 xxx xxx-xxxx', format as (xxx) xxx-xxxx, else leave it alone."""
+    return re.sub(r'^\+1 (\d{3}) (\d{3}-\d{4})$', r'(\1) \2', phone_number)
