@@ -146,3 +146,5 @@ label .hidden {
     display: none;
 
 }
+
+.char-counter.alert-info { display: none }

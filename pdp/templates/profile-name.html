@@ -64,11 +64,11 @@
             </fieldset>
             <input type="hidden" name="pndn" ng-model="name.displayName" maxlength="{{ name.displayNameMax }}"/>
             <div ng-repeat="field in ['first','middle','last']"
-                 id="char-counter" class="alert alert-{{ name.fieldMax - profile.pn[field].length > 10 ? 'info' : 'warning' }}">
+                 class="char-counter alert alert-{{ name.fieldMax - profile.pn[field].length > 10 ? 'info' : 'warning' }}">
                 <p><b>{{ name.fieldMax - profile.pn[field].length }} character{{ name.fieldMax - profile.pn[field].length == 1 ? '' : 's' }}
                     remaining</b> for <b>{{ field }} name</b></p>
             </div>
-            <div id="char-counter" class="alert alert-{{ name.displayCharsRemaining > 10 ? 'info'
+            <div class="char-counter alert alert-{{ name.displayCharsRemaining > 10 ? 'info'
                     : name.displayCharsRemaining >= 0 ? 'warning' : 'danger'}}">
                 <p><b>{{ name.displayCharsRemaining >= 0 ? name.displayCharsRemaining : 0 }} character{{ name.displayCharsRemaining  == 1 ? '' : 's'}}
                     remaining</b> for Preferred Name</p>
