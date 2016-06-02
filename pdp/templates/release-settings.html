@@ -46,27 +46,22 @@
                         <h4>Change your employee directory listing preference to:</h4>
                         <form role="form" id="publishForm" name="profile.publishForm"><fieldset>
                         <ul class="publish-radio">
-                            <li><label class="radio-inline"><input type="radio" name="employeepublish" value="N" ng-model="profile.employeePublishValue">Unlisted</label></li>
-                            <li><label class="radio-inline"><input type="radio" name="employeepublish" value="Y" ng-model="profile.employeePublishValue">
-                                Listed with email address</label></li>
-                            <li><label class="radio-inline"><input type="radio" name="employeepublish" value="E" ng-model="profile.employeePublishValue">
-                                Listed without email address</label></li>
-                        </ul>
-                        <div ng-show="profile.employeePublishValue == 'N'">
-                            <p>You will not be included in the UW Directory.</p>
-                        </div>
-                        <div ng-show="profile.employeePublishValue != 'N'">
-                            <ul class="data-list" role="list">
-                                <li>{{ profile.data.rollup_name }}</li>
-                                <li>UW NetID: {{ profile.data.netid }}</li>
-                                <li ng-show="profile.employeePublishValue == 'Y'"
-                                    ng-repeat="email in profile.data.employee.emails track by $index">{{ email }}</li>
-                                <li ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</li>
-                                <li ng-repeat="titledept in profile.data.employee.titledepts track by $index">{{ titledept }}</li>
-                                <li ng-repeat="address in profile.data.employee.addresses track by $index">{{ address }}</li>
-                                <li ng-show="profile.data.employee.box">Box {{ profile.data.employee.box}}</li>
+                            <li><label class="radio-inline"><input type="radio" name="employeepublish" value="N" ng-model="profile.employeePublishValue">Unlisted</label> You will not be included in the UW Directory.</li>
+                            <li ng-repeat="pubvalue in ['Y', 'E']">
+                                <label class="radio-inline"><input type="radio" name="employeepublish" ng-value="pubvalue" ng-model="profile.employeePublishValue">
+                                Listed with<span ng-show="pubvalue== 'E'">out</span> email address</label>
+                                <ul class="data-list" role="list">
+                                    <li>{{ profile.data.rollup_name }}</li>
+                                    <li>UW NetID: {{ profile.data.netid }}</li>
+                                    <li ng-show="pubvalue == 'Y'"
+                                        ng-repeat="email in profile.data.employee.emails track by $index">{{ email }}</li>
+                                    <li ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</li>
+                                    <li ng-repeat="titledept in profile.data.employee.titledepts track by $index">{{ titledept }}</li>
+                                    <li ng-repeat="address in profile.data.employee.addresses track by $index">{{ address }}</li>
+                                    <li ng-show="profile.data.employee.box">Box {{ profile.data.employee.box}}</li>
                             </ul>
-                        </div>
+                            </li>
+                        </ul>
                         <button class="btn btn-primary btn-xs" type="submit"
                                 ng-click="profile.putPublish()"
                                 ng-disabled="profile.publishForm.$pristine || profile.puttingPublish">Save change
