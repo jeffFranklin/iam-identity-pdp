@@ -1,10 +1,10 @@
 {% verbatim %}
 
-<div ng-show="profile.data.employee || profile.data.student" class="row">
+<div ng-show="profile.data.employee || profile.data.student" class="row profile-directory-section">
     <div class="col-md-7">
-       <h2 class="profile-h2">Information Sharing Settings</h2>
+       <h2>Information Sharing Settings</h2>
 
-       <div class="panel panel-default add-top-space">
+       <div class="panel panel-default">
            <div class="panel-heading">
                <h3 class="panel-title profile-h3">UW Directory</h3>
                <p>The <a href="https://www.washington.edu/home/peopledir/" target="_blank" title="Go to the UW Directory">UW Directory</a> will display the following:</p>
@@ -19,8 +19,7 @@
                         </div>
                         <p ng-show="profile.data.employee.publish == 'N'">You are not included in the UW Directory.</p>
                         <div ng-show="profile.data.employee.publish != 'N'">
-                            <h4 class="bold app-detail-header">The following employee information
-                                will be viewable by anyone:</h4>
+                            <h4>The following employee information will be viewable by anyone:</h4>
                             <ul class="data-list">
                                 <li>{{ profile.data.rollup_name }}</li>
                                 <li>UW NetID: {{ profile.data.netid }}</li>
@@ -71,13 +70,13 @@
                                     ng-disabled="profile.puttingPublish">
                                 Cancel
                         </button>
-                        <legend class="legend-pn">Employee directory listing preference</legend>
+                        <legend>Employee directory listing preference</legend>
                         </fieldset></form>
                    </div>
                </li>
                <li ng-show="profile.data.student" class="list-group-item">
                    <!-- Student directory info -->
-                   <h4 class="bold app-detail-header">The following student information will only be viewable by UW community members:</h4>
+                   <h4>The following student information will only be viewable by UW community members:</h4>
                    <p ng-show="!profile.data.student.publish">You are not included in the UW Directory.</p>
                    <ul ng-show="profile.data.student.publish" class="data-list" role="list">
                        <li>{{ profile.data.rollup_name }}</li>
