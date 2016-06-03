@@ -1,5 +1,5 @@
 {% verbatim %}
-<div class="collapse in" id="showPreferredName">
+<div uib-collapse="profile.isSettingName">
     <h3 class="profile-label">Preferred Name</h3><br>
     <button ng-show="profile.data.preferred_name" type="button" id="edit-pn-btn" class="btn btn-default btn-xs" ng-click="profile.showNameChange()">Edit</button>
     <p ng-show="!profile.data.preferred_name">Set your preferred name to replace your legal name in the <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory.</a><br>
@@ -13,7 +13,7 @@
     </div>
 </div>
 
-<div class="collapse" id="setPreferredName">
+<div id="setPreferredName" uib-collapse="!profile.isSettingName">
     <h3 class="page-title">Set Preferred Name</h3>
     <p>You can set a preferred name to be used in place of your
         legal name wherever possible. If you are listed in the
@@ -22,7 +22,7 @@
 
     <form ng-controller="NameCtrl as name"
           ng-model-options="{ allowInvalid: true }"
-          role="form" name="name.form" id="nameForm">
+          role="form" name="profile.nameForm" id="nameForm">
         <div id="fieldset_wrapper">
             <fieldset>
                 <div class="row">
@@ -35,7 +35,7 @@
                                required="required"/>
 
                         <p id="errormessage"
-                           ng-show="name.form.pnfname.$dirty && name.form.pnfname.$error.required">First name is
+                           ng-show="profile.nameForm.pnfname.$dirty && profile.nameForm.pnfname.$error.required">First name is
                             required.</p>
                     </div>
                     <div class="col-md-4 namefield">
@@ -54,11 +54,11 @@
                                required="required"/>
 
                         <p id="errormessage" role="alert"
-                           ng-show="name.form.pnlname.$dirty && name.form.pnlname.$error.required">Last name is
+                           ng-show="profile.nameForm.pnlname.$dirty && profile.nameForm.pnlname.$error.required">Last name is
                             required.</p>
                     </div>
                 </div>
-                <p id="errormessage" role="alert" ng-show="name.form.$dirty && name.form.$error.pattern">The following characters are
+                <p id="errormessage" role="alert" ng-show="profile.nameForm.$dirty && profile.nameForm.$error.pattern">The following characters are
                     not allowed: {{ name.displayName | invalid_chars : name.valid_chars }}</p>
                 <legend class="legend-pn">Preferred Name</legend>
             </fieldset>
@@ -91,7 +91,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary pn-btn-space" ng-click="profile.putPreferredName(profile.pn)"
-                ng-disabled="name.form.$invalid || name.form.$pristine || profile.puttingPrefName"
+                ng-disabled="profile.nameForm.$invalid || profile.nameForm.$pristine || profile.puttingPrefName"
         >Agree & Save Name
         </button>
         <button class="btn btn-default add-space-left pn-btn-space" ng-click="profile.clearNameChange()" ng-disabled="profile.puttingPrefName">
