@@ -30,9 +30,9 @@
                         <label for="pnfname">First Name</label>
                         <input type="text" name="pnfname" id="pnfname" aria-describedby="pnfname" ng-model="profile.pn.first"
                                ng-pattern="name.valid_chars"
-                               ng-change="name.updateDisplayName(profile.pn)"
+                               ng-change="name.updateDisplayName(profile.pn);profile.validateNames()"
                                maxlength="{{ name.getFieldMaxLength(profile.pn.first) }}"
-                               required="required"/>
+                               />
 
                         <p id="errormessage"
                            ng-show="profile.nameForm.pnfname.$dirty && profile.nameForm.pnfname.$error.required">First name is
@@ -48,10 +48,10 @@
                     <div class="col-md-4 namefield">
                         <label for="pnlname">Last Name</label>
                         <input type="text" name="pnlname" id="pnlname" aria-describedby="pnlname" ng-model="profile.pn.last"
-                               ng-change="name.updateDisplayName(profile.pn)"
+                               ng-change="name.updateDisplayName(profile.pn);profile.validateNames()"
                                ng-pattern="name.valid_chars"
                                maxlength="{{ name.getFieldMaxLength(profile.pn.last) }}"
-                               required="required"/>
+                               />
 
                         <p id="errormessage" role="alert"
                            ng-show="profile.nameForm.pnlname.$dirty && profile.nameForm.pnlname.$error.required">Last name is
