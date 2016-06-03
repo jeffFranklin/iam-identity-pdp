@@ -131,6 +131,28 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', '$timeou
             .finally(function(){_this.puttingPublish = false;});
     };
 
+    this.validateNames = function(){
+        //validation--set these false to start
+        // so button is disabled--user won't see
+        //error text until they dirty the form (per ng directives in the HTML)
+        _this.nameForm.pnfname.$setValidity("required", false)
+        _this.nameForm.pnlname.$setValidity("required", false)
+        if (_this.nameForm.pnfname.$dirty || _this.pn.first){
+            if (!_this.pn.first) {
+                _this.nameForm.pnfname.$setValidity("required", false)
+            }else {
+                _this.nameForm.pnfname.$setValidity("required", true)
+            }
+        }
+        if (_this.nameForm.pnlname.$dirty || _this.pn.last) {
+            if (!_this.pn.last) {
+                _this.nameForm.pnlname.$setValidity("required", false)
+            } else {
+                _this.nameForm.pnlname.$setValidity("required", true)
+            }
+        }
+    };
+
     this.impersonate = function(netid){
         _this.clearNameChange();
         _this.clearPublishChange();
