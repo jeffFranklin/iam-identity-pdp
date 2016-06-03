@@ -38,20 +38,20 @@
         <div class="row"><div class="col-md-7">
            <h2 class="profile-h2 sr-only">Profile Information</h2>
            <div class="panel panel-default add-top-space">
-                <ul class="list-group">
+                <ul class="list-group profile-list">
                     <li class="list-group-item">
                         {% endverbatim %}
                         {% include "profile-name.html" %}
                         {% verbatim %}
                     </li>
                     <li class="list-group-item">
-                        <h3 class="profile-label"> Official Name
+                        <h3>Official Name</h3>
                         <uw-tooltip>Your official name is calculated based on your various affiliations with the UW.
-                            An official employee name would take precedence over an official student name, followed by other affiliations.</uw-tooltip></h3>
+                            An official employee name would take precedence over an official student name, followed by other affiliations.</uw-tooltip>
                         <p class="userinfo">{{ profile.data.official_name }}</p>
                     </li>
                     <li class="list-group-item" ng-show="profile.data.emails.length">
-                        <h3 class="profile-label">UW Email</h3>
+                        <h3>UW Email</h3>
                         <p class="userinfo" ng-repeat="email in profile.data.emails track by $index">{{ email }}</p>
                     </li>
                 </ul>
@@ -68,13 +68,17 @@
                    </div>
                    <p>Refer to <a href="https://www.washington.edu/students/reg/ferpa.html" target="_blank" title="Privacy Rights Information Page">FERPA for Students</a> to learn about your privacy rights.</p>
                </div>
-               <ul class="list-group">
-                    <li class="list-group-item">
-                        <h4 class="profile-label">Phone Number</h4><br>
+               <ul class="list-group profile-list">
+                    <li class="list-group-item" ng-show="profile.data.official_name != profile.data.student.official_name">
+                        <h4>Official Name</h4>
+                        <p class="userinfo">{{ profile.data.student.official_name }}</p>
+                    </li>
+                    <li class="list-group-item" ng-show="profile.data.student.phone_numbers.length">
+                        <h4>Phone Number</h4>
                         <p class="userinfo" ng-repeat="phone in profile.data.student.phone_numbers track by $index">{{ phone }}</p>
                     </li>
-                    <li class="list-group-item">
-                        <h4 class="profile-label">Year, Major</h4><br>
+                    <li class="list-group-item" ng-show="profile.data.student.class_majors.length">
+                        <h4>Year, Major</h4>
                         <p class="userinfo" ng-repeat="classMajor in profile.data.student.class_majors track by $index">{{ classMajor }}</p>
                     </li>
                </ul>
@@ -90,21 +94,25 @@
                        <div class="col-xs-4 pull-right">Source: <a href="https://prp.admin.uw.edu/ess/uwnetid/address.aspx" title="Employee Services Page" target="_blank">Employee Self-Service (ESS)</a></div>
                    </div>
                </div>
-               <ul class="list-group">
-                    <li class="list-group-item">
-                        <h4 class="profile-label">Phone Number</h4><br>
+               <ul class="list-group profile-list">
+                    <li class="list-group-item" ng-show="profile.data.official_name != profile.data.employee.official_name">
+                        <h4>Official Name</h4>
+                        <p class="userinfo">{{ profile.data.employee.official_name }}</p>
+                    </li>
+                    <li class="list-group-item" ng-show="profile.data.employee.phone_numbers.length">
+                        <h4>Phone Number</h4>
                         <p class="userinfo" ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</p>
                     </li>
-                    <li class="list-group-item">
-                        <h4 class="profile-label">Box Number</h4><br>
+                    <li class="list-group-item" ng-show="profile.data.employee.box">
+                        <h4>Box Number</h4>
                         <p class="userinfo">{{ profile.data.employee.box }}</p>
                     </li>
-                    <li class="list-group-item">
-                        <h4 class="profile-label">Position</h4><br>
+                    <li class="list-group-item" ng-show="profile.data.employee.titledepts.length">
+                        <h4>Position</h4>
                         <p class="userinfo" ng-repeat="position in profile.data.employee.titledepts track by $index">{{ position }}</p>
                     </li>
-                    <li class="list-group-item">
-                        <h4 class="profile-label">Campus Address</h4><br>
+                    <li class="list-group-item" ng-show="profile.data.employee.addresses.length">
+                        <h4>Campus Address</h4>
                         <p class="userinfo" ng-repeat="address in profile.data.employee.addresses track by $index">{{ address }}</p>
                     </li>
                </ul>
