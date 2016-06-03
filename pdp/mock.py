@@ -15,7 +15,9 @@ def mock_irws_resources():
     resources.update(mock_irws_person('student', identifiers=['sdb']))
     resources.update(mock_irws_person('employee', identifiers=['hepps']))
     resources.update(mock_irws_person('studemp',
-                                      identifiers=['sdb', 'hepps']))
+                                      identifiers=['sdb', 'hepps'],
+                                      sdb_update={'fname': 'JANE STUDENT'},
+                                      hepps_update={'fname': 'JANE EMPLOYEE'}))
     resources.update(mock_irws_person('nothing', identifiers=['cascadia']))
 
     IRWSFile._cache_db.update(resources)
