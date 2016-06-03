@@ -14,11 +14,6 @@
 	text-align: center;
 }	
 
-/* Add space before & after each panel */
-.add-top-space {
-	margin: 10px 0px 20px 0px;
-}
-
 /* spacing between message and button */
 .pn-set-msg{
 	margin-top: 20px;
@@ -30,14 +25,23 @@
 	margin-bottom: 10px;
 }
 
-/* Heading & Text style */
-.profile-h2 {
-	font-size: 24px; 
+.profile-directory-section h2 {
+	font-size: 24px;
+	margin-bottom: 10px;
+}
+
+.profile-directory-section h4 {
+	color:#595959;
+	font-weight: bold;
+}
+
+.profile-directory-section legend {
+	display: none;
 }
 
 .profile-heading { margin-top: 5px; margin-bottom: 10px; font-size: 12px;}
 
-.profile-heading > * > h3 {
+.profile-heading h3 {
 	font-size: 20px;
 }
 
@@ -54,11 +58,6 @@
 
 .set-pn-h3{
 	font-size: 18px;
-}
-/* UW Dir app module header */
-.app-detail-header {
-	color:#595959;
-	padding: 20px 20px;
 }
 
 /* Data source bylin style */
@@ -134,11 +133,6 @@ ul.data-list {
 
 label .hidden {
 	display: none;
-}
-
-.legend-pn {
-    display: none;
-
 }
 
 .char-counter.alert-info { display: none }
