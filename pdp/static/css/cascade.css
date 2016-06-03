@@ -35,11 +35,12 @@
 	font-size: 24px; 
 }
 
-.profile-h3 {
-	font-size: 20px; 
-	margin-top: 5px;
-	margin-bottom: 10px;
+.profile-heading { margin-top: 5px; margin-bottom: 10px; font-size: 12px;}
+
+.profile-heading > * > h3 {
+	font-size: 20px;
 }
+
 
 .profile-label {
 	font-weight: 400;
@@ -56,15 +57,6 @@
 .app-detail-header {
 	color:#595959;
 	padding: 20px 20px;
-}
-
-/* Data source bylin style */
-.data-source {
-	display: inline-block;
-    font-size: 12px;
-    float: right;
-    margin-top: -30px;
-    margin-left: 200px;
 }
 
 /* Data source bylin style */
