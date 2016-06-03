@@ -73,11 +73,11 @@
                         <h4>Official Name</h4>
                         <p class="userinfo">{{ profile.data.student.official_name }}</p>
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item" ng-show="profile.data.student.phone_numbers.length">
                         <h4>Phone Number</h4>
                         <p class="userinfo" ng-repeat="phone in profile.data.student.phone_numbers track by $index">{{ phone }}</p>
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item" ng-show="profile.data.student.class_majors.length">
                         <h4>Year, Major</h4>
                         <p class="userinfo" ng-repeat="classMajor in profile.data.student.class_majors track by $index">{{ classMajor }}</p>
                     </li>
@@ -99,19 +99,19 @@
                         <h4>Official Name</h4>
                         <p class="userinfo">{{ profile.data.employee.official_name }}</p>
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item" ng-show="profile.data.employee.phone_numbers.length">
                         <h4>Phone Number</h4>
                         <p class="userinfo" ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</p>
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item" ng-show="profile.data.employee.box">
                         <h4>Box Number</h4>
                         <p class="userinfo">{{ profile.data.employee.box }}</p>
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item" ng-show="profile.data.employee.titledepts.length">
                         <h4>Position</h4>
                         <p class="userinfo" ng-repeat="position in profile.data.employee.titledepts track by $index">{{ position }}</p>
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item" ng-show="profile.data.employee.addresses.length">
                         <h4>Campus Address</h4>
                         <p class="userinfo" ng-repeat="address in profile.data.employee.addresses track by $index">{{ address }}</p>
                     </li>
