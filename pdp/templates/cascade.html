@@ -18,13 +18,13 @@
                     <div class="modal-body" id="expired_message">
                        <button type="button" id="modal-exit" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                            <h1 class="welcome">Welcome to Identity.uw!</h1>
-                            <p>At Identity.uw you can:</p>
+                            <h1 class="welcome">Welcome to Identity.UW!</h1>
+                            <p>At Identity.UW you can:</p>
 
                             <ul>
-                                <li>Set your preferred name to replace your legal name on the <a href="https://www.washington.edu/home/peopledir/" target="_blank" title="UW Directory Page">UW Directory</a>.</li>
+                                <li>Set your preferred name.</li>
                                 <li>Change your information sharing settings.</li>
-                                <li>Set your recovery settings.</li>
+                                <li>Set your account recovery settings.</li>
                             </ul>
                             <div class="center">
                                 <button type="button" data-dismiss="modal" class="btn btn-primary bigbtn"
@@ -46,7 +46,8 @@
                     </li>
                     <li class="list-group-item">
                         <h3 class="profile-label"> Official Name
-                        <uw-tooltip>tooltip for Official Name description</uw-tooltip></h3>
+                        <uw-tooltip>Your official name is calculated based on your various affiliations with the UW.
+                            An official employee name would take precedence over an official student name, followed by other affiliations.</uw-tooltip></h3>
                         <p class="userinfo">{{ profile.data.official_name }}</p>
                     </li>
                     <li class="list-group-item" ng-show="profile.data.emails.length">
@@ -61,9 +62,11 @@
         <div class="row" ng-show="profile.data.student"><div class="col-md-7">
            <div class="panel panel-default add-top-space">
                <div class="panel-heading">
-                    <h3 class="panel-title profile-h3">Student Information</h3>
-                        <p class="data-source">Source: <a href="https://sdb.admin.uw.edu/students/uwnetid/address.asp" target="_blank" title="Student Personal Services">Student Personal Services</a></p>
-                        <p><a href="https://www.washington.edu/students/reg/ferpa.html" target="_blank" title="Privacy Rights Information Page">Read FERPA</a> to learn about your privacy rights.</p>
+                   <div class="row profile-heading">
+                    <div class="col-xs-8"><h3 class="panel-title">Student Information</h3></div>
+                    <div class="col-xs-4 pull-right">Source: <a href="https://sdb.admin.uw.edu/students/uwnetid/address.asp" target="_blank" title="Student Personal Services">Student Personal Services</a></div>
+                   </div>
+                   <p>Refer to <a href="https://www.washington.edu/students/reg/ferpa.html" target="_blank" title="Privacy Rights Information Page">FERPA for Students</a> to learn about your privacy rights.</p>
                </div>
                <ul class="list-group">
                     <li class="list-group-item">
@@ -82,8 +85,10 @@
         <div class="row" ng-show="profile.data.employee"><div class="col-md-7">
            <div class="panel panel-default add-top-space">
                <div class="panel-heading">
-                   <h3 class="panel-title profile-h3">Employee Information</h3>
-                   <p class="data-source">Source: <a href="#" title="Employee Services Page">Employee Self-Service(ESS)</a></p>
+                   <div class="row profile-heading">
+                       <div class="col-xs-8"><h3 class="panel-title">Employee Information</h3></div>
+                       <div class="col-xs-4 pull-right">Source: <a href="https://prp.admin.uw.edu/ess/uwnetid/address.aspx" title="Employee Services Page" target="_blank">Employee Self-Service (ESS)</a></div>
+                   </div>
                </div>
                <ul class="list-group">
                     <li class="list-group-item">
