@@ -12,7 +12,7 @@
            <ul class="list-group">
                <li ng-show="profile.data.employee" class="list-group-item">
                    <!-- Employee publishing info -->
-                   <div ng-if="!profile.isSettingPublish && profile.data.employee">
+                   <div uib-collapse="profile.isSettingPublish && profile.data.employee">
                        <div ng-show="profile.publishChangeSuccess" class="alert alert-success pn-set-msg" role="alert">
                             <a href="" class="close" ng-click="profile.publishChangeSuccess = false" aria-label="close">&times;</a>
                                 Your employee directory listing preference has been changed and will be reflected in the <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory</a> immediately.
@@ -42,7 +42,7 @@
                         </div>
                    </div>
                    <!-- Change employee publishing setting -->
-                   <div ng-show="profile.isSettingPublish">
+                   <div uib-collapse="!profile.isSettingPublish">
                         <h4>Change your employee directory listing preference to:</h4>
                         <form role="form" id="publishForm" name="profile.publishForm"><fieldset>
                         <ul class="publish-radio">
