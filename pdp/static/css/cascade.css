@@ -41,8 +41,10 @@
 	font-size: 20px;
 }
 
-
-.profile-label {
+.profile-list .list-group-item > h3,
+.profile-list .list-group-item > div > h3:not(.page-title),
+.profile-list .list-group-item > h4 {
+	display: inline;
 	font-weight: 400;
 	font-family: "Encode Sans Compressed", sans-serif;
     line-height: 1.3;
