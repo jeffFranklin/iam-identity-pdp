@@ -24,7 +24,7 @@
           ng-model-options="{ allowInvalid: true }"
           role="form" name="profile.nameForm" id="nameForm">
         <div id="fieldset_wrapper">
-            <fieldset>
+            <fieldset class="pn-box">
                 <div class="row">
                     <div class="col-md-4 namefield">
                         <label for="pnfname">First Name</label>
@@ -60,7 +60,7 @@
                 </div>
                 <p id="errormessage" role="alert" ng-show="profile.nameForm.$dirty && profile.nameForm.$error.pattern">The following characters are
                     not allowed: {{ name.displayName | invalid_chars : name.valid_chars }}</p>
-                <legend class="legend-pn">Preferred Name</legend>
+                <legend class="legend-pn sr-only">Preferred Name</legend>
             </fieldset>
             <input type="hidden" name="pndn" ng-model="name.displayName" maxlength="{{ name.displayNameMax }}"/>
             <div ng-repeat="field in ['first','middle','last']"
@@ -78,7 +78,7 @@
         <div class="policy">
             <h4 class="set-pn-h3">Terms & Conditions</h4>
             <p>When you save your preferred name, you agree that:</p>
-            <ul>
+            <ul class="tc-block">
                 <li>You have not set a preferred name with an intent to impersonate someone else, to deceive, or
                     to defraud;
                 </li>

@@ -136,3 +136,19 @@ label .hidden {
 }
 
 .char-counter.alert-info { display: none }
+
+
+#fieldset_wrapper {
+    padding: 0px;
+    border: 0px;
+    border-radius: 0px;
+}
+
+.tc-block {
+    padding-bottom: 20px;
+}
+
+.pn-box {
+    padding-top: 20px;
+    padding-bottom: 0px;
+}
