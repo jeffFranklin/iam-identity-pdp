@@ -2,14 +2,14 @@
 <div uib-collapse="profile.isSettingName">
     <h3>Preferred Name</h3><br>
     <button ng-show="profile.data.preferred_name" type="button" id="edit-pn-btn" class="btn btn-default btn-xs" ng-click="profile.showNameChange()">Edit</button>
-    <p ng-show="!profile.data.preferred_name">Set your preferred name to replace your legal name in the <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory.</a><br>
+    <p ng-show="!profile.data.preferred_name">Set your preferred name to replace your legal name in the <a href="https://www.washington.edu/home/peopledir/" target="_blank" title="Go to the UW Directory">UW Directory.</a><br>
         <button id="set-pn-btn" class="btn btn-primary btn-xs" type="button" ng-click="profile.showNameChange()">
             Set preferred name</button>
     </p>
     <p class="userinfo" ng-show="profile.data.preferred_name">{{ profile.data.preferred_name }}</p>
     <div ng-show="profile.nameChangeSuccess" role="alert" class="alert alert-success pn-set-msg" role="alert">
         <a href="" class="close" ng-click="profile.nameChangeSuccess = false" aria-label="close">&times;</a>
-        Your preferred name is set and will be displayed in the <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory</a> immediately.
+        Your preferred name is set and will be displayed in the <a href="https://www.washington.edu/home/peopledir/" title="Go to the UW Directory" target="_blank">UW Directory</a> immediately.
     </div>
 </div>
 
@@ -17,7 +17,7 @@
     <h3 class="page-title">Set Preferred Name</h3>
     <p>You can set a preferred name to be used in place of your
         legal name wherever possible. If you are listed in the
-        <a href="http://www.washington.edu/home/peopledir/" target="_blank" title="Go to the UW Directory">UW directory</a>,
+        <a href="http://www.washington.edu/home/peopledir/" title="Go to the UW Directory" target="_blank">UW directory</a>,
         your preferred name will be visible there immediately.</p>
 
     <form ng-controller="NameCtrl as name"
