@@ -15,7 +15,7 @@
                    <div uib-collapse="profile.isSettingPublish && profile.data.employee">
                        <div ng-show="profile.publishChangeSuccess" class="alert alert-success pn-set-msg" role="alert">
                             <a href="" class="close" ng-click="profile.publishChangeSuccess = false" aria-label="close">&times;</a>
-                                Your employee directory listing preference has been changed and will be reflected in the <a href="https://www.washington.edu/home/peopledir/" target="_blank">UW Directory</a> immediately.
+                                Your UW Directory listing preference has been changed and will be reflected in the <a href="https://www.washington.edu/home/peopledir/" target="_blank" title="Go to the UW Directory">UW Directory</a> immediately.
                         </div>
                         <p ng-show="profile.data.employee.publish == 'N'">You are not included in the UW Directory.</p>
                         <div ng-show="profile.data.employee.publish != 'N'">
@@ -33,7 +33,7 @@
                         </div>
                         <button ng-show="!profile.data.is_publish_hidden"
                                 class="btn btn-default btn-xs" type="button"
-                                ng-click="profile.showPublishScreen()">Change setting
+                                ng-click="profile.showPublishScreen()">Change listing preference
                         </button>
                         <div ng-show="profile.data.is_publish_hidden">
                             <a href="https://prp.admin.uw.edu/ess/uwnetid/address.aspx" target="_blank">
@@ -42,7 +42,7 @@
                    </div>
                    <!-- Change employee publishing setting -->
                    <div uib-collapse="!profile.isSettingPublish">
-                        <h4>Change your employee directory listing preference to:</h4>
+                        <h4>Change your UW Directory listing preference</h4>
                         <form role="form" id="publishForm" name="profile.publishForm"><fieldset>
                         <ul class="publish-radio">
                             <li><label class="radio-inline"><input type="radio" name="employeepublish" value="N" ng-model="profile.employeePublishValue">Unlisted:</label> You will not be included in the UW Directory.</li>
