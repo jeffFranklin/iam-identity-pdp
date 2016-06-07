@@ -74,21 +74,21 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', '$timeou
 
     this.clearNameChange = function(){
         _this.isSettingName = false;
-        _this.pn = {};
-        _this.nameForm.$setPristine();
-        
+        $timeout(function(){
+            $('#pnChangeButton').focus();
+            _this.pn = {};
+            _this.nameForm.$setPristine();
+        });
     };
-
 
     this.showNameChange = function(){
         _this.isSettingName = true;
         _this.nameChangeSuccess = false;
         var pn = _this.data.preferred;
         _this.pn = {first: pn.first, middle: pn.middle, last: pn.last};
-        // $timeout so we focus after the form's visible. this kinda smells.
         $timeout(function(){$('#nameForm').find('input')[0].focus();});
-
     };
+
     this.putPreferredName = function(name){
         _this.puttingPrefName = true;
         return profileService.putPreferredName(_this.data.netid, name).then(function(name){
@@ -106,6 +106,7 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', '$timeou
 
     this.clearPublishChange = function(){
         _this.isSettingPublish = false;
+        $timeout(function(){$('#publishChangeButton').focus()});
     };
 
     this.showPublishScreen = function(){
@@ -114,10 +115,7 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', '$timeou
         _this.publishForm.$setPristine();
         _this.employeePublishValue = _this.data.employee && _this.data.employee.publish ?
             _this.data.employee.publish : 'Y';
-        // wrapping the focus in a $timeout lets the form become visible before
-        // focusing. It feels a little like black magic, unsure if it works
-        // on a slower box.
-        $timeout(function(){$('#publishForm').find('input:checked').focus();});
+        $timeout(function(){$('#publishForm').find('input:checked').focus();})
     };
 
     this.putPublish  = function(){
@@ -135,8 +133,8 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', '$timeou
         //validation--set these false to start
         // so button is disabled--user won't see
         //error text until they dirty the form (per ng directives in the HTML)
-        _this.nameForm.pnfname.$setValidity("required", false)
-        _this.nameForm.pnlname.$setValidity("required", false)
+        _this.nameForm.pnfname.$setValidity("required", false);
+        _this.nameForm.pnlname.$setValidity("required", false);
         if (_this.nameForm.pnfname.$dirty || _this.pn.first){
             if (!_this.pn.first) {
                 _this.nameForm.pnfname.$setValidity("required", false)
@@ -154,8 +152,8 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', '$timeou
     };
 
     this.impersonate = function(netid){
-        _this.clearNameChange();
         _this.clearPublishChange();
+        _this.clearNameChange();
         profileService.getProfile(netid || '').then(function(profile){
             if(!netid || netid == _this.netid){
                 _this.impersonationNetid = null;
