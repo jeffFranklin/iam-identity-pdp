@@ -33,8 +33,9 @@
                         </div>
                         <button ng-show="!profile.data.is_publish_hidden"
                                 class="btn btn-default btn-xs" type="button"
+								id="publishChangeButton"
                                 ng-click="profile.showPublishScreen()">Change listing preference
-                        </button>
+                         </button>
                         <div ng-show="profile.data.is_publish_hidden">
                             <a href="https://prp.admin.uw.edu/ess/uwnetid/address.aspx" target="_blank">
                                 Want to change your directory settings? Go to Employee Self-Service.</a>
