@@ -45,10 +45,10 @@
                         <h4>Change your employee directory listing preference to:</h4>
                         <form role="form" id="publishForm" name="profile.publishForm"><fieldset>
                         <ul class="publish-radio">
-                            <li><label class="radio-inline"><input type="radio" name="employeepublish" value="N" ng-model="profile.employeePublishValue">Unlisted</label> You will not be included in the UW Directory.</li>
+                            <li><label class="radio-inline"><input type="radio" name="employeepublish" value="N" ng-model="profile.employeePublishValue">Unlisted:</label> You will not be included in the UW Directory.</li>
                             <li ng-repeat="pubvalue in ['Y', 'E']">
                                 <label class="radio-inline"><input type="radio" name="employeepublish" ng-value="pubvalue" ng-model="profile.employeePublishValue">
-                                Listed with<span ng-show="pubvalue== 'E'">out</span> email address</label>
+                                Listed with<span ng-show="pubvalue== 'E'">out</span> email address:</label>
                                 <ul class="data-list" role="list">
                                     <li>{{ profile.data.rollup_name }}</li>
                                     <li>UW NetID: {{ profile.data.netid }}</li>
