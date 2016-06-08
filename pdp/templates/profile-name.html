@@ -1,15 +1,21 @@
 {% verbatim %}
 <div uib-collapse="profile.isSettingName">
-    <h3>Preferred Name</h3><br>
-    <button ng-show="profile.data.preferred_name" type="button" id="edit-pn-btn" class="btn btn-default btn-xs" ng-click="profile.showNameChange()">Edit</button>
-    <p ng-show="!profile.data.preferred_name">Set your preferred name to replace your legal name in the <a href="https://www.washington.edu/home/peopledir/" target="_blank" title="Go to the UW Directory">UW Directory.</a><br>
-        <button id="set-pn-btn" class="btn btn-primary btn-xs" type="button" ng-click="profile.showNameChange()" title="Go to set your preferred name">
-            Set preferred name</button>
+    <h3>Preferred Name</h3>
+    <p>
+        <span ng-show="profile.data.preferred_name" class="userinfo">{{ profile.data.preferred_name }}</span>
+        <span ng-show="!profile.data.preferred_name">
+            Set your preferred name to replace your legal name in the
+            <a href="https://www.washington.edu/home/peopledir/" target="_blank" title="Go to the UW Directory">
+                UW Directory.</a></span>
+        <button type="button"
+                id="pnChangeButton"
+                ng-attr-class="{{ profile.data.preferred_name ? 'btn btn-xs btn-default' : 'btn btn-xs btn-primary'}}"
+                ng-click="profile.showNameChange()">
+            {{ profile.data.preferred_name ? 'Edit' : 'Set preferred name' }}</button>
     </p>
-    <p class="userinfo" ng-show="profile.data.preferred_name">{{ profile.data.preferred_name }}</p>
-    <div ng-show="profile.nameChangeSuccess" role="alert" class="alert alert-success pn-set-msg" role="alert">
-        Your preferred name is set and will be displayed in the <a href="" class="close" ng-click="profile.nameChangeSuccess = false" aria-label="close">&times;</a>
-        <a href="https://www.washington.edu/home/peopledir/" title="Go to the UW Directory" target="_blank">UW Directory</a> immediately.
+    <div ng-show="profile.nameChangeSuccess" role="alert" class="alert alert-success pn-set-msg">
+        <a href="" class="close" ng-click="profile.nameChangeSuccess = false" aria-label="close">&times;</a>
+        Your preferred name is set and will be displayed in the <a href="https://www.washington.edu/home/peopledir/" title="Go to the UW Directory" target="_blank">UW Directory</a> immediately.
     </div>
 </div>
 
