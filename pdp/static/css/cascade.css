@@ -134,18 +134,15 @@ label .hidden {
 
 .char-counter.alert-info { display: none }
 
-
-#fieldset_wrapper {
-    padding: 0px;
-    border: 0px;
-    border-radius: 0px;
-}
-
-.tc-block {
+#nameForm .policy ul {
     padding-bottom: 20px;
 }
 
-.pn-box {
+#nameForm fieldset {
     padding-top: 20px;
-    padding-bottom: 0px;
+    padding-bottom: 0;
+}
+
+#nameForm legend {
+	display: none
 }
