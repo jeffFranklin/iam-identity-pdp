@@ -133,3 +133,16 @@ label .hidden {
 }
 
 .char-counter.alert-info { display: none }
+
+#nameForm .policy ul {
+    padding-bottom: 20px;
+}
+
+#nameForm fieldset {
+    padding-top: 20px;
+    padding-bottom: 0;
+}
+
+#nameForm legend {
+	display: none
+}
