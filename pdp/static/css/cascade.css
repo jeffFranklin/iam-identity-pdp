@@ -1,14 +1,4 @@
-/* ++++++++++++++++ TO BE DELETED  ++++++++++++++++ */
-
-/* temporary fake-data */
-.fake-data { 
-	color:red;
-}	
-
-/* ++++++++++++++++ GLOBAL ELEMENTS ++++++++++++++++ */
-/*******  SPACING *******/
-/* center me */
-.center { 
+.center {
 	margin:auto;
 	width: 50%;
 	text-align: center;
@@ -45,9 +35,8 @@
 	font-size: 20px;
 }
 
-.profile-list .list-group-item > h3,
-.profile-list .list-group-item > div > h3:not(.page-title),
-.profile-list .list-group-item > h4 {
+.profile-list .list-group-item h3:not(.page-title),
+.profile-list .list-group-item h4 {
 	display: inline;
 	font-weight: 400;
 	font-family: "Encode Sans Compressed", sans-serif;
@@ -106,7 +95,8 @@ ul.data-list {
 }
 
 .welcome{
-	margin-top: 0px;
+	margin-top: 0;
+	font-size: 36px;
 }
 
 
@@ -124,7 +114,7 @@ ul.data-list {
 	font-weight: bold;
 }
 
-.input-group > input[type='text'] {
+.input-group input[type='text'] {
 	height: 43px;
 }
 
