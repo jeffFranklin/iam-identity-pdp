@@ -15,10 +15,10 @@
              aria-labelledby="modalTitle">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
-                    <div class="modal-body" id="expired_message">
+                    <div class="modal-body" id="welcome-message">
                        <button type="button" id="modal-exit" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                            <h1 class="welcome">Welcome to Identity.UW!</h1>
+                            <h2 class="welcome">Welcome to Identity.UW!</h2>
                             <p>At Identity.UW you can:</p>
 
                             <ul>
@@ -27,7 +27,7 @@
                                 <li>Set your UW NetID account recovery settings.</li>
                             </ul>
                             <div class="center">
-                                <button title="Go to Identity.UW" type="button" data-dismiss="modal" class="btn btn-primary bigbtn"
+                                <button type="button" data-dismiss="modal" class="btn btn-primary bigbtn"
                                         ng-click="splash.setProfileVisit()">Let's get started!</button></div>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
 
         <!-- General Profile section - viewable by all -->
         <div class="row"><div class="col-md-7">
-           <h2 class="profile-h2 sr-only">Profile Information</h2>
+           <h2 class="sr-only">General Profile</h2>
            <div class="panel panel-default add-top-space">
                 <ul class="list-group profile-list">
                     <li class="list-group-item">

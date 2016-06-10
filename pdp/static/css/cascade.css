@@ -1,14 +1,4 @@
-/* ++++++++++++++++ TO BE DELETED  ++++++++++++++++ */
-
-/* temporary fake-data */
-.fake-data { 
-	color:red;
-}	
-
-/* ++++++++++++++++ GLOBAL ELEMENTS ++++++++++++++++ */
-/*******  SPACING *******/
-/* center me */
-.center { 
+.center {
 	margin:auto;
 	width: 50%;
 	text-align: center;
@@ -45,9 +35,8 @@
 	font-size: 20px;
 }
 
-.profile-list .list-group-item > h3,
-.profile-list .list-group-item > div > h3:not(.page-title),
-.profile-list .list-group-item > h4 {
+.profile-list .list-group-item h3:not(.page-title),
+.profile-list .list-group-item h4 {
 	display: inline;
 	font-weight: 400;
 	font-family: "Encode Sans Compressed", sans-serif;
@@ -63,6 +52,8 @@
 /* Data source bylin style */
 ul.data-list {
 	padding-bottom: 15px;
+	list-style-type: none;
+	padding-left: 15px;
 }
 
 /* Edit existing name button */
@@ -106,25 +97,34 @@ ul.data-list {
 }
 
 .welcome{
-	margin-top: 0px;
+	margin-top: 0;
+	font-size: 36px;
 }
 
 
-.publish-radio input[type=radio] {
-    height: 10px;
-    width: 10px;
+#publishForm input[type=radio] {
+    height: 13px;
+    width: 13px;
 }
 
-.publish-radio {
+#publishForm ul {
 	list-style-type: none;
 	padding-left: 0;
 }
 
-.publish-radio label {
+#publishForm ul.data-list{
+	padding-left: 20px;
+}
+
+#publishForm label {
 	font-weight: bold;
 }
 
-.input-group > input[type='text'] {
+#publishForm button {
+	margin: 0 10px 0 0;
+}
+
+.input-group input[type='text'] {
 	height: 43px;
 }
 

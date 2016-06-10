@@ -57,7 +57,8 @@ function ProfileService(apiService) {
 
 app.factory('profileService', ['apiService', ProfileService]);
 
-app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', '$timeout', function(profileService, loginStatus, $log, $timeout){
+app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', '$timeout', '$anchorScroll',
+    function(profileService, loginStatus, $log, $timeout, $anchorScroll){
     var _this = this;
     this.netid = null;
     this.isAdmin = null;  // set to true or false when we get it.
@@ -75,7 +76,12 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', '$timeou
     this.clearNameChange = function(){
         _this.isSettingName = false;
         $timeout(function(){
-            $('#pnChangeButton').focus();
+            var id = _this.nameChangeSuccess ? 'name-change-success':
+                'pnChangeButton';
+            // scroll to the part of the page we think the user left off
+            // at. The hope is that screen readers pick up the alert.
+            // This seems to work better than $('#' + id).focus().
+            $anchorScroll(id);
             _this.pn = {};
             _this.nameForm.$setPristine();
         });
@@ -106,7 +112,11 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', '$timeou
 
     this.clearPublishChange = function(){
         _this.isSettingPublish = false;
-        $timeout(function(){$('#publishChangeButton').focus()});
+        $timeout(function(){
+            var id = _this.publishChangeSuccess ? 'publish-change-success' :
+                'publishChangeButton';
+            $anchorScroll(id);
+        });
     };
 
     this.showPublishScreen = function(){
@@ -165,14 +175,16 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', '$timeou
     }
 }]);
 
-app.factory('modalService', [function(){
+app.factory('modalService', ['$timeout', function($timeout){
     var _this = this;
 
     return {
         showModal: function(id) {
-            $(id)
-                .modal('show')
-                .on('shown.bs.modal', function() { $(id).find('button.btn-primary').focus();
+            $(id).modal('show');
+            // set focus on the button. $timeout gives the DOM
+            // a chance to update.
+            $timeout(function () {
+                $(id + ' .btn').focus();
             });
         }
     };
