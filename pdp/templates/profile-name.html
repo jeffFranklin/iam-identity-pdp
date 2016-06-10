@@ -13,7 +13,9 @@
                 ng-click="profile.showNameChange()">
             {{ profile.data.preferred_name ? 'Edit' : 'Set preferred name' }}</button>
     </p>
-    <div ng-show="profile.nameChangeSuccess" role="alert" class="alert alert-success pn-set-msg">
+    <div ng-show="profile.nameChangeSuccess"
+         id="name-change-success"
+         role="alert" class="alert alert-success pn-set-msg">
         <a href="" class="close" ng-click="profile.nameChangeSuccess = false" aria-label="close">&times;</a>
         Your preferred name is set and will be displayed in the <a href="https://www.washington.edu/home/peopledir/" title="Go to the UW Directory" target="_blank">UW Directory</a> immediately.
     </div>
