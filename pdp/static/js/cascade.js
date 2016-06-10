@@ -165,14 +165,16 @@ app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', '$timeou
     }
 }]);
 
-app.factory('modalService', [function(){
+app.factory('modalService', ['$timeout', function($timeout){
     var _this = this;
 
     return {
         showModal: function(id) {
-            $(id)
-                .modal('show')
-                .on('shown.bs.modal', function() { $(id).find('button.btn-primary').focus();
+            $(id).modal('show');
+            // set focus on the button. $timeout gives the DOM
+            // a chance to update.
+            $timeout(function () {
+                $(id + ' .btn').focus();
             });
         }
     };
