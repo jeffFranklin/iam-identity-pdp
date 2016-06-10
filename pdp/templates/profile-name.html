@@ -33,7 +33,9 @@
             <div class="row">
                 <div class="col-md-4 namefield">
                     <label for="pnfname">First Name</label>
-                    <input type="text" name="pnfname" id="pnfname" aria-describedby="pnfname" ng-model="profile.pn.first"
+                    <input type="text" name="pnfname" id="pnfname"
+                           aria-describedby="pnfname" aria-required="true"
+                           ng-model="profile.pn.first"
                            ng-pattern="name.valid_chars"
                            ng-change="name.updateDisplayName(profile.pn);profile.validateNames()"
                            maxlength="{{ name.getFieldMaxLength(profile.pn.first) }}"
@@ -52,7 +54,9 @@
                 </div>
                 <div class="col-md-4 namefield">
                     <label for="pnlname">Last Name</label>
-                    <input type="text" name="pnlname" id="pnlname" aria-describedby="pnlname" ng-model="profile.pn.last"
+                    <input type="text" name="pnlname" id="pnlname"
+                           aria-describedby="pnlname" aria-required="true"
+                           ng-model="profile.pn.last"
                            ng-change="name.updateDisplayName(profile.pn);profile.validateNames()"
                            ng-pattern="name.valid_chars"
                            maxlength="{{ name.getFieldMaxLength(profile.pn.last) }}"
