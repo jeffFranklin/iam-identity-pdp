@@ -52,6 +52,8 @@
 /* Data source bylin style */
 ul.data-list {
 	padding-bottom: 15px;
+	list-style-type: none;
+	padding-left: 15px;
 }
 
 /* Edit existing name button */
@@ -100,18 +102,26 @@ ul.data-list {
 }
 
 
-.publish-radio input[type=radio] {
-    height: 10px;
-    width: 10px;
+#publishForm input[type=radio] {
+    height: 13px;
+    width: 13px;
 }
 
-.publish-radio {
+#publishForm ul {
 	list-style-type: none;
 	padding-left: 0;
 }
 
-.publish-radio label {
+#publishForm ul.data-list{
+	padding-left: 20px;
+}
+
+#publishForm label {
 	font-weight: bold;
+}
+
+#publishForm button {
+	margin: 0 10px 0 0;
 }
 
 .input-group input[type='text'] {
