@@ -31,7 +31,7 @@
 
 .profile-heading { margin-top: 5px; margin-bottom: 10px; font-size: 12px;}
 
-.profile-heading h3 {
+.profile-heading h3, .profile-h3 {
 	font-size: 20px;
 }
 
