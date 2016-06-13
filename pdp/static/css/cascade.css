@@ -113,6 +113,10 @@ label .hidden {
     padding-bottom: 20px;
 }
 
+#nameForm .policy h4 {
+	font-size: 16px;
+}
+
 #nameForm fieldset {
     padding-top: 20px;
     padding-bottom: 0;
