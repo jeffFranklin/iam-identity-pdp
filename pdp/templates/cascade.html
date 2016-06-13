@@ -12,13 +12,13 @@
         <!-- First time visitor modal -->
         <div class="modal fade bs-modal-sm" id="splashModal" tabindex="-1" role="dialog"
              ng-controller="SplashModalCtrl as splash"
-             aria-labelledby="modalTitle">
+             aria-labelledby="splashModalTitle">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
-                    <div class="modal-body" id="welcome-message">
+                    <div class="modal-body">
                        <button type="button" id="modal-exit" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                            <h2 class="welcome">Welcome to Identity.UW!</h2>
+                            <h2 id="splashModalTitle">Welcome to Identity.UW!</h2>
                             <p>At Identity.UW you can:</p>
 
                             <ul>
@@ -26,9 +26,8 @@
                                 <li>Change your information sharing settings.</li>
                                 <li>Set your UW NetID account recovery settings.</li>
                             </ul>
-                            <div class="center">
-                                <button type="button" data-dismiss="modal" class="btn btn-primary bigbtn"
-                                        ng-click="splash.setProfileVisit()">Let's get started!</button></div>
+                            <div class="button-container"><button type="button" data-dismiss="modal" class="btn btn-primary bigbtn"
+                                    ng-click="splash.setProfileVisit()">Let's get started!</button></div>
                     </div>
                 </div>
             </div>

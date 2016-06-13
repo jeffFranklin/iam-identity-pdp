@@ -86,7 +86,7 @@
         </div>
 
         <div class="policy">
-            <h4 class="set-pn-h3">Terms & Conditions</h4>
+            <h4>Terms & Conditions</h4>
             <p>When you save your preferred name, you agree that:</p>
             <ul>
                 <li>You have not set a preferred name with an intent to impersonate someone else, to deceive, or
@@ -100,11 +100,11 @@
             </ul>
         </div>
 
-        <button type="submit" class="btn btn-primary pn-btn-space" ng-click="profile.putPreferredName(profile.pn)"
+        <button type="submit" class="btn btn-primary" ng-click="profile.putPreferredName(profile.pn)"
                 ng-disabled="profile.nameForm.$invalid || profile.nameForm.$pristine || profile.puttingPrefName"
         >Agree & Save Name
         </button>
-        <button class="btn btn-default add-space-left pn-btn-space" ng-click="profile.clearNameChange()" ng-disabled="profile.puttingPrefName">
+        <button class="btn btn-default" ng-click="profile.clearNameChange()" ng-disabled="profile.puttingPrefName">
             Cancel
         </button>
     </form>

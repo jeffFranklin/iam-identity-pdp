@@ -1,18 +1,8 @@
-.center {
-	margin:auto;
-	width: 50%;
-	text-align: center;
-}	
 
 /* spacing between message and button */
 .pn-set-msg{
 	margin-top: 20px;
 	margin-bottom: 5px;
-}
-
-/* spacing between buttons and border */
-.pn-btn-space {
-	margin-bottom: 10px;
 }
 
 .profile-directory-section h2 {
@@ -45,10 +35,6 @@
     margin-bottom: 5px;
 }
 
-.set-pn-h3{
-	font-size: 16px !important;
-}
-
 /* Data source bylin style */
 ul.data-list {
 	padding-bottom: 15px;
@@ -68,39 +54,28 @@ ul.data-list {
 	display: block;
 }
 
-.add-space-left{
-	margin-left: 15px;
+#splashModal {
+	top: 10%;
 }
 
-.request-submitted {
-    color: #ff0000;
-
+#splashModal .modal-dialog {
+	max-width: 530px;
+	margin: 30px auto;
 }
 
-.edit-directory {
-    margin-left: 50px;
-}
-
-.modal {
-    bottom: inherit;
-}
-
-#modal-exit.close {
-    font-size: 40px;
-    margin-top: -10px;
-}
-
-#pn-alert.close {
-    font-size: 10px;
-    float: left;
-    margin-bottom: 10px;
-}
-
-.welcome{
+#splashModal h2 {
 	margin-top: 0;
 	font-size: 36px;
 }
 
+#splashModal .close {
+    font-size: 40px;
+    margin-top: -10px;
+}
+
+#splashModal .button-container {
+	text-align: center;
+}
 
 #publishForm input[type=radio] {
     height: 13px;
@@ -145,4 +120,9 @@ label .hidden {
 
 #nameForm legend {
 	display: none
+}
+
+#nameForm button {
+	margin-bottom: 10px;
+	margin-right: 15px;
 }
