@@ -178,7 +178,7 @@ def get_student(identifiers):
         phone_numbers=[format_phone_number(x) for x in student.wp_phone],
         class_majors=[', '.join(pair) for pair in izip_longest(
             student.wp_title, student.wp_department, fillvalue='-')],
-        publish=(False if student.wp_publish == 'N' else True)
+        publish=(True if student.wp_publish == 'Y' else False)
     )
 
 
