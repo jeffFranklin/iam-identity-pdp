@@ -31,7 +31,7 @@ class StudentProfile(BaseModel):
     phone_numbers = []
     class_majors = []  # A join of year list and majors list
     emails = []
-    publish = True  # True/False, default true
+    publish = False  # True/False, default false
 
 
 class EmployeeProfile(BaseModel):
