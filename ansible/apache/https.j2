@@ -5,8 +5,8 @@
 
 # Renamed id to profile, add temporary redirect
 RewriteEngine on
-RewriteRule ^id$ /{{app_url_base}}/ [R,L]
-RewriteRule ^id/$ /{{app_url_base}}/ [R,L]
+RewriteRule ^/id$ /{{app_url_base}}/ [R,L]
+RewriteRule ^/id/$ /{{app_url_base}}/ [R,L]
 
 # browser authn
 <LocationMatch /{{app_url_base}}/login>
