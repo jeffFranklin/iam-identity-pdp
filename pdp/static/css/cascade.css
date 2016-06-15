@@ -1,0 +1,132 @@
+
+/* spacing between message and button */
+.pn-set-msg{
+	margin-top: 20px;
+	margin-bottom: 5px;
+}
+
+.profile-directory-section h2 {
+	font-size: 24px;
+	margin-bottom: 10px;
+}
+
+.profile-directory-section h4 {
+	color:#595959;
+	font-weight: bold;
+}
+
+.profile-directory-section legend {
+	display: none;
+}
+
+.profile-heading { margin-top: 5px; margin-bottom: 10px; font-size: 12px;}
+
+.profile-heading h3, .profile-h3 {
+	font-size: 20px;
+}
+
+.profile-list .list-group-item h3:not(.page-title),
+.profile-list .list-group-item h4 {
+	display: inline;
+	font-weight: 400;
+	font-family: "Encode Sans Compressed", sans-serif;
+    line-height: 1.3;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+/* Data source bylin style */
+ul.data-list {
+	padding-bottom: 15px;
+	list-style-type: none;
+	padding-left: 15px;
+}
+
+/* Edit existing name button */
+#pnChangeButton.btn-default{
+	float: right;
+}
+
+/* Add new name button */
+#pnChangeButton.btn-primary{
+	margin-left: 0;
+	margin-top: 10px;
+	display: block;
+}
+
+#splashModal {
+	top: 10%;
+}
+
+#splashModal .modal-dialog {
+	max-width: 530px;
+	margin: 30px auto;
+}
+
+#splashModal h2 {
+	margin-top: 0;
+	font-size: 36px;
+}
+
+#splashModal .close {
+    font-size: 40px;
+    margin-top: -10px;
+}
+
+#splashModal .button-container {
+	text-align: center;
+}
+
+#publishForm input[type=radio] {
+    height: 13px;
+    width: 13px;
+}
+
+#publishForm ul {
+	list-style-type: none;
+	padding-left: 0;
+}
+
+#publishForm ul.data-list{
+	padding-left: 20px;
+}
+
+#publishForm label {
+	font-weight: bold;
+}
+
+#publishForm button {
+	margin: 0 10px 0 0;
+}
+
+.input-group input[type='text'] {
+	height: 43px;
+}
+
+label .hidden {
+	display: none;
+}
+
+.char-counter.alert-info { display: none }
+
+#nameForm .policy ul {
+    padding-bottom: 20px;
+}
+
+#nameForm .policy h4 {
+	font-size: 16px;
+}
+
+#nameForm fieldset {
+    padding-top: 20px;
+    padding-bottom: 0;
+}
+
+#nameForm legend {
+	display: none
+}
+
+#nameForm button {
+	margin-bottom: 10px;
+	margin-right: 15px;
+}

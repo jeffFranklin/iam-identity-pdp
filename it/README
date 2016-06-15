@@ -1,8 +1,0 @@
-Integration tests for identity.uw using py.test.
-
-Run it by doing something like:
-
-DJANGO_SETTINGS_MODULE=pdp-site.it_settings REMOTE_USER=idtest55 py.test it
-
-This does make changes on registry eval. idtest55 is a test account created
-by jpf.

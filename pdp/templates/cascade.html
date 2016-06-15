@@ -1,0 +1,161 @@
+{% extends 'base-pdp.html' %}
+
+{% block content %}
+    {% verbatim %}
+    <uw-active-tab>Profile</uw-active-tab>
+    <div class="container" ng-controller="ProfileCtrl as profile" ng-cloak>
+    <!-- NEW PAGE-TITLE -->
+		<div class="page-title">
+           <h1>Profile information</h1>
+        </div><!-- end new H1 -->
+
+        <!-- First time visitor modal -->
+        <div class="modal fade bs-modal-sm" id="splashModal" tabindex="-1" role="dialog"
+             ng-controller="SplashModalCtrl as splash"
+             aria-labelledby="splashModalTitle">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                       <button type="button" id="modal-exit" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                            <h2 id="splashModalTitle">Welcome to Identity.UW!</h2>
+                            <p>At Identity.UW you can:</p>
+
+                            <ul>
+                                <li>Set your preferred name.</li>
+                                <li>Change your information sharing settings.</li>
+                                <li>Set your UW NetID account recovery settings.</li>
+                            </ul>
+                            <div class="button-container"><button type="button" data-dismiss="modal" class="btn btn-primary bigbtn"
+                                    ng-click="splash.setProfileVisit()">Let's get started!</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- General Profile section - viewable by all -->
+        <div class="row"><div class="col-md-7">
+           <h2 class="sr-only">General Profile</h2>
+           <div class="panel panel-default add-top-space">
+                <ul class="list-group profile-list">
+                    <li class="list-group-item">
+                        {% endverbatim %}
+                        {% include "profile-name.html" %}
+                        {% verbatim %}
+                    </li>
+                    <li class="list-group-item">
+                        <h3>Official Name</h3>
+                        <uw-tooltip>Your official name is calculated based on your various affiliations with the UW.
+                            An official employee name would take precedence over an official student name, followed by other affiliations.</uw-tooltip>
+                        <p class="userinfo">{{ profile.data.official_name }}</p>
+                    </li>
+                    <li class="list-group-item" ng-show="profile.data.emails.length">
+                        <h3>UW Email</h3>
+                        <p class="userinfo" ng-repeat="email in profile.data.emails track by $index">{{ email }}</p>
+                    </li>
+                </ul>
+            </div>
+        </div></div>
+
+        <!-- Student section viewable only by current students. -->
+        <div class="row" ng-show="profile.data.student"><div class="col-md-7">
+           <div class="panel panel-default add-top-space">
+               <div class="panel-heading">
+                   <div class="row profile-heading">
+                    <div class="col-xs-8"><h3 class="panel-title">Student Information</h3></div>
+                    <div class="col-xs-4 pull-right">Source: <a href="https://sdb.admin.uw.edu/students/uwnetid/address.asp" target="_blank" title="Student Personal Services">Student Personal Services</a></div>
+                   </div>
+                   <p>Refer to <a href="https://www.washington.edu/students/reg/ferpa.html" target="_blank" title="Privacy Rights Information Page">FERPA for Students</a> to learn about your privacy rights.</p>
+               </div>
+               <ul class="list-group profile-list">
+                    <li class="list-group-item" ng-show="profile.data.official_name != profile.data.student.official_name">
+                        <h4>Official Name</h4>
+                        <p class="userinfo">{{ profile.data.student.official_name }}</p>
+                    </li>
+                    <li class="list-group-item" ng-show="profile.data.student.phone_numbers.length">
+                        <h4>Phone Number</h4>
+                        <p class="userinfo" ng-repeat="phone in profile.data.student.phone_numbers track by $index">{{ phone }}</p>
+                    </li>
+                    <li class="list-group-item" ng-show="profile.data.student.class_majors.length">
+                        <h4>Year, Major</h4>
+                        <p class="userinfo" ng-repeat="classMajor in profile.data.student.class_majors track by $index">{{ classMajor }}</p>
+                    </li>
+               </ul>
+            </div>
+       </div></div>
+
+        <!-- Employee section viewable only by current employees -->
+        <div class="row" ng-show="profile.data.employee"><div class="col-md-7">
+           <div class="panel panel-default add-top-space">
+               <div class="panel-heading">
+                   <div class="row profile-heading">
+                       <div class="col-xs-8"><h3 class="panel-title">Employee Information</h3></div>
+                       <div class="col-xs-4 pull-right">Source: <a href="https://prp.admin.uw.edu/ess/uwnetid/address.aspx" title="Employee Services Page" target="_blank">Employee Self-Service (ESS)</a></div>
+                   </div>
+               </div>
+               <ul class="list-group profile-list">
+                    <li class="list-group-item" ng-show="profile.data.official_name != profile.data.employee.official_name">
+                        <h4>Official Name</h4>
+                        <p class="userinfo">{{ profile.data.employee.official_name }}</p>
+                    </li>
+                    <li class="list-group-item" ng-show="profile.data.employee.phone_numbers.length">
+                        <h4>Phone Number</h4>
+                        <p class="userinfo" ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</p>
+                    </li>
+                    <li class="list-group-item" ng-show="profile.data.employee.box">
+                        <h4>Box Number</h4>
+                        <p class="userinfo">{{ profile.data.employee.box }}</p>
+                    </li>
+                    <li class="list-group-item" ng-show="profile.data.employee.titledepts.length">
+                        <h4>Position</h4>
+                        <p class="userinfo" ng-repeat="position in profile.data.employee.titledepts track by $index">{{ position }}</p>
+                    </li>
+                    <li class="list-group-item" ng-show="profile.data.employee.addresses.length">
+                        <h4>Campus Address</h4>
+                        <p class="userinfo" ng-repeat="address in profile.data.employee.addresses track by $index">{{ address }}</p>
+                    </li>
+               </ul>
+           </div>
+        </div></div>
+
+        <!-- opt2: UC1 - s1. View - Set PN -->
+        {% endverbatim %}
+        {% include "release-settings.html" %}
+        {% verbatim %}
+
+        <!-- Admin section -->
+        <div ng-if="profile.isAdmin">
+            <div class="row"><div class="col-lg-6"><form role="form">
+                <div class="input-group">
+                    <label class="hidden" for="impersonateField">Admin impersonate another UW NetID</label>
+                    <input name="impersonateField" id="impersonateField" type="text" class="form-control"
+                           ng-model="profile.impersonateNetid"
+                           placeholder="Admin impersonate netid...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default"
+                                ng-click="profile.impersonate(profile.impersonateNetid)"
+                                type="submit">Go!</button>
+                    </span>
+                </div><!-- /input-group -->
+            </form></div></div>
+            <div class="row"><div class="col-lg-6">
+                <div ng-show="profile.impersonationNetid" class="alert alert-danger" role="alert">
+                    Impersonating UWNetID "{{ profile.impersonationNetid }}"
+                </div>
+            </div></div>
+        </div>
+    </div>
+    {% endverbatim %}
+{% endblock %}
+
+{% load static %}
+{% block css %}
+    {{ block.super }}
+    <!-- account css -->
+    <link rel="stylesheet" href="{% static "css/cascade.css" %}">
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static "js/cascade.js" %}"></script>
+{% endblock %}

@@ -38,10 +38,10 @@ def rf(rf):
 
 @fixture
 def irws_file_cache():
-    from restclients.dao_implementation.irws import File
-    orig_cache = File._cache
-    File._cache = {}
+    from resttools.dao_implementation.irws import File
+    orig_cache = File._cache_db
+    File._cache_db = {}
 
     def fin():
-        File._cache = orig_cache
-    return File._cache
+        File._cache_db = orig_cache
+    return File._cache_db

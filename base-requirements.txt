@@ -1,0 +1,11 @@
+# requirements common to all environments
+Django
+simplejson
+mock
+pytest
+pytest-pep8
+pytest-cov
+pytest-django
+tox
+requests
+-e git+https://github.com/UWIT-IAM/iam-resttools.git@v2#egg=resttools
