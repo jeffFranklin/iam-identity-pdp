@@ -1,3 +1,7 @@
+/* setting max width of profile information */
+#max-sizing{
+	max-width: 710px;
+}
 
 /* spacing between message and button */
 .pn-set-msg{
