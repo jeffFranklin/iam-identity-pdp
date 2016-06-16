@@ -4,12 +4,12 @@
 }
 
 /* reducing whitespace under directory information */
-.directory-panel p{
-	margin: 0 0 10px !important;
-}
-
 #profile-content p{
 	margin-bottom: 1px;
+}
+
+#profile-content .profile-directory-section p {
+	margin-bottom: 10px;
 }
 /* spacing between message and button */
 .pn-set-msg{
