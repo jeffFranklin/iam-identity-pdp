@@ -2,7 +2,9 @@
 #max-sizing{
 	max-width: 710px;
 }
-
+p {
+	margin-bottom: 1px;
+}
 /* spacing between message and button */
 .pn-set-msg{
 	margin-top: 20px;
