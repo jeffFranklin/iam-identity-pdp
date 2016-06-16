@@ -63,7 +63,7 @@ def mock_irws_person(netid, irws_root='/registry-dev/v2',
                      employee_emails=('jane@example.edu',
                                       'jane-test@example.com'),
                      employee_publish='Y',  # 'Y', 'N', or 'E' (default 'Y')
-                     student_publish='N',  # 'Y' or 'N', default 'Y
+                     student_publish='Y',  # 'Y' or 'N', default 'Y
                      mailstop='359540',
                      **kwargs):
 
