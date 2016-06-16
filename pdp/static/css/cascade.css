@@ -1,8 +1,10 @@
 /* setting max width of profile information */
-#max-sizing{
+#profile-content {
 	max-width: 710px;
 }
-p {
+
+/* reducing whitespace under directory information */
+#profile-content p {
 	margin-bottom: 1px;
 }
 /* spacing between message and button */

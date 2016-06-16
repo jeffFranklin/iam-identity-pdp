@@ -4,7 +4,7 @@
     {% verbatim %}
     <uw-active-tab>Profile</uw-active-tab>
     <div class="container" ng-controller="ProfileCtrl as profile" ng-cloak>
-        <div id="max-sizing">
+        <div id="profile-content">
         <!-- NEW PAGE-TITLE -->
 		<div class="page-title">
            <h1>Profile information</h1>
@@ -138,10 +138,11 @@
                                 type="submit">Go!</button>
                     </span>
                 </div><!-- /input-group -->
-            </form></div>
-            <div ng-show="profile.impersonationNetid" class="alert alert-danger" role="alert">
-                Impersonating UWNetID "{{ profile.impersonationNetid }}"
-            </div>
+            </form>
+        </div>
+        <div ng-show="profile.impersonationNetid" class="alert alert-danger" role="alert">
+            Impersonating UWNetID "{{ profile.impersonationNetid }}"
+        </div>
         </div>
     </div>
     {% endverbatim %}
