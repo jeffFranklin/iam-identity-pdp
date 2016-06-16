@@ -2,7 +2,7 @@
 <div class="profile-directory-section" ng-show="profile.data.employee || profile.data.student" >
    <h2>Information Sharing Settings</h2>
 
-   <div class="panel panel-default">
+   <div class="panel panel-default directory-panel">
        <div class="panel-heading">
            <h3 class="panel-title profile-h3">UW Directory</h3>
            <p>The <a href="https://www.washington.edu/home/peopledir/" target="_blank" title="Go to the UW Directory">UW Directory</a> will display the following:</p>
@@ -10,16 +10,16 @@
        <ul class="list-group">
            <li ng-show="profile.data.employee" class="list-group-item">
                <!-- Employee publishing info -->
-               <div uib-collapse="profile.isSettingPublish && profile.data.employee">
+               <div uib-collapse="profile.isSettingPublish && profile.data.employee" class="directory-panel">
                    <div ng-show="profile.publishChangeSuccess" class="alert alert-success pn-set-msg"
                         id="publish-change-success"
                         role="alert">
                         <a href="" class="close" ng-click="profile.publishChangeSuccess = false" aria-label="close">&times;</a>
                             Your UW Directory listing preference has been changed and will be reflected in the <a href="https://www.washington.edu/home/peopledir/" target="_blank" title="Go to the UW Directory">UW Directory</a> immediately.
                     </div>
+                    <h4>The following employee information will be viewable by anyone:</h4>
                     <p ng-show="profile.data.employee.publish == 'N'">You are not included in the UW Directory.</p>
                     <div ng-show="profile.data.employee.publish != 'N'">
-                        <h4>The following employee information will be viewable by anyone:</h4>
                         <ul class="data-list">
                             <li>{{ profile.data.rollup_name }}</li>
                             <li>UW NetID: {{ profile.data.netid }}</li>

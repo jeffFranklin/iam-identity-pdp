@@ -4,7 +4,11 @@
 }
 
 /* reducing whitespace under directory information */
-#profile-content p {
+.directory-panel p{
+	margin: 0 0 10px !important;
+}
+
+#profile-content p{
 	margin-bottom: 1px;
 }
 /* spacing between message and button */
