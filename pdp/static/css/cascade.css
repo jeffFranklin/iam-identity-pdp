@@ -1,4 +1,12 @@
+/* setting max width of profile information */
+#profile-content {
+	max-width: 710px;
+}
 
+/* reducing whitespace under directory information */
+#profile-content p {
+	margin-bottom: 1px;
+}
 /* spacing between message and button */
 .pn-set-msg{
 	margin-top: 20px;
