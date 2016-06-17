@@ -17,9 +17,9 @@
                         <a href="" class="close" ng-click="profile.publishChangeSuccess = false" aria-label="close">&times;</a>
                             Your UW Directory listing preference has been changed and will be reflected in the <a href="https://www.washington.edu/home/peopledir/" target="_blank" title="Go to the UW Directory">UW Directory</a> immediately.
                     </div>
+                    <h4>The following employee information will be viewable by anyone:</h4>
                     <p ng-show="profile.data.employee.publish == 'N'">You are not included in the UW Directory.</p>
                     <div ng-show="profile.data.employee.publish != 'N'">
-                        <h4>The following employee information will be viewable by anyone:</h4>
                         <ul class="data-list">
                             <li>{{ profile.data.rollup_name }}</li>
                             <li>UW NetID: {{ profile.data.netid }}</li>
