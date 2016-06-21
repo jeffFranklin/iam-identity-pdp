@@ -1,9 +1,7 @@
 import logging
-from django.http import HttpResponse
 import json
 from pdp.dao import IRWS, GWS
 from resttools.exceptions import InvalidIRWSName, ResourceNotFound
-from pdp.util import full_name_from_object
 from pdp.dao import get_profile
 from idbase.api import RESTDispatch
 from idbase.exceptions import NotFoundError, BadRequestError

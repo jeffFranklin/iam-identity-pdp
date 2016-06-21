@@ -180,6 +180,13 @@ def test_get_student(irws_cache):
         emails=[u'e@f', u'g@h'], publish=False)
 
 
+def test_get_student_default_publish_false(irws_cache):
+    irws_cache.update(mock_irws_person('blah', identifiers=('sdb',),
+                                       sdb_update={'wp_publish': None}))
+    profile = get_profile('blah')
+    assert not profile.student.publish
+
+
 def test_get_student_not_student(irws_cache):
     assert not get_student({'hepps': '/foo/132'})
 

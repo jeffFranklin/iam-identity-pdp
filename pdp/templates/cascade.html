@@ -4,7 +4,8 @@
     {% verbatim %}
     <uw-active-tab>Profile</uw-active-tab>
     <div class="container" ng-controller="ProfileCtrl as profile" ng-cloak>
-    <!-- NEW PAGE-TITLE -->
+        <div id="profile-content">
+        <!-- NEW PAGE-TITLE -->
 		<div class="page-title">
            <h1>Profile information</h1>
         </div><!-- end new H1 -->
@@ -12,31 +13,30 @@
         <!-- First time visitor modal -->
         <div class="modal fade bs-modal-sm" id="splashModal" tabindex="-1" role="dialog"
              ng-controller="SplashModalCtrl as splash"
-             aria-labelledby="modalTitle">
+             aria-labelledby="splashModalTitle">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
-                    <div class="modal-body" id="expired_message">
+                    <div class="modal-body">
                        <button type="button" id="modal-exit" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                            <h1 class="welcome">Welcome to Identity.UW!</h1>
+                            <h2 id="splashModalTitle">Welcome to Identity.UW!</h2>
                             <p>At Identity.UW you can:</p>
 
                             <ul>
                                 <li>Set your preferred name.</li>
                                 <li>Change your information sharing settings.</li>
-                                <li>Set your account recovery settings.</li>
+                                <li>Set your UW NetID account recovery settings.</li>
                             </ul>
-                            <div class="center">
-                                <button type="button" data-dismiss="modal" class="btn btn-primary bigbtn"
-                                        ng-click="splash.setProfileVisit()">Let's get started!</button></div>
+                            <div class="button-container"><button type="button" data-dismiss="modal" class="btn btn-primary bigbtn"
+                                    ng-click="splash.setProfileVisit()">Let's get started!</button></div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- General Profile section - viewable by all -->
-        <div class="row"><div class="col-md-7">
-           <h2 class="profile-h2 sr-only">Profile Information</h2>
+        <div>
+           <h2 class="sr-only">General Profile</h2>
            <div class="panel panel-default add-top-space">
                 <ul class="list-group profile-list">
                     <li class="list-group-item">
@@ -56,15 +56,15 @@
                     </li>
                 </ul>
             </div>
-        </div></div>
+        </div>
 
         <!-- Student section viewable only by current students. -->
-        <div class="row" ng-show="profile.data.student"><div class="col-md-7">
+        <div ng-show="profile.data.student">
            <div class="panel panel-default add-top-space">
                <div class="panel-heading">
                    <div class="row profile-heading">
-                    <div class="col-xs-8"><h3 class="panel-title">Student Information</h3></div>
-                    <div class="col-xs-4 pull-right">Source: <a href="https://sdb.admin.uw.edu/students/uwnetid/address.asp" target="_blank" title="Student Personal Services">Student Personal Services</a></div>
+                    <div class="col-sm-8"><h3 class="panel-title">Student Information</h3></div>
+                    <div class="col-sm-4">Source: <a href="https://sdb.admin.uw.edu/students/uwnetid/address.asp" target="_blank" title="Student Personal Services">Student Personal Services</a></div>
                    </div>
                    <p>Refer to <a href="https://www.washington.edu/students/reg/ferpa.html" target="_blank" title="Privacy Rights Information Page">FERPA for Students</a> to learn about your privacy rights.</p>
                </div>
@@ -83,15 +83,15 @@
                     </li>
                </ul>
             </div>
-       </div></div>
+       </div>
 
         <!-- Employee section viewable only by current employees -->
-        <div class="row" ng-show="profile.data.employee"><div class="col-md-7">
+        <div ng-show="profile.data.employee">
            <div class="panel panel-default add-top-space">
                <div class="panel-heading">
                    <div class="row profile-heading">
-                       <div class="col-xs-8"><h3 class="panel-title">Employee Information</h3></div>
-                       <div class="col-xs-4 pull-right">Source: <a href="https://prp.admin.uw.edu/ess/uwnetid/address.aspx" title="Employee Services Page" target="_blank">Employee Self-Service (ESS)</a></div>
+                       <div class="col-sm-8"><h3 class="panel-title">Employee Information</h3></div>
+                       <div class="col-sm-4">Source: <a href="https://prp.admin.uw.edu/ess/uwnetid/address.aspx" title="Employee Services Page" target="_blank">Employee Self-Service (ESS)</a></div>
                    </div>
                </div>
                <ul class="list-group profile-list">
@@ -117,7 +117,7 @@
                     </li>
                </ul>
            </div>
-        </div></div>
+        </div>
 
         <!-- opt2: UC1 - s1. View - Set PN -->
         {% endverbatim %}
@@ -126,7 +126,7 @@
 
         <!-- Admin section -->
         <div ng-if="profile.isAdmin">
-            <div class="row"><div class="col-lg-6"><form role="form">
+            <form role="form">
                 <div class="input-group">
                     <label class="hidden" for="impersonateField">Admin impersonate another UW NetID</label>
                     <input name="impersonateField" id="impersonateField" type="text" class="form-control"
@@ -138,12 +138,11 @@
                                 type="submit">Go!</button>
                     </span>
                 </div><!-- /input-group -->
-            </form></div></div>
-            <div class="row"><div class="col-lg-6">
-                <div ng-show="profile.impersonationNetid" class="alert alert-danger" role="alert">
-                    Impersonating UWNetID "{{ profile.impersonationNetid }}"
-                </div>
-            </div></div>
+            </form>
+            <div ng-show="profile.impersonationNetid" class="alert alert-danger" role="alert">
+                Impersonating UWNetID "{{ profile.impersonationNetid }}"
+            </div>
+        </div>
         </div>
     </div>
     {% endverbatim %}
