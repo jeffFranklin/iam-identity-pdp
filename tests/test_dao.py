@@ -176,7 +176,7 @@ def test_get_student(irws_cache):
     student_profile = get_student({'sdb': sdb_uri})
     assert student_profile.to_dict() == dict(
         official_name=u'J F', phone_numbers=[u'567', u'890'],
-        class_majors=[u'Fresh, Gen', u'-, Stu'],
+        class_majors=[u'Fresh, Gen', u'Fresh, Stu'],
         emails=[u'e@f', u'g@h'], publish=False)
 
 
