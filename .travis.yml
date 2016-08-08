@@ -1,12 +1,19 @@
 language: python
-python:
-  - 2.7
-  # - 3.5
-env: DJANGO_SETTINGS_MODULE=pdp-site.settings
+matrix:
+  include:
+    - python: 2.7
+      env:
+        - DJANGO_VERSION='<1.10'
+        - DJANGO_SETTINGS_MODULE=pdp-site.settings
+    - python: 2.7
+      env:
+        - DJANGO_VERSION='>=1.10'
+        - DJANGO_SETTINGS_MODULE=pdp-site.settings
 install:
   - if [ "${TRAVIS_BRANCH}" == "master" ]; then pip install -r requirements.txt; else pip install -r dev-requirements.txt; fi
 before_script:
   - pip install python-coveralls selenium
+  - pip install -U "Django$DJANGO_VERSION"
   # the following four tasks are only needed to run functional_tests.
   - python manage.py migrate
   # for firefox
