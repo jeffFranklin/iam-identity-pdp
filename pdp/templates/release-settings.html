@@ -1,97 +1,94 @@
 {% verbatim %}
+<div class="profile-directory-section" ng-show="profile.data.employee || profile.data.student" >
+   <h2>Information Sharing Settings</h2>
 
-<div ng-show="profile.data.employee || profile.data.student" class="row profile-directory-section">
-    <div class="col-md-7">
-       <h2>Information Sharing Settings</h2>
-
-       <div class="panel panel-default">
-           <div class="panel-heading">
-               <h3 class="panel-title profile-h3">UW Directory</h3>
-               <p>The <a href="https://www.washington.edu/home/peopledir/" target="_blank" title="Go to the UW Directory">UW Directory</a> will display the following:</p>
-           </div>
-           <ul class="list-group">
-               <li ng-show="profile.data.employee" class="list-group-item">
-                   <!-- Employee publishing info -->
-                   <div uib-collapse="profile.isSettingPublish && profile.data.employee">
-                       <div ng-show="profile.publishChangeSuccess" class="alert alert-success pn-set-msg"
-                            id="publish-change-success"
-                            role="alert">
-                            <a href="" class="close" ng-click="profile.publishChangeSuccess = false" aria-label="close">&times;</a>
-                                Your UW Directory listing preference has been changed and will be reflected in the <a href="https://www.washington.edu/home/peopledir/" target="_blank" title="Go to the UW Directory">UW Directory</a> immediately.
-                        </div>
-                        <p ng-show="profile.data.employee.publish == 'N'">You are not included in the UW Directory.</p>
-                        <div ng-show="profile.data.employee.publish != 'N'">
-                            <h4>The following employee information will be viewable by anyone:</h4>
-                            <ul class="data-list">
+   <div class="panel panel-default">
+       <div class="panel-heading">
+           <h3 class="panel-title profile-h3">UW Directory</h3>
+           <p>The <a href="https://www.washington.edu/home/peopledir/" target="_blank" title="Go to the UW Directory">UW Directory</a> will display the following:</p>
+       </div>
+       <ul class="list-group">
+           <li ng-show="profile.data.employee" class="list-group-item">
+               <!-- Employee publishing info -->
+               <div uib-collapse="profile.isSettingPublish && profile.data.employee">
+                   <div ng-show="profile.publishChangeSuccess" class="alert alert-success pn-set-msg"
+                        id="publish-change-success"
+                        role="alert">
+                        <a href="" class="close" ng-click="profile.publishChangeSuccess = false" aria-label="close">&times;</a>
+                            Your UW Directory listing preference has been changed and will be reflected in the <a href="https://www.washington.edu/home/peopledir/" target="_blank" title="Go to the UW Directory">UW Directory</a> immediately.
+                    </div>
+                    <h4>The following employee information will be viewable by anyone:</h4>
+                    <p ng-show="profile.data.employee.publish == 'N'">You are not included in the UW Directory.</p>
+                    <div ng-show="profile.data.employee.publish != 'N'">
+                        <ul class="data-list">
+                            <li>{{ profile.data.rollup_name }}</li>
+                            <li>UW NetID: {{ profile.data.netid }}</li>
+                            <li ng-show="profile.data.employee.publish == 'Y'"
+                                ng-repeat="email in profile.data.employee.emails track by $index">{{ email }}</li>
+                            <li ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</li>
+                            <li ng-repeat="titledept in profile.data.employee.titledepts track by $index">{{ titledept }}</li>
+                            <li ng-repeat="address in profile.data.employee.addresses track by $index">{{ address }}</li>
+                            <li ng-show="profile.data.employee.box">Box {{ profile.data.employee.box}}</li>
+                        </ul>
+                    </div>
+                    <button ng-show="!profile.data.is_publish_hidden"
+                            class="btn btn-default btn-xs" type="button"
+							id="publishChangeButton"
+                            ng-click="profile.showPublishScreen()">Change listing preference
+                     </button>
+                    <div ng-show="profile.data.is_publish_hidden">
+                        <a href="https://prp.admin.uw.edu/ess/uwnetid/address.aspx" target="_blank">
+                            Want to change your directory settings? Go to Employee Self-Service.</a>
+                    </div>
+               </div>
+               <!-- Change employee publishing setting -->
+               <div uib-collapse="!profile.isSettingPublish">
+                    <h4>Change your UW Directory listing preference</h4>
+                    <form role="form" id="publishForm" name="profile.publishForm"><fieldset>
+                    <ul class="publish-radio">
+                        <li><label class="radio-inline"><input type="radio" name="employeepublish" value="N" ng-model="profile.employeePublishValue">Unlisted:</label> You will not be included in the UW Directory.</li>
+                        <li ng-repeat="pubvalue in ['Y', 'E']">
+                            <label class="radio-inline"><input type="radio" name="employeepublish" ng-value="pubvalue" ng-model="profile.employeePublishValue">
+                            Listed with<span ng-show="pubvalue== 'E'">out</span> email address:</label>
+                            <ul class="data-list" role="list">
                                 <li>{{ profile.data.rollup_name }}</li>
                                 <li>UW NetID: {{ profile.data.netid }}</li>
-                                <li ng-show="profile.data.employee.publish == 'Y'"
+                                <li ng-show="pubvalue == 'Y'"
                                     ng-repeat="email in profile.data.employee.emails track by $index">{{ email }}</li>
                                 <li ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</li>
                                 <li ng-repeat="titledept in profile.data.employee.titledepts track by $index">{{ titledept }}</li>
                                 <li ng-repeat="address in profile.data.employee.addresses track by $index">{{ address }}</li>
                                 <li ng-show="profile.data.employee.box">Box {{ profile.data.employee.box}}</li>
-                            </ul>
-                        </div>
-                        <button ng-show="!profile.data.is_publish_hidden"
-                                class="btn btn-default btn-xs" type="button"
-								id="publishChangeButton"
-                                ng-click="profile.showPublishScreen()">Change listing preference
-                         </button>
-                        <div ng-show="profile.data.is_publish_hidden">
-                            <a href="https://prp.admin.uw.edu/ess/uwnetid/address.aspx" target="_blank">
-                                Want to change your directory settings? Go to Employee Self-Service.</a>
-                        </div>
-                   </div>
-                   <!-- Change employee publishing setting -->
-                   <div uib-collapse="!profile.isSettingPublish">
-                        <h4>Change your UW Directory listing preference</h4>
-                        <form role="form" id="publishForm" name="profile.publishForm"><fieldset>
-                        <ul class="publish-radio">
-                            <li><label class="radio-inline"><input type="radio" name="employeepublish" value="N" ng-model="profile.employeePublishValue">Unlisted:</label> You will not be included in the UW Directory.</li>
-                            <li ng-repeat="pubvalue in ['Y', 'E']">
-                                <label class="radio-inline"><input type="radio" name="employeepublish" ng-value="pubvalue" ng-model="profile.employeePublishValue">
-                                Listed with<span ng-show="pubvalue== 'E'">out</span> email address:</label>
-                                <ul class="data-list" role="list">
-                                    <li>{{ profile.data.rollup_name }}</li>
-                                    <li>UW NetID: {{ profile.data.netid }}</li>
-                                    <li ng-show="pubvalue == 'Y'"
-                                        ng-repeat="email in profile.data.employee.emails track by $index">{{ email }}</li>
-                                    <li ng-repeat="phone in profile.data.employee.phone_numbers track by $index">{{ phone }}</li>
-                                    <li ng-repeat="titledept in profile.data.employee.titledepts track by $index">{{ titledept }}</li>
-                                    <li ng-repeat="address in profile.data.employee.addresses track by $index">{{ address }}</li>
-                                    <li ng-show="profile.data.employee.box">Box {{ profile.data.employee.box}}</li>
-                            </ul>
-                            </li>
                         </ul>
-                        <button class="btn btn-primary btn-xs" type="submit"
-                                ng-click="profile.putPublish()"
-                                ng-disabled="profile.publishForm.$pristine || profile.puttingPublish">Save change
-                        </button>
-                            <button class="btn btn-default btn-xs"
-                                    ng-click="profile.clearPublishChange()"
-                                    ng-disabled="profile.puttingPublish">
-                                Cancel
-                        </button>
-                        <legend>Employee directory listing preference</legend>
-                        </fieldset></form>
-                   </div>
-               </li>
-               <li ng-show="profile.data.student" class="list-group-item">
-                   <!-- Student directory info -->
-                   <h4>The following student information will only be viewable by UW community members:</h4>
-                   <p ng-show="!profile.data.student.publish">You are not included in the UW Directory.</p>
-                   <ul ng-show="profile.data.student.publish" class="data-list" role="list">
-                       <li>{{ profile.data.rollup_name }}</li>
-                       <li>UW NetID: {{ profile.data.netid }}</li>
-                       <li ng-repeat="email in profile.data.student.emails track by $index">{{ email }}</li>
-                       <li ng-repeat="phone in profile.data.student.phone_numbers track by $index">{{ phone }}</li>
-                       <li ng-repeat="classMajor in profile.data.student.class_majors track by $index">{{ classMajor }}</li>
-                   </ul>
-                   <p><a href="https://sdb.admin.uw.edu/students/uwnetid/address.asp" target="_blank" title="Go to the Student Personal Services">Change the Directory release settings on the Student Personal Services</a>. Changes will take up to 1-2 business days to be effective.</p>
-               </li>
-           </ul>
-       </div>
-    </div>
+                        </li>
+                    </ul>
+                    <button class="btn btn-primary btn-xs" type="submit"
+                            ng-click="profile.putPublish()"
+                            ng-disabled="profile.publishForm.$pristine || profile.puttingPublish">Save change
+                    </button>
+                        <button class="btn btn-default btn-xs"
+                                ng-click="profile.clearPublishChange()"
+                                ng-disabled="profile.puttingPublish">
+                            Cancel
+                    </button>
+                    <legend>Employee directory listing preference</legend>
+                    </fieldset></form>
+               </div>
+           </li>
+           <li ng-show="profile.data.student" class="list-group-item">
+               <!-- Student directory info -->
+               <h4>The following student information will only be viewable by UW community members:</h4>
+               <p ng-show="!profile.data.student.publish">You are not included in the UW Directory.</p>
+               <ul ng-show="profile.data.student.publish" class="data-list" role="list">
+                   <li>{{ profile.data.rollup_name }}</li>
+                   <li>UW NetID: {{ profile.data.netid }}</li>
+                   <li ng-repeat="email in profile.data.student.emails track by $index">{{ email }}</li>
+                   <li ng-repeat="phone in profile.data.student.phone_numbers track by $index">{{ phone }}</li>
+                   <li ng-repeat="classMajor in profile.data.student.class_majors track by $index">{{ classMajor }}</li>
+               </ul>
+               <p><a href="https://sdb.admin.uw.edu/students/uwnetid/address.asp" target="_blank" title="Go to the Student Personal Services">Change the Directory release settings on the Student Personal Services</a>. Changes will take up to 1-2 business days to be effective.</p>
+           </li>
+       </ul>
+   </div>
 </div>
 {% endverbatim %}
