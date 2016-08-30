@@ -43,20 +43,20 @@ def test_name_put(rf):
 def test_name_put_wrong_netid(rf):
     with raises(InvalidSessionError):
         name = json.dumps({'first': 'Jane', 'middle': 'X', 'last': 'Doe'})
-        request = rf.get('/api/name/', netid='javerage')
+        request = rf.put('/api/name/', netid='javerage', data=name)
         Name().PUT(request, netid='joe')
 
 
 def test_name_put_bad_json(rf):
     name = json.dumps({'foo': 'bar'})
     with raises(BadRequestError):
-        Name().PUT(rf.put('/', data=name))
+        Name().PUT(rf.put('/', netid='joe', data=name))
 
 
 def test_name_put_bad_name(rf):
     name = json.dumps(dict(first='', middle='', last='blow'))
     with raises(BadRequestError):
-        Name().PUT(rf.put('/', data=name))
+        Name().PUT(rf.put('/', netid='joe', data=name))
 
 
 @mark.parametrize('put_option', ('Y', 'N', 'E'))
