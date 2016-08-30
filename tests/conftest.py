@@ -17,18 +17,8 @@ class WrappedRequestFactory(object):
         return request
 
     def _add_attributes(self, request, netid=None):
-        request.uw_user = self._get_user(netid)
+        request.uwnetid = netid
         request.session = {}
-
-    def _get_user(self, netid=None):
-        user = MagicMock()
-        if netid is None:
-            user.is_authenticated = False
-        else:
-            user.is_authenticated = True
-            user.netid = netid
-            user.username = netid + '@washington.edu'
-        return user
 
 
 @fixture

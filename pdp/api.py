@@ -81,15 +81,15 @@ def verify_netid(request, netid=None):
     the netid. Return the netid if so, otherwise raise InvalidSessionError.
     """
     verified_netid = None
-    user = request.uw_user
-    if not netid or netid == user.netid:
-        verified_netid = user.netid
-    elif GWS().is_profile_admin(netid=user.netid):
+    authenticated_netid = request.uwnetid
+    if not netid or netid == authenticated_netid:
+        verified_netid = authenticated_netid
+    elif GWS().is_profile_admin(netid=authenticated_netid):
         logger.info('IMPERSONATION of netid {} by {}'.format(
-            netid, user.netid))
+            netid, authenticated_netid))
         verified_netid = netid
     if not verified_netid:
         logger.error('FAILED IMPERSONATION of netid {} by {}'.format(
-            netid, user.netid))
+            netid, authenticated_netid))
         raise InvalidSessionError()
     return verified_netid
