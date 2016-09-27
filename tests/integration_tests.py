@@ -3,8 +3,6 @@ Tests to make sure our APIs and Live backend APIs (IRWS) are working together
 correctly.  These are run by ansible/install.yml at the time we deploy
 to develop. Failure here will block a deploy to develop.
 """
-from django.test import override_settings
-from django.conf import settings
 import simplejson as json
 from pytest import fixture
 import requests
@@ -12,23 +10,30 @@ import re
 
 
 @fixture(scope='session')
-def client_idtest55(live_server):
-    with override_settings(
-            DEBUG=True,
-            MOCK_LOGIN_USER='idtest55@washington.edu',
-            LOGIN_URL='/profile/mocklogin',
-            MIDDLEWARE_CLASSES=(
-                ['idbase.middleware.MockLoginMiddleware'] +
-                settings.MIDDLEWARE_CLASSES),
-            LOGGING=None):
-        # We need to hard-set DEBUG to True because Django's test runner
-        # sets it to False regardless of what's in settings.
-        session = requests.session()
-        # this will trigger a login to mocklogin and send us a csrftoken.
-        session.get(live_server + '/profile/')
-        session.headers.update(
-            {'X-CSRFToken': session.cookies.get('csrftoken')})
-    return session
+def client(live_server):
+
+    class Session(requests.Session):
+        def get(self, url, **kwargs):
+            response = super(self.__class__, self).get(
+                live_server + url, **kwargs)
+            if 'csrftoken' in self.cookies:
+                self.headers.update(
+                    {'X-CSRFToken': self.cookies.get('csrftoken')})
+            return response
+
+        def put(self, url, **kwargs):
+            return super(self.__class__, self).put(live_server + url, **kwargs)
+
+    client = Session()
+    return client
+
+
+@fixture
+def client_idtest55(client, settings):
+    settings.MOCK_LOGIN_USER = 'idtest55@washington.edu'
+    client.get('/profile/login/')
+    return client
+
 
 good_names = [
     ('Dwight', 'David', 'Adams'),
@@ -45,8 +50,8 @@ good_names = [
 good_name_ids = [re.sub(r'\.', 'dot', '-'.join(n)) for n in good_names]
 
 
-def test_get_basic(client_idtest55, live_server):
-    response = client_idtest55.get(live_server + '/profile/api/name')
+def test_get_basic(client_idtest55):
+    response = client_idtest55.get('/profile/api/name')
     assert response.status_code == 200
 
 
@@ -55,14 +60,13 @@ def good_name(request):
     return request.param
 
 
-def test_put_success(client_idtest55, live_server, good_name):
+def test_put_success(client_idtest55, good_name):
     name = dict(first=good_name[0], middle=good_name[1],
                 last=good_name[2])
-    response = client_idtest55.put(
-        live_server + '/profile/api/name/idtest55',
-        data=json.dumps(name))
+    response = client_idtest55.put('/profile/api/name/idtest55',
+                                   data=json.dumps(name))
     assert response.status_code == 200
-    response = client_idtest55.get(live_server + '/profile/api/name/idtest55')
+    response = client_idtest55.get('/profile/api/name/idtest55')
     name_response = json.loads(response.content)
     assert good_name[0] == name_response['first']
     assert good_name[1] == name_response['middle']
@@ -88,10 +92,9 @@ def bad_name(request):
     return request.param
 
 
-def test_put_invalid(client_idtest55, live_server, bad_name):
+def test_put_invalid(client_idtest55, bad_name):
     name = dict(first=bad_name[0], middle=bad_name[1],
                 last=bad_name[2])
-    response = client_idtest55.put(
-        live_server + '/profile/api/name',
-        data=json.dumps(name))
+    response = client_idtest55.put('/profile/api/name',
+                                   data=json.dumps(name))
     assert response.status_code == 400
