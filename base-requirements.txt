@@ -1,5 +1,5 @@
 # requirements common to all environments
-Django<1.10  # 2016-08-08, django_compressor doesn't work with 1.10
+Django<1.11  # version pinned to 1.10.x to prevent unexpected update
 simplejson
 mock
 pytest
