@@ -25,11 +25,6 @@
     - django
 
   tasks:
-    - name: copy pdp-access files
-      template: "src=apache/pdp-access.xml dest=/data/conf/apache.conf.d/pdp-access.xml group=iam-dev mode=664"
-      notify:
-         - restart apache
-
     # testing non-prod environments, should probably get done another way if the tests
     # start getting longer
     - name: copy extra dev stuff
