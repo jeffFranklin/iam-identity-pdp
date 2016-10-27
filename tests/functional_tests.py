@@ -8,10 +8,9 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from django.test import override_settings
-from pytest import fixture, mark
+from pytest import fixture
 import logging
-import json
+import os
 
 logger = logging.getLogger('pdp.' + __name__)
 
@@ -39,28 +38,12 @@ def wait_for_title(browser, title_substring="Profile information"):
 
 @fixture(scope='session')
 def browser(request):
-    driver = webdriver.Firefox()
+    phantom_path = os.environ.get('PHANTOMJS_PATH', None)
+    kwargs = dict(executable_path=phantom_path) if phantom_path else {}
+    driver = webdriver.PhantomJS(**kwargs)
     driver.set_window_size(1120, 550)
 
     def fin():
         driver.close()
     request.addfinalizer(fin)
     return driver
-
-
-@fixture
-def settings(settings, request):
-    settings_context = override_settings(DEBUG=True)
-    settings_context.__enter__()
-    settings.MOCK_LOGIN_USER = 'studemp@washington.edu'
-    if ('idbase.middleware.MockLoginMiddleware' not in
-            settings.MIDDLEWARE_CLASSES):
-        settings.MIDDLEWARE_CLASSES = (
-            ['idbase.middleware.MockLoginMiddleware'] +
-            settings.MIDDLEWARE_CLASSES)
-
-    def fin():
-        settings_context.__exit__(None, None, None)
-    request.addfinalizer(fin)
-
-    return settings
