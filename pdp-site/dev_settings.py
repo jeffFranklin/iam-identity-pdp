@@ -6,7 +6,7 @@ DEBUG = True
 SECRET_KEY = open(os.path.join('/data/local/etc', 'pdp-secret')).read().strip()
 TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['identity-dev.s.uw.edu']
 COMPRESS_ENABLED = True
 
 RESTCLIENTS_RUN_MODE = 'Live'

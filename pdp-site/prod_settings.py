@@ -4,7 +4,7 @@ from settings import LOGGING
 DEBUG = False
 SECRET_KEY = open(os.path.join('/data/local/etc', 'pdp-secret')).read().strip()
 TEMPLATE_DEBUG = False
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['identity.uw.edu']
 COMPRESS_ENABLED = True
 
 PROFILE_IMPERSONATORS_GROUP = None  # Turn off for prod
