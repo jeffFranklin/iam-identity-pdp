@@ -23,12 +23,13 @@ INSTALLED_APPS = (
     'pdp'
 )
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'idbase.middleware.SessionTimeoutMiddleware',
+    'idbase.middleware.session_timeout_middleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'idbase.middleware.LoginUrlMiddleware',
+    'idbase.middleware.mock_login_middleware',
+    'idbase.middleware.login_url_middleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware']
 
@@ -58,7 +59,7 @@ SETTINGS_CONTEXT_ATTRIBUTES = ['DEBUG', 'LOGOUT_URL', 'PDP_BASE',
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db/db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -139,20 +140,14 @@ COMPRESS_OUTPUT_DIR = 'cache-' + __version__
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-STATIC_URL = '/static-profile/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static-profile')
+STATIC_URL = '/static-profile/' + __version__ + '/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static-profile', __version__)
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 )
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'pdp/static'),
-)
-
-
-# PWS settings
 RESTCLIENTS_RUN_MODE = 'File'
 RESTCLIENTS_IRWS_HOST = 'https://mango-dev.u.washington.edu:443'
 RESTCLIENTS_IRWS_SERVICE_NAME = 'registry-dev'
@@ -163,6 +158,7 @@ RESTCLIENTS_IRWS_MAX_POOL_SIZE = 10
 RESTCLIENTS_GWS_HOST = 'https://iam-ws.u.washington.edu:7443'
 RESTCLIENTS_GWS_SERVICE = 'gws'
 RESTCLIENTS_TIMEOUT = None
+USE_MOCK_LOGIN = True
 MOCK_LOGIN_USER = 'user1e@washington.edu'
 IDBASE_IRWS_CLASS = 'pdp.dao.IRWS'
 try:
@@ -184,7 +180,3 @@ GWS_CONF = dict(HOST=RESTCLIENTS_GWS_HOST,
                 KEY_FILE=RESTCLIENTS_IRWS_KEY_FILE,
                 CA_FILE=RESTCLIENTS_CA_BUNDLE,
                 RUN_MODE=RESTCLIENTS_RUN_MODE)
-
-if DEBUG and RESTCLIENTS_RUN_MODE == 'File':
-    MIDDLEWARE_CLASSES = (['idbase.middleware.MockLoginMiddleware'] +
-                          MIDDLEWARE_CLASSES)

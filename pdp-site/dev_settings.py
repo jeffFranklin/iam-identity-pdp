@@ -10,6 +10,8 @@ ALLOWED_HOSTS = ['identity-dev.s.uw.edu']
 COMPRESS_ENABLED = True
 
 RESTCLIENTS_RUN_MODE = 'Live'
+USE_MOCK_LOGIN = False
+MOCK_LOGIN_USER = ''
 # RESTCLIENTS_IRWS_HOST = 'https://mango-dev.u.washington.edu:646'
 # RESTCLIENTS_IRWS_SERVICE_NAME = 'registry-dev'
 RESTCLIENTS_IRWS_HOST = 'https://mango-eval.u.washington.edu:646'
