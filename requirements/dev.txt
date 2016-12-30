@@ -1,2 +1,2 @@
--r base-requirements.txt
+-r base.txt
 -e git+https://github.com/UWIT-IAM/iam-idbase.git@develop#egg=idbase

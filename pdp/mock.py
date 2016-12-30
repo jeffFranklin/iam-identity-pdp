@@ -5,9 +5,8 @@ from django.conf import settings
 
 
 def mock_irws_resources():
-    kwargs = dict(irws_root='/{}/v2'.format(
-        settings.IRWS_CONF.get('SERVICE_NAME')))
-
+    _, service = settings.IRWS_URL.rsplit('/', 1)
+    kwargs = dict(irws_root='/{}/v2'.format(service))
     resources = {}
     resources.update(mock_irws_person('user1e', display={}, **kwargs))
     resources.update(mock_irws_person('idtest55', display=dict(

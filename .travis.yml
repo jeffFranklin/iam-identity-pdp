@@ -3,9 +3,9 @@ matrix:
   include:
     - python: 2.7
       env:
-        - DJANGO_SETTINGS_MODULE=pdp-site.settings
+        - DJANGO_SETTINGS_MODULE=settings
 install:
-  - if [ "${TRAVIS_BRANCH}" == "master" ]; then pip install -U -r requirements.txt; else pip install -U -r dev-requirements.txt; fi
+  - if [ "${TRAVIS_BRANCH}" == "master" ]; then pip install -U -r requirements/prod.txt; else pip install -U -r requirements/dev.txt; fi
 before_script:
   - npm install phantomjs-prebuilt
   - export PHANTOMJS_PATH=`pwd`/node_modules/.bin/phantomjs

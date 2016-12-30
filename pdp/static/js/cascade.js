@@ -1,6 +1,6 @@
 var app = angular.module('identityApp');
 
-function ApiService($log, $http, ErrorSvc){
+function ApiService($log, $http, errorService){
     var apiFunc = function(operation){ return function(url, opts) {
         opts = opts || {};
         var data = opts.data;
@@ -16,7 +16,8 @@ function ApiService($log, $http, ErrorSvc){
                 $log.info(response);
                 if (response.status >= 400 && expectedErrors.indexOf(response.status) < 0){
                     // ErrorSvc ignores everything not 401 or 500. Promote non-401s to 500s.
-                    ErrorSvc.handleError(response.data, response.status == 401 ? 401 : 500);
+                    var status = response.status == 401 ? 401 : 500;
+                    errorService.handleError({data: response.data, status: status});
                 }
                 return response;
             });
@@ -26,7 +27,7 @@ function ApiService($log, $http, ErrorSvc){
     return {get: get, put: put};
 }
 
-app.factory('apiService', ['$log', '$http', 'ErrorSvc', ApiService]);
+app.service('apiService', ApiService);
 
 function ProfileService(apiService) {
     var profileUrl = 'api/profile/';
@@ -55,7 +56,7 @@ function ProfileService(apiService) {
     };
 }
 
-app.factory('profileService', ['apiService', ProfileService]);
+app.service('profileService', ProfileService);
 
 app.controller('ProfileCtrl', ['profileService', 'loginStatus', '$log', '$timeout', '$anchorScroll',
     function(profileService, loginStatus, $log, $timeout, $anchorScroll){

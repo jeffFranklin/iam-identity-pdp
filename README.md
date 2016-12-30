@@ -1,16 +1,15 @@
 [![Build Status](https://travis-ci.org/UWIT-IAM/iam-identity-pdp.svg?branch=master)](https://travis-ci.org/UWIT-IAM/iam-identity-pdp)
 [![Coverage Status](https://coveralls.io/repos/github/UWIT-IAM/iam-identity-pdp/badge.svg?branch=master)](https://coveralls.io/github/UWIT-IAM/iam-identity-pdp?branch=master)
 
-#Personal Data Preferences
+#Identity.UW Profile
 
 ##Development
 
-pdp-site/settings.py is configured to run with mock data. Currently
-only javerage and user1e work as user ids.  To run as javerage you can declare REMOTE_USER
-at startup such as the following:
+The settings module is configured to run with mock data. settings.MOCK_LOGIN_USER
+controls the user you want to be.
 
 ```bash
-REMOTE_USER=javerage@washington.edu python manage.py runserver
+python manage.py runserver
 ```
 
 ##Running python tests
@@ -29,7 +28,7 @@ Add a new py.test configuration with the following settings...
 ```
 Target: /home/you/projects/pdp/pdp
 Options: --pep8
-Environment variables: DJANGO_SETTINGS_MODULE=pdp-site.settings
+Environment variables: DJANGO_SETTINGS_MODULE=settings
 Python interpreter: Your pdp virtualenv
 Working directory: /home/you/projects/pdp
 ```
