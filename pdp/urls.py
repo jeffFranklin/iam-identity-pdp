@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.conf import settings
 
 from pdp.views import index
@@ -7,7 +7,7 @@ from idbase.api import LoginStatus
 from idbase.views import login, logout
 
 
-urlpatterns = [
+profile_urlpatterns = [
     url(r'^$', index, name='home'),
     url(r'^cascade/$', index, name='new cascade page'),
     url(r'^login/$', login),
@@ -18,8 +18,11 @@ urlpatterns = [
     url(r'^api/profile/(?P<netid>[^/]*)$', Profile().run)
 ]
 
+if settings.USE_MOCK_LOGIN:
+    profile_urlpatterns.append(url(r'^mocklogin', login))
 
-if (settings.DEBUG and
-        'idbase.middleware.MockLoginMiddleware' in
-        settings.MIDDLEWARE_CLASSES):
-    urlpatterns.append(url(r'^mocklogin', login))
+
+urlpatterns = [
+    url(r'profile/', include(profile_urlpatterns)),
+    url(r'', include(profile_urlpatterns))
+]

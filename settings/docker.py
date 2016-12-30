@@ -1,8 +1,8 @@
-from dev_settings import *
-from settings import MIDDLEWARE_CLASSES
+from .dev import *
 
-RESTCLIENTS_RUN_MODE = 'File'
-RESTCLIENTS_IRWS_SERVICE_NAME = 'registry-dev'
+ALLOWED_HOSTS = ['docker.internal']
+IS_RESTTOOLS_LIVE = False
+IRWS_URL = 'https://mango-dev.u.washington.edu:443/registry-dev'
 LOGIN_URL = '/profile/mocklogin'  # Hide the LOGIN_URL from shib
-MIDDLEWARE_CLASSES.insert(0, 'idbase.middleware.MockLoginMiddleware')
 MOCK_LOGIN_USER = 'user1e@washington.edu'
+USE_MOCK_LOGIN = True

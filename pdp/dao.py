@@ -22,12 +22,12 @@ class IRWS(RestToolsIRWS):
     is_mock_set = False
 
     def __init__(self):
-        if (settings.IRWS_CONF.get('RUN_MODE', 'Live') == 'File' and
-                not IRWS.is_mock_set):
+        if not settings.IS_RESTTOOLS_LIVE and not IRWS.is_mock_set:
             logger.info('setting mock data.')
             mock_irws_resources()
             IRWS.is_mock_set = True
-        super(self.__class__, self).__init__(settings.IRWS_CONF)
+        conf = conf_from_settings(settings.IRWS_URL)
+        super(self.__class__, self).__init__(conf)
 
 
 class GWS(RestToolsGWS):
@@ -35,11 +35,11 @@ class GWS(RestToolsGWS):
     is_mock_set = False
 
     def __init__(self):
-        if (settings.GWS_CONF.get('RUN_MODE', 'Live') == 'File' and
-                not GWS.is_mock_set):
+        if not settings.IS_RESTTOOLS_LIVE and not GWS.is_mock_set:
             mock_gws_resources()
             GWS.is_mock_set = True
-        super(self.__class__, self).__init__(settings.GWS_CONF)
+        conf = conf_from_settings(settings.GWS_URL)
+        super(self.__class__, self).__init__(conf)
 
     def is_profile_admin(self, netid=None):
         """
@@ -185,3 +185,13 @@ def get_student(identifiers):
 def format_phone_number(phone_number):
     """If '+1 xxx xxx-xxxx', format as (xxx) xxx-xxxx, else leave it alone."""
     return re.sub(r'^\+1 (\d{3}) (\d{3}-\d{4})$', r'(\1) \2', phone_number)
+
+
+def conf_from_settings(url):
+    """Given an api url, return a resttools config dict."""
+    host, service = url.rsplit('/', 1)
+    return dict(HOST=host, SERVICE_NAME=service,
+                CERT_FILE=settings.CERT_FILE,
+                KEY_FILE=settings.KEY_FILE,
+                CA_FILE=settings.CA_FILE,
+                RUN_MODE='Live' if settings.IS_RESTTOOLS_LIVE else 'File')

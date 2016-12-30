@@ -1,34 +1,13 @@
-# local additions to settings
-import os
-from settings import LOGGING
+"""Dev settings that override the base settings."""
+from settings import *
 
 DEBUG = True
 SECRET_KEY = open(os.path.join('/data/local/etc', 'pdp-secret')).read().strip()
-TEMPLATE_DEBUG = False
-
 ALLOWED_HOSTS = ['identity-dev.s.uw.edu']
 COMPRESS_ENABLED = True
+SESSION_COOKIE_SECURE = True
 
-RESTCLIENTS_RUN_MODE = 'Live'
+IS_RESTTOOLS_LIVE = True
 USE_MOCK_LOGIN = False
 MOCK_LOGIN_USER = ''
-# RESTCLIENTS_IRWS_HOST = 'https://mango-dev.u.washington.edu:646'
-# RESTCLIENTS_IRWS_SERVICE_NAME = 'registry-dev'
-RESTCLIENTS_IRWS_HOST = 'https://mango-eval.u.washington.edu:646'
-RESTCLIENTS_IRWS_SERVICE_NAME = 'registry-eval'
-
-RESTCLIENTS_IRWS_CERT_FILE = '/usr/local/ssl/certs/identity.uw.edu.uwca.cert'
-RESTCLIENTS_IRWS_KEY_FILE = '/usr/local/ssl/certs/identity.uw.edu.uwca.key'
-RESTCLIENTS_CA_BUNDLE = '/usr/local/ssl/certs/ca-bundle.crt'
-RESTCLIENTS_IRWS_MAX_POOL_SIZE = 10
-
-
-LOGGING['handlers'].update({
-    'debuglog': {
-        'level': 'DEBUG',
-        'class': 'logging.handlers.TimedRotatingFileHandler',
-        'formatter': 'verbose',
-        'filename': '/logs/pdp/process.log',
-        'when': 'midnight'
-    }
-})
+IRWS_URL = 'https://mango-eval.u.washington.edu:646/registry-eval'

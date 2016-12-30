@@ -30,8 +30,10 @@ def client(live_server):
 
 @fixture
 def client_idtest55(client, settings):
+    settings.USE_MOCK_LOGIN = True
     settings.MOCK_LOGIN_USER = 'idtest55@washington.edu'
-    client.get('/profile/login/')
+    settings.SESSION_COOKIE_SECURE = False  # to get the CSRF cookie
+    client.get(settings.LOGIN_URL)
     return client
 
 

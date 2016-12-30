@@ -1,27 +1,7 @@
-import os
-from settings import LOGGING
+from .dev import *
 
 DEBUG = False
-SECRET_KEY = open(os.path.join('/data/local/etc', 'pdp-secret')).read().strip()
-TEMPLATE_DEBUG = False
 ALLOWED_HOSTS = ['identity.uw.edu']
 COMPRESS_ENABLED = True
-
 PROFILE_IMPERSONATORS_GROUP = None  # Turn off for prod
-RESTCLIENTS_RUN_MODE = 'Live'
-RESTCLIENTS_IRWS_HOST = 'https://mango.u.washington.edu:646'
-RESTCLIENTS_IRWS_SERVICE_NAME = 'registry'
-RESTCLIENTS_IRWS_CERT_FILE = '/usr/local/ssl/certs/identity.uw.edu.uwca.cert'
-RESTCLIENTS_IRWS_KEY_FILE = '/usr/local/ssl/certs/identity.uw.edu.uwca.key'
-RESTCLIENTS_CA_BUNDLE = '/usr/local/ssl/certs/ca-bundle.crt'
-RESTCLIENTS_IRWS_MAX_POOL_SIZE = 10
-
-LOGGING['handlers'].update({
-    'debuglog': {
-        'level': 'DEBUG',
-        'class': 'logging.handlers.TimedRotatingFileHandler',
-        'formatter': 'verbose',
-        'filename': '/logs/pdp/process.log',
-        'when': 'midnight'
-    }
-})
+IRWS_URL = 'https://mango.u.washington.edu:646/registry'
