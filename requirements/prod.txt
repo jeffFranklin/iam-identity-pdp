@@ -1,0 +1,3 @@
+# production requirements
+-r base-requirements.txt
+-e git+https://github.com/UWIT-IAM/iam-idbase.git@master#egg=idbase
