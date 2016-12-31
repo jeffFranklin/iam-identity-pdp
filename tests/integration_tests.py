@@ -7,8 +7,6 @@ import json
 from pytest import fixture
 import requests
 import re
-from importlib import import_module
-import os
 
 
 @fixture(scope='session', autouse=True)
@@ -18,8 +16,11 @@ def settings_preload():
     is False when the live_server starts, then mock_login_middleware is
     permanently disabled.
     """
-    settings = import_module(os.environ.get('DJANGO_SETTINGS_MODULE'))
+    from django.conf import settings
     settings.USE_MOCK_LOGIN = True
+    settings.DEBUG = True
+    settings.MOCK_LOGIN_USER = 'idtest56@washington.edu'
+    settings.SESSION_COOKIE_SECURE = False  # to get the CSRF cookie
     return settings
 
 
@@ -44,9 +45,7 @@ def client(live_server):
 
 @fixture
 def client_idtest55(client, settings):
-    settings.USE_MOCK_LOGIN = True
     settings.MOCK_LOGIN_USER = 'idtest55@washington.edu'
-    settings.SESSION_COOKIE_SECURE = False  # to get the CSRF cookie
     client.get(settings.LOGIN_URL)
     return client
 
