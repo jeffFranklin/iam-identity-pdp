@@ -3,10 +3,24 @@ Tests to make sure our APIs and Live backend APIs (IRWS) are working together
 correctly.  These are run by ansible/install.yml at the time we deploy
 to develop. Failure here will block a deploy to develop.
 """
-import simplejson as json
+import json
 from pytest import fixture
 import requests
 import re
+from importlib import import_module
+import os
+
+
+@fixture(scope='session', autouse=True)
+def settings_preload():
+    """
+    Twiddle some settings before live_server starts up. If USE_MOCK_LOGIN
+    is False when the live_server starts, then mock_login_middleware is
+    permanently disabled.
+    """
+    settings = import_module(os.environ.get('DJANGO_SETTINGS_MODULE'))
+    settings.USE_MOCK_LOGIN = True
+    return settings
 
 
 @fixture(scope='session')
